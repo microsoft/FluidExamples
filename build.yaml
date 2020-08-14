@@ -34,10 +34,10 @@ steps:
 - task: Npm@1
   inputs:
     command: 'install'
-    workingDir: '/sticky-storm'
+    workingDir: 'sticky-storm'
 
 - task: Npm@1
   inputs:
     command: 'custom'
-    workingDir: '/sticky-storm'
+    workingDir: 'sticky-storm'
     customCommand: 'run build'
