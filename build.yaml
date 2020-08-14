@@ -8,3 +8,21 @@ trigger:
 
 pr:
 - master
+
+steps:
+- task: UseNode@1
+  displayName: Use Node 12.x
+  inputs: 
+    version: 12.x
+- task: Npm@1
+  displayName: npm run install - sticky-storm
+  inputs:
+    command: 'custom'
+    workingDirectory: sticky-storm
+    customCommand: 'run install'
+- task: Npm@2
+  displayName: npm run build - sticky-storm
+  inputs:
+    command: 'custom'
+    workingDirectory: sticky-storm
+    customCommand: run build
