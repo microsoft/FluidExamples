@@ -20,15 +20,12 @@ steps:
     workingFile: .npmrc
 
 - task: Npm@1
-  displayName: npm run install - sticky-storm
   inputs:
-    command: 'custom'
-    workingDirectory: sticky-storm
-    customCommand: 'run install'
+    command: 'install'
+    workingDir: '/sticky-storm'
 
 - task: Npm@1
-  displayName: npm run build - sticky-storm
   inputs:
     command: 'custom'
-    workingDirectory: sticky-storm
-    customCommand: run build
+    workingDir: '/sticky-storm'
+    customCommand: 'run build'
