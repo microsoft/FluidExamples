@@ -35,7 +35,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: 'sticky-storm'
-    customCommand: 'run install'
+    customCommand: 'install'
 
 - task: Npm@1
   inputs:
