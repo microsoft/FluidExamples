@@ -9,6 +9,9 @@ trigger:
 pr:
 - master
 
+variables:
+  skipComponentGovernanceDetection: true
+
 steps:
 - task: UseNode@1
   displayName: Use Node 12.x
