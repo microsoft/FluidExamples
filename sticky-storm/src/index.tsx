@@ -8,6 +8,8 @@ import { NoteroContainerFactory } from "./container"
 import { Notero } from "./fluid-object";
 import { NoteroView } from "./view";
 
+breaking things
+
 // Since this is a single page fluid application we are generating a new document id
 // if one was not provided
 let createNew = false;
