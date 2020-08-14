@@ -3,6 +3,8 @@
 
 # FluidExamples build for CI and PR
 
+pool: "Lite"
+
 trigger:
 - master
 
