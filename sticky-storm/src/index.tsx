@@ -8,8 +8,6 @@ import { NoteroContainerFactory } from "./container"
 import { Notero } from "./fluid-object";
 import { NoteroView } from "./view";
 
-breaking things
-
 // Since this is a single page fluid application we are generating a new document id
 // if one was not provided
 let createNew = false;
@@ -35,10 +33,6 @@ async function start() {
         <NoteroView model= {defaultObject}/>,            
         document.getElementById("content")
     );
-
-    // Setting "fluidStarted" is just for our test automation
-    // eslint-disable-next-line dot-notation
-    window["fluidStarted"] = true;
 }
 
 start().catch((e)=> {
