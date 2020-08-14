@@ -1,0 +1,59 @@
+{
+  "name": "@fluid-example/sticky-storm",
+  "version": "0.1.0",
+  "description": "Sticky Notes Brainstorming Demo",
+  "repository": "microsoft/sticky-storm",
+  "author": "Microsoft",
+  "main": "dist/index.js",
+  "module": "lib/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "webpack --env.production && npm run tsc",
+    "deploy": "npm run build && npm version patch && npm run verdaccio",
+    "dev": "webpack --env.development",
+    "start": "webpack-dev-server",
+    "start:server": "tinylicious",
+    "tsc": "tsc",
+    "verdaccio": "npm publish --registry https://packages.wu2.prague.office-int.com",
+    "webpack": "npm run build",
+    "webpack:dev": "npm run dev",
+    "start:tinylicious": "webpack-dev-server --config webpack.config.js --package package.json --env.mode tinylicious"
+  },
+  "dependencies": {
+    "@fluidframework/aqueduct": "^0.25.0-0",
+    "@fluidframework/core-interfaces": "^0.25.0-0",
+    "@fluidframework/get-tinylicious-container": "^0.25.0-0",
+    "@fluidframework/map": "^0.25.0-0",
+    "@fluidframework/view-interfaces": "^0.25.0-0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "uuid": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.14.6",
+    "@types/react-dom": "^16.9.8",
+    "css-loader": "^3.5.3",
+    "html-webpack-plugin": "^4.3.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^7.3.1",
+    "style-loader": "^1.2.1",
+    "tinylicious": "^0.1.35652",
+    "ts-loader": "^4.5.0",
+    "typescript": "~3.7.4",
+    "webpack": "4.16.5",
+    "webpack-cli": "3.1.0",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "4.1.4"
+  },
+  "fluid": {
+    "browser": {
+      "umd": {
+        "files": [
+          "dist/main.bundle.js"
+        ],
+        "library": "main"
+      }
+    }
+  }
+}
