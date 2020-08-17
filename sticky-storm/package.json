@@ -9,7 +9,7 @@
   "module": "lib/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "npm run build && npm run tsc",
+    "build": "npm run webpack && npm run tsc",
     "start": "webpack-dev-server",
     "start:server": "tinylicious",
     "start:test": "webpack-dev-server --config webpack.test.js",
