@@ -10,7 +10,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = env => {
     return ({
         entry: {
-            app: "./tests/index.tsx"
+            app: "./tests/index.ts"
         },
         resolve: {
             extensions: [".ts", ".tsx", ".js"],
@@ -21,22 +21,8 @@ module.exports = env => {
                 loader: "ts-loader"
             },
             {
-                test: /\.scss$/,
-                use: [
-                    {
-                        loader: "style-loader"
-                    },
-                    //MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader'
-                    },
-                    {
-                        loader: 'sass-loader',
-                        options: {
-                            sourceMap: true,
-                        }
-                    }
-                ]
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
             }]
         },
         output: {

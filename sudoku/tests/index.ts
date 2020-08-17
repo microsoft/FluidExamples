@@ -6,13 +6,9 @@
 import { getSessionStorageContainer } from "@fluidframework/get-session-storage-container";
 import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
 
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-
 import {
-    Notero,
-    NoteroContainerFactory,
-    NoteroView,
+    SudokuContainer,
+    FluidSudoku,
 } from "../src";
 
 // Since this is a single page fluid application we are generating a new document id
@@ -31,16 +27,13 @@ const documentId = window.location.hash.substring(1);
 async function createContainerAndRenderInElement(element: HTMLElement, createNewFlag: boolean) {
     // The SessionStorage Container is an in-memory Fluid container that uses the local browser SessionStorage
     // to store ops.
-    const container = await getSessionStorageContainer(documentId, NoteroContainerFactory, createNewFlag);
+    const container = await getSessionStorageContainer(documentId, SudokuContainer, createNewFlag);
 
     // Get the Default Object from the Container
-    const defaultObject = await getDefaultObjectFromContainer<Notero>(container);
+    const defaultObject = await getDefaultObjectFromContainer<FluidSudoku>(container);
 
-    // Render the ui using React
-    ReactDOM.render(
-        <NoteroView model= {defaultObject}/>,            
-        element
-    );
+    // For now we will just reach into the FluidObject to render it
+    defaultObject.render(element);
 
     // Setting "fluidStarted" is just for our test automation
     // eslint-disable-next-line dot-notation

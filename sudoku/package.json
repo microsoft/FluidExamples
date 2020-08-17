@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@fluidframework/eslint-config-fluid": "^0.18.0",
+    "@fluidframework/get-session-storage-container": "0.25.0-35937",
     "@types/expect-puppeteer": "2.2.1",
     "@types/jest": "22.2.3",
     "@types/jest-environment-puppeteer": "2.2.0",
