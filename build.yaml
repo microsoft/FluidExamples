@@ -12,6 +12,9 @@ parameters:
 - name: draft-js
   type: string
   default: draft-js
+- name: sudoku
+  type: string
+  default: sudoku
 
 trigger:
 - main
