@@ -13,7 +13,8 @@
     "start": "webpack-dev-server",
     "start:server": "tinylicious",
     "start:test": "webpack-dev-server --config webpack.test.js",
-    "test": "jest",
+    "test": "",
+    "test:report": "",
     "tsc": "tsc",
     "webpack": "webpack"
   },
