@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 const path = require("path");
 const merge = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -5,7 +10,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = env => {
     return ({
         entry: {
-            app: "./src/app.tsx"
+            app: "./tests/index.tsx"
         },
         resolve: {
             extensions: [".ts", ".tsx", ".js"],
@@ -40,13 +45,15 @@ module.exports = env => {
             library: "[name]",
             // https://github.com/webpack/webpack/issues/5767
             // https://github.com/webpack/webpack/issues/7939
-            devtoolNamespace: "@fluid-example/sticky-storm",
+            devtoolNamespace: "fluid-example/draft-js",
             libraryTarget: "umd"
+        },
+        devServer: {
+            contentBase: path.join(__dirname, 'tests')
         },
         plugins: [
             new HtmlWebpackPlugin({
-                template: "./public/index.html",
-                chunks: ["app"],
+                template: "./tests/index.html",
             }),
         ],
         mode: "development",
