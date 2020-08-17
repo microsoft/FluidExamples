@@ -9,6 +9,9 @@ parameters:
 - name: sticky-storm
   type: string
   default: sticky-storm
+- name: draft-js
+  type: string
+  default: draft-js
 
 trigger:
 - main
