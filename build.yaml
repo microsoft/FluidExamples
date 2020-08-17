@@ -11,12 +11,8 @@ parameters:
   default: sticky-storm
 
 trigger:
-  branches:
-    include:
-    - main
-  paths:
-    include:
-    - sticky-storm/*
+- main
+
 pr:
 - main
 
