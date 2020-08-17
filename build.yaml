@@ -11,12 +11,8 @@ parameters:
   default: sticky-storm
 
 trigger:
-  branches:
-    include:
-    - main
-  paths:
-    include:
-    - sticky-storm/*
+- main
+
 pr:
 - main
 
@@ -52,3 +48,16 @@ steps:
       command: 'custom'
       workingDir: ${{ parameter.Value }}
       customCommand: 'run build'
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      workingDir: ${{ parameter.Value }}
+      customCommand: 'run test'
+  - task: PublishTestResults@2
+    displayName: Publish Test Results
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/*junit-report.xml'
+      searchFolder: ${{ parameters.buildDirectory }}/nyc
+      mergeTestResults: true
+    condition: succeededOrFailed()
