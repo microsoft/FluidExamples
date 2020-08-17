@@ -9,6 +9,9 @@ parameters:
 - name: sticky-storm
   type: string
   default: sticky-storm
+- name: draft-js
+  type: string
+  default: draft-js
 
 trigger:
 - main
@@ -52,7 +55,7 @@ steps:
     inputs:
       command: 'custom'
       workingDir: ${{ parameter.Value }}
-      customCommand: 'run test'
+      customCommand: 'run test:report'
   - task: PublishTestResults@2
     displayName: Publish Test Results
     inputs:
