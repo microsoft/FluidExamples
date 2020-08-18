@@ -39,7 +39,8 @@ steps:
 
 - task: npmAuthenticate@0
   inputs:
-    workingFile: .npmrc
+    workingFile: '.npmrc'
+    customEndpoint: 'Offnet Packages'
 
 - ${{ each parameter in parameters }}:
   - task: Npm@1
