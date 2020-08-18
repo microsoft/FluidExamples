@@ -4,8 +4,8 @@ uid: sudoku-example
 sidebarDepth: 2
 ---
 
-In this example we will build a collaborative Sudoku game Fluid Container. We will use Fluid distributed data structures to store and
-synchronize the Sudoku data. We also build a website that loads the Fluid Container and renders it for the user.
+This example is a collaborative Sudoku board as a Fluid Container. We used Fluid distributed data structures to store and
+synchronize the Sudoku data. We also built a website that loads and renders the Fluid Container.
 
 ## Try it out
 Navigate to the sudoku directory, then run the below. If you are error free, you should be able to open two browser tabs with the same url and play Sudoku collaboratively.
