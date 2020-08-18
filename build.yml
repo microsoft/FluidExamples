@@ -49,8 +49,6 @@ steps:
       command: 'custom'
       workingDir: '${{ parameter.Value }}'
       customCommand: 'install'
-      customRegistry: 'useFeed'
-      customFeed: 'b681d40a-b356-4da2-973a-65abded6b787'
   - task: Npm@1
     displayName: Build - ${{ parameter.Value }}
     inputs:
