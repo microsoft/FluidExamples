@@ -44,7 +44,7 @@ The project has the following folder layout:
 
 ```
 
-The _src/fluidSudoku.tsx folder contains the Sudoku Fluid Data-Object. _src/container contains the Sudoku Fluid Container.
+The _src/fluidSudoku.tsx file contains the Sudoku Fluid Data-Object. _src/container.ts file contains the Sudoku Fluid Container.
 
 ## Deep dive
 
