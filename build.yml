@@ -1,0 +1,72 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
+# FluidExamples build for CI and PR
+
+pool: "Lite"
+
+parameters:
+- name: sticky-storm
+  type: string
+  default: sticky-storm
+- name: draft-js
+  type: string
+  default: draft-js
+- name: sudoku
+  type: string
+  default: sudoku
+
+trigger:
+- main
+
+pr:
+- main
+
+variables:
+  skipComponentGovernanceDetection: true
+
+steps:
+- task: ComponentGovernanceComponentDetection@0
+  inputs:
+    scanType: 'Register'
+    verbosity: 'Verbose'
+    alertWarningLevel: 'High'
+
+- task: UseNode@1
+  displayName: Use Node 12.x
+  inputs: 
+    version: 12.x
+
+- task: npmAuthenticate@0
+  inputs:
+    workingFile: .npmrc
+
+- ${{ each parameter in parameters }}:
+  - task: Npm@1
+    displayName: Install - ${{ parameter.Value }}
+    inputs:
+      command: 'custom'
+      workingDir: ${{ parameter.Value }}
+      customCommand: 'install'
+      customRegistry: 'useFeed'
+      customFeed: '0a22f611-6a4a-4416-a1bb-53ed7284aa21/f56654ac-3b25-4f5c-bd34-2c1b79e8cfa6'
+  - task: Npm@1
+    displayName: Build - ${{ parameter.Value }}
+    inputs:
+      command: 'custom'
+      workingDir: ${{ parameter.Value }}
+      customCommand: 'run build'
+  - task: Npm@1
+    displayName: Test - ${{ parameter.Value }}
+    inputs:
+      command: 'custom'
+      workingDir: ${{ parameter.Value }}
+      customCommand: 'run test:report'
+  - task: PublishTestResults@2
+    displayName: Publish Test Results - ${{ parameter.Value }}
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/*junit-report.xml'
+      searchFolder: ${{ parameter.Value }}/nyc
+      mergeTestResults: true
+    condition: succeededOrFailed()
