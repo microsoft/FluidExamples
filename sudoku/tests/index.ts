@@ -60,6 +60,6 @@ async function setup() {
 setup().catch((e)=> {
     console.error(e);
     console.log(
-        "%cThere were issues setting up and starting the in memory FLuid Server",
+        "%cThere were issues setting up and starting the in memory Fluid Server",
         "font-size:30px");
 });
