@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 /**
  * Note that the model primarily uses interfaces, not classes.
  * When objects are stored in Fluid DDSs,
