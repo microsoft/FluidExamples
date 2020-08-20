@@ -1,0 +1,17 @@
+{
+  "name": "root",
+  "version": "0.0.0",
+  "private": true,
+  "repository": "microsoft/FluidExamples",
+  "license": "MIT",
+  "author": "Microsoft",
+  "scripts": {
+    "policy-check": "fluid-repo-policy-check",
+    "policy-check:fix": "fluid-repo-policy-check -r"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@fluidframework/build-tools": "^0.1.35529",
+    "typescript": "~3.7.4"
+  }
+}
