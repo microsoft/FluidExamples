@@ -3,16 +3,17 @@ This codebase includes examples of collaborative applications built with Fluid. 
 
 Each example is a standalone application that defines a Fluid Container and loads it into a webpage.
 
-# Getting Started
-To get started, clone the repository and navigate to one of the samples. From the sample directory, you can install and start the examples.
+## Getting Started
 
-```
-npm i
-npm start
-npm run start:server
-```
+To get started, clone the repository and navigate to one of the examples. From the example directory, you can install and start the example.
 
-# Contributing
+1. Run `npm install` from the example root
+2. Run `npm run start:server` to start a Tinylicious Fluid Server
+3. Run `npm run start` (from a different command window) to start the example
+
+> For more details see the individual example README.md.
+
+## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
