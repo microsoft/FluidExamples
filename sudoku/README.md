@@ -3,14 +3,13 @@
 This example is a collaborative Sudoku board as a Fluid Container. We used Fluid distributed data structures to store and
 synchronize the Sudoku data. We also built a website that loads and renders the Fluid Container.
 
-## Try it out
-Navigate to the sudoku directory, then run the below. If you are error free, you should be able to open two browser tabs with the same url and play Sudoku collaboratively.
+## Getting Started
 
-```
-npm i
-npm start
-npm run start:server (from a different command window)
-```
+To run this follow the steps below:
+
+1. Run `npm install` from the sudoku root
+2. Run `npm run start:server` to start a Tinylicious Fluid Server
+3. Run `npm run start` (from a different command window) to start the example
 
 ## Acknowledgements
 

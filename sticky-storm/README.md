@@ -1,60 +1,90 @@
----
-page_type: sample
-languages:
-- typescript
----
+# @fluid-example/sticky-storm
 
-# Official Microsoft Sample
+Sticky storm is an example of building an application that let's users create and share note
 
-<!-- 
-Guidelines on README format: https://review.docs.microsoft.com/help/onboard/admin/samples/concepts/readme-template?branch=master
+## Getting Started
 
-Guidance on onboarding samples to docs.microsoft.com/samples: https://review.docs.microsoft.com/help/onboard/admin/samples/process/onboarding?branch=master
+To run this follow the steps below:
 
-Taxonomies for products and languages: https://review.docs.microsoft.com/new-hope/information-architecture/metadata/taxonomies?branch=master
--->
+1. Run `npm install` from the sudoku root
+2. Run `npm run start:server` to start a Tinylicious Fluid Server
+3. Run `npm run start` (from a different command window) to start the collaborative example
 
-Give a short description for your sample here. What does it do and why is it important?
+## Data model
 
-## Contents
+Sticky-Storm uses the following distributed data structures:
 
-Outline the file contents of the repository. It helps users navigate the codebase, build configuration and any related assets.
+- SharedDirectory - root
+- SharedMap - storing note information
+- SharedMap - storing vote information
+- SharedMap - storing user information
 
-| File/folder       | Description                                |
-|-------------------|--------------------------------------------|
-| `src`             | Sample source code.                        |
-| `.gitignore`      | Define what to ignore at commit time.      |
-| `CHANGELOG.md`    | List of changes to the sample.             |
-| `CONTRIBUTING.md` | Guidelines for contributing to the sample. |
-| `README.md`       | This README file.                          |
-| `LICENSE`         | The license for the sample.                |
+## Available Scripts
 
-## Prerequisites
+### `build`
 
-Outline the required components and tools that a user might need to have on their machine in order to run the sample. This can be anything from frameworks, SDKs, OS versions or IDE releases.
+```bash
+npm run build
+```
 
-## Setup
+Runs [`tsc`](###-tsc) and [`webpack`](###-webpack) and outputs the results in `./dist`.
 
-Explain how to prepare the sample once the user clones or downloads the repository. The section should outline every step necessary to install dependencies and set up any settings (for example, API keys and output folders).
+### `start`
 
-## Running the sample
+```bash
+npm run start
+```
 
-Outline step-by-step instructions to execute the sample and see its output. Include steps for executing the sample from the IDE, starting specific services in the Azure portal or anything related to the overall launch of the code.
+Uses `webpack-dev-server` to start a local webserver that will host your webpack file.
 
-## Key concepts
+Once you run `start` you can navigate to `http://localhost:8080` in any browser window to use your fluid example.
 
-Provide users with more context on the tools and services used in the sample. Explain some of the code that is being used and how services interact with each other.
+> The Tinylicious Fluid server must be running. See [`start:server`](###-start:server) below.
 
-## Contributing
+### `start:server`
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+```bash
+npm run start:server
+```
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+Starts an instance of the Tinylicious Fluid server running locally at `http://localhost:3000`.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+> Tinylicious only needs to be running once on a machine and can support multiple examples.
+
+### `start:test`
+
+```bash
+npm run start:test
+```
+
+Uses `webpack-dev-server` to start a local webserver that will host your webpack file.
+
+Once you run [`start:test`](###-start:test) you can navigate to `http://localhost:8080` in any browser window to test your fluid example.
+
+[`start:test`](###-start:test) uses a Fluid server with storage to local tab session storage and launches two instances side by side. It does not require Tinylicious.
+
+This is primarily used for testing scenarios.
+
+### `test`
+
+```bash
+npm run test
+```
+
+Runs end to end test using [Jest](https://jestjs.io/) and [Puppeteer](https://github.com/puppeteer/puppeteer/).
+
+### `test:report`
+
+```bash
+npm run test:report
+```
+
+Runs [`npm run test`](###-test) with additional properties that will report success/failure to a file in `./nyc/*`. This is used for CI validation.
+
+### `tsc`
+
+Compiles the TypeScript code. Output is written to the `./dist` folder.
+
+### `webpack`
+
+Compiles and webpacks the TypeScript code. Output is written to the `./dist` folder.
