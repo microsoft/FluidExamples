@@ -1,8 +1,4 @@
----
-title: "Sudoku"
-uid: sudoku-example
-sidebarDepth: 2
----
+# @fluid-example/sudoku
 
 This example is a collaborative Sudoku board as a Fluid Container. We used Fluid distributed data structures to store and
 synchronize the Sudoku data. We also built a website that loads and renders the Fluid Container.
@@ -13,7 +9,7 @@ Navigate to the sudoku directory, then run the below. If you are error free, you
 ```
 npm i
 npm start
-npm run start:server
+npm run start:server (from a different command window)
 ```
 
 ## Acknowledgements
@@ -22,29 +18,103 @@ This example uses the [sudokus](https://github.com/Moeriki/node-sudokus) npm pac
 (<https://github.com/Moeriki>) and the [@types/sudokus](https://www.npmjs.com/package/@types/sudokus) package by Florian
 Keller (<https://github.com/ffflorian>).
 
-### Folder layout
+## Folder layout
 
-The project has the following folder layout:
+The project has the following layout:
 
+```text
+.
+├── src
+|   ├── app.ts
+|   ├── container.ts
+|   ├── index.ts
+|   ├── fluidSudoku.tsx
+|   └── helpers
+|       ├── coordinate.ts
+|       ├── puzzles.ts
+|       ├── styles.css
+|       ├── sudokuCell.ts
+|       └── react
+|           └── sudokuView.tsx
+├── public
+|   └── index.html
+└── tests
+    ├── draftjs.test.ts
+    ├── index.html
+    └── index.ts
 ```
-└───src
-    |   app.ts
-    |   container.ts
-    |   index.ts
-    |   fluidSudoku.tsx
-    ├───helpers
-        │       coordinate.ts
-        │       puzzles.ts
-        |       styles.css
-        │       sudokuCell.ts
-        └───react
-            sudokuView.tsx
-└───public
-└───tests
 
+The `./src/fluidSudoku.tsx` file contains the Sudoku Fluid Data-Object. `./src/container.ts` file contains the Sudoku Fluid Container.
+
+## Available Scripts
+
+### `build`
+
+```bash
+npm run build
 ```
 
-The _src/fluidSudoku.tsx file contains the Sudoku Fluid Data-Object. _src/container.ts file contains the Sudoku Fluid Container.
+Runs [`tsc`](###-tsc) and [`webpack`](###-webpack) and outputs the results in `./dist`.
+
+### `start`
+
+```bash
+npm run start
+```
+
+Uses `webpack-dev-server` to start a local webserver that will host your webpack file.
+
+Once you run `start` you can navigate to `http://localhost:8080` in any browser window to use your fluid example.
+
+> The Tinylicious Fluid server must be running. See `start:server` below.
+
+### `start:server`
+
+```bash
+npm run start:server
+```
+
+Starts an instance of the Tinylicious Fluid server running locally at `http://localhost:3000`.
+
+> Tinylicious only needs to be running once on a machine and can support multiple examples.
+
+### `start:test`
+
+```bash
+npm run start:test
+```
+
+Uses `webpack-dev-server` to start a local webserver that will host your webpack file.
+
+Once you run `start:test` you can navigate to `http://localhost:8080` in any browser window to test your fluid example.
+
+`start:test` uses a Fluid server with storage to local tab session storage and launches two instances side by side. It does not require Tinylicious.
+
+This is primarily used for testing scenarios.
+
+### `test`
+
+```bash
+npm run test
+```
+
+Runs end to end test using [Jest](https://jestjs.io/) and [Puppeteer](https://github.com/puppeteer/puppeteer/).
+
+### `test:report`
+
+```bash
+npm run test:report
+```
+
+Runs `npm run test` with additional properties that will report success/failure to a file in `./nyc/*`. This is used for CI validation.
+
+### `tsc`
+
+Compiles the TypeScript code. Output is written to the `./dist` folder.
+
+### `webpack`
+
+Compiles and webpacks the TypeScript code. Output is written to the `./dist` folder.
 
 ## Deep dive
 
@@ -64,15 +134,11 @@ readonly correctValue: number // Stores the correct value of the cell
 readonly coordinate: CoordinateString // The coordinate of the cell, as a comma-separated string, e.g. "2,3"
 ```
 
-::: important
-
-Objects that are stored in distributed data structures, as `SudokuCell` is, must be safely JSON-serializable. This means
+> Objects that are stored in distributed data structures, as `SudokuCell` is, must be safely JSON-serializable. This means
 that you cannot use functions or TypeScript class properties with these objects, because those are not JSON-serialized.
-
-One pattern to address this is to define static functions that accept the object as a parameter and manipulate it. See
+>
+> One pattern to address this is to define static functions that accept the object as a parameter and manipulate it. See
 the `SudokuCell` class in `/src/helpers/sudokuCell.ts` for an example of this pattern.
-
-:::
 
 ### Rendering
 
@@ -93,7 +159,7 @@ export class FluidSudoku extends DataObject implements IFluidHTMLView {}
 ```
 
 This class extends the [DataObject][] abstract base class. Our FluidObject is visual, so we need to implement the
-[IFluidHTMLView][] interface. In our case, we want to handle rendering ourselves rather than delegate it to another object, 
+[IFluidHTMLView][] interface. In our case, we want to handle rendering ourselves rather than delegate it to another object,
 so we implement [IFluidHTMLView][].
 
 #### Implementing interfaces
@@ -405,5 +471,3 @@ Now run `npm start` again and notice that your selected cell is now highlighted 
 Now that you have some experience with Fluid, are there other features you could add to the Sudoku FluidObject? Perhaps
 you could extend it to display a client name in the cell to show client-specific presence. Or you could use the
 [undo-redo][] package to add undo/redo support!
-
-!!!include(links.md)!!!
