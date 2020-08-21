@@ -217,20 +217,10 @@ const Note: FC<NoteProps> = (props) => (
     onClick={props.onClick}
   >
     {props.count > 0 && <Badge count={props.count} voted={props.note.currentUserVoted} />}
-    <NoteContent note={props.note} />
+    <span className="note-text">
+      {props.note.text}
+    </span>
   </button>
-);
-
-// Note Content
-
-interface NoteContentProps {
-  note: INoteWithVotes;
-}
-
-const NoteContent: FC<NoteContentProps> = (props) => (
-  <div className="note-text">
-    {props.note.text}
-  </div>
 );
 
 // Badge
