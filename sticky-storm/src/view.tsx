@@ -231,5 +231,5 @@ interface BadgeProps {
 }
 
 const Badge: FC<BadgeProps> = (props) => (
-  <div className={`note-badge ${props.voted ? 'voted' : ''}`}>{props.count}</div>
+  <span className={`note-badge ${props.voted ? 'voted' : ''}`}>{props.count}</span>
 );
