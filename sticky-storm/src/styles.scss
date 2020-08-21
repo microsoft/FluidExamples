@@ -70,7 +70,9 @@ body {
   height: 100%;
   overflow: hidden;
   border: none;
-  outline: 0px solid transparent;    
+  outline: 0px solid transparent;
+  background: transparent;    
+  resize: none;
 }
 
 .theme {
