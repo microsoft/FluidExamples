@@ -81,22 +81,20 @@ interface BoardProps {
   highlightMine: boolean;
 }
 
-const Board: FC<BoardProps> = (props) => {
-  return (
-    <div className="board">
-      {props.notes.map((note) =>
-        <Note
-          key={note.id}
-          note={note}
-          handleClick={props.vote}
-          count={note.votes}
-          user={props.user}
-          highlightMine={props.highlightMine}
-        />
-      )}
-    </div>
-  );
-}
+const Board: FC<BoardProps> = (props) => (
+  <div className="board">
+    {props.notes.map((note) =>
+      <Note
+        key={note.id}
+        note={note}
+        onClick={() => props.vote(note)}
+        count={note.votes}
+        user={props.user}
+        highlightMine={props.highlightMine}
+      />
+    )}
+  </div>
+);
 
 // Pad
 interface PadProps {
@@ -114,7 +112,7 @@ interface PadProps {
 const Pad: FC<PadProps> = (props) => {
   const [value, setValue] = useState<string>('');
 
-  const onCreate = () => {
+  const createNote = () => {
     props.createNote(value);
     setValue('');
   }
@@ -122,7 +120,7 @@ const Pad: FC<PadProps> = (props) => {
     props.setHighlightMine(!props.highlightMine)
   }
 
-  const onNoteChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const onNoteValueChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value)
   }
 
@@ -138,24 +136,14 @@ const Pad: FC<PadProps> = (props) => {
         <NoteEditor
           onFocus={onNoteFocus}
           value={value}
-          onChange={onNoteChange}
-          onEnter={onCreate}
+          onChange={onNoteValueChange}
+          onEnter={createNote}
         />
-        <Button
-          disabled={false}
-          text={"Share my idea"}
-          onClick={onCreate}
-        />
-        <Button
-          disabled={false}
-          text={(props.highlightMine) ? "Stop highlighting" : "Highlight my ideas"}
-          onClick={handleHighlight}
-        />
-        <Button
-          disabled={false}
-          text={"Tidy up"}
-          onClick={props.clear}
-        />
+        <Button onClick={createNote}> Share my idea </Button>
+        <Button onClick={handleHighlight}>
+          {(props.highlightMine) ? "Stop highlighting" : "Highlight my ideas"}
+        </Button>
+        <Button onClick={props.clear}> Tidy up </Button>
         <UserName user={props.user} userCount={props.users.length} />
       </div>
     </div>
@@ -169,16 +157,14 @@ interface UserNameProps {
   userCount: number;
 }
 
-const UserName: FC<UserNameProps> = (props) => {
-  return (
-    <div className="userName">
-      <span>{props.user.name} </span>
-      <span className="userCount">
-        (with {props.userCount - 1} other {((props.userCount == 2) ? "person" : "people")})
+const UserName: FC<UserNameProps> = (props) => (
+  <div className="userName">
+    <span>{props.user.name} </span>
+    <span className="userCount">
+      (with {props.userCount - 1} other {((props.userCount == 2) ? "person" : "people")})
       </span>
-    </div>
-  )
-}
+  </div>
+);
 
 // Note Editor
 
@@ -210,62 +196,50 @@ const NoteEditor: FC<NoteEditorProps> = (props) => {
 
 // Button
 
-interface ButtonProps {
-  disabled: boolean;
-  text: string;
-  onClick: () => void;
-}
+interface ButtonProps extends React.AllHTMLAttributes<HTMLButtonElement> { }
 
-export function Button(props: ButtonProps) {
-  return <button disabled={props.disabled} onClick={props.onClick}> {props.text} </button>
-}
+const Button: FC<ButtonProps> = (props) => (
+  <button className="button" disabled={props.disabled} onClick={props.onClick}> {props.children} </button>
+);
 
-interface NoteProps {
+// Note
+
+interface NoteProps extends React.AllHTMLAttributes<HTMLButtonElement> {
   count: number;
   note: INoteWithVotes;
   user: IUser;
-  handleClick: (note: INote) => void;
   highlightMine: boolean;
 }
 
-function Note(props: NoteProps) {
-  return (
-    <div
-      className={((props.note.user.id != props.user.id) && props.highlightMine) ? "note others" : "note"}
-      onClick={() => props.handleClick(props.note)}>
-      <Badge count={props.count} note={props.note} />
-      <NoteContent note={props.note} />
-    </div>
-  );
-}
+const Note: FC<NoteProps> = (props) => (
+  <button
+    className={((props.note.user.id != props.user.id) && props.highlightMine) ? "note others" : "note"}
+    onClick={props.onClick}
+  >
+    {props.count > 0 && <Badge count={props.count} voted={props.note.currentUserVoted} />}
+    <NoteContent note={props.note} />
+  </button>
+);
+
+// Note Content
 
 interface NoteContentProps {
   note: INoteWithVotes;
 }
 
-function NoteContent(props: NoteContentProps) {
-  return (
-    <div className="note-text">
-      {props.note.text}
-    </div>
-  );
-}
+const NoteContent: FC<NoteContentProps> = (props) => (
+  <div className="note-text">
+    {props.note.text}
+  </div>
+);
+
+// Badge
 
 interface BadgeProps {
   count: number;
-  note: INoteWithVotes;
+  voted: boolean;
 }
 
-function Badge(props: BadgeProps) {
-  let badgeClass = "note-badge";
-
-  if (props.note.currentUserVoted) {
-    badgeClass = "note-badge voted"
-  }
-
-  if (props.count > 0) {
-    return <div className={badgeClass}>{props.count}</div>
-  } else {
-    return null;
-  }
-}
+const Badge: FC<BadgeProps> = (props) => (
+  <div className={`note-badge ${props.voted ? 'voted' : ''}`}>{props.count}</div>
+);
