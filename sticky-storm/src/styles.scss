@@ -4,7 +4,12 @@ body {
   }
 
 .note {
-    display: inline-block;
+    font-size: 16px;
+    border: none;
+    color: inherit;
+    display: inline-flex;
+    text-align: left;
+    align-content: center;
     position: relative;
     width: 6em;
     height: 6em;
@@ -36,7 +41,13 @@ body {
   }
 
   .note:hover{
-    box-shadow: 0 0.4em 0.8em rgba(0, 0, 0, 0.15);    
+    box-shadow: 0 0.4em 0.8em rgba(0, 0, 0, 0.15);
+    background: #ffc;    
+  }
+
+  .note:focus {
+    outline: none;
+    box-shadow: 0 0.4em 0.8em rgba(0, 0, 0, 0.35);
   }
 
   .note.placeholder {
@@ -70,7 +81,9 @@ body {
   height: 100%;
   overflow: hidden;
   border: none;
-  outline: 0px solid transparent;    
+  outline: 0px solid transparent;
+  background: transparent;    
+  resize: none;
 }
 
 .theme {
@@ -114,7 +127,7 @@ body {
     color: white;
   }
 
-button {
+.button {
   display: inline-block;
   vertical-align: middle;
   border: none;
@@ -132,19 +145,19 @@ button {
   user-select: none;    
 }
 
-  button:hover, button:focus {
+  .button:hover, .button:focus {
     background: #0053ba;
   }
 
-  button:focus {
+  .button:focus {
     outline: none;    
   }
 
-  button:active {
+  .button:active {
     transform: scale(0.98);
   } 
 
-  button:disabled {
+  .button:disabled {
     background: #ccc;
   }
 
