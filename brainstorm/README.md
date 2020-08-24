@@ -1,6 +1,6 @@
-# @fluid-example/sticky-storm
+# @fluid-example/brainstorm
 
-Sticky storm is an example of building an application that let's users create and share note
+Brainstorm is an example of building an application that let's users create and share notes.
 
 ## Getting Started
 
@@ -12,7 +12,7 @@ To run this follow the steps below:
 
 ## Data model
 
-Sticky-Storm uses the following distributed data structures:
+Brainstorm uses the following distributed data structures:
 
 - SharedDirectory - root
 - SharedMap - storing note information
