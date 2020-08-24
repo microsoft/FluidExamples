@@ -6,9 +6,9 @@
 pool: "Lite"
 
 parameters:
-- name: sticky-storm
+- name: brainstorm
   type: string
-  default: sticky-storm
+  default: brainstorm
 - name: draft-js
   type: string
   default: draft-js
