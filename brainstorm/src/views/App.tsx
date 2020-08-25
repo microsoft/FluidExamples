@@ -20,6 +20,7 @@ export const App = () => {
     return (
         <div style={{ marginLeft:5, marginRight:5 }}>
             <nav>
+                <h1>🧠 Brainstorm</h1>
                 <Link to="/">Home</Link>
                 <span> | </span>
                 <Link to="/about">About</Link>
@@ -29,7 +30,7 @@ export const App = () => {
                 <Route path="/about">
                     <h1>About</h1>
                     <p>
-                        This is where we type only the most important of things.
+                        Brainstorm is about collecting awesome ideas
                     </p>
                 </Route>
                 <Route path="/createNew/:id">

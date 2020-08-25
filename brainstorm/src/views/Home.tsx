@@ -48,16 +48,13 @@ export const Home = () => {
 
     return (
         <>
-            <h1>Home</h1>
-            <div>
+            <div style={{ margin: 10 }}>
                 <button onClick={ () => createNewDoc() }>
-                    New Document
+                    New Brainstorm
                 </button>
-            </div>
-            <br/>
-            <div>
+                <span> </span>
                 <button onClick={ () => clearIds() }>
-                    Clear All Ids
+                    Clear All Brainstorms
                 </button>
             </div>
             <ul>
