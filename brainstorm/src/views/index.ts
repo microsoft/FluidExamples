@@ -5,3 +5,4 @@
 
 export * from "./App";
 export * from "./NoteroView";
+export * from "./FluidContext";
