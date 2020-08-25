@@ -1,6 +1,6 @@
 # @fluid-example/brainstorm
 
-Brainstorm is an example of building an application that let's users create and share notes.
+Brainstorm is an example of integrating Fluid into an existing website as an application. It let's users create new brainstorms and share notes.
 
 ## Getting Started
 
@@ -40,6 +40,14 @@ Uses `webpack-dev-server` to start a local webserver that will host your webpack
 Once you run `start` you can navigate to `http://localhost:8080` in any browser window to use your fluid example.
 
 > The Tinylicious Fluid server must be running. See [`start:server`](###-start:server) below.
+
+### `start:all`
+
+```bash
+npm run start:all
+```
+
+Runs both `start` and `start:server`.
 
 ### `start:server`
 

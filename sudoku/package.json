@@ -11,6 +11,7 @@
   "scripts": {
     "build": "npm run webpack && npm run tsc",
     "start": "webpack-dev-server",
+    "start:all": "concurrently \"npm:start:server\" \"npm:start\"",
     "start:server": "tinylicious",
     "start:test": "webpack-dev-server --config webpack.test.js",
     "test": "jest",
@@ -50,7 +51,7 @@
     "@types/sudokus": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "~2.17.0",
     "@typescript-eslint/parser": "~2.17.0",
-    "concurrently": "^5.2.0",
+    "concurrently": "^5.3.0",
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^1.0.0",
     "eslint": "~6.8.0",

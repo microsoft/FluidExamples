@@ -67,6 +67,14 @@ Once you run `start` you can navigate to `http://localhost:8080` in any browser 
 
 > The Tinylicious Fluid server must be running. See `start:server` below.
 
+### `start:all`
+
+```bash
+npm run start:all
+```
+
+Runs both `start` and `start:server`.
+
 ### `start:server`
 
 ```bash

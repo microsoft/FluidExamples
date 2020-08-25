@@ -3,6 +3,5 @@
  * Licensed under the MIT License.
  */
 
-export { NoteroInstantiationFactory } from "./main";
-
+export * from "./interfaces";
 export * from "./main";
