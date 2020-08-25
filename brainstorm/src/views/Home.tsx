@@ -48,6 +48,7 @@ export const Home = () => {
 
     return (
         <>
+            <h3>Active Brainstorms</h3>
             <div style={{ margin: 10 }}>
                 <button onClick={ () => createNewDoc() }>
                     New Brainstorm

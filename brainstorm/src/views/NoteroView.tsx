@@ -21,9 +21,6 @@ import {
 } from "../fluid-object/interfaces";
 import { FluidContext } from "./FluidContext";
 
-// eslint-disable-next-line import/no-unassigned-import
-import "../styles.scss";
-
 // NoteroView
 interface NoteroViewState {
   user: IUser;

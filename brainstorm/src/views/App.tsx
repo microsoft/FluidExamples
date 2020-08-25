@@ -16,6 +16,9 @@ import {
 } from "./LoadFluidContainer";
 import { Home } from "./Home";
 
+// eslint-disable-next-line import/no-unassigned-import
+import "../styles.scss";
+
 export const App = () => {
     return (
         <div style={{ marginLeft:5, marginRight:5 }}>
