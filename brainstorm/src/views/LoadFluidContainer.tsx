@@ -9,12 +9,49 @@ import { Container } from "@fluidframework/container-loader";
 
 import React, { useState, useEffect } from "react";
 
-import { useLocation, useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import { Notero } from "../fluid-object";
 import { NoteroContainerFactory } from "../container";
 import { FluidContext } from "./FluidContext";
 import { NoteroView } from "./NoteroView";
+
+export const CreateNewFluidContainer = () => {
+  const [view, setView] = useState(<div></div>);
+  const { id } = useParams();
+  const history = useHistory();
+
+  useEffect(() => {
+    // Create an scoped async function in the hook
+    let container: Container | undefined;
+    async function loadContainer() {
+      try {
+        const container = await getTinyliciousContainer(id, NoteroContainerFactory, true);
+        const defaultObject = await getDefaultObjectFromContainer<Notero>(container);
+        history.replace(`/${id}`)
+        setView((
+          <FluidContext.Provider value = {defaultObject}>
+            <NoteroView/>
+          </FluidContext.Provider>
+        ));
+      } catch(e) {
+        // Something went wrong
+        // Navigate to Error page
+      }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    loadContainer();
+    return () => {
+        // If we are unloading and the Container has been generated we want to
+        // close it to ensure we are not leaking memory
+        if (container !== undefined) {
+            container.close();
+        }
+    };
+  }, []);
+return view;
+}
 
 /**
  * This is a React function that loads a Fluid Container based off the react-router ID.
@@ -28,19 +65,22 @@ import { NoteroView } from "./NoteroView";
 export const LoadFluidContainer = () => {
     const [view, setView] = useState(<div></div>);
     const { id } = useParams();
-    const createNew = new URLSearchParams(useLocation().search).get("createNew") ? true : false;
-    
     useEffect(() => {
       // Create an scoped async function in the hook
       let container: Container | undefined;
       async function loadContainer() {
-        const container = await getTinyliciousContainer(id, NoteroContainerFactory, createNew);
-        const defaultObject = await getDefaultObjectFromContainer<Notero>(container);
-        setView((
-            <FluidContext.Provider value = {defaultObject}>
-                <NoteroView/>
-            </FluidContext.Provider>
-        ));
+        try {
+          const container = await getTinyliciousContainer(id, NoteroContainerFactory, false);
+          const defaultObject = await getDefaultObjectFromContainer<Notero>(container);
+          setView((
+              <FluidContext.Provider value = {defaultObject}>
+                  <NoteroView/>
+              </FluidContext.Provider>
+          ));
+        } catch(e) {
+          // Something went wrong
+          // Navigate to Error page
+        }
       }
 
       // eslint-disable-next-line @typescript-eslint/no-floating-promises

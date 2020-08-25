@@ -10,7 +10,10 @@ import {
     Link,
 } from "react-router-dom";
 
-import { LoadFluidContainer } from "./LoadFluidContainer";
+import {
+    CreateNewFluidContainer,
+    LoadFluidContainer,
+} from "./LoadFluidContainer";
 import { Home } from "./Home";
 
 export const App = () => {
@@ -28,6 +31,9 @@ export const App = () => {
                     <p>
                         This is where we type only the most important of things.
                     </p>
+                </Route>
+                <Route path="/createNew/:id">
+                    <CreateNewFluidContainer/>
                 </Route>
                 <Route path="/:id">
                     <LoadFluidContainer/>

@@ -27,7 +27,7 @@ export const Home = () => {
         const newId = Date.now();
         storeNewDocId(newId.toString());
         setIds(getDocIds());
-        history.push(`/${newId}?createNew`);
+        history.push(`/createNew/${newId}`);
     };
 
     const clearIds = () => {
