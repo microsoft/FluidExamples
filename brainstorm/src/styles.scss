@@ -213,3 +213,25 @@ body {
   background-color: #bbb;    
   margin: 1em;    
 }
+
+.nav-wrapper {
+  position: relative;
+}
+
+.nav-title {
+  font-size: 35px;
+  margin-left: 10px;
+  margin-right: 20px;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 54%;
+  -ms-transform: translateY(-54%);
+  transform: translateY(-54%);
+}
+
+.content-wrapper {
+  margin: 10px;
+}

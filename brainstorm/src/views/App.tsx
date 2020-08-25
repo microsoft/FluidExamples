@@ -22,28 +22,38 @@ import "../styles.scss";
 export const App = () => {
     return (
         <div style={{ marginLeft:5, marginRight:5 }}>
-            <nav>
-                <h1>🧠 Brainstorm</h1>
-                <Link to="/">Home</Link>
-                <span> | </span>
-                <Link to="/about">About</Link>
+            <nav className="nav-wrapper">
+                <span className="nav-title">Brainstorm</span>
+                <span className="vertical-center">
+                    <Link to="/">Home</Link>
+                    <span> | </span>
+                    <Link to="/about">About</Link>
+                </span>
             </nav>
 
             <Switch>
                 <Route path="/about">
-                    <h1>About</h1>
-                    <p>
-                        Brainstorm is about collecting awesome ideas
-                    </p>
+                    <div className="content-wrapper">
+                        <h3>About</h3>
+                        <p>
+                            Brainstorm is about collecting awesome ideas
+                        </p>
+                    </div>
                 </Route>
                 <Route path="/createNew/:id">
-                    <CreateNewFluidContainer/>
+                    <div className="content-wrapper">
+                        <CreateNewFluidContainer/>
+                    </div>
                 </Route>
                 <Route path="/:id">
-                    <LoadFluidContainer/>
+                    <div className="content-wrapper">
+                        <LoadFluidContainer/>
+                    </div>
                 </Route>
                 <Route path="/">
-                    <Home />
+                    <div className="content-wrapper">
+                        <Home />
+                    </div>
                 </Route>
             </Switch>
         </div>
