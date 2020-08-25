@@ -1,22 +1,11 @@
-/*!
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License.
- */
-
+import { useState, useEffect } from "react";
 import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
 import { getTinyliciousContainer } from "@fluidframework/get-tinylicious-container";
 import { Container } from "@fluidframework/container-loader";
-
-import React, { useState, useEffect } from "react";
-
-import { useParams, useHistory } from "react-router-dom";
-
 import { Notero } from "../fluid-object";
-import { NoteroContainerFactory } from "../container";
-import { FluidContext } from "./FluidContext";
-import { NoteroView } from "./NoteroView";
+import { NoteroContainerFactory } from "./container";
 
-const useBrainstormData = (id, isNew) => {
+export const useBrainstormData = (id, isNew) => {
   const [context, setContext] = useState(undefined);
   let defaultObject = undefined;
   useEffect(() => {
@@ -46,23 +35,4 @@ const useBrainstormData = (id, isNew) => {
     };
   }, []);
   return context;
-};
-
-export const LoadFluidContainer = (props: { new?: boolean }) => {
-  const { id } = useParams();
-  const history = useHistory();
-
-  if (props.new) {
-    history.replace(`/${id}`);
-  }
-
-  const context = useBrainstormData(id, props.new);
-
-  return context ? (
-    <FluidContext.Provider value={context}>
-      <NoteroView />
-    </FluidContext.Provider>
-  ) : (
-    <></>
-  );
 };
