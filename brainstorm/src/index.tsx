@@ -6,3 +6,4 @@
 export * from "./utils/container";
 export * from "./fluid-object";
 export * from "./pages";
+export * from './utils/FluidContext';

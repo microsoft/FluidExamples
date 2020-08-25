@@ -39,9 +39,9 @@ async function createContainerAndRenderInElement(element: HTMLElement, createNew
 
     // Render the ui using React
     ReactDOM.render(
-        <FluidContext.Provider value = {defaultObject}>
-            <NoteroView/>
-        </FluidContext.Provider>,            
+        <FluidContext.Provider value={defaultObject}>
+            <NoteroView />
+        </FluidContext.Provider>,
         element
     );
 
@@ -67,7 +67,7 @@ async function setup() {
     await createContainerAndRenderInElement(rightElement, false);
 }
 
-setup().catch((e)=> {
+setup().catch((e) => {
     console.error(e);
     console.log(
         "%cThere were issues setting up and starting the in memory FLuid Server",
