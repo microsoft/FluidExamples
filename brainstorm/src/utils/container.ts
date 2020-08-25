@@ -3,11 +3,9 @@
  * Licensed under the MIT License.
  */
 
-import {
-    ContainerRuntimeFactoryWithDefaultDataStore,
-} from "@fluidframework/aqueduct";
+import { ContainerRuntimeFactoryWithDefaultDataStore } from "@fluidframework/aqueduct";
 
-import { NoteroInstantiationFactory } from "./fluid-object";
+import { NoteroInstantiationFactory } from "../fluid-object";
 
 /**
  * This does setup for the Container. The SimpleModuleInstantiationFactory also enables dynamic loading in the
@@ -21,8 +19,6 @@ import { NoteroInstantiationFactory } from "./fluid-object";
  * components.
  */
 export const NoteroContainerFactory = new ContainerRuntimeFactoryWithDefaultDataStore(
-    NoteroInstantiationFactory.type,
-    new Map([
-        NoteroInstantiationFactory.registryEntry,
-    ]),
+  NoteroInstantiationFactory.type,
+  new Map([NoteroInstantiationFactory.registryEntry])
 );

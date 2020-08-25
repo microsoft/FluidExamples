@@ -3,6 +3,6 @@
  * Licensed under the MIT License.
  */
 
-export * from "./App";
-export * from "./NoteroView";
-export * from "./FluidContext";
+export * from "../partials/NoteroView";
+export * from "./Home";
+export * from "./BrainstormPage";

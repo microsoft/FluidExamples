@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 
-export * from "./container";
+export * from "./utils/container";
 export * from "./fluid-object";
-export * from "./views";
+export * from "./pages";
+export * from './utils/FluidContext';
