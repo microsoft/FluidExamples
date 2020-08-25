@@ -16,8 +16,8 @@ import { NoteroContainerFactory } from "../container";
 import { FluidContext } from "./FluidContext";
 import { NoteroView } from "./NoteroView";
 
-export const CreateNewFluidContainer = () => {
-  const [view, setView] = useState(<div></div>);
+export const LoadFluidContainer = (props: { new?: boolean }) => {
+  const [context, setContext] = useState(undefined);
   const { id } = useParams();
   const history = useHistory();
 
@@ -26,15 +26,19 @@ export const CreateNewFluidContainer = () => {
     let container: Container | undefined;
     async function loadContainer() {
       try {
-        const container = await getTinyliciousContainer(id, NoteroContainerFactory, true);
-        const defaultObject = await getDefaultObjectFromContainer<Notero>(container);
-        history.replace(`/${id}`)
-        setView((
-          <FluidContext.Provider value = {defaultObject}>
-            <NoteroView/>
-          </FluidContext.Provider>
-        ));
-      } catch(e) {
+        const container = await getTinyliciousContainer(
+          id,
+          NoteroContainerFactory,
+          props.new
+        );
+        const defaultObject = await getDefaultObjectFromContainer<Notero>(
+          container
+        );
+        if (props.new) {
+          history.replace(`/${id}`);
+        }
+        setContext(defaultObject);
+      } catch (e) {
         // Something went wrong
         // Navigate to Error page
       }
@@ -43,55 +47,18 @@ export const CreateNewFluidContainer = () => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     loadContainer();
     return () => {
-        // If we are unloading and the Container has been generated we want to
-        // close it to ensure we are not leaking memory
-        if (container !== undefined) {
-            container.close();
-        }
+      // If we are unloading and the Container has been generated we want to
+      // close it to ensure we are not leaking memory
+      if (container !== undefined) {
+        container.close();
+      }
     };
   }, []);
-return view;
-}
-
-/**
- * This is a React function that loads a Fluid Container based off the react-router ID.
- *
- * 1. Loads a Fluid Container based in the react-router id
- * 2. Loads the default FluidObject in the Fluid Container
- * 3. Creates a FluidContext.Provider with the default FluidObject
- * 4. Renders the PrettyDiceRollerView
- *
- */
-export const LoadFluidContainer = () => {
-    const [view, setView] = useState(<div></div>);
-    const { id } = useParams();
-    useEffect(() => {
-      // Create an scoped async function in the hook
-      let container: Container | undefined;
-      async function loadContainer() {
-        try {
-          const container = await getTinyliciousContainer(id, NoteroContainerFactory, false);
-          const defaultObject = await getDefaultObjectFromContainer<Notero>(container);
-          setView((
-              <FluidContext.Provider value = {defaultObject}>
-                  <NoteroView/>
-              </FluidContext.Provider>
-          ));
-        } catch(e) {
-          // Something went wrong
-          // Navigate to Error page
-        }
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      loadContainer();
-      return () => {
-          // If we are unloading and the Container has been generated we want to
-          // close it to ensure we are not leaking memory
-          if (container !== undefined) {
-              container.close();
-          }
-      };
-    }, []);
-  return view;
+  return context ? (
+    <FluidContext.Provider value={context}>
+      <NoteroView />
+    </FluidContext.Provider>
+  ) : (
+    <></>
+  );
 };
