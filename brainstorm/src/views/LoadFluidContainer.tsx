@@ -16,11 +16,9 @@ import { NoteroContainerFactory } from "../container";
 import { FluidContext } from "./FluidContext";
 import { NoteroView } from "./NoteroView";
 
-export const LoadFluidContainer = (props: { new?: boolean }) => {
+const useBrainstormData = (id, isNew) => {
   const [context, setContext] = useState(undefined);
-  const { id } = useParams();
-  const history = useHistory();
-
+  let defaultObject = undefined;
   useEffect(() => {
     // Create an scoped async function in the hook
     let container: Container | undefined;
@@ -29,22 +27,15 @@ export const LoadFluidContainer = (props: { new?: boolean }) => {
         const container = await getTinyliciousContainer(
           id,
           NoteroContainerFactory,
-          props.new
+          isNew
         );
-        const defaultObject = await getDefaultObjectFromContainer<Notero>(
-          container
-        );
-        if (props.new) {
-          history.replace(`/${id}`);
-        }
+        defaultObject = await getDefaultObjectFromContainer<Notero>(container);
         setContext(defaultObject);
       } catch (e) {
         // Something went wrong
         // Navigate to Error page
       }
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     loadContainer();
     return () => {
       // If we are unloading and the Container has been generated we want to
@@ -54,6 +45,19 @@ export const LoadFluidContainer = (props: { new?: boolean }) => {
       }
     };
   }, []);
+  return context;
+};
+
+export const LoadFluidContainer = (props: { new?: boolean }) => {
+  const { id } = useParams();
+  const history = useHistory();
+
+  if (props.new) {
+    history.replace(`/${id}`);
+  }
+
+  const context = useBrainstormData(id, props.new);
+
   return context ? (
     <FluidContext.Provider value={context}>
       <NoteroView />
