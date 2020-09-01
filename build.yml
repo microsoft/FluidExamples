@@ -38,11 +38,6 @@ steps:
     version: 12.x
 
 - ${{ each parameter in parameters }}:
-  - task: npmAuthenticate@0
-    displayName: Auth - ${{ parameter.Value }}
-    inputs:
-      workingFile: '${{ parameter.Value }}/.npmrc'
-      customEndpoint: 'Offnet Packages'
   - task: Npm@1
     displayName: Install - ${{ parameter.Value }}
     inputs:
