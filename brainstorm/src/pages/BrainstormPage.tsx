@@ -11,7 +11,7 @@ import { NoteroView } from "../partials/NoteroView";
 import { useBrainstormData } from "../utils";
 
 export const BrainstormPage = (props: { new?: boolean }) => {
-  const { id } = useParams();
+  const { id } = useParams<{id}>();
   const history = useHistory();
 
   if (props.new) {
