@@ -13,7 +13,6 @@ import {
     Notero,
     NoteroContainerFactory,
     NoteroView,
-    FluidContext,
 } from "../src";
 
 // Since this is a single page fluid application we are generating a new document id
@@ -39,9 +38,7 @@ async function createContainerAndRenderInElement(element: HTMLElement, createNew
 
     // Render the ui using React
     ReactDOM.render(
-        <FluidContext.Provider value={defaultObject}>
-            <NoteroView />
-        </FluidContext.Provider>,
+        <NoteroView model={defaultObject} />,
         element
     );
 

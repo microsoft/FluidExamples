@@ -3,58 +3,49 @@
  * Licensed under the MIT License.
  */
 
+import { getTinyliciousContainer } from "@fluidframework/get-tinylicious-container";
+import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
+
 import React from "react";
 import ReactDOM from "react-dom";
-import { HashRouter, Switch, Route, Link } from "react-router-dom";
 
-import { Home, BrainstormPage } from "./pages";
+import { Notero } from "./fluid-object";
+import { NoteroContainerFactory } from "./container";
+import { NoteroView } from "./NoteroView";
 
-// eslint-disable-next-line import/no-unassigned-import
-import "./styles.scss";
+// Since this is a single page fluid application we are generating a new document id
+// if one was not provided
+let createNew = false;
+if (window.location.hash.length === 0) {
+    createNew = true;
+    window.location.hash = Date.now().toString();
+}
+const documentId = window.location.hash.substring(1);
 
-const App = () => {
-  return (
-    <div style={{ marginLeft: 5, marginRight: 5 }}>
-      <nav className="nav-wrapper">
-        <span className="nav-title">Brainstorm</span>
-        <span className="vertical-center">
-          <Link to="/">Home</Link>
-          <span> | </span>
-          <Link to="/about">About</Link>
-        </span>
-      </nav>
+/**
+ * This is a helper function for loading the page. It's required because getting the Fluid Container
+ * requires making async calls.
+ */
+async function start() {
+    // Get the Fluid Container associated with the provided id
+    const container = await getTinyliciousContainer(documentId, NoteroContainerFactory, createNew);
 
-      <Switch>
-        <Route path="/about">
-          <div className="content-wrapper">
-            <h3>About</h3>
-            <p>Brainstorm is about collecting awesome ideas</p>
-          </div>
-        </Route>
-        <Route path="/createNew/:id">
-          <div className="content-wrapper">
-            <BrainstormPage new />
-          </div>
-        </Route>
-        <Route path="/:id">
-          <div className="content-wrapper">
-            <BrainstormPage />
-          </div>
-        </Route>
-        <Route path="/">
-          <div className="content-wrapper">
-            <Home />
-          </div>
-        </Route>
-      </Switch>
-    </div>
-  );
-};
+    // Get the Default Object from the Container
+    const defaultObject = await getDefaultObjectFromContainer<Notero>(container);
 
-// Render the content using ReactDOM
-ReactDOM.render(
-  <HashRouter>
-    <App />
-  </HashRouter>,
-  document.getElementById("content")
-);
+    // Render the content using ReactDOM
+    ReactDOM.render(
+        <NoteroView model={defaultObject} />,
+        document.getElementById("content"));
+
+    // Setting "fluidStarted" is just for our test automation
+    // eslint-disable-next-line dot-notation
+    window["fluidStarted"] = true;
+}
+
+start().catch((e) => {
+    console.error(e);
+    console.log(
+        "%cEnsure you are running the Tinylicious Fluid Server\nUse:`npm run start:server`",
+        "font-size:30px");
+});

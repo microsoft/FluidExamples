@@ -3,7 +3,6 @@
  * Licensed under the MIT License.
  */
 
-export * from "./utils/container";
+export * from "./container";
 export * from "./fluid-object";
-export * from "./pages";
-export * from './utils/FluidContext';
+export * from "./NoteroView";

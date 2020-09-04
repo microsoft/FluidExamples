@@ -27,7 +27,6 @@
     "@fluidframework/view-interfaces": "^0.26.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-router-dom": "^5.2.0",
     "uuid": "^8.0.0"
   },
   "devDependencies": {
