@@ -41,9 +41,9 @@ export class Notero extends DataObject implements INoteroDataModel {
      */
     protected async initializingFirstTime() {
         // Create SharedMaps for the notes, votes, and users
-        this.createSharedMap('notes');
-        this.createSharedMap('votes');
-        this.createSharedMap('users');
+        this.createSharedMap("notes");
+        this.createSharedMap("votes");
+        this.createSharedMap("users");
     }
 
     /**

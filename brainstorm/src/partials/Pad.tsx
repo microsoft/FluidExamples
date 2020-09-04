@@ -54,7 +54,7 @@ export const Pad: FC<PadProps> = (props) => {
         <Button onClick={handleHighlight}>
           {props.highlightMine ? "Stop highlighting" : "Highlight my ideas"}
         </Button>
-        <Button onClick={props.clear}> Tidy up </Button>
+        {/* <Button onClick={props.clear}> Tidy up </Button> */}
         <UserName user={props.user} userCount={props.users.length} />
       </div>
     </div>
