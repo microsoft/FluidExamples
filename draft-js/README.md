@@ -8,9 +8,9 @@ enable real-time coauthoring using the Fluid Framework.
 To run this follow the steps below:
 
 1. Run `npm install` from the draft-js folder root
-2. Run `npm run start` (from a different command window) to start the collaborative example
-3. Navigate to `http://localhost:8080`
-4. Copy full URL, including id, to a new tab for collaboration
+2. Run `npm run start` to start both the client and server
+3. Navigate to `http://localhost:8080` in a browser tab
+4. Copy full URL, including hash id, to a new tab for collaboration
 
 ## Data model
 

@@ -7,8 +7,8 @@ Brainstorm is an example of integrating Fluid into an existing website as an app
 To run this follow the steps below:
 
 1. Run `npm install` from the brainstorm folder root
-2. Run `npm run start` (from a different command window) to start the collaborative example
-3. Navigate to http://localhost:8080
+2. Run `npm run start` to start both the client and server
+3. Navigate to `http://localhost:8080` in a browser tab
 
 ## Data model
 
