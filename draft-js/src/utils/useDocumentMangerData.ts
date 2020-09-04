@@ -7,10 +7,12 @@ import { useState, useEffect } from "react";
 import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
 import { getTinyliciousContainer } from "@fluidframework/get-tinylicious-container";
 import { Container } from "@fluidframework/container-loader";
-import { FluidDraftJsObject } from "../fluid-object";
-import { FluidDraftJsContainer } from "../containers";
+import { DocumentManager } from "../fluid-object";
+import { DocumentManagerContainer } from "../containers";
 
-export const useDraftJsData = (id, isNew) => {
+const storageKey = "document-manager-key";
+
+export const useDocumentManagerData = (): DocumentManager | undefined => {
     const [context, setContext] = useState(undefined);
     let defaultObject = undefined;
     useEffect(() => {
@@ -18,12 +20,20 @@ export const useDraftJsData = (id, isNew) => {
         let container: Container | undefined;
         async function loadContainer() {
             try {
+                // We need some way of knowing if this document has been created before
+                // so we will use local storage as our source of truth
+                let id = window.localStorage.getItem(storageKey);
+                const isNew = id === undefined;
+                if (isNew) {
+                    id = Date.now().toString()
+                    window.localStorage.setItem(storageKey, id);
+                }
                 const container = await getTinyliciousContainer(
                     id,
-                    FluidDraftJsContainer,
+                    DocumentManagerContainer,
                     isNew
                 );
-                defaultObject = await getDefaultObjectFromContainer<FluidDraftJsObject>(container);
+                defaultObject = await getDefaultObjectFromContainer<DocumentManager>(container);
                 setContext(defaultObject);
             } catch (e) {
                 // Something went wrong

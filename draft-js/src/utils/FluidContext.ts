@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import { FluidDraftJsObject } from "../fluid-object";
+import { IFluidDraftJsObject } from "../fluid-object";
 
 /**
  * Having a React Context allows the INoteroDataModel object to be passed through
@@ -13,4 +13,4 @@ import { FluidDraftJsObject } from "../fluid-object";
  * This is faking a default to make TypeScript happy. This context will not work
  * if not initialized with a real object.
  */
-export const FluidContext = React.createContext({} as unknown as FluidDraftJsObject);
+export const FluidContext = React.createContext({} as unknown as IFluidDraftJsObject);

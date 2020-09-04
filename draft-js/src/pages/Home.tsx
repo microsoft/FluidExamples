@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { getDocIds, storeNewDocId, clearAllIds } from "../utils";
+// import { useDocumentManagerData } from "../utils/useDocumentMangerData";
 
 /**
  * This is a React function that renders the Home Page.
@@ -31,6 +32,11 @@ export const Home = () => {
     clearAllIds();
     setIds(getDocIds());
   };
+
+//   const context = useDocumentManagerData();
+//   if (context) {
+//     alert("here");
+//   }
 
   // Generate a list of all the current IDs
   const idLinks: JSX.Element[] = [];
