@@ -32,7 +32,8 @@
     "draft-js": "^0.11.0",
     "immutable": "~3.7.4",
     "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react-dom": "^16.10.2",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@fluidframework/get-session-storage-container": "^0.26.0",
