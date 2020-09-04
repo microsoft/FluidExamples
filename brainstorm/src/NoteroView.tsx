@@ -3,26 +3,35 @@
  * Licensed under the MIT License.
  */
 
-import React, { useContext, useState, useEffect, FC } from "react";
-import { INoteWithVotes, IUser } from "../fluid-object/interfaces";
-import { FluidContext } from "../utils";
-import { Board } from "./Board";
-import { Pad } from "./Pad";
+import React, { useState, useEffect, FC } from "react";
+import {
+  INoteroDataModel,
+  INoteWithVotes,
+  IUser,
+} from "./fluid-object/interfaces";
+import { Board } from "./partials/Board";
+import { Pad } from "./partials/Pad";
+
+// eslint-disable-next-line import/no-unassigned-import
+import "./styles.scss";
 
 // NoteroView
+interface NoteroViewProps {
+  readonly model: INoteroDataModel;
+}
+
 interface NoteroViewState {
   user: IUser;
   users: IUser[];
   notes: INoteWithVotes[];
 }
 
-export const NoteroView: FC = () => {
-  const model = useContext(FluidContext);
+export const NoteroView: FC<NoteroViewProps> = (props) => {
   const generateState = () => {
     return {
-      user: model.getUser(),
-      users: model.getUsers(),
-      notes: model.getNotesFromBoard(),
+      user: props.model.getUser(),
+      users: props.model.getUsers(),
+      notes: props.model.getNotesFromBoard(),
     };
   };
   const [state, setState] = useState<NoteroViewState>(generateState());
@@ -31,7 +40,7 @@ export const NoteroView: FC = () => {
   // Setup a listener that
   useEffect(() => {
     const onChange = () => setState(generateState());
-    model.on("change", onChange);
+    props.model.on("change", onChange);
 
     // useEffect runs after the first render so we will update the view again incase there
     // were changes that came into the model in between generating initialState and setting
@@ -39,15 +48,15 @@ export const NoteroView: FC = () => {
     onChange();
     return () => {
       // When the view dismounts remove the listener to avoid memory leaks
-      model.off("change", onChange);
+      props.model.off("change", onChange);
     };
   }, []);
 
   return (
     <div>
       <Pad
-        createNote={model.createNote}
-        demo={model.createDemoNote}
+        createNote={props.model.createNote}
+        demo={props.model.createDemoNote}
         user={state.user}
         users={state.users}
         clear={() => alert("clear not implemented")}
@@ -56,7 +65,7 @@ export const NoteroView: FC = () => {
       />
       <Board
         notes={state.notes}
-        vote={model.vote}
+        vote={props.model.vote}
         user={state.user}
         highlightMine={highlightMine}
       />
