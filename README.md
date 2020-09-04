@@ -1,15 +1,15 @@
-# Welcome to the Fluid Examples Repository!
-This codebase includes examples of collaborative applications built with Fluid. For Fluid Framework documentation, go to [FluidFramework.com](www.FluidFramework.com). The Fluid Framework repository lives at [Github.com/Microsoft/FluidFramework](Github.com/Microsoft/FluidFramework).
+# Welcome to the Fluid Framework Examples Repository!
+
+This codebase includes examples of collaborative applications built with the Fluid Framework. For documentation about the Fluid Framework, go to [FluidFramework.com](www.FluidFramework.com). The Fluid Framework repository lives at [Github.com/Microsoft/FluidFramework](https://github.com/microsoft/fluidframework).
 
 Each example is a standalone application that defines a Fluid Container and loads it into a webpage.
 
 ## Getting Started
 
-To get started, clone the repository and navigate to one of the examples. From the example directory, you can install and start the example.
+To get started, clone the repository and navigate to one of the example folders. From the example root, you can install and start the example.
 
 1. Run `npm install` from the example root
-2. Run `npm run start:server` to start a Tinylicious Fluid Server
-3. Run `npm run start` (from a different command window) to start the example
+2. Run `npm run start` to start both the client and server
 
 > For more details see the individual example README.md.
 
