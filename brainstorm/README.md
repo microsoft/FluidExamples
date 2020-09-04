@@ -6,9 +6,9 @@ Brainstorm is an example of integrating Fluid into an existing website as an app
 
 To run this follow the steps below:
 
-1. Run `npm install` from the sudoku root
-2. Run `npm run start:server` to start a Tinylicious Fluid Server
-3. Run `npm run start` (from a different command window) to start the collaborative example
+1. Run `npm install` from the brainstorm folder root
+2. Run `npm run start` to start both the client and server
+3. Navigate to `http://localhost:8080` in a browser tab
 
 ## Data model
 
@@ -35,19 +35,19 @@ Runs [`tsc`](###-tsc) and [`webpack`](###-webpack) and outputs the results in `.
 npm run start
 ```
 
-Uses `webpack-dev-server` to start a local webserver that will host your webpack file.
+Runs both [`start:client`](###-start:client) and [`start:server`](###-start:server).
 
-Once you run `start` you can navigate to `http://localhost:8080` in any browser window to use your fluid example.
-
-> The Tinylicious Fluid server must be running. See [`start:server`](###-start:server) below.
-
-### `start:all`
+### `start:client`
 
 ```bash
 npm run start:all
 ```
 
-Runs both `start` and `start:server`.
+Uses `webpack-dev-server` to start a local webserver that will host your webpack file.
+
+Once you run `start` you can navigate to `http://localhost:8080` in any browser window to use your fluid example.
+
+> The Tinylicious Fluid server must be running. See [`start:server`](###-start:server) below.
 
 ### `start:server`
 
