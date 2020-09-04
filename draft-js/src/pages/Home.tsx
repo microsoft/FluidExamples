@@ -44,10 +44,10 @@ export const Home = () => {
 
   return (
     <>
-      <h3>Active Brainstorms</h3>
-      <button onClick={() => createNewDoc()}>New Brainstorm</button>
+      <h3>Documents</h3>
+      <button onClick={() => createNewDoc()}>New Document</button>
       <span> </span>
-      <button onClick={() => clearIds()}>Clear All Brainstorms</button>
+      <button onClick={() => clearIds()}>Clear All Document</button>
       <ul>{idLinks}</ul>
     </>
   );
