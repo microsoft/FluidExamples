@@ -3,6 +3,5 @@
  * Licensed under the MIT License.
  */
 
-export * from "../partials/NoteroView";
 export * from "./Home";
-export * from "./BrainstormPage";
+export * from "./DraftJsPage";

@@ -2,15 +2,16 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
+
 import React from "react";
 
 import { useParams, useHistory } from "react-router-dom";
 
 import { FluidContext } from "../utils/FluidContext";
-import { NoteroView } from "../partials/NoteroView";
-import { useBrainstormData } from "../utils";
+import { FluidDraftJsView } from "../view/FluidDraftJsView";
+import { useDraftJsData } from "../utils";
 
-export const BrainstormPage = (props: { new?: boolean }) => {
+export const DraftJsPage = (props: { new?: boolean }) => {
   const { id } = useParams<{id}>();
   const history = useHistory();
 
@@ -18,11 +19,11 @@ export const BrainstormPage = (props: { new?: boolean }) => {
     history.replace(`/${id}`);
   }
 
-  const context = useBrainstormData(id, props.new);
+  const context = useDraftJsData(id, props.new);
 
   return context ? (
     <FluidContext.Provider value={context}>
-      <NoteroView />
+      <FluidDraftJsView />
     </FluidContext.Provider>
   ) : (
     <></>

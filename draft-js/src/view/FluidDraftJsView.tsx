@@ -6,46 +6,44 @@
 import React from "react";
 import { ISequencedDocumentMessage } from "@fluidframework/protocol-definitions";
 
-import { FluidDraftJsObject, IFluidDraftJsObject } from "../fluid-object";
+import { IFluidDraftJsObject } from "../fluid-object";
 import { MemberList } from "./MemberList";
 import { FluidEditor } from "./FluidEditor";
-
-interface IAppProps {
-    model: FluidDraftJsObject;
-}
+import { FluidContext } from "../utils";
 
 /**
  * The entirety of the View logic is encapsulated within the App.
  * The App uses the provided model to interact with Fluid.
  */
-export const FluidDraftJsView: React.FC<IAppProps> = (props) => {
-    const [members, setMembers] = React.useState<IFluidDraftJsObject["members"]>(props.model.members);
+export const FluidDraftJsView: React.FC = () => {
+    const model = React.useContext(FluidContext);
+    const [members, setMembers] = React.useState<IFluidDraftJsObject["members"]>(model.members);
 
     React.useEffect(() => {
         const onMembersChange = () => {
-            setMembers(props.model.members);
+            setMembers(model.members);
         };
-        props.model.on("addMember", onMembersChange);
-        props.model.on("removeMember", onMembersChange);
+        model.on("addMember", onMembersChange);
+        model.on("removeMember", onMembersChange);
         return () => {
             // When the view dismounts remove the listener to avoid memory leaks
-            props.model.off("addMember", onMembersChange);
-            props.model.off("removeMember", onMembersChange);
+            model.off("addMember", onMembersChange);
+            model.off("removeMember", onMembersChange);
         };
-    }, [props.model]);
+    }, [model]);
 
     const onNewAuthor = (callback: (op: ISequencedDocumentMessage, isLocal) => void) => {
         const func = (op: ISequencedDocumentMessage, isLocal: boolean) => callback(op, isLocal);
-        props.model.authors.on("op", func);
+        model.authors.on("op", func);
     };
 
     return (
         <div style={{ margin: "20px auto", maxWidth: 800 }}>
             <MemberList members={members} onNewAuthor={onNewAuthor} style={{ textAlign: "right" }} />
             <FluidEditor
-                sharedString={props.model.text}
-                authors={props.model.authors}
-                presenceManager={props.model.presenceManager}
+                sharedString={model.text}
+                authors={model.authors}
+                presenceManager={model.presenceManager}
             />
         </div>
     );

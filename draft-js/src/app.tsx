@@ -7,10 +7,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Switch, Route, Link } from "react-router-dom";
 
-import { Home, BrainstormPage } from "./pages";
-
-// eslint-disable-next-line import/no-unassigned-import
-import "./styles.scss";
+import { Home, DraftJsPage } from "./pages";
 
 const App = () => {
   return (
@@ -28,17 +25,17 @@ const App = () => {
         <Route path="/about">
           <div className="content-wrapper">
             <h3>About</h3>
-            <p>Brainstorm is about collecting awesome ideas</p>
+            <p>Fluid Draft.js is about collecting awesome ideas</p>
           </div>
         </Route>
         <Route path="/createNew/:id">
           <div className="content-wrapper">
-            <BrainstormPage new />
+            <DraftJsPage new />
           </div>
         </Route>
         <Route path="/:id">
           <div className="content-wrapper">
-            <BrainstormPage />
+            <DraftJsPage />
           </div>
         </Route>
         <Route path="/">
