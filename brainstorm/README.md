@@ -1,6 +1,7 @@
 # @fluid-example/brainstorm
 
-Brainstorm is an example of integrating Fluid into an existing website as an application. It let's users create new brainstorms and share notes.
+Brainstorm is an example of using the Fluid Framework to build a collaborative line of business application. In this example
+each user can create their own sticky notes that is managed on a board.
 
 ## Getting Started
 
