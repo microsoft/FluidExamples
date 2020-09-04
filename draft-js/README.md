@@ -7,9 +7,10 @@ enable real-time coauthoring using the Fluid Framework.
 
 To run this follow the steps below:
 
-1. Run `npm install` from the sudoku root
-2. Run `npm run start:server` to start a Tinylicious Fluid Server
-3. Run `npm run start` (from a different command window) to start the example
+1. Run `npm install` from the draft-js folder root
+2. Run `npm run start` (from a different command window) to start the collaborative example
+3. Navigate to `http://localhost:8080`
+4. Copy full URL, including id, to a new tab for collaboration
 
 ## Data model
 
@@ -35,19 +36,19 @@ Runs [`tsc`](###-tsc) and [`webpack`](###-webpack) and outputs the results in `.
 npm run start
 ```
 
-Uses `webpack-dev-server` to start a local webserver that will host your webpack file.
+Runs both [`start:client`](###-start:client) and [`start:server`](###-start:server).
 
-Once you run `start` you can navigate to `http://localhost:8080` in any browser window to use your fluid example.
-
-> The Tinylicious Fluid server must be running. See `start:server` below.
-
-### `start:all`
+### `start:client`
 
 ```bash
 npm run start:all
 ```
 
-Runs both `start` and `start:server`.
+Uses `webpack-dev-server` to start a local webserver that will host your webpack file.
+
+Once you run `start` you can navigate to `http://localhost:8080` in any browser window to use your fluid example.
+
+> The Tinylicious Fluid server must be running. See [`start:server`](###-start:server) below.
 
 ### `start:server`
 
