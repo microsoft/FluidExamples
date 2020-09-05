@@ -19,8 +19,9 @@ export interface IDocumentManager {
     addDocument(id: string): void;
     removeDocument(id: string): void;
     removeAllDocuments(): void;
-    getAllDocIds(): IterableIterator<string>;
+    getAllDocIds(): string[];
     on(event: typeof idsChangedEventKey, listener: () => void): this;
+    off(event: typeof idsChangedEventKey, listener: () => void): this;
 }
 
 export class DocumentManager extends DataObject implements IDocumentManager {
@@ -46,7 +47,7 @@ export class DocumentManager extends DataObject implements IDocumentManager {
     protected async hasInitialized() {
         this.documents = this.root.getSubDirectory(documentsKey);
         this.root.on("valueChanged", (changed: IDirectoryValueChanged) => {
-            if (changed.path === documentsKey) {
+            if (changed.path === `/${documentsKey}`) {
                 this.emit(idsChangedEventKey);
             }
         })
@@ -64,7 +65,7 @@ export class DocumentManager extends DataObject implements IDocumentManager {
         this.documents.clear();
     }
 
-    public getAllDocIds(): IterableIterator<string> {
-        return this.documents.keys();
+    public getAllDocIds(): string[] {
+        return Array.from(this.documents.keys());
     }
 }

@@ -23,7 +23,7 @@ export const useDocumentManagerData = (): DocumentManager | undefined => {
                 // We need some way of knowing if this document has been created before
                 // so we will use local storage as our source of truth
                 let id = window.localStorage.getItem(storageKey);
-                const isNew = id === undefined;
+                const isNew = id === null;
                 if (isNew) {
                     id = Date.now().toString()
                     window.localStorage.setItem(storageKey, id);
