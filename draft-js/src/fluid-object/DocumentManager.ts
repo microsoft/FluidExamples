@@ -50,7 +50,11 @@ export class DocumentManager extends DataObject implements IDocumentManager {
             if (changed.path === `/${documentsKey}`) {
                 this.emit(idsChangedEventKey);
             }
-        })
+        });
+
+        this.root.on("clear", () => {
+            this.emit(idsChangedEventKey);
+        });
     }
 
     public addDocument(id: string): void {

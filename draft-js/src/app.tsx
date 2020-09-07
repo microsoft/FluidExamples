@@ -16,7 +16,7 @@ const App = () => {
   return (
     <div style={{ marginLeft: 5, marginRight: 5 }}>
       <nav className="nav-wrapper">
-        <span className="nav-title">Draft.js</span>
+        <span className="nav-title">Document Manager</span>
         <span className="vertical-center">
           <Link to="/">Home</Link>
           <span> | </span>
