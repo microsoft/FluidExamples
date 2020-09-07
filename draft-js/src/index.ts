@@ -5,4 +5,6 @@
 
 export * from "./containers";
 export * from "./fluid-object";
+export * from "./pages";
+export * from "./utils";
 export * from "./view";
