@@ -7,7 +7,7 @@ import {
     ContainerRuntimeFactoryWithDefaultDataStore,
 } from "@fluidframework/aqueduct";
 
-import { FluidDraftJsObject } from "./fluid-object";
+import { FluidDraftJsObject } from "../fluid-object";
 
 /**
  * This does setup for the Fluid Container.

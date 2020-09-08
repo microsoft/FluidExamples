@@ -15,6 +15,10 @@ import {
     FluidDraftJsView,
 } from "../src";
 
+import {
+    FluidContext
+} from "../src/utils";
+
 // Since this is a single page fluid application we are generating a new document id
 // if one was not provided
 let createNew = false;
@@ -38,7 +42,9 @@ async function createContainerAndRenderInElement(element: HTMLElement, createNew
 
     // Render the content using ReactDOM
     ReactDOM.render(
-        <FluidDraftJsView model={defaultObject} />,
+        <FluidContext.Provider value={defaultObject}>
+            <FluidDraftJsView/>
+        </FluidContext.Provider>,
         element);
 
     // Setting "fluidStarted" is just for our test automation

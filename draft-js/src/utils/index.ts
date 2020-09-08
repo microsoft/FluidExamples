@@ -5,3 +5,5 @@
 
 export * from "./PresenceManager";
 export * from "./RichTextAdapter";
+export * from "./useDraftJsData";
+export * from "./FluidContext";

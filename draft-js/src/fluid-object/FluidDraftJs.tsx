@@ -17,6 +17,7 @@ export interface IFluidDraftJsObject {
     readonly presenceManager: PresenceManager;
     readonly members: IterableIterator<[string, ISequencedClient]>
     on(event: "addMember" | "removeMember", listener: () => void): this;
+    off(event: "addMember" | "removeMember", listener: () => void): this;
 }
 
 const addMemberValue = "addMember";

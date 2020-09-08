@@ -3,5 +3,5 @@
  * Licensed under the MIT License.
  */
 
-export * from "./DocumentManager";
-export * from "./FluidDraftJs";
+export * from "./Home";
+export * from "./DraftJsPage";
