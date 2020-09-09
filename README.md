@@ -1,6 +1,6 @@
 # Welcome to the Fluid Framework Examples Repository!
 
-This codebase includes examples of collaborative applications built with the Fluid Framework. For documentation about the Fluid Framework, go to [FluidFramework.com](www.FluidFramework.com). The Fluid Framework repository lives at [Github.com/Microsoft/FluidFramework](https://github.com/microsoft/fluidframework).
+This codebase includes examples of collaborative applications built with the Fluid Framework. For documentation about the Fluid Framework, go to [FluidFramework.com](https://fluidframework.com/). The Fluid Framework repository lives at [Github.com/Microsoft/FluidFramework](https://github.com/microsoft/fluidframework).
 
 Each example is a standalone application that defines a Fluid Container and loads it into a webpage.
 
