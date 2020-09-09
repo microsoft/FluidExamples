@@ -1,0 +1,9 @@
+---
+blank_issues_enabled: false
+contact_links:
+  - name: Question
+    url: https://stackoverflow.com/questions/tagged/fluid-framework
+    about: Please ask and answer usage questions on Stack Overflow.
+  - name: Issue
+    url: https://github.com/microsoft/FluidFramework/issues
+    about: Please file an issue in the Fluid Framework repo.
