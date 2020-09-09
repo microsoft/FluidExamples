@@ -3,7 +3,8 @@
 
 # FluidExamples build for CI and PR
 
-pool: "Lite"
+pool:
+  vmImage: ubuntu-latest
 
 parameters:
 - name: brainstorm
