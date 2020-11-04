@@ -63,30 +63,35 @@ export const List: FC<ItemProps> = (props) => {
     <div>
       <div className="design" hidden={props.user.userType != UserType.designer}>
         <div className="designEdit" hidden={!isDesignPageEditView} onMouseEnter={mouseEnter} onMouseOut={mouseOut}>
-          <input value={props.title} placeholder={props.title ? "" : "Please input title here"}></input>
-          {props.items.map((item) => (
-            <label className="item">
-              <input type="radio" name="option" disabled></input>
-              <input value={item.text}></input>
-            </label>
-          ))}
+          <input className="radio-button" value={props.title} placeholder={props.title ? "" : "Please input title here"}></input>
+          <li className="option-list">
+            {props.items.map((item) => (
+              <label className="item">
+                <input className="radio-button" type="radio" name="option" disabled></input>
+                <input value={item.text}></input>
+              </label>
+            ))}
+            <Button onClick={createItem}> +  Add option </Button>
+          </li>
         </div>
         <div className="designView" hidden={isDesignPageEditView} onClick={clickDesignView}>
           <span className="title">{props.title}</span>
-          {props.items.map((item) => (
-            <label className="item">
-              <input type="radio" name="option" disabled></input>
-              <span className="note-text">{item.text}</span>
-            </label>
-          ))}
+          <li className="option-list">
+            {props.items.map((item) => (
+              <label className="item">
+                <input className="radio-button" type="radio" name="option" disabled></input>
+                <span className="note-text">{item.text}</span>
+              </label>
+            ))}
+            <Button onClick={createItem}> +  Add option </Button>
+          </li>
         </div>
-        <Button onClick={createItem}> Add New Option </Button>
       </div>
       <div className="response" hidden={props.user.userType == UserType.designer}>
         <span className="title">{props.title}</span>
         {props.items.map((item) => (
           <label className="item">
-            <input type="radio" name="option" onClick={() => clickItem(item.text)}></input>
+            <input className="radio-button" type="radio" name="option" onClick={() => clickItem(item.text)}></input>
             <span className="note-text">{item.text}</span>
           </label>
         ))}

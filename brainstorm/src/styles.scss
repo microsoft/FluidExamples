@@ -77,18 +77,19 @@ body {
   }
 
 .note-text {
-  display: block;
+  display: inline-block;
   font-family: cursive;       
-  padding: 0;
-  margin: 0;  
+  padding: 5px;
+  margin: 0; 
   font-size: .65em;
-  width: 100%;
+  width: 90%;
   height: 100%;
   overflow: hidden;
   border: none;
   outline: 0px solid transparent;
   background: transparent;    
   resize: none;
+  vertical-align: middle;
 }
 
 .theme {
@@ -207,8 +208,27 @@ body {
   background-color: white;
 }
 
+.option-list {
+  list-style-type: none;
+}
+
+.option-style {
+  list-style-type: none;
+  display: inline;
+  float: left;
+}
+
+.option-inner-ul {
+  list-style-type: none;
+}
+
+.radio-button {
+  vertical-align: middle;
+  padding: 5px;;
+}
+
 .item {
-  display: inline-block;
+  display: flow-root;
   flex: 1;
   flex-wrap: wrap;    
   align-items: left;   
