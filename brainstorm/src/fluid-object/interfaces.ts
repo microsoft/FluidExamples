@@ -10,8 +10,15 @@
  * Using interfaces avoids any issues with calling functions 
  * that are no longer present on an object. 
  */
-   
+
 export interface INote {
+    id: string;
+    text: string;
+    user: IUser;
+}
+
+
+export interface IItem {
     id: string;
     text: string;
     user: IUser;
@@ -38,6 +45,8 @@ export interface INoteroDataModel {
     getUser: () => IUser;
     addUser: () => void;
     getNotesFromBoard: () => INoteWithVotes[];
+    getItems: () => IItem[];
+    createItem: (text: string) => void;
     createDemoNote: () => string;
     createNote: (text: string) => void;
     vote: (note: INote) => void;

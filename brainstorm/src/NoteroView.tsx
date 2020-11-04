@@ -5,11 +5,13 @@
 
 import React, { useState, useEffect, FC } from "react";
 import {
+  IItem,
   INoteroDataModel,
   INoteWithVotes,
   IUser,
 } from "./fluid-object/interfaces";
 import { Board } from "./partials/Board";
+import { List } from "./partials/List";
 import { Pad } from "./partials/Pad";
 
 // eslint-disable-next-line import/no-unassigned-import
@@ -24,6 +26,7 @@ interface NoteroViewState {
   user: IUser;
   users: IUser[];
   notes: INoteWithVotes[];
+  items: IItem[];
 }
 
 export const NoteroView: FC<NoteroViewProps> = (props) => {
@@ -32,6 +35,7 @@ export const NoteroView: FC<NoteroViewProps> = (props) => {
       user: props.model.getUser(),
       users: props.model.getUsers(),
       notes: props.model.getNotesFromBoard(),
+      items: props.model.getItems(),
     };
   };
   const [state, setState] = useState<NoteroViewState>(generateState());
@@ -68,6 +72,11 @@ export const NoteroView: FC<NoteroViewProps> = (props) => {
         vote={props.model.vote}
         user={state.user}
         highlightMine={highlightMine}
+      />
+      <List
+        createItem={props.model.createItem}
+        demo={props.model.createDemoNote}
+        items={state.items}
       />
     </div>
   );

@@ -207,6 +207,15 @@ body {
   background-color: white;
 }
 
+.item {
+  display: inline-block;
+  flex: 1;
+  flex-wrap: wrap;    
+  align-items: left;   
+  margin: 1em;  
+  background-color: white;
+}
+
 .container {
   display: flex;    
   align-items: center;

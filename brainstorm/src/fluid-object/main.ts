@@ -13,6 +13,7 @@ import { IFluidHandle } from "@fluidframework/core-interfaces";
 
 import {
     IBallot,
+    IItem,
     INote,
     INoteroDataModel,
     IUser,
@@ -26,6 +27,7 @@ export class Notero extends DataObject implements INoteroDataModel {
     private notesMap: SharedMap;
     private votesMap: SharedMap;
     private usersMap: SharedMap;
+    private itemsMap: SharedMap;
 
     // stores a fake userId as we aren't using true auth for this demo
     private userId: string;
@@ -44,6 +46,7 @@ export class Notero extends DataObject implements INoteroDataModel {
         this.createSharedMap("notes");
         this.createSharedMap("votes");
         this.createSharedMap("users");
+        this.createSharedMap("items");
     }
 
     /**
@@ -66,7 +69,8 @@ export class Notero extends DataObject implements INoteroDataModel {
         // Otherwise, they need to be called async which is inconvenient.
         this.notesMap = await this.root.get<IFluidHandle<SharedMap>>("notes").get();
         this.votesMap = await this.root.get<IFluidHandle<SharedMap>>("votes").get();
-        this.usersMap = await this.root.get<IFluidHandle<SharedMap>>("users").get();
+        this.usersMap = await this.root.get<IFluidHandle<SharedMap>>("users").get()
+        this.itemsMap = await this.root.get<IFluidHandle<SharedMap>>("items").get();
 
         // Add the current user to set of collaborators.
         this.addUser();
@@ -75,6 +79,7 @@ export class Notero extends DataObject implements INoteroDataModel {
         this.createEventListeners(this.notesMap);
         this.createEventListeners(this.votesMap);
         this.createEventListeners(this.usersMap);
+        this.createEventListeners(this.itemsMap);
     }
 
     /**
@@ -117,6 +122,25 @@ export class Notero extends DataObject implements INoteroDataModel {
             };
             this.notesMap.set(note.id, note);
         }
+    }
+
+    public createItem = (text: string): void => {
+        if (text) {
+            const item: IItem = {
+                id: uuidv4(),
+                text: text,
+                user: this.getUser()
+            };
+            this.itemsMap.set(item.id, item);
+        }
+    }
+
+    public getItems = (): IItem[] => {
+        let items: IItem[] = []
+        this.itemsMap.forEach((item: IItem) => {
+            items.push(item);
+        });
+        return items;
     }
 
     /*
