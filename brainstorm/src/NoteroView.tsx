@@ -78,6 +78,7 @@ export const NoteroView: FC<NoteroViewProps> = (props) => {
       <List
         createItem={props.model.createItem}
         submit={props.model.submit}
+        createOrChangeTitle={props.model.createOrChangeTitle}
         demo={props.model.createDemoNote}
         items={state.items}
         user={state.user}

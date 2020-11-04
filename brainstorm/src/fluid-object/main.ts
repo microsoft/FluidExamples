@@ -151,11 +151,7 @@ export class Notero extends DataObject implements INoteroDataModel {
                 this.titleMap.set(pollTitleId, text)
             }
         } else {
-            const titleObject: ITitle = {
-                title: text,
-                user: this.getUser()
-            };
-            this.titleMap.set(pollTitleId, titleObject);
+            this.titleMap.set(pollTitleId, text);
         }
     }
 

@@ -7,6 +7,7 @@ interface ItemProps {
   demo: () => string;
   createItem: (string) => void;
   submit: (string) => void;
+  createOrChangeTitle: (string) => void;
   user: IUser;
   title: string;
 }
@@ -63,7 +64,7 @@ export const List: FC<ItemProps> = (props) => {
     <div>
       <div className="design" hidden={props.user.userType != UserType.designer}>
         <div className="designEdit" hidden={!isDesignPageEditView} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
-          <input className="radio-button" value={props.title ?? "Untitled poll"} placeholder={props.title ? "" : "Please input title here"}></input>
+          <input value={props.title} placeholder={props.title ? "" : "Untitled poll"} onChange={event => props.createOrChangeTitle(event.target.value)}></input>
           <li className="option-list">
             {props.items.map((item) => (
               <label className="item">

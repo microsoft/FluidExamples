@@ -24,12 +24,6 @@ export interface IItem {
     user: IUser;
 }
 
-
-export interface ITitle {
-    title: string;
-    user: IUser;
-}
-
 export interface INoteWithVotes extends INote {
     currentUserVoted: boolean;
     votes: number;
@@ -59,6 +53,7 @@ export interface INoteroDataModel {
     getNotesFromBoard: () => INoteWithVotes[];
     getItems: () => IItem[];
     getTitle: () => string;
+    createOrChangeTitle: (title: string) => void;
     createItem: (text: string) => void;
     submit: (text: string) => void;
     createDemoNote: () => string;
