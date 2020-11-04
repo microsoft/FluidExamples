@@ -27,7 +27,7 @@ export const List: FC<ItemProps> = (props) => {
 
   return (
     <div className="board">
-      <li>
+      <li className="option-list">
       {props.items.map((item) => (
         <label className="item">
           <input type="radio" name="option" onClick={clickItem} disabled={props.user.userType == UserType.designer}></input>
