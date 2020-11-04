@@ -29,9 +29,15 @@ export interface INoteWithVotes extends INote {
     votes: number;
 }
 
+export enum UserType {
+    designer = 0,
+    responder = 1
+}
+
 export interface IUser {
     id: string;
     name: string;
+    userType: UserType
 }
 
 export interface IBallot {
@@ -47,6 +53,7 @@ export interface INoteroDataModel {
     getNotesFromBoard: () => INoteWithVotes[];
     getItems: () => IItem[];
     createItem: (text: string) => void;
+    submit: (text: string) => void;
     createDemoNote: () => string;
     createNote: (text: string) => void;
     vote: (note: INote) => void;

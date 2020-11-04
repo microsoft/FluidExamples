@@ -17,6 +17,7 @@ import {
     INote,
     INoteroDataModel,
     IUser,
+    UserType,
 } from "./interfaces";
 import { NoteWithVotes } from "./NoteWithVotes";
 import { AutoNote, FakeUser } from "./demo";
@@ -143,6 +144,12 @@ export class Notero extends DataObject implements INoteroDataModel {
         return items;
     }
 
+    public submit = (text: string): void => {
+        if (text) {
+            //To do submit logic here
+        }
+    }
+
     /*
      * Adds or removes a "ballot" to the vote count for a note
      */
@@ -252,7 +259,8 @@ export class Notero extends DataObject implements INoteroDataModel {
         } else {
             const user: IUser = {
                 id: FakeUser.getFakeUserId(),
-                name: FakeUser.getFakeName()
+                name: FakeUser.getFakeName(),
+                userType: this.usersMap.size == 0 ? UserType.designer : UserType.responder
             };
             this.userId = user.id;
             sessionStorage.setItem('userId', user.id);

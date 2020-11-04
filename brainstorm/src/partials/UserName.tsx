@@ -4,7 +4,7 @@
  */
 
 import React, { FC } from "react";
-import { IUser } from "../fluid-object/interfaces";
+import { IUser, UserType } from "../fluid-object/interfaces";
 
 interface UserNameProps {
   user: IUser;
@@ -14,6 +14,7 @@ interface UserNameProps {
 export const UserName: FC<UserNameProps> = (props) => (
   <div className="userName">
     <span>{props.user.name} </span>
+    <span className="userCount">{props.user.userType == UserType.designer ? "Designer " : "Responser "}</span>
     <span className="userCount">
       (with {props.userCount - 1} other{" "}
       {props.userCount == 2 ? "person" : "people"})
