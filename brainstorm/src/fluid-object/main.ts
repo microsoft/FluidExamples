@@ -16,6 +16,7 @@ import {
     IItem,
     INote,
     INoteroDataModel,
+    ITitle,
     IUser,
     UserType,
 } from "./interfaces";
@@ -29,6 +30,7 @@ export class Notero extends DataObject implements INoteroDataModel {
     private votesMap: SharedMap;
     private usersMap: SharedMap;
     private itemsMap: SharedMap;
+    private titleMap: SharedMap;
 
     // stores a fake userId as we aren't using true auth for this demo
     private userId: string;
@@ -48,6 +50,7 @@ export class Notero extends DataObject implements INoteroDataModel {
         this.createSharedMap("votes");
         this.createSharedMap("users");
         this.createSharedMap("items");
+        this.createSharedMap("title");
     }
 
     /**
@@ -72,6 +75,7 @@ export class Notero extends DataObject implements INoteroDataModel {
         this.votesMap = await this.root.get<IFluidHandle<SharedMap>>("votes").get();
         this.usersMap = await this.root.get<IFluidHandle<SharedMap>>("users").get()
         this.itemsMap = await this.root.get<IFluidHandle<SharedMap>>("items").get();
+        this.titleMap = await this.root.get<IFluidHandle<SharedMap>>("title").get();
 
         // Add the current user to set of collaborators.
         this.addUser();
@@ -81,6 +85,7 @@ export class Notero extends DataObject implements INoteroDataModel {
         this.createEventListeners(this.votesMap);
         this.createEventListeners(this.usersMap);
         this.createEventListeners(this.itemsMap);
+        this.createEventListeners(this.titleMap);
     }
 
     /**
@@ -134,6 +139,28 @@ export class Notero extends DataObject implements INoteroDataModel {
             };
             this.itemsMap.set(item.id, item);
         }
+    }
+
+    public createOrChangeTitle = (text: string): void => {
+        if (!text) return;
+
+        const pollTitleId = "pollTitleId";
+        let title = this.titleMap.get(pollTitleId);
+        if (title != null) {
+            if (title !== text) {
+                this.titleMap.set(pollTitleId, text)
+            }
+        } else {
+            const titleObject: ITitle = {
+                title: text,
+                user: this.getUser()
+            };
+            this.titleMap.set(pollTitleId, titleObject);
+        }
+    }
+
+    public getTitle = (): string => {
+        return this.titleMap.get("pollTitleId");
     }
 
     public getItems = (): IItem[] => {

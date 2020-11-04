@@ -27,6 +27,7 @@ interface NoteroViewState {
   users: IUser[];
   notes: INoteWithVotes[];
   items: IItem[];
+  title: string;
 }
 
 export const NoteroView: FC<NoteroViewProps> = (props) => {
@@ -36,6 +37,7 @@ export const NoteroView: FC<NoteroViewProps> = (props) => {
       users: props.model.getUsers(),
       notes: props.model.getNotesFromBoard(),
       items: props.model.getItems(),
+      title: props.model.getTitle(),
     };
   };
   const [state, setState] = useState<NoteroViewState>(generateState());
@@ -79,6 +81,7 @@ export const NoteroView: FC<NoteroViewProps> = (props) => {
         demo={props.model.createDemoNote}
         items={state.items}
         user={state.user}
+        title={state.title}
       />
     </div>
   );
