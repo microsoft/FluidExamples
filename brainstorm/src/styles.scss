@@ -208,7 +208,7 @@ body {
 }
 
 .item {
-  display: inline-block;
+  display: flow-root;
   flex: 1;
   flex-wrap: wrap;    
   align-items: left;   
