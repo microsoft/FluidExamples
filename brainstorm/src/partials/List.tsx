@@ -39,7 +39,7 @@ export const List: FC<ItemProps> = (props) => {
     }
   }
 
-  const mouseOut = () => {
+  const mouseLeave = () => {
     if (isDesignPageEditView) {
       setIsMouseInDesignEdit(false);
     }
@@ -62,8 +62,8 @@ export const List: FC<ItemProps> = (props) => {
   return (
     <div>
       <div className="design" hidden={props.user.userType != UserType.designer}>
-        <div className="designEdit" hidden={!isDesignPageEditView} onMouseEnter={mouseEnter} onMouseOut={mouseOut}>
-          <input className="radio-button" value={props.title} placeholder={props.title ? "" : "Please input title here"}></input>
+        <div className="designEdit" hidden={!isDesignPageEditView} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
+          <input className="radio-button" value={props.title ?? "Untitled poll"} placeholder={props.title ? "" : "Please input title here"}></input>
           <li className="option-list">
             {props.items.map((item) => (
               <label className="item">
@@ -75,7 +75,7 @@ export const List: FC<ItemProps> = (props) => {
           </li>
         </div>
         <div className="designView" hidden={isDesignPageEditView} onClick={clickDesignView}>
-          <span className="title">{props.title}</span>
+          <span className="title">{props.title ?? "Untitled poll"}</span>
           <li className="option-list">
             {props.items.map((item) => (
               <label className="item">
@@ -88,7 +88,7 @@ export const List: FC<ItemProps> = (props) => {
         </div>
       </div>
       <div className="response" hidden={props.user.userType == UserType.designer}>
-        <span className="title">{props.title}</span>
+        <span className="title">{props.title ?? "Untitled poll"}</span>
         {props.items.map((item) => (
           <label className="item">
             <input className="radio-button" type="radio" name="option" onClick={() => clickItem(item.text)}></input>
