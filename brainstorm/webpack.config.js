@@ -53,6 +53,11 @@ module.exports = env => {
             }),
         ],
         mode: "development",
-        devtool: "inline-source-map"
+        devtool: "inline-source-map",
+        devServer: {
+            compress: true,
+            disableHostCheck: true,
+            host: '0.0.0.0'
+        },
     });
 };

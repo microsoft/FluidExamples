@@ -22,6 +22,7 @@ export interface IItem {
     id: string;
     text: string;
     user: IUser;
+    count: number;
 }
 
 export interface INoteWithVotes extends INote {
@@ -54,8 +55,11 @@ export interface INoteroDataModel {
     getItems: () => IItem[];
     getTitle: () => string;
     createOrChangeTitle: (title: string) => void;
+    changeItem: (item: IItem, text: string) => void;
     createItem: (text: string) => void;
     submit: (text: string) => void;
+    getSubmitCount: () => number;
+    getSubmitIds: () => string[];
     createDemoNote: () => string;
     createNote: (text: string) => void;
     vote: (note: INote) => void;

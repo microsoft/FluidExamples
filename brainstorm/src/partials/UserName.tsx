@@ -14,7 +14,7 @@ interface UserNameProps {
 export const UserName: FC<UserNameProps> = (props) => (
   <div className="userName">
     <span>{props.user.name} </span>
-    <span className="userCount">{props.user.userType == UserType.designer ? "Designer " : "Responser "}</span>
+    <span className="userCount">{props.user.userType == UserType.designer ? "Designer " : "Responder "}</span>
     <span className="userCount">
       (with {props.userCount - 1} other{" "}
       {props.userCount == 2 ? "person" : "people"})

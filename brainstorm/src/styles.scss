@@ -78,7 +78,7 @@ body {
 
 .note-text {
   display: inline-block;
-  font-family: cursive;       
+  font-family: wf_segoe-ui_normal,Segoe UI,Segoe WP,Tahoma,Arial,sans-serif;       
   padding: 5px;
   margin: 0; 
   font-size: .65em;
@@ -90,6 +90,145 @@ body {
   background: transparent;    
   resize: none;
   vertical-align: middle;
+}
+
+.item-text {
+  display: inline-block;
+  font-family: wf_segoe-ui_normal,Segoe UI,Segoe WP,Tahoma,Arial,sans-serif;       
+  padding: 6px;
+  margin: 0; 
+  font-size: 1em;
+  width: 90%;
+  height: 100%;
+  overflow: hidden;
+  border: none;
+  outline: 0px solid transparent;
+  background: white;    
+  resize: none;
+  vertical-align: middle;
+}
+
+.result-title {
+  display: inline-block;
+  font-family: wf_segoe-ui_normal,Segoe UI,Segoe WP,Tahoma,Arial,sans-serif;       
+  padding: 8px; 
+  font-size: 1em;
+  width: 90%;
+  height: 100%;
+  overflow: hidden;
+  border: none;
+  outline: 0px solid transparent;
+  background: white;    
+  resize: none;
+  vertical-align: middle;
+}
+
+.result-text {
+  display: inline-block;
+  font-family: wf_segoe-ui_normal,Segoe UI,Segoe WP,Tahoma,Arial,sans-serif;       
+  padding: 2.4px;
+  padding-left: 1px;
+  margin: 0; 
+  font-size: 1em;
+  width: 90%;
+  height: 100%;
+  overflow: hidden;
+  border: none;
+  outline: 0px solid transparent;
+  background: white;    
+  resize: none;
+  vertical-align: middle;
+}
+
+.note-edit-text {
+  display: inline-block;
+  font-family: wf_segoe-ui_normal,Segoe UI,Segoe WP,Tahoma,Arial,sans-serif;       
+  padding: 5px;
+  margin: 0; 
+  font-size: .65em;
+  width: 90%;
+  height: 100%;
+  overflow: hidden;
+  outline: 0px solid transparent;
+  background: transparent;
+  resize: none;
+  vertical-align: middle;
+}
+
+.designView {
+  margin: 8px;
+  padding: 10px;
+  background-color: white;
+  border-top: solid 3px #008272;
+  border-bottom: solid 2px #F4F4F4;
+  border-left: solid 2px #F4F4F4;
+  border-right: solid 2px #F4F4F4;
+}
+
+.response {
+  margin: 8px;
+  padding: 10px;
+  background-color: white;
+  border-top: solid 3px;
+  border-top: solid 3px #008272;
+  border-bottom: solid 2px #F4F4F4;
+  border-left: solid 2px #F4F4F4;
+  border-right: solid 2px #F4F4F4;
+}
+
+.designEdit {
+  margin: 8px;
+  padding: 10px;
+  background-color: #F4F4F4;
+  border-top: solid 3px;
+  border-top-color: #008272;
+}
+
+progress[value] {
+/* Get rid of the default appearance */
+appearance: none;
+
+/* This unfortunately leaves a trail of border behind in Firefox and Opera. We can remove that by setting the border to none. */
+border: none;
+
+/* Add dimensions */
+width: 50%; height:5px;
+
+/* Although firefox doesn't provide any additional pseudo class to style the progress element container, any style applied here works on the container. */
+  background-color: #F4F4F4;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+
+/* Of all IE, only IE10 supports progress element that too partially. It only allows to change the background-color of the progress value using the 'color' attribute. */
+color: royalblue;
+
+position: relative;
+margin: 0 0 0.5em; 
+}
+
+progress[value]::-webkit-progress-bar {
+background-color: #F4F4F4;
+box-shadow: 0 2px 3px rgba(0,0,0,.5) inset;
+}
+
+progress[value]::-webkit-progress-value {
+position: relative;
+
+background-size: 35px 20px, 100% 100%, 100% 100%;
+
+/* Let's animate this */
+animation: animate-stripes 5s linear infinite;
+background: #008272;
+}
+
+.result {
+  margin: 8px;
+  padding: 10px;
+  background-color: white;
+  border-top: solid 3px #008272;
+  border-bottom: solid 2px #F4F4F4;
+  border-left: solid 2px #F4F4F4;
+  border-right: solid 2px #F4F4F4;
 }
 
 .theme {
@@ -141,18 +280,18 @@ body {
   margin: .5em;
   padding: .5em 2em .5em 2em;
   text-decoration: none;
-  background: #666;
+  background: #008272;
   color: #fff;  
-  font-size: .8em;
+  font-size: .9em;
   cursor: pointer;  
   transition: 150ms ease-in-out, transform 50ms ease;
   height: 2em;
-  width: 13em;
+  width: 10em;
   user-select: none;    
 }
 
   .button:hover, .button:focus {
-    background: #0053ba;
+    background: #004B50;
   }
 
   .button:focus {
@@ -233,8 +372,29 @@ body {
   flex: 1;
   flex-wrap: wrap;    
   align-items: left;   
-  margin: 1em;  
+  margin: 0.8em;
+  margin-left: 0.2em;
+}
+
+.edit-title {
   background-color: white;
+  margin: 5px;
+  margin-bottom: 0px;
+  padding: 5px;
+  width: 92%;
+  outline: 0px solid transparent;
+  border:none;
+  font-size: 1.2em;
+}
+
+.view-title {
+  padding: 10px;
+  margin-bottom: 0px;
+  padding: 5px;
+  width: 100%;
+  outline: 0px solid transparent;
+  border:none;
+  font-size: 1.2em;
 }
 
 .container {

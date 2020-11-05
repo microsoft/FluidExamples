@@ -16,7 +16,6 @@ import {
     IItem,
     INote,
     INoteroDataModel,
-    ITitle,
     IUser,
     UserType,
 } from "./interfaces";
@@ -31,6 +30,7 @@ export class Notero extends DataObject implements INoteroDataModel {
     private usersMap: SharedMap;
     private itemsMap: SharedMap;
     private titleMap: SharedMap;
+    private submitIdsMap: SharedMap;
 
     // stores a fake userId as we aren't using true auth for this demo
     private userId: string;
@@ -51,6 +51,7 @@ export class Notero extends DataObject implements INoteroDataModel {
         this.createSharedMap("users");
         this.createSharedMap("items");
         this.createSharedMap("title");
+        this.createSharedMap("submitIds");
     }
 
     /**
@@ -76,6 +77,7 @@ export class Notero extends DataObject implements INoteroDataModel {
         this.usersMap = await this.root.get<IFluidHandle<SharedMap>>("users").get()
         this.itemsMap = await this.root.get<IFluidHandle<SharedMap>>("items").get();
         this.titleMap = await this.root.get<IFluidHandle<SharedMap>>("title").get();
+        this.submitIdsMap = await this.root.get<IFluidHandle<SharedMap>>("submitIds").get();
 
         // Add the current user to set of collaborators.
         this.addUser();
@@ -86,6 +88,7 @@ export class Notero extends DataObject implements INoteroDataModel {
         this.createEventListeners(this.usersMap);
         this.createEventListeners(this.itemsMap);
         this.createEventListeners(this.titleMap);
+        this.createEventListeners(this.submitIdsMap);
     }
 
     /**
@@ -130,17 +133,6 @@ export class Notero extends DataObject implements INoteroDataModel {
         }
     }
 
-    public createItem = (text: string): void => {
-        if (text) {
-            const item: IItem = {
-                id: uuidv4(),
-                text: text,
-                user: this.getUser()
-            };
-            this.itemsMap.set(item.id, item);
-        }
-    }
-
     public createOrChangeTitle = (text: string): void => {
         if (!text) return;
 
@@ -167,10 +159,51 @@ export class Notero extends DataObject implements INoteroDataModel {
         return items;
     }
 
-    public submit = (text: string): void => {
+    public createItem = (text: string): void => {
         if (text) {
-            //To do submit logic here
+            const item: IItem = {
+                id: uuidv4(),
+                text: text,
+                user: this.getUser(),
+                count: 0,
+            };
+            this.itemsMap.set(item.id, item);
         }
+    }
+
+    public changeItem = (item: IItem, text: string): void => {
+        if (item.text !== text) {
+            item.text = text;
+            this.itemsMap.set(item.id, item);
+        }
+    }
+
+    public submit = (itemId: string): void => {
+        const submitIdsKey = "submitIds";
+        let item = this.itemsMap.get(itemId) as IItem;
+        let submitIds = this.submitIdsMap.get(submitIdsKey) as string[];
+        if (item) {
+            item.count = item.count + 1;
+            this.itemsMap.set(item.id, item);
+            if (submitIds) {
+                submitIds.push(this.getUser().id);
+            } else {
+                submitIds = [this.getUser().id];
+                this.submitIdsMap.set(submitIdsKey, submitIds)
+            }
+        }
+    }
+
+    public getSubmitIds = (): string[] => {
+        return this.submitIdsMap.get("submitIds") as string[];
+    }
+
+    public getSubmitCount = (): number => {
+        let count = 0;
+        this.itemsMap.forEach((item: IItem) => {
+            count += item.count;
+        });
+        return count;
     }
 
     /*
@@ -288,6 +321,10 @@ export class Notero extends DataObject implements INoteroDataModel {
             this.userId = user.id;
             sessionStorage.setItem('userId', user.id);
             this.usersMap.set(user.id, user);
+            if (user.userType == UserType.designer) {
+                this.createItem("Option1");
+                this.createItem("Option2");
+            }
         }
     }
 

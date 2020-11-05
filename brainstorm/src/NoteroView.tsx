@@ -10,7 +10,6 @@ import {
   INoteWithVotes,
   IUser,
 } from "./fluid-object/interfaces";
-import { Board } from "./partials/Board";
 import { List } from "./partials/List";
 import { Pad } from "./partials/Pad";
 
@@ -69,17 +68,13 @@ export const NoteroView: FC<NoteroViewProps> = (props) => {
         setHighlightMine={setHighlightMine}
         highlightMine={highlightMine}
       />
-      <Board
-        notes={state.notes}
-        vote={props.model.vote}
-        user={state.user}
-        highlightMine={highlightMine}
-      />
       <List
         createItem={props.model.createItem}
         submit={props.model.submit}
         createOrChangeTitle={props.model.createOrChangeTitle}
-        demo={props.model.createDemoNote}
+        changeItem={props.model.changeItem}
+        getSubmitCount={props.model.getSubmitCount}
+        getSubmitIds={props.model.getSubmitIds}
         items={state.items}
         user={state.user}
         title={state.title}
