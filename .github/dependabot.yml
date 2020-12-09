@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/brainstorm"
+    schedule:
+      interval: "weekly"
+ - package-ecosystem: "npm"
+  # Look for `package.json` and `lock` files in the `root` directory
+  directory: "/draft-js"
+  schedule:
+    interval: "weekly"
+ - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/sudoku"
+    schedule:
+      interval: "weekly"
