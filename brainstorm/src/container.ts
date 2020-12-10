@@ -19,6 +19,6 @@ import { NoteroInstantiationFactory } from "./fluid-object";
  * components.
  */
 export const NoteroContainerFactory = new ContainerRuntimeFactoryWithDefaultDataStore(
-  NoteroInstantiationFactory.type,
+  NoteroInstantiationFactory,
   new Map([NoteroInstantiationFactory.registryEntry])
 );

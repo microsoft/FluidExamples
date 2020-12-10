@@ -15,6 +15,6 @@ import { FluidSudoku } from "./fluidSudoku";
  * 2. Map of string to factory for all components
  */
 export const SudokuContainer = new ContainerRuntimeFactoryWithDefaultDataStore(
-    FluidSudoku.ObjectIdentifier,
+    FluidSudoku.getFactory(),
     new Map([[FluidSudoku.ObjectIdentifier, Promise.resolve(FluidSudoku.getFactory())]])
 );

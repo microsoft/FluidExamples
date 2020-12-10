@@ -3,9 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import {
-    ContainerRuntimeFactoryWithDefaultDataStore,
-} from "@fluidframework/aqueduct";
+import { ContainerRuntimeFactoryWithDefaultDataStore } from "@fluidframework/aqueduct";
 
 import { FluidDraftJsObject } from "../fluid-object";
 
@@ -20,6 +18,6 @@ import { FluidDraftJsObject } from "../fluid-object";
  * FluidObjects.
  */
 export const FluidDraftJsContainer = new ContainerRuntimeFactoryWithDefaultDataStore(
-    FluidDraftJsObject.Name,
+    FluidDraftJsObject.factory,
     new Map([FluidDraftJsObject.factory.registryEntry]),
 );

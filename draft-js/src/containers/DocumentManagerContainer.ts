@@ -3,9 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import {
-    ContainerRuntimeFactoryWithDefaultDataStore,
-} from "@fluidframework/aqueduct";
+import { ContainerRuntimeFactoryWithDefaultDataStore } from "@fluidframework/aqueduct";
 
 import { DocumentManager } from "../fluid-object";
 
@@ -20,6 +18,6 @@ import { DocumentManager } from "../fluid-object";
  * FluidObjects.
  */
 export const DocumentManagerContainer = new ContainerRuntimeFactoryWithDefaultDataStore(
-    DocumentManager.Name,
+    DocumentManager.factory,
     new Map([DocumentManager.factory.registryEntry]),
 );
