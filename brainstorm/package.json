@@ -30,7 +30,7 @@
     "uuid": "^8.0.0"
   },
   "devDependencies": {
-    "@fluidframework/get-session-storage-container": "^0.30.2",
+    "@fluidframework/get-session-storage-container": "^0.30.4",
     "@fluidframework/test-tools": "0.2.3074",
     "@types/expect-puppeteer": "4.4.5",
     "@types/jest": "^26.0.18",
