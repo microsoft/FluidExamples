@@ -25,8 +25,8 @@
     "@fluidframework/get-tinylicious-container": "^0.30.2",
     "@fluidframework/map": "^0.30.2",
     "@fluidframework/view-interfaces": "^0.30.2",
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "uuid": "^8.0.0"
   },
   "devDependencies": {
