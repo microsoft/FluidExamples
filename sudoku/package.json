@@ -27,7 +27,7 @@
         "@fluidframework/core-interfaces": "^0.30.2",
         "@fluidframework/datastore-definitions": "^0.30.2",
         "@fluidframework/get-tinylicious-container": "^0.30.2",
-        "@fluidframework/map": "^0.30.2",
+        "@fluidframework/map": "^0.31.0",
         "@fluidframework/merge-tree": "^0.30.2",
         "@fluidframework/protocol-definitions": "0.1012.0",
         "@fluidframework/sequence": "^0.30.2",
