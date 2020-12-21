@@ -25,7 +25,7 @@
         "@fluidframework/get-tinylicious-container": "^0.30.2",
         "@fluidframework/map": "^0.30.2",
         "@fluidframework/merge-tree": "^0.30.2",
-        "@fluidframework/protocol-definitions": "0.1012.0",
+        "@fluidframework/protocol-definitions": "0.1016.1",
         "@fluidframework/sequence": "^0.30.2",
         "@fluidframework/shared-object-base": "^0.30.2",
         "@fluidframework/view-interfaces": "^0.30.2",
