@@ -46,7 +46,7 @@
         "@types/jest-environment-puppeteer": "4.4.1",
         "@types/node": "^10.17.24",
         "@types/puppeteer": "5.4.2",
-        "@types/react": "^16.9.15",
+        "@types/react": "^17.0.0",
         "@types/react-dom": "^16.9.4",
         "@types/sudokus": "^1.0.0",
         "@typescript-eslint/eslint-plugin": "~2.17.0",
