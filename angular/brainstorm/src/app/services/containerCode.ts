@@ -1,0 +1,24 @@
+/*!
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+import { ContainerRuntimeFactoryWithDefaultDataStore } from "@fluidframework/aqueduct";
+
+import { NoteroInstantiationFactory } from "./notero.dataobject";
+
+/**
+ * This does setup for the Container. The SimpleModuleInstantiationFactory also enables dynamic loading in the
+ * EmbeddedComponentLoader.
+ *
+ * There are two important things here:
+ * 1. Default Component name
+ * 2. Map of string to factory for all components
+ *
+ * In this example, we are only registering a single component, but more complex examples will register multiple
+ * components.
+ */
+export const NoteroContainerFactory = new ContainerRuntimeFactoryWithDefaultDataStore(
+  NoteroInstantiationFactory,
+  new Map([NoteroInstantiationFactory.registryEntry])
+);

@@ -1,0 +1,26 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    
+    "noUnusedLocals": true,
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "inlineSources": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "target": "es6",
+    "module": "esnext",
+    "lib": [
+      "es2018",
+      "dom"
+    ]
+  }
+}
