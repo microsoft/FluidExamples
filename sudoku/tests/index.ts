@@ -54,7 +54,7 @@ async function setup() {
     await createContainerAndRenderInElement(rightElement, false);
 }
 
-setup().catch(e => {
+setup().catch((e) => {
     console.error(e);
     console.log(
         "%cThere were issues setting up and starting the in memory Fluid Server",

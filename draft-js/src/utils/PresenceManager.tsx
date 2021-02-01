@@ -5,7 +5,11 @@
 
 import React from "react";
 
-import { SharedMap, ISequencedDocumentMessage, IFluidDataStoreRuntime } from "@fluid-experimental/experimental-fluidframework";
+import {
+    SharedMap,
+    ISequencedDocumentMessage,
+    IFluidDataStoreRuntime,
+} from "@fluid-experimental/experimental-fluidframework";
 import { CharacterMetadata, CompositeDecorator, ContentBlock } from "draft-js";
 import { List } from "immutable";
 
@@ -32,7 +36,7 @@ const placeholderChar = "\u200B"; // Zero width space
 export class PresenceManager {
     private readonly coauthorPositions: Map<string, Author> = new Map<string, Author>();
 
-    public constructor(private readonly authorMap: SharedMap, private readonly runtime: IFluidDataStoreRuntime) { }
+    public constructor(private readonly authorMap: SharedMap, private readonly runtime: IFluidDataStoreRuntime) {}
 
     public subscribe(renderCallback: (textRangeUpdater: (range: TextRange) => TextRange) => void) {
         this.authorMap.on("op", (op: ISequencedDocumentMessage, local: boolean) => {
@@ -168,10 +172,17 @@ export const getCoauthPresenceDecorator = (presenceManager: PresenceManager) => 
         // Replace the placeholder char with some UI If this block is empty (except for the placeholder char) add a
         // <br /> after because that's what Draft does to preserve spacing in empty blocks, and we're turning this into
         // an empty block by removing the placeholder.
-        return <>
-            <span style={{ backgroundColor: presenceManager.getAuthorColor(authorId) }} className="presence-cursor" />
-            {props.start === 0 && props.contentState.getBlockForKey(props.blockKey).getLength() === 1 ? <br /> : null}
-        </>;
+        return (
+            <>
+                <span
+                    style={{ backgroundColor: presenceManager.getAuthorColor(authorId) }}
+                    className="presence-cursor"
+                />
+                {props.start === 0 && props.contentState.getBlockForKey(props.blockKey).getLength() === 1 ? (
+                    <br />
+                ) : null}
+            </>
+        );
     };
 
     return new CompositeDecorator([

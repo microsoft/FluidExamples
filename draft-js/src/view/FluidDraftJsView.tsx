@@ -40,11 +40,7 @@ export const FluidDraftJsView: React.FC = () => {
     return (
         <div style={{ margin: "20px auto", maxWidth: 800 }}>
             <MemberList members={members} onNewAuthor={onNewAuthor} style={{ textAlign: "right" }} />
-            <FluidEditor
-                sharedString={model.text}
-                authors={model.authors}
-                presenceManager={model.presenceManager}
-            />
+            <FluidEditor sharedString={model.text} authors={model.authors} presenceManager={model.presenceManager} />
         </div>
     );
 };
