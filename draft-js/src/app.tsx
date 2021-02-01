@@ -13,48 +13,48 @@ import { Home, DraftJsPage } from "./pages";
 import "./styles.css";
 
 const App = () => {
-  return (
-    <div style={{ marginLeft: 5, marginRight: 5 }}>
-      <nav className="nav-wrapper">
-        <span className="nav-title">Fluid-Draft.js Document Manager</span>
-        <span className="vertical-center">
-          <Link to="/">Home</Link>
-          <span> | </span>
-          <Link to="/about">About</Link>
-        </span>
-      </nav>
+    return (
+        <div style={{ marginLeft: 5, marginRight: 5 }}>
+            <nav className="nav-wrapper">
+                <span className="nav-title">Fluid-Draft.js Document Manager</span>
+                <span className="vertical-center">
+                    <Link to="/">Home</Link>
+                    <span> | </span>
+                    <Link to="/about">About</Link>
+                </span>
+            </nav>
 
-      <Switch>
-        <Route path="/about">
-          <div className="content-wrapper">
-            <h3>About</h3>
-            <p>Fluid Draft.js is about collecting awesome ideas</p>
-          </div>
-        </Route>
-        <Route path="/createNew/:id">
-          <div className="content-wrapper">
-            <DraftJsPage new />
-          </div>
-        </Route>
-        <Route path="/:id">
-          <div className="content-wrapper">
-            <DraftJsPage />
-          </div>
-        </Route>
-        <Route path="/">
-          <div className="content-wrapper">
-            <Home />
-          </div>
-        </Route>
-      </Switch>
-    </div>
-  );
+            <Switch>
+                <Route path="/about">
+                    <div className="content-wrapper">
+                        <h3>About</h3>
+                        <p>Fluid Draft.js is about collecting awesome ideas</p>
+                    </div>
+                </Route>
+                <Route path="/createNew/:id">
+                    <div className="content-wrapper">
+                        <DraftJsPage new />
+                    </div>
+                </Route>
+                <Route path="/:id">
+                    <div className="content-wrapper">
+                        <DraftJsPage />
+                    </div>
+                </Route>
+                <Route path="/">
+                    <div className="content-wrapper">
+                        <Home />
+                    </div>
+                </Route>
+            </Switch>
+        </div>
+    );
 };
 
 // Render the content using ReactDOM
 ReactDOM.render(
-  <HashRouter>
-    <App />
-  </HashRouter>,
-  document.getElementById("content")
+    <HashRouter>
+        <App />
+    </HashRouter>,
+    document.getElementById("content"),
 );

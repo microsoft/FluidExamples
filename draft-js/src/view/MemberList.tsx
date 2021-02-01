@@ -11,13 +11,13 @@ import "./css/MemberList.css";
 
 interface IProps {
     /**
-   * Any Distributed Data Structure that users will interact with. A user is not shown in the
-   * member list until the have touched this DDS.
-   */
+     * Any Distributed Data Structure that users will interact with. A user is not shown in the
+     * member list until the have touched this DDS.
+     */
     members: IterableIterator<[string, ISequencedClient]>;
     /**
-   * Callback for when an a new author is added
-   */
+     * Callback for when an a new author is added
+     */
     onNewAuthor: (func: (op, isLocal) => void) => void;
     style?: React.CSSProperties;
 }
@@ -43,7 +43,7 @@ export const getColorForMember = (sc: ISequencedClient) => {
     const colorNumber = sc.sequenceNumber % 20;
     // Spread them through the hue range with an overflow so the first few authors are likely
     // to have very different colors
-    return `hsl(${(colorNumber * 360 / 7) % 360}, 100%, 35%)`;
+    return `hsl(${((colorNumber * 360) / 7) % 360}, 100%, 35%)`;
 };
 
 /**
@@ -72,9 +72,7 @@ export class MemberList extends React.Component<IProps, IState> {
     }
 
     private readonly updateMemberList = () => {
-        const members = Array.from(
-            this.props.members,
-        )
+        const members = Array.from(this.props.members)
             .filter(([id, _]) => this.knownHumanMemberIds.has(id))
             .map(([id, sc]) => {
                 let name: string = (sc.client.user as any).displayName || (sc.client.user as any).name;

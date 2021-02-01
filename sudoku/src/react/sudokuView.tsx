@@ -190,8 +190,8 @@ function SimpleTable(props: ISudokuViewProps) {
     };
 
     const renderGridRows = () => {
-        const rows = PUZZLE_INDEXES.map(row => {
-            const columns = PUZZLE_INDEXES.map(col => {
+        const rows = PUZZLE_INDEXES.map((row) => {
+            const columns = PUZZLE_INDEXES.map((col) => {
                 const coord = Coordinate.asString(row, col);
                 const currentCell = props.puzzle.get<SudokuCell>(coord);
                 const state = SudokuCell.getState(currentCell);

@@ -12,20 +12,20 @@ import { FluidDraftJsView } from "../view/FluidDraftJsView";
 import { useDraftJsData } from "../utils";
 
 export const DraftJsPage = (props: { new?: boolean }) => {
-  const { id } = useParams<{id}>();
-  const history = useHistory();
+    const { id } = useParams<{ id }>();
+    const history = useHistory();
 
-  if (props.new) {
-    history.replace(`/${id}`);
-  }
+    if (props.new) {
+        history.replace(`/${id}`);
+    }
 
-  const context = useDraftJsData(id, props.new);
+    const context = useDraftJsData(id, props.new);
 
-  return context ? (
-    <FluidContext.Provider value={context}>
-      <FluidDraftJsView />
-    </FluidContext.Provider>
-  ) : (
-    <></>
-  );
+    return context ? (
+        <FluidContext.Provider value={context}>
+            <FluidDraftJsView />
+        </FluidContext.Provider>
+    ) : (
+        <></>
+    );
 };

@@ -133,8 +133,8 @@ export class FluidEditor extends React.Component<IProps, IState> {
         if (newSelection !== oldSelection) {
             const publishedPosition = newSelection.getHasFocus()
                 ? this.props.presenceManager.subtractCoauthorPlaceholders(
-                    selectionToTextRange(newSelection, newContent),
-                )
+                      selectionToTextRange(newSelection, newContent),
+                  )
                 : undefined;
             this.props.presenceManager.publish(publishedPosition);
         }
@@ -203,7 +203,9 @@ export class FluidEditor extends React.Component<IProps, IState> {
                  */
                 this.setState({
                     editorState: EditorState.acceptSelection(
-                        this.state.editorState, this.state.editorState.getSelection()),
+                        this.state.editorState,
+                        this.state.editorState.getSelection(),
+                    ),
                 });
                 return;
             }

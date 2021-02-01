@@ -3,10 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import {
-    DataObject,
-    DataObjectFactory,
-} from "@fluidframework/aqueduct";
+import { DataObject, DataObjectFactory } from "@fluidframework/aqueduct";
 import { ISequencedClient } from "@fluidframework/protocol-definitions";
 import { SharedMap } from "@fluidframework/map";
 import { SharedString } from "@fluidframework/sequence";
@@ -15,7 +12,7 @@ export interface IFluidDraftJsObject {
     text: SharedString | undefined;
     authors: SharedMap | undefined;
     readonly presenceManager: PresenceManager;
-    readonly members: IterableIterator<[string, ISequencedClient]>
+    readonly members: IterableIterator<[string, ISequencedClient]>;
     on(event: "addMember" | "removeMember", listener: () => void): this;
     off(event: "addMember" | "removeMember", listener: () => void): this;
 }
@@ -24,7 +21,9 @@ const addMemberValue = "addMember";
 const removeMemberValue = "removeMember";
 
 export class FluidDraftJsObject extends DataObject implements IFluidDraftJsObject {
-    public static get Name() { return "@fluid-example/draft-js"; }
+    public static get Name() {
+        return "@fluid-example/draft-js";
+    }
 
     public text: SharedString | undefined;
     public authors: SharedMap | undefined;
