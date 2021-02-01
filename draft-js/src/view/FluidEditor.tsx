@@ -3,8 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { SharedMap } from "@fluidframework/map";
-import { SequenceDeltaEvent, SharedString } from "@fluidframework/sequence";
+import { SharedMap, SequenceDeltaEvent, SharedString } from "@fluid-experimental/experimental-fluidframework";
 import { ContentState, Editor, EditorProps, EditorState, RichUtils } from "draft-js";
 import React from "react";
 import {

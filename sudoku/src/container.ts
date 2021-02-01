@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { ContainerRuntimeFactoryWithDefaultDataStore } from "@fluidframework/aqueduct";
+import { ContainerRuntimeFactoryWithDefaultDataStore } from "@fluid-experimental/experimental-fluidframework";
 import { FluidSudoku } from "./fluidSudoku";
 
 /**

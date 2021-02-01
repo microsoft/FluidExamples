@@ -3,10 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { DataObject, DataObjectFactory } from "@fluidframework/aqueduct";
-import { IFluidHandle } from "@fluidframework/core-interfaces";
-import { ISharedMap, SharedMap } from "@fluidframework/map";
-import { IFluidHTMLView } from "@fluidframework/view-interfaces";
+import { DataObject, DataObjectFactory, IFluidHandle, ISharedMap, SharedMap, IFluidHTMLView } from "@fluid-experimental/experimental-fluidframework";
 import React from "react";
 import ReactDOM from "react-dom";
 import { loadPuzzle } from "./helpers/puzzles";

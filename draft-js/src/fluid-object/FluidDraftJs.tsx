@@ -6,10 +6,10 @@
 import {
     DataObject,
     DataObjectFactory,
-} from "@fluidframework/aqueduct";
-import { ISequencedClient } from "@fluidframework/protocol-definitions";
-import { SharedMap } from "@fluidframework/map";
-import { SharedString } from "@fluidframework/sequence";
+    ISequencedClient,
+    SharedMap,
+    SharedString
+} from "@fluid-experimental/experimental-fluidframework";
 import { insertBlockStart, PresenceManager } from "../utils";
 export interface IFluidDraftJsObject {
     text: SharedString | undefined;

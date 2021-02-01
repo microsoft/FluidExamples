@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import { ISequencedDocumentMessage } from "@fluidframework/protocol-definitions";
+import { ISequencedDocumentMessage } from "@fluid-experimental/experimental-fluidframework";
 
 import { IFluidDraftJsObject } from "../fluid-object";
 import { MemberList } from "./MemberList";

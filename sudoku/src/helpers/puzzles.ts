@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { ISharedMap } from "@fluidframework/map";
+import { ISharedMap } from "@fluid-experimental/experimental-fluidframework";
 import sudoku from "sudokus";
 import { Coordinate } from "./coordinate";
 import { SudokuCell } from "./sudokuCell";

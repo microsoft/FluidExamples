@@ -6,11 +6,9 @@
 import {
     DataObject,
     DataObjectFactory,
-} from "@fluidframework/aqueduct";
-import {
     IDirectory,
     IDirectoryValueChanged,
-} from "@fluidframework/map";
+} from "@fluid-experimental/experimental-fluidframework";
 
 const documentsKey = "documents-key";
 const idsChangedEventKey = "ids-changed";
@@ -25,23 +23,20 @@ export interface IDocumentManager {
 }
 
 export class DocumentManager extends DataObject implements IDocumentManager {
-    public static get Name() { return "@fluid-example/document-manager"; }
+    public static get Name() {
+        return "@fluid-example/document-manager";
+    }
 
     private documents: IDirectory | undefined;
 
-    public static readonly factory = new DataObjectFactory(
-        DocumentManager.Name,
-        DocumentManager,
-        [],
-        {},
-    );
+    public static readonly factory = new DataObjectFactory(DocumentManager.Name, DocumentManager, [], {});
 
     /**
      * Do setup work here
      */
     protected async initializingFirstTime() {
         // We'll use a sub-directory to store our keys
-        this.root.createSubDirectory(documentsKey)
+        this.root.createSubDirectory(documentsKey);
     }
 
     protected async hasInitialized() {

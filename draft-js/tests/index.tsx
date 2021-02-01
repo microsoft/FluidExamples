@@ -4,7 +4,7 @@
  */
 
 import { getSessionStorageContainer } from "@fluidframework/get-session-storage-container";
-import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
+import { getDefaultObjectFromContainer } from "@fluid-experimental/experimental-fluidframework";
 
 import React from "react";
 import ReactDOM from "react-dom";
@@ -43,7 +43,7 @@ async function createContainerAndRenderInElement(element: HTMLElement, createNew
     // Render the content using ReactDOM
     ReactDOM.render(
         <FluidContext.Provider value={defaultObject}>
-            <FluidDraftJsView/>
+            <FluidDraftJsView />
         </FluidContext.Provider>,
         element);
 
@@ -69,7 +69,7 @@ async function setup() {
     await createContainerAndRenderInElement(rightElement, false);
 }
 
-setup().catch((e)=> {
+setup().catch((e) => {
     console.error(e);
     console.log(
         "%cThere were issues setting up and starting the in memory FLuid Server",

@@ -4,7 +4,7 @@
  */
 
 import { getSessionStorageContainer } from "@fluidframework/get-session-storage-container";
-import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
+import { getDefaultObjectFromContainer } from "@fluid-experimental/experimental-fluidframework";
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";

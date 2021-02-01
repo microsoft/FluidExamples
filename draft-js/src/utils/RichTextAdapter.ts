@@ -11,7 +11,7 @@ import {
     reservedMarkerIdKey,
     TextSegment,
 } from "@fluidframework/merge-tree";
-import { ISequenceDeltaRange, SharedString } from "@fluidframework/sequence";
+import { ISequenceDeltaRange, SharedString } from "@fluid-experimental/experimental-fluidframework";
 import { CharacterMetadata, ContentBlock, ContentState, genKey, SelectionState } from "draft-js";
 import { List, OrderedSet } from "immutable";
 
@@ -74,13 +74,14 @@ export const selectionToBlockRange = (selection: SelectionState): BlockTextRange
     endOffset: selection.getEndOffset(),
 });
 
-export const blockRangeToSelection = (range: BlockTextRange, hasFocus: boolean): SelectionState => new SelectionState({
-    anchorKey: range.startKey,
-    anchorOffset: range.startOffset,
-    focusKey: range.endKey,
-    focusOffset: range.endOffset,
-    hasFocus,
-});
+export const blockRangeToSelection = (range: BlockTextRange, hasFocus: boolean): SelectionState =>
+    new SelectionState({
+        anchorKey: range.startKey,
+        anchorOffset: range.startOffset,
+        focusKey: range.endKey,
+        focusOffset: range.endOffset,
+        hasFocus,
+    });
 
 export const textRangeToBlockTextRangeFromBlocks = (absPos: TextRange, blocks: ContentBlock[]): BlockTextRange => {
     const contentPos = { startKey: undefined, startOffset: 0, endKey: undefined, endOffset: 0 };
@@ -118,9 +119,8 @@ export const textRangeToBlockTextRangeFromBlocks = (absPos: TextRange, blocks: C
  * @param end Absolute position of the end of the range
  * @param content The ConstentState of the editor
  */
-export const textRangeToBlockTextRange =
-    (absPos: TextRange, content: ContentState): BlockTextRange =>
-        textRangeToBlockTextRangeFromBlocks(absPos, content.getBlocksAsArray());
+export const textRangeToBlockTextRange = (absPos: TextRange, content: ContentState): BlockTextRange =>
+    textRangeToBlockTextRangeFromBlocks(absPos, content.getBlocksAsArray());
 
 /**
  * Convert a DraftJS selection to a SharedString TextRange
@@ -156,44 +156,48 @@ export const sharedStringToBlockArary = (sharedString: SharedString): ContentBlo
     let currentBlock: any = { key: undefined, text: "" };
 
     let characterList = [];
-    sharedString.walkSegments((segment: ISegment) => {
-        if (segment.type === "Marker") {
-            const markerSegment = segment as Marker;
-            if (
-                markerSegment.refType === ReferenceType.RangeBegin &&
-                markerSegment.properties !== undefined &&
-                markerSegment.properties[reservedMarkerIdKey] !== undefined
-            ) {
-                if (currentBlock.key !== undefined) {
-                    blocks.push(
-                        new ContentBlock({
-                            ...currentBlock,
-                            characterList: List.of<CharacterMetadata>(...characterList),
-                        }),
-                    );
+    sharedString.walkSegments(
+        (segment: ISegment) => {
+            if (segment.type === "Marker") {
+                const markerSegment = segment as Marker;
+                if (
+                    markerSegment.refType === ReferenceType.RangeBegin &&
+                    markerSegment.properties !== undefined &&
+                    markerSegment.properties[reservedMarkerIdKey] !== undefined
+                ) {
+                    if (currentBlock.key !== undefined) {
+                        blocks.push(
+                            new ContentBlock({
+                                ...currentBlock,
+                                characterList: List.of<CharacterMetadata>(...characterList),
+                            }),
+                        );
+                    }
+
+                    currentBlock = {
+                        key: markerSegment.properties[reservedMarkerIdKey],
+                        type: markerSegment.properties.blockType,
+                        text: "",
+                    };
+                    characterList = [];
+                }
+            } else if (segment.type === "TextSegment") {
+                const textSegment = segment as TextSegment;
+
+                const metaConfig: any = {};
+                if (textSegment.properties !== undefined) {
+                    metaConfig.style = sharedTextStylePropToDraft(textSegment.properties);
                 }
 
-                currentBlock = {
-                    key: markerSegment.properties[reservedMarkerIdKey],
-                    type: markerSegment.properties.blockType,
-                    text: "",
-                };
-                characterList = [];
+                const meta = CharacterMetadata.create(metaConfig);
+                characterList = characterList.concat(new Array(textSegment.cachedLength).fill(meta));
+                currentBlock.text += textSegment.text;
             }
-        } else if (segment.type === "TextSegment") {
-            const textSegment = segment as TextSegment;
-
-            const metaConfig: any = {};
-            if (textSegment.properties !== undefined) {
-                metaConfig.style = sharedTextStylePropToDraft(textSegment.properties);
-            }
-
-            const meta = CharacterMetadata.create(metaConfig);
-            characterList = characterList.concat(new Array(textSegment.cachedLength).fill(meta));
-            currentBlock.text += textSegment.text;
-        }
-        return true;
-    }, 0, sharedString.getLength());
+            return true;
+        },
+        0,
+        sharedString.getLength(),
+    );
 
     blocks.push(
         new ContentBlock({
@@ -209,25 +213,29 @@ export const getMarkersInBlockRange = (sharedString: SharedString, startKey: str
 
     let enteredRange = false;
     let exitedRange = false;
-    sharedString.walkSegments((segment: ISegment) => {
-        if (
-            !exitedRange &&
-            segment.type === "Marker" &&
-            segment.properties !== undefined &&
-            segment.properties[reservedMarkerIdKey] !== undefined
-        ) {
-            if (segment.properties[reservedMarkerIdKey] === startKey) {
-                enteredRange = true;
+    sharedString.walkSegments(
+        (segment: ISegment) => {
+            if (
+                !exitedRange &&
+                segment.type === "Marker" &&
+                segment.properties !== undefined &&
+                segment.properties[reservedMarkerIdKey] !== undefined
+            ) {
+                if (segment.properties[reservedMarkerIdKey] === startKey) {
+                    enteredRange = true;
+                }
+                if (enteredRange) {
+                    markers.push(segment);
+                }
+                if (segment.properties[reservedMarkerIdKey] === endKey) {
+                    exitedRange = true;
+                }
             }
-            if (enteredRange) {
-                markers.push(segment);
-            }
-            if (segment.properties[reservedMarkerIdKey] === endKey) {
-                exitedRange = true;
-            }
-        }
-        return true;
-    }, 0, sharedString.getLength());
+            return true;
+        },
+        0,
+        sharedString.getLength(),
+    );
 
     return markers;
 };

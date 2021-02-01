@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from "react";
-import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
+import { getDefaultObjectFromContainer } from "@fluid-experimental/experimental-fluidframework";
 import { getTinyliciousContainer } from "@fluidframework/get-tinylicious-container";
 import { Container } from "@fluidframework/container-loader";
 import { DocumentManager } from "../fluid-object";
@@ -25,14 +25,10 @@ export const useDocumentManagerData = (): DocumentManager | undefined => {
                 let id = window.localStorage.getItem(storageKey);
                 const isNew = id === null;
                 if (isNew) {
-                    id = Date.now().toString()
+                    id = Date.now().toString();
                     window.localStorage.setItem(storageKey, id);
                 }
-                const container = await getTinyliciousContainer(
-                    id,
-                    DocumentManagerContainer,
-                    isNew
-                );
+                const container = await getTinyliciousContainer(id, DocumentManagerContainer, isNew);
                 defaultObject = await getDefaultObjectFromContainer<DocumentManager>(container);
                 setContext(defaultObject);
             } catch (e) {

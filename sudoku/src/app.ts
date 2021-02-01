@@ -4,7 +4,7 @@
  */
 
 import { getTinyliciousContainer } from "@fluidframework/get-tinylicious-container";
-import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
+import { getDefaultObjectFromContainer } from "@fluid-experimental/experimental-fluidframework";
 import { ISudokuViewProps, SudokuView } from "./react/sudokuView";
 import { SudokuContainer } from "./container";
 import { FluidSudoku } from "./fluidSudoku";

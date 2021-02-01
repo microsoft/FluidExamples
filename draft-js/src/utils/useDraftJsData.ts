@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from "react";
-import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
+import { getDefaultObjectFromContainer } from "@fluid-experimental/experimental-fluidframework";
 import { getTinyliciousContainer } from "@fluidframework/get-tinylicious-container";
 import { Container } from "@fluidframework/container-loader";
 import { FluidDraftJsObject } from "../fluid-object";
@@ -18,11 +18,7 @@ export const useDraftJsData = (id, isNew) => {
         let container: Container | undefined;
         async function loadContainer() {
             try {
-                const container = await getTinyliciousContainer(
-                    id,
-                    FluidDraftJsContainer,
-                    isNew
-                );
+                const container = await getTinyliciousContainer(id, FluidDraftJsContainer, isNew);
                 defaultObject = await getDefaultObjectFromContainer<FluidDraftJsObject>(container);
                 setContext(defaultObject);
             } catch (e) {

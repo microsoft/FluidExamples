@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { ISequencedClient } from "@fluidframework/protocol-definitions";
+import { ISequencedClient } from "@fluid-experimental/experimental-fluidframework";
 import React from "react";
 
 // eslint-disable-next-line import/no-internal-modules, import/no-unassigned-import

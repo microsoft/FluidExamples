@@ -23,16 +23,9 @@
         "*.spec.ts"
     ],
     "dependencies": {
-        "@fluidframework/aqueduct": "^0.33.3",
-        "@fluidframework/core-interfaces": "^0.33.3",
-        "@fluidframework/datastore-definitions": "^0.33.3",
+        "@fluid-experimental/experimental-fluidframework": "^0.33.3",
         "@fluidframework/get-tinylicious-container": "^0.33.3",
-        "@fluidframework/map": "^0.33.3",
         "@fluidframework/merge-tree": "^0.33.3",
-        "@fluidframework/protocol-definitions": "0.1018.0",
-        "@fluidframework/sequence": "^0.33.3",
-        "@fluidframework/shared-object-base": "^0.33.3",
-        "@fluidframework/view-interfaces": "^0.33.3",
         "react": "^17.0.0",
         "react-dom": "^17.0.0",
         "sudokus": "^1.0.2"
