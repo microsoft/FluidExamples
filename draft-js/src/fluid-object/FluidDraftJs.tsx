@@ -3,7 +3,6 @@
  * Licensed under the MIT License.
  */
 
-<<<<<<< HEAD
 import {
     DataObject,
     DataObjectFactory,
@@ -11,12 +10,6 @@ import {
     SharedMap,
     SharedString,
 } from "@fluid-experimental/experimental-fluidframework";
-=======
-import { DataObject, DataObjectFactory } from "@fluidframework/aqueduct";
-import { ISequencedClient } from "@fluidframework/protocol-definitions";
-import { SharedMap } from "@fluidframework/map";
-import { SharedString } from "@fluidframework/sequence";
->>>>>>> main
 import { insertBlockStart, PresenceManager } from "../utils";
 export interface IFluidDraftJsObject {
     text: SharedString | undefined;
