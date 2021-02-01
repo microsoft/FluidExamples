@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { Link, useHistory  } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 // import { getDocIds, storeNewDocId, clearAllIds } from "../utils";
 import { useDocumentManagerData } from "../utils/useDocumentMangerData";
@@ -23,16 +23,16 @@ export const Home = () => {
     return (
         <>
             <h3>Documents</h3>
-            { context ? <Loaded manager= {context} /> : <Loading /> }
+            {context ? <Loaded manager={context} /> : <Loading />}
         </>
     );
 };
 
 const Loading = () => {
-    return <div>Loading...</div>
-}
+    return <div>Loading...</div>;
+};
 
-const Loaded = (props: {manager: IDocumentManager}) => {
+const Loaded = (props: { manager: IDocumentManager }) => {
     const [ids, setIds] = useState(props.manager.getAllDocIds());
     const history = useHistory();
 
@@ -43,9 +43,9 @@ const Loaded = (props: {manager: IDocumentManager}) => {
         };
         props.manager.on("ids-changed", setIdsInternal);
 
-        return (() => {
+        return () => {
             props.manager.off("ids-changed", setIdsInternal);
-        });
+        };
     });
 
     const createNewDoc = () => {
@@ -63,15 +63,16 @@ const Loaded = (props: {manager: IDocumentManager}) => {
         idLinks.push(
             <li key={id}>
                 <Link to={`/${id}`}>{id}</Link>
-            </li>
+            </li>,
         );
     });
 
-    return(
+    return (
         <>
-            <button onClick={() => createNewDoc() }>New Document</button>
+            <button onClick={() => createNewDoc()}>New Document</button>
             <span> </span>
-            <button onClick={() => clearIds() }>Clear All Document</button>
+            <button onClick={() => clearIds()}>Clear All Document</button>
             <ul>{idLinks}</ul>
-        </>);
-}
+        </>
+    );
+};

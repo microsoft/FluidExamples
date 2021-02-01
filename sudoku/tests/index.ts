@@ -6,10 +6,7 @@
 import { getSessionStorageContainer } from "@fluidframework/get-session-storage-container";
 import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
 
-import {
-    SudokuContainer,
-    FluidSudoku,
-} from "../src";
+import { SudokuContainer, FluidSudoku } from "../src";
 
 // Since this is a single page fluid application we are generating a new document id
 // if one was not provided
@@ -57,9 +54,10 @@ async function setup() {
     await createContainerAndRenderInElement(rightElement, false);
 }
 
-setup().catch((e)=> {
+setup().catch((e) => {
     console.error(e);
     console.log(
         "%cThere were issues setting up and starting the in memory Fluid Server",
-        "font-size:30px");
+        "font-size:30px"
+    );
 });
