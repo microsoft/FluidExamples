@@ -4,12 +4,18 @@
  */
 
 import { v4 as uuidv4 } from "uuid";
+<<<<<<< HEAD
 import {
   DataObject,
   DataObjectFactory,
   SharedMap,
   IFluidHandle,
 } from "@fluid-experimental/experimental-fluidframework";
+=======
+import { DataObject, DataObjectFactory } from "@fluidframework/aqueduct";
+import { SharedMap } from "@fluidframework/map";
+import { IFluidHandle } from "@fluidframework/core-interfaces";
+>>>>>>> main
 
 import { IBallot, INote, INoteroDataModel, IUser } from "./interfaces";
 import { NoteWithVotes } from "./NoteWithVotes";
@@ -89,6 +95,7 @@ export class Notero extends DataObject implements INoteroDataModel {
     quorum.on("addMember", () => {
       this.emit("change");
     });
+<<<<<<< HEAD
 
     quorum.on("removeMember", () => {
       this.emit("change");
@@ -131,6 +138,50 @@ export class Notero extends DataObject implements INoteroDataModel {
       user: user,
     };
 
+=======
+
+    quorum.on("removeMember", () => {
+      this.emit("change");
+    });
+  }
+
+  public createDemoNote = (): string => {
+    return AutoNote.createDemoNote();
+  };
+
+  /*
+   * Creates a note and adds it to the notesMap SharedMap
+   */
+  public createNote = (text: string): void => {
+    if (text) {
+      const note: INote = {
+        id: uuidv4(),
+        text: text,
+        user: this.getUser(),
+      };
+      this.notesMap.set(note.id, note);
+    }
+  };
+
+  /*
+   * Adds or removes a "ballot" to the vote count for a note
+   */
+  public vote = (note: INote): void => {
+    // Gets the current user
+    const user = this.getUser();
+
+    // Create a unique id keyed off the current user id and the note id
+    const id = note.id + user.id;
+
+    // Create a ballot object literal that encapsulates the information about
+    // the vote to store in the votesMap Fluid DDS
+    const ballot: IBallot = {
+      id: id,
+      noteId: note.id,
+      user: user,
+    };
+
+>>>>>>> main
     // Check to see if the current user already voted.
     // If so, remove the vote, otherwise, add it
     if (this.votesMap.has(ballot.id)) {

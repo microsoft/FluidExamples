@@ -3,12 +3,17 @@
  * Licensed under the MIT License.
  */
 
+<<<<<<< HEAD
 import {
     DataObject,
     DataObjectFactory,
     IDirectory,
     IDirectoryValueChanged,
 } from "@fluid-experimental/experimental-fluidframework";
+=======
+import { DataObject, DataObjectFactory } from "@fluidframework/aqueduct";
+import { IDirectory, IDirectoryValueChanged } from "@fluidframework/map";
+>>>>>>> main
 
 const documentsKey = "documents-key";
 const idsChangedEventKey = "ids-changed";
