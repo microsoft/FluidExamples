@@ -4,13 +4,11 @@
  */
 
 module.exports = {
-    "extends": [
-        "@fluidframework/eslint-config-fluid"
-    ],
-    "rules": {
+    extends: ["@fluidframework/eslint-config-fluid"],
+    rules: {
         "@typescript-eslint/indent": "off",
         "@typescript-eslint/strict-boolean-expressions": "off",
         "no-null/no-null": "off",
-        "react/prop-types": "off"
-    }
-}
+        "react/prop-types": "off",
+    },
+};

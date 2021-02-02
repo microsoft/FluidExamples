@@ -17,8 +17,8 @@ import { NoteroView } from "./NoteroView";
 // if one was not provided
 let createNew = false;
 if (window.location.hash.length === 0) {
-    createNew = true;
-    window.location.hash = Date.now().toString();
+  createNew = true;
+  window.location.hash = Date.now().toString();
 }
 const documentId = window.location.hash.substring(1);
 
@@ -27,25 +27,31 @@ const documentId = window.location.hash.substring(1);
  * requires making async calls.
  */
 async function start() {
-    // Get the Fluid Container associated with the provided id
-    const container = await getTinyliciousContainer(documentId, NoteroContainerFactory, createNew);
+  // Get the Fluid Container associated with the provided id
+  const container = await getTinyliciousContainer(
+    documentId,
+    NoteroContainerFactory,
+    createNew
+  );
 
-    // Get the Default Object from the Container
-    const defaultObject = await getDefaultObjectFromContainer<Notero>(container);
+  // Get the Default Object from the Container
+  const defaultObject = await getDefaultObjectFromContainer<Notero>(container);
 
-    // Render the content using ReactDOM
-    ReactDOM.render(
-        <NoteroView model={defaultObject} />,
-        document.getElementById("content"));
+  // Render the content using ReactDOM
+  ReactDOM.render(
+    <NoteroView model={defaultObject} />,
+    document.getElementById("content")
+  );
 
-    // Setting "fluidStarted" is just for our test automation
-    // eslint-disable-next-line dot-notation
-    window["fluidStarted"] = true;
+  // Setting "fluidStarted" is just for our test automation
+  // eslint-disable-next-line dot-notation
+  window["fluidStarted"] = true;
 }
 
 start().catch((e) => {
-    console.error(e);
-    console.log(
-        "%cEnsure you are running the Tinylicious Fluid Server\nUse:`npm run start:server`",
-        "font-size:30px");
+  console.error(e);
+  console.log(
+    "%cEnsure you are running the Tinylicious Fluid Server\nUse:`npm run start:server`",
+    "font-size:30px"
+  );
 });

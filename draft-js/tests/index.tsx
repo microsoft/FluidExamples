@@ -9,15 +9,9 @@ import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
 import React from "react";
 import ReactDOM from "react-dom";
 
-import {
-    FluidDraftJsContainer,
-    FluidDraftJsObject,
-    FluidDraftJsView,
-} from "../src";
+import { FluidDraftJsContainer, FluidDraftJsObject, FluidDraftJsView } from "../src";
 
-import {
-    FluidContext
-} from "../src/utils";
+import { FluidContext } from "../src/utils";
 
 // Since this is a single page fluid application we are generating a new document id
 // if one was not provided
@@ -43,9 +37,10 @@ async function createContainerAndRenderInElement(element: HTMLElement, createNew
     // Render the content using ReactDOM
     ReactDOM.render(
         <FluidContext.Provider value={defaultObject}>
-            <FluidDraftJsView/>
+            <FluidDraftJsView />
         </FluidContext.Provider>,
-        element);
+        element,
+    );
 
     // Setting "fluidStarted" is just for our test automation
     // eslint-disable-next-line dot-notation
@@ -69,9 +64,7 @@ async function setup() {
     await createContainerAndRenderInElement(rightElement, false);
 }
 
-setup().catch((e)=> {
+setup().catch((e) => {
     console.error(e);
-    console.log(
-        "%cThere were issues setting up and starting the in memory FLuid Server",
-        "font-size:30px");
+    console.log("%cThere were issues setting up and starting the in memory FLuid Server", "font-size:30px");
 });

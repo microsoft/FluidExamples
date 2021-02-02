@@ -72,10 +72,7 @@ const BLOCK_TYPES = [
 export const BlockStyleControls = (props) => {
     const { editorState } = props;
     const selection = editorState.getSelection();
-    const blockType = editorState
-        .getCurrentContent()
-        .getBlockForKey(selection.getStartKey())
-        .getType();
+    const blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
 
     return (
         <div className="RichEditor-controls">

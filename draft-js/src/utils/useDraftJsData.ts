@@ -18,11 +18,7 @@ export const useDraftJsData = (id, isNew) => {
         let container: Container | undefined;
         async function loadContainer() {
             try {
-                const container = await getTinyliciousContainer(
-                    id,
-                    FluidDraftJsContainer,
-                    isNew
-                );
+                const container = await getTinyliciousContainer(id, FluidDraftJsContainer, isNew);
                 defaultObject = await getDefaultObjectFromContainer<FluidDraftJsObject>(container);
                 setContext(defaultObject);
             } catch (e) {
