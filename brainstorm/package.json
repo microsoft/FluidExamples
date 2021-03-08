@@ -20,7 +20,7 @@
     "webpack": "webpack"
   },
   "dependencies": {
-    "@fluidframework/aqueduct": "^0.33.3",
+    "@fluidframework/aqueduct": "^0.35.4",
     "@fluidframework/core-interfaces": "^0.33.3",
     "@fluidframework/get-tinylicious-container": "^0.33.3",
     "@fluidframework/map": "^0.33.3",
