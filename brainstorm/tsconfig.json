@@ -1,28 +1,26 @@
-{    
-    "exclude": [
-        "dist",
-        "node_modules"
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
     ],
-    "compilerOptions": {
-        "allowSyntheticDefaultImports": true,
-        "target": "es6",
-        "noUnusedLocals": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "outDir": "dist",
-        "sourceMap": true,
-        "inlineSources": true,
-        "jsx": "react",
-        "types": [
-            "react",
-            "react-dom",
-            "jest",
-            "puppeteer",
-            "jest-environment-puppeteer",
-            "expect-puppeteer"
-        ]
-    },
-    "include": [
-        "src/**/*"
-    ]
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src"
+  ]
 }
