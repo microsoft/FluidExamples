@@ -15,7 +15,8 @@
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "start:server": "tinylicious",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "test:report": "echo No test for this example"
   },
   "eslintConfig": {
     "extends": [
