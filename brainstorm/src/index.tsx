@@ -37,7 +37,7 @@ export async function start() {
 
     TinyliciousClient.init({ port: 35843 });
 
-    const fluidContainer = isNew
+    const [fluidContainer] = isNew
         ? await TinyliciousClient.createContainer({ id: containerId }, schema)
         : await TinyliciousClient.getContainer({ id: containerId }, schema);
 

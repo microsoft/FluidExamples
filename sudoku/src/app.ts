@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { getTinyliciousContainer } from "@fluidframework/get-tinylicious-container";
+import { getTinyliciousContainer } from "@fluid-experimental/get-container";
 import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
 import { ISudokuViewProps, SudokuView } from "./react/sudokuView";
 import { SudokuContainer } from "./container";
