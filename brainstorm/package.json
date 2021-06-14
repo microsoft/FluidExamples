@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@fluentui/react": "^8.1.1",
-    "@fluid-experimental/data-objects": "^0.39.0",
+    "@fluid-experimental/data-objects": "^0.41.0",
     "@fluid-experimental/fluid-static": "^0.39.0",
     "@fluid-experimental/get-container": "^0.39.0",
     "@fluid-experimental/tinylicious-client": "^0.39.0",
