@@ -57,7 +57,7 @@
         "eslint-plugin-no-null": "~1.0.2",
         "eslint-plugin-optimize-regex": "~1.2.0",
         "eslint-plugin-prefer-arrow": "~1.2.3",
-        "eslint-plugin-react": "~7.18.0",
+        "eslint-plugin-react": "~7.24.0",
         "eslint-plugin-unicorn": "~15.0.1",
         "html-webpack-plugin": "^4.5.1",
         "jest": "^26.6.3",
