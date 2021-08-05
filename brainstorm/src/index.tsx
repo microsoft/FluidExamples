@@ -2,16 +2,17 @@
  * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
  * Licensed under the MIT License.
  */
-import { SharedMap } from "@fluidframework/map";
+
+import { initializeIcons, ThemeProvider } from "@fluentui/react";
 import { FluidContainer } from '@fluid-experimental/fluid-static';
-import TinyliciousClient from '@fluid-experimental/tinylicious-client';
+import { FrsClient } from '@fluid-experimental/frs-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrainstormView } from './view/BrainstormView';
-import { initializeIcons, ThemeProvider } from "@fluentui/react";
 import "./view/index.css"
 import "./view/App.css";
 import { themeNameToTheme } from './view/Themes';
+import { connectionConfig, containerSchema } from "./Config";
 
 export async function start() {
     initializeIcons();
@@ -26,31 +27,24 @@ export async function start() {
         return { containerId, isNew };
     };
 
-    const schema = {
-        name: "brainstorm",
-        initialObjects: {
-            map: SharedMap,
-        },
-    }
-
     const { containerId, isNew } = getContainerId();
 
-    TinyliciousClient.init({ port: 7070 });
+    const client = new FrsClient(connectionConfig);
 
-    const fluidContainer = isNew
-        ? await TinyliciousClient.createContainer({ id: containerId }, schema)
-        : await TinyliciousClient.getContainer({ id: containerId }, schema);
+    const frsResources = isNew
+        ? await client.createContainer({ id: containerId }, containerSchema)
+        : await client.getContainer({ id: containerId }, containerSchema);
 
 
-    if (!fluidContainer.clientId) {
+    if (!frsResources.fluidContainer.clientId) {
         await new Promise<void>((resolve) => {
-            fluidContainer.once("connected", () => {
+            frsResources.fluidContainer.once("connected", () => {
                 resolve();
             });
         });
     }
 
-    return fluidContainer
+    return frsResources.fluidContainer;
 }
 
 start()
