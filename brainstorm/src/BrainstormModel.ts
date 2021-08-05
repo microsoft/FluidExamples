@@ -20,6 +20,7 @@ export type BrainstormModel = Readonly<{
   DeleteNote(noteId: string): void;
   NoteIds: string[];
   setChangeListener(listener: () => void): void;
+  removeChangeListener(listener: () => void): void;
 }>;
 
 export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
@@ -126,5 +127,9 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
     setChangeListener(listener: () => void): void {
       sharedMap.on("valueChanged", listener);
     },
+
+    removeChangeListener(listener: () => void): void {
+      sharedMap.off("valueChanged", listener);
+    }
   };
 }

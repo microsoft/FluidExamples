@@ -14,32 +14,20 @@ export const BrainstormView = (props: { frsResources: FrsResources }) => {
   const audience = containerServices.audience;
   const [members, setMembers] = React.useState(Array.from(audience.getMembers().values()));
   const authorInfo = audience.getMyself();
-
+  const setMembersCallback = React.useCallback(() => setMembers(
+    Array.from(
+      audience.getMembers().values()
+    )
+  ), [setMembers, audience]);
   // Setup a listener to update our users when new clients join the session
   React.useEffect(() => {
-    fluidContainer.on("connected", () => setMembers(
-      Array.from(
-        audience.getMembers().values()
-      )
-    ));
-    audience.on("membersChanged", () => setMembers(
-      Array.from(
-        audience.getMembers().values()
-      )
-    ));
+    fluidContainer.on("connected", setMembersCallback);
+    audience.on("membersChanged", setMembersCallback);
     return () => {
-      fluidContainer.off("connected", () => setMembers(
-        Array.from(
-          audience.getMembers().values()
-        )
-      ));
-      audience.off("membersChanged", () => setMembers(
-        Array.from(
-          audience.getMembers().values()
-        )
-      ));
+      fluidContainer.off("connected", () => setMembersCallback);
+      audience.off("membersChanged", () => setMembersCallback);
     };
-  }, [fluidContainer, audience]);
+  }, [fluidContainer, audience, setMembersCallback]);
 
   const wrapperClass = mergeStyles({
     height: "100%",

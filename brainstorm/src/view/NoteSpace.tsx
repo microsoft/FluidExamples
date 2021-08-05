@@ -32,6 +32,7 @@ export function NoteSpace(props: NoteSpaceProps) {
 
     syncLocalAndFluidState();
     model.setChangeListener(syncLocalAndFluidState);
+    return () => model.removeChangeListener(syncLocalAndFluidState);
   }, [model, props.author]);
 
   const rootStyle: IStyle = {
