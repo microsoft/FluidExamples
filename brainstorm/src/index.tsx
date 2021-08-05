@@ -4,8 +4,7 @@
  */
 
 import { initializeIcons, ThemeProvider } from "@fluentui/react";
-import { FluidContainer } from '@fluid-experimental/fluid-static';
-import { FrsClient } from '@fluid-experimental/frs-client';
+import { FrsClient, FrsResources } from '@fluid-experimental/frs-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrainstormView } from './view/BrainstormView';
@@ -36,7 +35,7 @@ export async function start() {
         : await client.getContainer({ id: containerId }, containerSchema);
 
 
-    if (!frsResources.fluidContainer.clientId) {
+    if (!frsResources.fluidContainer.connected) {
         await new Promise<void>((resolve) => {
             frsResources.fluidContainer.once("connected", () => {
                 resolve();
@@ -44,15 +43,15 @@ export async function start() {
         });
     }
 
-    return frsResources.fluidContainer;
+    return frsResources;
 }
 
 start()
-    .then((fluidContainer: FluidContainer) => {
+    .then((frsResources: FrsResources) => {
         ReactDOM.render(
             <React.StrictMode>
                 <ThemeProvider theme={themeNameToTheme("default")}>
-                    <BrainstormView fluid={fluidContainer} />
+                    <BrainstormView frsResources={frsResources} />
                 </ThemeProvider>
             </React.StrictMode>,
             document.getElementById('root')

@@ -1,7 +1,7 @@
 import {
-  IFacepilePersona,
   mergeStyles,
 } from "@fluentui/react";
+import { FrsMember } from "@fluid-experimental/frs-client";
 import React from "react";
 import { useDrag } from "react-dnd";
 import { DefaultColor } from "./Color";
@@ -11,13 +11,12 @@ import {
 import { NoteData, Position } from "../Types";
 import { NoteHeader } from "./NoteHeader";
 import { NoteBody } from "./NoteBody";
-import { IUser } from "../utils";
 
 export type NoteProps = Readonly<{
   id: string;
   setPosition: (position: Position) => void;
   onLike: () => void;
-  getLikedUsers: () => IUser[];
+  getLikedUsers: () => FrsMember[];
   onDelete: () => void;
   onColorChange: (color: string) => void;
   setText: (text: string) => void;
@@ -37,14 +36,9 @@ export function Note(props: NoteProps) {
     id,
     position: { x: left, y: top },
     color = DefaultColor,
-    author,
     setText,
-    text    
+    text
   } = props;
-
-  const [userPhoto, setUserPhoto] = React.useState<
-    IFacepilePersona | undefined
-  >();
 
   const [, drag] = useDrag(
     () => ({
@@ -58,7 +52,7 @@ export function Note(props: NoteProps) {
 
   return (
     <div className={rootClass} ref={drag} style={{ left, top }}>
-      <NoteHeader userPhoto={userPhoto} {...props} />
+      <NoteHeader {...props} />
       <NoteBody setText={setText} text={text} color={color} />
     </div>
   );

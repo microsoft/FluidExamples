@@ -1,34 +1,27 @@
 import {
-  IFacepilePersona,
   IPersonaStyles,
   List,
   Persona,
   PersonaSize,
 } from "@fluentui/react";
+import { FrsMember } from "@fluid-experimental/frs-client";
 import React from "react";
-import { IUser } from "../utils";
 
 export type PersonaListProps = {
-  users: IUser[];
+  users: FrsMember[];
 };
 export function PersonaList(props: PersonaListProps) {
-  const [userPhotos, setUserPhotos] = React.useState<
-    Map<string, IFacepilePersona>
-  >(new Map<string, IFacepilePersona>());
-
-
   const personaStyles: Partial<IPersonaStyles> = {
     root: {
       marginTop: 10,
     },
   };
 
-  const renderPersonaListItem = (item?: IFacepilePersona) => {
+  const renderPersonaListItem = (item?: FrsMember) => {
     return (
       item && (
         <Persona
-          text={item.personaName}
-          imageUrl={item.imageUrl}
+          text={item.userName}
           size={PersonaSize.size24}
           styles={personaStyles}
         ></Persona>
@@ -37,6 +30,7 @@ export function PersonaList(props: PersonaListProps) {
   };
   return (
     <List
+      items={props.users}
       onRenderCell={renderPersonaListItem}
     ></List>
   );

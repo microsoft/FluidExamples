@@ -1,11 +1,11 @@
-import { IUser } from "./utils";
+import { FrsMember } from "@fluid-experimental/frs-client";
 
 export type Position = Readonly<{ x: number; y: number }>;
 
 export type NoteData = Readonly<{
   id: any;
   text?: string;
-  author: IUser;
+  author: FrsMember;
   position: Position;
   numLikesCalculated: number;
   didILikeThisCalculated: boolean;

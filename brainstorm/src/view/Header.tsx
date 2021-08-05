@@ -9,7 +9,6 @@ import { DefaultColor } from "./Color";
 import { ColorPicker } from "./ColorPicker";
 import { NoteData } from "../Types";
 import { NOTE_SIZE } from "./Note.style";
-import { FluidContainer } from "@fluid-experimental/fluid-static";
 
 function uuidv4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -20,7 +19,6 @@ function uuidv4() {
 }
 export interface HeaderProps {
   model: BrainstormModel;
-  fluid: FluidContainer;
   author: any;
 }
 

@@ -22,7 +22,7 @@ import { ReactionListCallout } from "./ReactionListCallout";
 import { NoteProps } from "./Note"
 
 // @ts-ignore
-const HeaderComponent = (props: NoteProps & { userPhoto }) => {
+const HeaderComponent = (props: NoteProps) => {
   const colorButtonRef = React.useRef();
 
   const headerProps = {
@@ -42,9 +42,9 @@ const HeaderComponent = (props: NoteProps & { userPhoto }) => {
       }
       return (
         <ReactionListCallout
-
           label={"Like Reactions"}
           reactionIconName={"Like"}
+          usersToDisplay={likedUserList}
         />
       );
     },
@@ -60,7 +60,7 @@ const HeaderComponent = (props: NoteProps & { userPhoto }) => {
         return (
           <TooltipHost
             styles={{ root: { alignSelf: "center", display: "block" } }}
-            content={props.author.id}
+            content={props.author.userName}
           >
             <PersonaCoin
               styles={{
@@ -70,8 +70,8 @@ const HeaderComponent = (props: NoteProps & { userPhoto }) => {
                   userSelect: "none",
                 },
               }}
+              text={props.author.userName}
               coinSize={24}
-              {...props.userPhoto}
             />
           </TooltipHost>
         );

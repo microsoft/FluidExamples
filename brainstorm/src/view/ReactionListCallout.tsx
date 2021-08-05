@@ -1,8 +1,11 @@
 import { Icon, Label, Stack } from "@fluentui/react";
+import { FrsMember } from "@fluid-experimental/frs-client";
 import React from "react";
+import { PersonaList } from "./PersonaList";
 
 export type ReactionListCalloutProps = {
   label: string;
+  usersToDisplay: FrsMember[];
   reactionIconName?: string;
 };
 
@@ -17,6 +20,9 @@ export function ReactionListCallout(props: ReactionListCalloutProps) {
           ></Icon>
         )}
         <Label>Like Reactions</Label>
+        <PersonaList
+          users={props.usersToDisplay}
+        />
       </Stack>
     </div>
   );

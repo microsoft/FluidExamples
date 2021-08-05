@@ -1,7 +1,7 @@
 import { ISharedMap, SharedMap } from "@fluidframework/map";
 import { FluidContainer } from "@fluid-experimental/fluid-static";
+import { FrsMember } from "@fluid-experimental/frs-client";
 import { ColorId, NoteData, Position } from "./Types";
-import { IUser } from "./utils";
 
 const c_NoteIdPrefix = "noteId_";
 const c_PositionPrefix = "position_";
@@ -11,13 +11,13 @@ const c_TextPrefix = "text_";
 const c_ColorPrefix = "color_";
 
 export type BrainstormModel = Readonly<{
-  CreateNote(noteId: string, myAuthor: IUser): NoteData;
+  CreateNote(noteId: string, myAuthor: FrsMember): NoteData;
   MoveNote(noteId: string, newPos: Position): void;
   SetNote(noteId: string, newCardData: NoteData, color: ColorId): void;
   SetNoteText(noteId: string, noteText: string): void;
   SetNoteColor(noteId: string, noteColor: string): void;
-  LikeNote(noteId: string, author: IUser): void;
-  GetNoteLikedUsers(noteId: string): IUser[];
+  LikeNote(noteId: string, author: FrsMember): void;
+  GetNoteLikedUsers(noteId: string): FrsMember[];
   DeleteNote(noteId: string): void;
   NoteIds: string[];
   setChangeListener(listener: () => void): void;
@@ -51,7 +51,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
 
 
   return {
-    CreateNote(noteId: string, myAuthor: IUser): NoteData {
+    CreateNote(noteId: string, myAuthor: FrsMember): NoteData {
       const newNote: NoteData = {
         id: noteId,
         text: sharedMap.get(c_TextPrefix + noteId),
@@ -65,7 +65,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
           Array.from(sharedMap
             .keys())
             .filter((key: string) =>
-              key.includes(c_votePrefix + noteId + "_" + myAuthor.id)
+              key.includes(c_votePrefix + noteId + "_" + myAuthor.userId)
             )
             .filter((key: string) => sharedMap.get(key) !== undefined).length > 0,
         color: sharedMap.get(c_ColorPrefix + noteId),
@@ -73,7 +73,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
       return newNote;
     },
     
-    GetNoteLikedUsers(noteId: string): IUser[] {
+    GetNoteLikedUsers(noteId: string): FrsMember[] {
       return (
         Array.from(sharedMap
           .keys())
@@ -98,8 +98,8 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
 
     SetNoteColor,
 
-    LikeNote(noteId: string, author: IUser) {
-      const voteString = c_votePrefix + noteId + "_" + author.id;
+    LikeNote(noteId: string, author: FrsMember) {
+      const voteString = c_votePrefix + noteId + "_" + author.userId;
       sharedMap.get(voteString) === author
         ? sharedMap.set(voteString, undefined)
         : sharedMap.set(voteString, author);

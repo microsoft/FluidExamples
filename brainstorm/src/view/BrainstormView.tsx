@@ -1,32 +1,45 @@
 import { mergeStyles, Spinner } from "@fluentui/react";
+import { FrsResources } from "@fluid-experimental/frs-client";
 import * as React from "react";
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import { BrainstormModel, createBrainstormModel } from "../BrainstormModel";
 import { Header } from "./Header";
 import { NoteSpace } from "./NoteSpace";
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { FluidContainer } from "@fluid-experimental/fluid-static";
-import { getCurrentUser, getHumanUsers } from "../utils/audience";
 
-export const BrainstormView = (props: {fluid: FluidContainer}) => {
-  const { fluid } = props;
-  const [model] = React.useState<BrainstormModel>(createBrainstormModel(fluid));
+export const BrainstormView = (props: { frsResources: FrsResources }) => {
+  const { frsResources: { fluidContainer, containerServices } } = props;
+  const [model] = React.useState<BrainstormModel>(createBrainstormModel(fluidContainer));
 
-  const [, setMembers] = React.useState(getHumanUsers(fluid))
-  const authorInfo = getCurrentUser(fluid);
+  const audience = containerServices.audience;
+  const [, setMembers] = React.useState(Array.from(audience.getMembers().values()));
+  const authorInfo = audience.getMyself();
 
+  // Setup a listener to update our users when new clients join the session
   React.useEffect(() => {
-    const memberFn = (member: string) => {
-        const client = fluid.audience.getMember(member);
-        if (client && client.details) {
-            setMembers(getHumanUsers(fluid));
-        }
-    };
-    fluid.audience.on("addMember", memberFn);
+    fluidContainer.on("connected", () => setMembers(
+      Array.from(
+        audience.getMembers().values()
+      )
+    ));
+    audience.on("membersChanged", () => setMembers(
+      Array.from(
+        audience.getMembers().values()
+      )
+    ));
     return () => {
-      fluid.audience.off("addMember", memberFn);
+      fluidContainer.off("connected", () => setMembers(
+        Array.from(
+          audience.getMembers().values()
+        )
+      ));
+      audience.off("membersChanged", () => setMembers(
+        Array.from(
+          audience.getMembers().values()
+        )
+      ));
     };
-  });
+  }, [fluidContainer, audience]);
 
   const wrapperClass = mergeStyles({
     height: "100%",
@@ -41,15 +54,14 @@ export const BrainstormView = (props: {fluid: FluidContainer}) => {
   return (
     <div className={wrapperClass}>
       <Header
-        {...props}
         model={model}
         author={authorInfo}
       />
-    <DndProvider backend={HTML5Backend}>
-      <NoteSpace
-        model={model}
-        author={authorInfo.user}
-      />
+      <DndProvider backend={HTML5Backend}>
+        <NoteSpace
+          model={model}
+          author={authorInfo}
+        />
       </DndProvider>
     </div>
   );
