@@ -4,7 +4,7 @@
  */
 
 import { initializeIcons, ThemeProvider } from "@fluentui/react";
-import { FrsClient, FrsResources } from '@fluid-experimental/frs-client';
+import { FrsClient } from '@fluid-experimental/frs-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrainstormView } from './view/BrainstormView';
@@ -43,17 +43,14 @@ export async function start() {
         });
     }
 
-    return frsResources;
+    ReactDOM.render(
+        <React.StrictMode>
+            <ThemeProvider theme={themeNameToTheme("default")}>
+                <BrainstormView frsResources={frsResources} />
+            </ThemeProvider>
+        </React.StrictMode>,
+        document.getElementById('root')
+    );
 }
 
-start()
-    .then((frsResources: FrsResources) => {
-        ReactDOM.render(
-            <React.StrictMode>
-                <ThemeProvider theme={themeNameToTheme("default")}>
-                    <BrainstormView frsResources={frsResources} />
-                </ThemeProvider>
-            </React.StrictMode>,
-            document.getElementById('root')
-        );
-    })
+start().catch((error) => console.error(error));

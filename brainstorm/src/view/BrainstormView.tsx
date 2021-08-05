@@ -12,7 +12,7 @@ export const BrainstormView = (props: { frsResources: FrsResources }) => {
   const [model] = React.useState<BrainstormModel>(createBrainstormModel(fluidContainer));
 
   const audience = containerServices.audience;
-  const [, setMembers] = React.useState(Array.from(audience.getMembers().values()));
+  const [members, setMembers] = React.useState(Array.from(audience.getMembers().values()));
   const authorInfo = audience.getMyself();
 
   // Setup a listener to update our users when new clients join the session
@@ -56,6 +56,7 @@ export const BrainstormView = (props: { frsResources: FrsResources }) => {
       <Header
         model={model}
         author={authorInfo}
+        members={members}
       />
       <DndProvider backend={HTML5Backend}>
         <NoteSpace

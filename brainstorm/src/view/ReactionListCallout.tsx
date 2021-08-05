@@ -20,10 +20,10 @@ export function ReactionListCallout(props: ReactionListCalloutProps) {
           ></Icon>
         )}
         <Label>Like Reactions</Label>
-        <PersonaList
-          users={props.usersToDisplay}
-        />
       </Stack>
+      <PersonaList
+        users={props.usersToDisplay}
+      />
     </div>
   );
 }

@@ -18,7 +18,6 @@ export const connectionConfig: FrsConnectionConfig = useFrs ? {
     tokenProvider: new InsecureTokenProvider('', user),
     orderer: '',
     storage: '',
-
 } : {
         tenantId: "local",
         tokenProvider: new InsecureTokenProvider("fooBar", user),
