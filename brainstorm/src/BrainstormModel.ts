@@ -1,5 +1,4 @@
-import { ISharedMap, SharedMap } from "@fluidframework/map";
-import { FluidContainer } from "@fluid-experimental/fluid-static";
+import { FluidContainer, ISharedMap, SharedMap } from "@fluid-experimental/fluid-framework";
 import { FrsMember } from "@fluid-experimental/frs-client";
 import { ColorId, NoteData, Position } from "./Types";
 

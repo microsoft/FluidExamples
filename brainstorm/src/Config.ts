@@ -1,5 +1,5 @@
 import { FrsConnectionConfig, InsecureTokenProvider } from "@fluid-experimental/frs-client";
-import { SharedMap } from "@fluidframework/map";
+import { SharedMap } from "@fluid-experimental/fluid-framework";
 import { generateUser } from "@fluidframework/server-services-client";
 
 export const useFrs = process.env.REACT_APP_FLUID_CLIENT === "frs";
