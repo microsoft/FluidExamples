@@ -2,16 +2,16 @@
  * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
  * Licensed under the MIT License.
  */
-import { SharedMap } from "@fluidframework/map";
-import { FluidContainer } from '@fluid-experimental/fluid-static';
-import TinyliciousClient from '@fluid-experimental/tinylicious-client';
+
+import { initializeIcons, ThemeProvider } from "@fluentui/react";
+import { FrsClient } from '@fluid-experimental/frs-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrainstormView } from './view/BrainstormView';
-import { initializeIcons, ThemeProvider } from "@fluentui/react";
 import "./view/index.css"
 import "./view/App.css";
 import { themeNameToTheme } from './view/Themes';
+import { connectionConfig, containerSchema } from "./Config";
 
 export async function start() {
     initializeIcons();
@@ -26,41 +26,31 @@ export async function start() {
         return { containerId, isNew };
     };
 
-    const schema = {
-        name: "brainstorm",
-        initialObjects: {
-            map: SharedMap,
-        },
-    }
-
     const { containerId, isNew } = getContainerId();
 
-    TinyliciousClient.init({ port: 7070 });
+    const client = new FrsClient(connectionConfig);
 
-    const fluidContainer = isNew
-        ? await TinyliciousClient.createContainer({ id: containerId }, schema)
-        : await TinyliciousClient.getContainer({ id: containerId }, schema);
+    const frsResources = isNew
+        ? await client.createContainer({ id: containerId }, containerSchema)
+        : await client.getContainer({ id: containerId }, containerSchema);
 
 
-    if (!fluidContainer.clientId) {
+    if (!frsResources.fluidContainer.connected) {
         await new Promise<void>((resolve) => {
-            fluidContainer.once("connected", () => {
+            frsResources.fluidContainer.once("connected", () => {
                 resolve();
             });
         });
     }
 
-    return fluidContainer
+    ReactDOM.render(
+        <React.StrictMode>
+            <ThemeProvider theme={themeNameToTheme("default")}>
+                <BrainstormView frsResources={frsResources} />
+            </ThemeProvider>
+        </React.StrictMode>,
+        document.getElementById('root')
+    );
 }
 
-start()
-    .then((fluidContainer: FluidContainer) => {
-        ReactDOM.render(
-            <React.StrictMode>
-                <ThemeProvider theme={themeNameToTheme("default")}>
-                    <BrainstormView fluid={fluidContainer} />
-                </ThemeProvider>
-            </React.StrictMode>,
-            document.getElementById('root')
-        );
-    })
+start().catch((error) => console.error(error));

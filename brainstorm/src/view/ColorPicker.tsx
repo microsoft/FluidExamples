@@ -13,10 +13,9 @@ export type ColorButtonProps = {
 export function ColorPicker(props: ColorButtonProps) {
   const { selectedColor, setColor } = props;
   const colorCells = ColorOrder.map((id) => colorOptionToCell(id));
-  // @ts-ignore
-  const onChange = (_event, id) => {
+  const onChange = (_event: React.FormEvent<HTMLElement>, colorId: string | undefined) => {
     props.parent.current.dismissMenu();
-    setColor(id)
+    setColor(colorId as ColorId);
   };
   return (
     <SwatchColorPicker

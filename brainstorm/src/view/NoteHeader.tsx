@@ -21,30 +21,27 @@ import {
 import { ReactionListCallout } from "./ReactionListCallout";
 import { NoteProps } from "./Note"
 
-// @ts-ignore
-const HeaderComponent = (props: NoteProps & { userPhoto }) => {
+const HeaderComponent = (props: NoteProps) => {
   const colorButtonRef = React.useRef();
 
   const headerProps = {
-    // @ts-ignore
     className: mergeStyles(getHeaderStyleForColor(props.color)),
   };
 
   const likeBtnTooltipProps: ITooltipProps = {
 
-    // @ts-ignore
     onRenderContent: () => {
       const likedUserList = props.getLikedUsers();
 
       if (likedUserList.length === 0) {
         // Don't render a tooltip if no users reacted.
-        return;
+        return null;
       }
       return (
         <ReactionListCallout
-
           label={"Like Reactions"}
           reactionIconName={"Like"}
+          usersToDisplay={likedUserList}
         />
       );
     },
@@ -60,7 +57,7 @@ const HeaderComponent = (props: NoteProps & { userPhoto }) => {
         return (
           <TooltipHost
             styles={{ root: { alignSelf: "center", display: "block" } }}
-            content={props.author.id}
+            content={props.author.userName}
           >
             <PersonaCoin
               styles={{
@@ -70,8 +67,8 @@ const HeaderComponent = (props: NoteProps & { userPhoto }) => {
                   userSelect: "none",
                 },
               }}
+              text={props.author.userName}
               coinSize={24}
-              {...props.userPhoto}
             />
           </TooltipHost>
         );

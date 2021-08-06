@@ -1,15 +1,16 @@
-import React from "react";
 import {
   Text,
   CommandBar,
   ICommandBarItemProps,
+  Facepile,
 } from "@fluentui/react";
+import { FrsMember } from "@fluid-experimental/frs-client";
+import React from "react";
 import { BrainstormModel } from "../BrainstormModel";
 import { DefaultColor } from "./Color";
 import { ColorPicker } from "./ColorPicker";
 import { NoteData } from "../Types";
 import { NOTE_SIZE } from "./Note.style";
-import { FluidContainer } from "@fluid-experimental/fluid-static";
 
 function uuidv4() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -20,13 +21,14 @@ function uuidv4() {
 }
 export interface HeaderProps {
   model: BrainstormModel;
-  fluid: FluidContainer;
-  author: any;
+  author: FrsMember;
+  members: FrsMember[];
 }
 
 export function Header(props: HeaderProps) {
   const colorButtonRef = React.useRef<any>();
   const [color, setColor] = React.useState(DefaultColor);
+  const personas = React.useMemo(() => props.members.map(member => {return { personaName: member.userName}}), [props.members]);
 
   const onAddNote = () => {
     const { scrollHeight, scrollWidth } = document.getElementById("NoteSpace")!;
@@ -40,8 +42,9 @@ export function Header(props: HeaderProps) {
       author: props.author,
       numLikesCalculated: 0,
       didILikeThisCalculated: false,
+      color
     };
-    props.model.SetNote(id, newCardData, color);
+    props.model.SetNote(id, newCardData);
   };
 
   const items: ICommandBarItemProps[] = [
@@ -87,11 +90,20 @@ export function Header(props: HeaderProps) {
     },
   ];
 
-
+  const farItems: ICommandBarItemProps[] = [
+    {
+      key: "presence",
+      onRender: () => <Facepile
+      styles={{ root: { alignSelf: "center" } }}
+      personas={personas}
+    />,
+    },
+  ];
   return (
     <CommandBar
       styles={{ root: { paddingLeft: 0 } }}
       items={items}
+      farItems={farItems}
     />
   );
 }
