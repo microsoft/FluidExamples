@@ -1,6 +1,6 @@
 import { FluidContainer, ISharedMap, SharedMap } from "@fluid-experimental/fluid-framework";
 import { FrsMember } from "@fluid-experimental/frs-client";
-import { ColorId, NoteData, Position } from "./Types";
+import { NoteData, Position } from "./Types";
 
 const c_NoteIdPrefix = "noteId_";
 const c_PositionPrefix = "position_";
@@ -12,7 +12,7 @@ const c_ColorPrefix = "color_";
 export type BrainstormModel = Readonly<{
   CreateNote(noteId: string, myAuthor: FrsMember): NoteData;
   MoveNote(noteId: string, newPos: Position): void;
-  SetNote(noteId: string, newCardData: NoteData, color: ColorId): void;
+  SetNote(noteId: string, newCardData: NoteData): void;
   SetNoteText(noteId: string, noteText: string): void;
   SetNoteColor(noteId: string, noteColor: string): void;
   LikeNote(noteId: string, author: FrsMember): void;
@@ -68,7 +68,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
               key.includes(c_votePrefix + noteId + "_" + myAuthor.userId)
             )
             .filter((key: string) => sharedMap.get(key) !== undefined).length > 0,
-        color: sharedMap.get(c_ColorPrefix + noteId),
+        color: sharedMap.get(c_ColorPrefix + noteId)!,
       };
       return newNote;
     },
@@ -89,12 +89,12 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
       sharedMap.set(c_PositionPrefix + noteId, newPos);
     },
 
-    SetNote(noteId: string, newCardData: NoteData, color: ColorId) {
+    SetNote(noteId: string, newCardData: NoteData) {
       sharedMap.set(c_PositionPrefix + noteId, newCardData.position);
       sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
       SetNoteText(newCardData.id, newCardData.text!);
       sharedMap.set(c_NoteIdPrefix + noteId, 1);
-      sharedMap.set(c_ColorPrefix + noteId, color);
+      sharedMap.set(c_ColorPrefix + noteId, newCardData.color);
     },
 
     SetNoteText,

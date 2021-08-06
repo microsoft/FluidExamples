@@ -1,16 +1,8 @@
-import {
-  IPersonaStyles,
-  List,
-  Persona,
-  PersonaSize,
-} from "@fluentui/react";
+import { IPersonaStyles, List, Persona, PersonaSize } from "@fluentui/react";
 import { FrsMember } from "@fluid-experimental/frs-client";
 import React from "react";
 
-export type PersonaListProps = {
-  users: FrsMember[];
-};
-export function PersonaList(props: PersonaListProps) {
+export function PersonaList(props: { users: FrsMember[] }) {
   const personaStyles: Partial<IPersonaStyles> = {
     root: {
       marginTop: 10,
@@ -28,10 +20,5 @@ export function PersonaList(props: PersonaListProps) {
       )
     );
   };
-  return (
-    <List
-      items={props.users}
-      onRenderCell={renderPersonaListItem}
-    ></List>
-  );
+  return <List items={props.users} onRenderCell={renderPersonaListItem}></List>;
 }

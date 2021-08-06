@@ -9,7 +9,7 @@ export type NoteData = Readonly<{
   position: Position;
   numLikesCalculated: number;
   didILikeThisCalculated: boolean;
-  color?: ColorId;
+  color: ColorId;
 }>;
 
 export type ColorId =

@@ -42,8 +42,9 @@ export function Header(props: HeaderProps) {
       author: props.author,
       numLikesCalculated: 0,
       didILikeThisCalculated: false,
+      color
     };
-    props.model.SetNote(id, newCardData, color);
+    props.model.SetNote(id, newCardData);
   };
 
   const items: ICommandBarItemProps[] = [
