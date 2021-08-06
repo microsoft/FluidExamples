@@ -35,7 +35,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
     }
     return true;
   };
-  
+
 
   const IsDeletedNote = (noteId: string) => {
     return sharedMap.get(c_NoteIdPrefix + noteId) === 0;
@@ -72,16 +72,19 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
       };
       return newNote;
     },
-    
+
     GetNoteLikedUsers(noteId: string): FrsMember[] {
       return (
         Array.from(sharedMap
           .keys())
+          // Filter keys that represent if a note was liked
           .filter((key: string) => key.startsWith(c_votePrefix + noteId))
           .filter((key: string) => sharedMap.get(key) !== undefined)
+          // Return the user associated with the like
           .map((value: string) => sharedMap.get(value)!)
       );
     },
+
     MoveNote(noteId: string, newPos: Position) {
       sharedMap.set(c_PositionPrefix + noteId, newPos);
     },
