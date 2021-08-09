@@ -51,10 +51,10 @@ To add more versatility, we also incorporated an `useFrs` flag. Depending on the
 
 ```ts
 export const connectionConfig: FrsConnectionConfig = useFrs ? {
-    tenantId: '',
-    tokenProvider: new InsecureTokenProvider('', user),
-    orderer: '',
-    storage: '',
+    tenantId: "YOUR-TENANT-ID-HERE",
+    tokenProvider: new FrsAzFunctionTokenProvider("AZURE-FUNCTION-URL"+"/api/GetFrsToken", { userId: "test-user", userName: "Test User" }),
+    orderer: "ENTER-ORDERER-URL-HERE",
+    storage: "ENTER-STORAGE-URL-HERE",
 } : {
         tenantId: "local",
         tokenProvider: new InsecureTokenProvider("fooBar", user),
