@@ -38,11 +38,12 @@ By configuring the `FrsConnectionConfig` that we pass into the `FrsClient` insta
 Running `FrsClient` against local Tinylicious instance
 : To run against our local Tinylicious instance, we pass the `tenantId` as "local" and make use of `InsecureTokenProvider`. The `InsecureTokenProvider` requires we pass in two values to its constructor: a key string, which can be anything since we are running it locally, and an IUser type object identifying the current user. For running the instance locally, the orderer and storage URLs would point to the Tinylicious instance on the default values of `http://localhost:7070`.
 
-{{< callout note >}}
+---
+**NOTE**
 
 To launch the local Tinylicious service instance, run `npx tinylicious` from your terminal window
 
-{{< /callout >}}
+---
 
 Running `FrsClient` against live FRS instance
 : To run against live FRS Instance, tenant ID, orderer and storage URLs are required. We make use of `FrsAzFunctionTokenProvider` which takes in the Azure function URL and an IUser type object identifying the current user, thereby making an axios `GET` request call to the Azure Function. This axios call takes in the tenant ID, documentId and userID/userName as optional parameters. The Azure Function is responsible for mapping the `tenantId` to tenant key secret to generate and sign the token such that the service will accept it.
