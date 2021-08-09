@@ -137,7 +137,7 @@ Once you've logged in to your Azure account on the extension, please use the fol
 
 2. Enter "create web" then select Azure App Service: Create New Web App...Advanced.
 
-<img src='./documentation/Create.PNG' >
+<img src='https://user-images.githubusercontent.com/7992711/128751839-e87557a9-5dfc-4c19-a015-201c61f9c88d.PNG' >
 
 3. You use the advanced command to have full control over the deployment including resource group, App Service Plan, and operating system rather than use Linux defaults.
 
@@ -157,19 +157,19 @@ Respond to the prompts as follows:
 Once the app has been created (or if you're using an existing one), right-click on it in the list of App Services within the extension pane.
 Then, select the option "Deploy to Web App...".
 
-<img src='./documentation/Deploy.PNG' width=50% height=50%>
+<img src='https://user-images.githubusercontent.com/7992711/128751799-bde5ebd0-7e4f-46a6-8059-14390c62460a.PNG' width=50% height=50%>
 
 This will bring up a prompt to "Select the folder to deploy". Browse to the `./build` folder and select it.
 
-<img src='./documentation/Folder.PNG' width=50% height=50%>
+<img src='https://user-images.githubusercontent.com/7992711/128751719-970d4502-f3df-4feb-9a57-31769d19e14f.PNG' width=50% height=50%>
 
 You should now see a notification indicating that deployment is commencing and you can view the output in a terminal window.
 
-<img src='./documentation/Notification.PNG' >
+<img src='https://user-images.githubusercontent.com/7992711/128751666-8cc2e3ba-8fc1-4741-818a-8926e70cc9b0.PNG' >
 
 Once it is completed, click on "Browse Website" to open up the app home page.
 
-<img src='./documentation/Complete.PNG' >
+<img src='https://user-images.githubusercontent.com/7992711/128751550-eab7bd7d-8700-47b2-82b2-7b180f8121e6.PNG' >
 
 Now, you can start sharing links for different created containers. After clicking on "Create" from the home page, the app url will be of the format `https://{YOUR-APPSERVICE-NAME}.azurewebsites.net/fluid/{CONTAINER-ID}`. Any users who have the page open with the same container ID should now be able to collaborate with one another!
 
