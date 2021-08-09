@@ -10,6 +10,7 @@
     "start:frs": "env-cmd -f .env.frs react-scripts start",
     "build": "env-cmd -f .env.frs react-scripts build",
     "test": "react-scripts test",
+    "test:report": "echo No test for this example",
     "eject": "react-scripts eject"
   },
   "dependencies": {
