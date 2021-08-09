@@ -1,4 +1,4 @@
 {
-  "packages": ["brainstorm", "draft-js", "sudoku"],
+  "packages": ["brainstorm", "draft-js", "sudoku", "cra-demo", "fluid-react-starter"],
   "version": "0.0.0"
 }
