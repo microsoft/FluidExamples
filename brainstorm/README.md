@@ -49,6 +49,20 @@ Running `FrsClient` against live FRS instance
 
 To add more versatility, we also incorporated an `useFrs` flag. Depending on the npm command you run (`npm run start` or `npm run start:frs`), the flag will toggle between remote and local mode using the same config format. We make use of `FrsAzFunctionTokenProvider` for running against live FRS instance since it is more secured, without exposing the tenant secret key in the client-side code whereas while running the service locally for development purpose, we make use of `InsecureTokenProvider`.
 
+```ts
+export const connectionConfig: FrsConnectionConfig = useFrs ? {
+    tenantId: '',
+    tokenProvider: new InsecureTokenProvider('', user),
+    orderer: '',
+    storage: '',
+} : {
+        tenantId: "local",
+        tokenProvider: new InsecureTokenProvider("fooBar", user),
+        orderer: "http://localhost:7070",
+        storage: "http://localhost:7070",
+    };
+```
+
 ## SharedMap and prefix structure to create new notes, keep track of edits
 
 
