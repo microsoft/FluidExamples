@@ -23,7 +23,6 @@ parameters:
   type: string
   default: cra-demo
 
-
 trigger:
 - main
 
