@@ -30,7 +30,7 @@ You'll be taken to a url similar to 'http://localhost:3000/**#1621961220840**' t
 Now you can create notes, write text, change colors and more!
 
 ## Connecting to the Service
-By configuring the `FrsConnectionConfig` that we pass into the `FrsClient` instance, we can connect to both live FRS instance by passing in the tenant ID, orderer and storage as well as using the tenant ID as "local" for running against Tinylicious for development purpose. The `FrsConnectionConfig` is defined by the `connectionConfig` constant in [Config.ts][Config].
+By configuring the `FrsConnectionConfig` that we pass into the `FrsClient` instance, we can connect to both live FRS instance by passing in the tenant ID, orderer and storage as well as using the tenant ID as "local" for running against Tinylicious for development purpose. The `FrsConnectionConfig` is defined by the `connectionConfig` constant in [Config.ts](./Config.ts).
 
 [Config]: {{< relref Config.ts >}}
 
@@ -42,7 +42,6 @@ By configuring the `FrsConnectionConfig` that we pass into the `FrsClient` insta
 **NOTE**
 
 To launch the local Tinylicious service instance, run `npx tinylicious` from your terminal window
-
 ---
 
 - Running `FrsClient` against live FRS instance
