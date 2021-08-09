@@ -1,0 +1,67 @@
+{
+  "name": "fluid-react-starter",
+  "version": "0.45.0",
+  "homepage": "https://fluidframework.com",
+  "repository": "microsoft/FluidExamples",
+  "license": "MIT",
+  "author": "Microsoft and contributors",
+  "scripts": {
+    "start": "react-scripts start",
+    "start:frs": "env-cmd -f .env.frs react-scripts start",
+    "build": "env-cmd -f .env.frs react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@fluentui/react": "^8.17.1",
+    "@fluid-experimental/fluid-framework": "^0.45.0",
+    "@fluid-experimental/frs-client": "^0.45.0",
+    "@testing-library/jest-dom": "^5.13.0",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^12.20.14",
+    "@types/react": "^17.0.9",
+    "@types/react-dom": "^17.0.6",
+    "@types/uuid": "^8.3.0",
+    "axios": "^0.21.1",
+    "immer": "^9.0.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.3.2",
+    "use-immer": "^0.6.0",
+    "uuid": "^8.3.2",
+    "web-vitals": "^1.1.2"
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.1.7",
+    "env-cmd": "10.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "printWidth": 100
+  }
+}
