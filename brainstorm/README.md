@@ -39,6 +39,7 @@ By configuring the `FrsConnectionConfig` that we pass into the `FrsClient` insta
 **NOTE**
 
 To launch the local Tinylicious service instance, run `npx tinylicious` from your terminal window
+
 ---
 
 - Running `FrsClient` against live FRS instance
