@@ -69,7 +69,7 @@ To add another DSS to this list, make sure that the DDS is imported from `@fluid
 ```ts
 import { SharedMap, SharedCounter } from '@fluid-experimental/fluid-framework';
 
-export const containerConfig = {
+export const containerSchema = {
   name: 'cra-demo-container',
   initialObjects: {
     myMap: SharedMap,
