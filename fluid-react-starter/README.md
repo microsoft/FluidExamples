@@ -62,7 +62,7 @@ npm run start
 
 ### Specify additional DDSes
 
-Inside of `src/config.ts`, in the `containerConfig` you can modify the `initialObjects` that are returned by the container. 
+Inside of `src/config.ts`, you can define the `initialObjects` that are returned by the container in the `containerSchema`. 
 
 To add another DSS to this list, make sure that the DDS is imported from `@fluid-experimental/fluid-framework`, select a key, and add the DDS to `initialObjects`.
 
