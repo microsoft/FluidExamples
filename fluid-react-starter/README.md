@@ -12,12 +12,9 @@ This repo is a Fluid starter template that was created to answer the question "h
 ## Overview
 In this readme we'll walk you through the following topics:
 
-### Using this repo
+### Using this repo locally
 
 - Run the app locally
-- Run the app against an FRS instance
-- Deploy the app
-
 ### Modifying the model
 
 - Modify the schema to include additional DDSes
@@ -36,11 +33,19 @@ In this readme we'll walk you through the following topics:
   - Using `queries`
   - Dispatching `actions`
 
+### Publishing to Azure and FRS
+
+- Run the app against an FRS instance
+- Deploy the app
+
+
+--- 
+
 ## Using this repo
 
 ### Run the app locally
 
-To run our local server, Tinylicious, on the default values of `localhost:7070`, please enter the following into a terminal window:
+To run our local server, Tinylicious, on the default values of `localhost:7070`, enter the following into a terminal window:
 
 ```
 npx tinylicious
@@ -53,7 +58,145 @@ npm i
 npm run start
 ```
 
-To see how this is working, take a look at `config.ts` where you will see the following values specified:
+## Modifying the model
+
+### Specify additional DDSes
+
+Inside of `src/config.ts`, you can define the `initialObjects` that are returned by the container in the `containerSchema`. 
+
+To add another DSS to this list, make sure that the DDS is imported from `@fluid-experimental/fluid-framework`, select a key, and add the DDS to `initialObjects`.
+
+```ts
+import { SharedMap, SharedCounter } from '@fluid-experimental/fluid-framework';
+
+export const containerSchema = {
+  name: 'cra-demo-container',
+  initialObjects: {
+    myMap: SharedMap,
+    myCounter: SharedCounter
+  },
+};
+```
+### Update the `defaultData` of those DDSes
+
+Inside of `src/config.ts` you can modify the `setDefaultData` function to change the data added to the initial DDSes upon container creation. Any `initialObjects` specified above will be available on `fluidContainer.initialObjects`. 
+
+```ts
+export const setDefaultData = (fluidContainer: FluidContainer) => {
+  const { myMap, myCounter } = fluidContainer.intitialObjects;
+  myCounter.increment(1); // start at 1
+}
+```
+
+### Update the `model` to access and modify your Fluid data
+
+All of your application's business logic will be stored in `model.ts`, which is a class with access to both the `FluidContainer` and the `FrsContainerServices`. 
+
+In the `FluidModel` class you can expose new properties and methods that can leverage any of the DDSes provided by your `FluidContainer` or `FrsContainerServices` properties, like `audience`. These properties and methods will be used to provide a `store` of data and actions for your view to access, so keep the model focused on lower level access of the data itself.
+
+```ts
+  // inside of the constructor
+    this.counter = container.initialObjects.myCounter;
+  //
+  public getCounterValue = () => {
+    return this.counter.value;
+  }
+  public jumpCounterFive = (): number => {
+    return this.counter.increment(5)
+  }
+```
+
+### Write custom events
+
+This template is written to funnel all model events through the `modelChanged` event. Each event emit accepts a payload that can used to differentiate one event from another. 
+
+```ts
+// inside of the constructor
+    this.counter.on("incremented", (incrementAmount, newValue) => {
+      const counterIncrementedPayload = { type: "counterIncremented", data: {incrementAmount, newValue} };
+      this.emit("modelChanged", counterIncrementedPayload);
+    });
+
+```
+
+## Modifying the view
+
+A `store` can be used as a "view model", providing a place to store, access, modify and update stateful data. Due to the collaborative nature of Fluid applications, all operations follow the same circular path:
+
+1. View performs actions to modify Fluid
+2. Fluid emits an event when modified
+3. Store updates local state based on that event
+4. View updates to match local state
+
+This means that local state is never modified directly by the UI, and both local and remote modifications to Fluid data result in the same update to local state. The `store` helps you to implement this pattern with the least amount of boilerplate possible.
+
+### Create a store
+
+// TODO: split this out into 4 parts and walk through creation
+
+```ts
+export const useGetCounterStore = () => useGetStore({
+  initialState: model => model.getCounterValue(),
+  queries: {
+    getCounter: state => state,
+    isMoreThan100: state => state > 100
+  },
+  actions: {
+    increment: ( model, payload: {double: boolean} ) => {
+      if (double) { 
+        model.jumpCounterFive(); 
+        model.jumpCounterFive(); 
+      } else {
+        model.jumpCounterFive();
+      }
+    }
+  },
+  reducer: (model, draft, { type, data }) => {
+    switch (type) {
+      case "counterIncremented":
+        draft = data.newValue
+        break;          
+    }
+  },
+})
+```
+   
+
+### Import and use the store
+
+// TODO: walkthrough store usage
+
+```tsx
+const CounterPage = (props) => {
+  const {
+    dispatch,
+    actions: { increment },
+    queries: { getCounter, isMoreThan100 }
+  } = useGetCounterStore();
+
+  return(
+    <div> 
+    Counter is {isMoreThan100 ? "TOO BIG" : "kinda small" }  </br>
+    <button onClick={() => dispatch(increment())} > jump </button> </br>
+    <button onClick={() => dispatch(increment(double: true))} > BIG jump! </button> </br>
+    </div>
+  )
+}
+
+
+```
+
+
+
+
+
+
+## Publishing to Azure and FRS
+
+
+### Run the app against an Azure Fluid Relay service (FRS) instance
+
+To run the app against a deployed FRS instance, the first set of `connectionConfig` values in `config.ts` need to be updated as the `useFrs` boolean will now be set to true. The tenant ID, orderer, and storage URLs should match those provided to you as part of the FRS onboarding process.
 
 ```typescript
 export const connectionConfig: FrsConnectionConfig = useFrs
@@ -74,17 +217,11 @@ export const connectionConfig: FrsConnectionConfig = useFrs
     };
 ```
 
-When just starting the app with `npm run start`, the `useFrs` value here is false and the second set of values will be used. Here, we see that our orderer and storage URLs that point to the service are directed towards 'http://localhost:7070'. The `user` object being passed into the `InsecureTokenProvider` will identify the current member's user ID and user name in the application.
-
-### Run the app against an Azure Fluid Relay service (FRS) instance
-
-To run the app against a deployed FRS instance, the first set of `connectionConfig` values in `config.ts` need to be updated as the `useFrs` boolean will now be set to true. The tenant ID, orderer, and storage URLs should match those provided to you as part of the FRS onboarding process.
-
 As we can see, the `tokenProvider` value here is now an `FrsAzFunctionTokenProvider` which will make a request to an Azure function to return a signed token for the provided user. This is done so that the tenant key, that is also provided during FRS onboarding, does not need to be stored on client-side code. Instead, the Azure function is responsible for fetching the appropriate key for the `tenantId` we provided and signing the token using it. Please see [this repo](https://github.com/microsoft/FrsAzureFunctions) to clone an example Azure function that provides the API that this token provider would use.
 
 Once our Azure function is set up, we just need to pass in the URL for it to the `FrsAzFunctionTokenProvider` constructor.
 
-After filling these values in, please run the following commands in a terminal window:
+After filling these values in, run the following commands in a terminal window:
 
 ```
 npm i
@@ -172,49 +309,6 @@ Once it is completed, click on "Browse Website" to open up the app home page.
 <img src='https://user-images.githubusercontent.com/7992711/128751550-eab7bd7d-8700-47b2-82b2-7b180f8121e6.PNG' >
 
 Now, you can start sharing links for different created containers. After clicking on "Create" from the home page, the app url will be of the format `https://{YOUR-APPSERVICE-NAME}.azurewebsites.net/fluid/{CONTAINER-ID}`. Any users who have the page open with the same container ID should now be able to collaborate with one another!
-
-## Modifying the model
-
-### Modify the schema to include additional DDSes
-
-Inside of `src/config.ts`, in the `containerConfig` you can modify the `initialObjects` that are returned by the container. 
-
-To add another DSS to this list, make sure that the DDS is imported from `@fluid-experimental/fluid-framework`, select a key, and add the DDS to `initialObjects`.
-
-```ts
-import { SharedMap, ShareString } from '@fluid-experimental/fluid-framework';
-
-export const containerConfig = {
-  name: 'cra-demo-container',
-  initialObjects: {
-    myMap: SharedMap,
-    myStringName: SharedString
-  },
-};
-```
-Once added, you can assign default data and then access then in the `model`, both of which are described below.
-
-### Update the `defaultData` of those DDSes
-
-Inside of `src/config.ts` you can modify the `setDefaultData` function to change the data added to the initial DDSes upon container creation. Any `initialObjects` specified above will be available on `fluidContainer.initialObjects`. 
-
-
-```ts
-export const setDefaultData = (fluidContainer: FluidContainer) => {
-  const { myMap, myStringName } = fluidContainer.intitialObjects;
-  ...
-}
-```
-
-### Update the `model` to access and modify your Fluid data
-
-### Write custom events
-
-## Modifying the view
-
-### Modify the store
-
-### Import and use the store
 
 ## Contributing
 
