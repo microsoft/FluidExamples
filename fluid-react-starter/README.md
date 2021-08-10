@@ -92,7 +92,7 @@ export const setDefaultData = (fluidContainer: FluidContainer) => {
 
 All of your application's business logic will be stored in `model.ts`, which is a class with access to both the `FluidContainer` and the `FrsContainerServices`. 
 
-In the `FluidModel` class we can expose new properties and methods that can leverage any of the default DDSes or `FrsContainerServices` properties, like `audience`. These properties and methods will be used to provide a `store` of data and actions for our view to access, so keep the model focused on lower level access of the data itself.
+In the `FluidModel` class you can expose new properties and methods that can leverage any of the DDSes provided by your `FluidContainer` or `FrsContainerServices` properties, like `audience`. These properties and methods will be used to provide a `store` of data and actions for your view to access, so keep the model focused on lower level access of the data itself.
 
 ```ts
   // inside of the constructor
