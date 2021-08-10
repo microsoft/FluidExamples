@@ -67,6 +67,6 @@ To keep track of changes made to individual notes, the LetsBrainstorm app make u
 ```ts
 sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
 ```
-While all the property prefixes are static, by attaching unique `noteId`, to the end of the static property prefix, we ensured that properties for each note are stored individually. Furthermore, with the use of `SharedMap`, state of each note can be updated promptly in real-time.
+While all the property prefixes are static, by attaching unique `noteId` to the end of the property prefix, we ensured that properties for each note are stored individually. Furthermore, with the use of `SharedMap`, state of each note can be updated promptly in real-time.
 
 ## Using Audience to Render User Information
