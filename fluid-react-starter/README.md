@@ -108,7 +108,7 @@ In the `FluidModel` class you can expose new properties and methods that can lev
 
 ### Write custom events
 
-This demo is written to funnel all model events through the `modelChanged` event. Each event emit accepts a payload that can used to differentiate one even from another. 
+This template is written to funnel all model events through the `modelChanged` event. Each event emit accepts a payload that can used to differentiate one event from another. 
 
 ```ts
 // inside of the constructor
