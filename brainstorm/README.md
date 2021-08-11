@@ -61,7 +61,7 @@ export const connectionConfig: FrsConnectionConfig = useFrs ? {
     };
 ```
 
-## Using `SharedMap` to Track Note States
+## Using `SharedMap` and Prefix Structure to Update Note States
 To keep track of changes made to individual notes, the LetsBrainstorm app make use of the `SharedMap` data structure from `FluidContainer` and the prefix structure. 
 
 The [BrainstormModel](./src/BrainstormModel.ts) defines various functions that are available to a note, including creating and deleting a note, getting likes, moving the note in the note space, changing the note text, and etc. These functions achieve their tasks by making changes to the properties associated with the note. All note properties, such as `noteId`s, `author`, `color`, `postition`, etc, are stored in a `SharedMap` as key-value pairs for easy retrieval. Now, to differentiate between different properties and notes, we make use of a prefix structure, where each key contains a prefix that indicates which property this key-value pair holds and for which note. 
@@ -72,3 +72,6 @@ sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
 While all the property prefixes are static, by attaching unique `noteId` to the end of the property prefix, we ensured that properties for each note are stored individually. Furthermore, with the use of `SharedMap`, state of each note can be updated promptly in real-time.
 
 ## Using Audience to Render User Information
+The LetsBrainstorm app make use of the audience property from `FrsContainerServices` to keep track of and render all user related information. 
+
+In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used to display all active users currently in the session. It is also used to retrieve current user information so the user can be assigned as the author accordingly, such as when the user creates a note.
