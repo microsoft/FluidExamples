@@ -18,9 +18,11 @@ This application was shown during a [Microsoft Build session](https://aka.ms/OD5
 5. Navigate to `http://localhost:3000` in a browser tab
 
 <br />
+
 | :memo: NOTE                                                                                              |
 |:---------------------------------------------------------------------------------------------------------|
 | Tinylicious is a local, self-contained test service. By running `npx tinylicious` from your terminal window will launch the Tinylicious server. The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.                                                         |
+
 <br />
 
 ### To run this follow the steps below for remote mode (Routerlicious):
