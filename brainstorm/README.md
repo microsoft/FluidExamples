@@ -17,7 +17,8 @@ To run this follow the steps below for local mode (Tinylicious):
 3. Run `npm run start` to start the client
 5. Navigate to `http://localhost:3000` in a browser tab
 
-This package is based on the [Create React App](https://reactjs.org/docs/create-a-new-react-app.html), so much of the Create React App documentation applies.
+
+
 
 | :memo: NOTE                                                                                              |
 |:---------------------------------------------------------------------------------------------------------|
@@ -29,11 +30,11 @@ To run this follow the steps below for remote mode (Routerlicious):
 2. Run `npm run start:frs` to start the "Routerlicious" test service
 5. Navigate to `http://localhost:3000` in a browser tab
 
-This package is based on the [Create React App](https://reactjs.org/docs/create-a-new-react-app.html), so much of the Create React App documentation applies.
-
 | :memo: NOTE                                                                                              |
 |:---------------------------------------------------------------------------------------------------------|
 | Routerlicious is a main composed server definition that pulls together multiple micro-services that provide the ordering and storage requirement of Fluid runtime. By running `npm run start:frs` from your terminal window, the environment variable `REACT_APP_FLUID_CLIENT` will be set first, which will be picked up by the `useFrs` flag, and `FrsConnectionConfig` will use the remote mode config format. Then, the command will starts the server.                                                                            |
+
+This package is based on the [Create React App](https://reactjs.org/docs/create-a-new-react-app.html), so much of the Create React App documentation applies.
 
 ## Using the Brainstorm App
 
