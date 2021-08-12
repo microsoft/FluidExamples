@@ -19,14 +19,9 @@ To run this follow the steps below for local mode (Tinylicious):
 
 This package is based on the [Create React App](https://reactjs.org/docs/create-a-new-react-app.html), so much of the Create React App documentation applies.
 
-
-
----
-**NOTE**
-
-Tinylicious is a local, self-contained test service. By running `npx tinylicious` from your terminal window will launch the Tinylicious server. The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.
-
----
+| :memo: NOTE                                                                                              |
+|:---------------------------------------------------------------------------------------------------------|
+| Tinylicious is a local, self-contained test service. By running `npx tinylicious` from your terminal window will launch the Tinylicious server. The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.                                                         |
 
 To run this follow the steps below for remote mode (Routerlicious):
 
@@ -58,9 +53,6 @@ By configuring the `FrsConnectionConfig` that we pass into the `FrsClient` insta
 - Running `FrsClient` against local Tinylicious instance
     - To run against our local Tinylicious instance, we pass the `tenantId` as "local" and make use of `InsecureTokenProvider`. The `InsecureTokenProvider` requires we pass in two values to its constructor, a key string, which can be anything since we are running it locally, and an IUser type object identifying the current user. For running the instance locally, the orderer and storage URLs would point to the Tinylicious instance on the default values of `http://localhost:7070`.
 
-| :memo:        | To launch the local Tinylicious service instance, run `npx tinylicious` from your terminal window       |
-|---------------|:------------------------|
-
 - Running `FrsClient` against live FRS instance
     - To run against live FRS Instance, tenant ID, orderer and storage URLs are required. We make use of `FrsAzFunctionTokenProvider` which takes in the Azure function URL and an optional `IUser` type object identifying the current user, thereby making an axios `GET` request call to the Azure Function. This axios call takes in the tenant ID, documentId and userID/userName as optional parameters. The Azure Function is responsible for mapping the `tenantId` to tenant key secret to generate and sign the token such that the service will accept it.
 
@@ -91,9 +83,9 @@ The [BrainstormModel](./src/BrainstormModel.ts) defines various functions that a
 sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
 ```
 
-| :warning: WARNING          |
-|:---------------------------|
-| I should warn you ...      |
+| :warning: WARNING                                                                                        |
+|:---------------------------------------------------------------------------------------------------------|
+| Do not try to modify the local state directly as it won't cause any changes for remote clients           |
 
 
 While all the property prefixes are static, by attaching unique `noteId` to the end of the property prefix, we ensured that properties for each note are stored individually. Furthermore, with the use of `SharedMap`, state of each note can be updated promptly in real-time.
