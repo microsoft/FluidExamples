@@ -10,13 +10,12 @@ This application was shown during a [Microsoft Build session](https://aka.ms/OD5
 
 ## Getting Started
 
-To run this follow the steps below for local mode (Tinylicious):
+### To run this follow the steps below for local mode (Tinylicious):
 
 1. Run `npm install` from the brainstorm folder root
 2. Run `npx tinylicious` to start the "Tinylicious" test service
 3. Run `npm run start` to start the client
-5. Navigate to `http://localhost:3000` in a browser tab
-
+5. Navigate to `http://localhost:3000` in a browser tab  
 
 
 
@@ -24,7 +23,7 @@ To run this follow the steps below for local mode (Tinylicious):
 |:---------------------------------------------------------------------------------------------------------|
 | Tinylicious is a local, self-contained test service. By running `npx tinylicious` from your terminal window will launch the Tinylicious server. The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.                                                         |
 
-To run this follow the steps below for remote mode (Routerlicious):
+### To run this follow the steps below for remote mode (Routerlicious):
 
 1. Run `npm install` from the brainstorm folder root
 2. Run `npm run start:frs` to start the "Routerlicious" test service
