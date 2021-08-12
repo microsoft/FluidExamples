@@ -31,9 +31,13 @@ This application was shown during a [Microsoft Build session](https://aka.ms/OD5
 2. Run `npm run start:frs` to start the "Routerlicious" test service
 5. Navigate to `http://localhost:3000` in a browser tab
 
+<br />
+
 | :memo: NOTE                                                                                              |
 |:---------------------------------------------------------------------------------------------------------|
 | Routerlicious is a main composed server definition that pulls together multiple micro-services that provide the ordering and storage requirement of Fluid runtime. By running `npm run start:frs` from your terminal window, the environment variable `REACT_APP_FLUID_CLIENT` will be set first, which will be picked up by the `useFrs` flag, and `FrsConnectionConfig` will use the remote mode config format. Then, the command will starts the server.                                                                            |
+
+<br />
 
 This package is based on the [Create React App](https://reactjs.org/docs/create-a-new-react-app.html), so much of the Create React App documentation applies.
 
@@ -83,10 +87,13 @@ The [BrainstormModel](./src/BrainstormModel.ts) defines various functions that a
 sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
 ```
 
+<br />
+
 | :warning: WARNING                                                                                        |
 |:---------------------------------------------------------------------------------------------------------|
 | Do not try to modify the local state directly as it won't cause any changes for remote clients           |
 
+<br />
 
 While all the property prefixes are static, by attaching unique `noteId` to the end of the property prefix, we ensured that properties for each note are stored individually. Furthermore, with the use of `SharedMap`, state of each note can be updated promptly in real-time.
 
