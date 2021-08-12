@@ -10,7 +10,7 @@ This application was shown during a [Microsoft Build session](https://aka.ms/OD5
 
 ## Getting Started
 
-### To run this follow the steps below for local mode (Tinylicious):
+### Follow the steps below to run this in local mode (Tinylicious):
 
 1. Run `npm install` from the brainstorm folder root
 2. Run `npx tinylicious` to start the "Tinylicious" test service
@@ -25,7 +25,7 @@ This application was shown during a [Microsoft Build session](https://aka.ms/OD5
 
 <br />
 
-### To run this follow the steps below for remote mode (Routerlicious):
+### Follow the steps below to run this in remote mode (Routerlicious):
 
 1. Run `npm install` from the brainstorm folder root
 2. Run `npm run start:frs` to start the "Routerlicious" test service
