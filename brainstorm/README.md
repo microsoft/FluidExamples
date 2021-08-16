@@ -81,21 +81,33 @@ To keep track of changes made to individual notes, the LetsBrainstorm app make u
 
 `SharedMap`, specified in `containerSchema`'s `initialObjects` property in [Config.ts](./src/Config.ts), will be loaded into memory when the `FluidContainer` is loaded and you can access them off the `FluidContainer` via the `initialObjects` property.
 
-The [BrainstormModel](./src/BrainstormModel.ts) defines various functions that are available to a note, including creating and deleting a note, getting likes, moving the note in the note space, changing the note text, and etc. These functions achieve their tasks by making changes to the properties associated with the note. All note properties, such as `noteId`s, `author`, `color`, `postition`, etc, are stored in a `SharedMap` as key-value pairs for easy retrieval. Now, to differentiate between different properties and notes, we make use of a prefix structure, where each key contains a prefix that indicates which property this key-value pair holds and for which note. 
-
-```ts
-sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
-```
+- `SharedMap` and The State Update Loop
+    - The [BrainstormModel](./src/BrainstormModel.ts) defines various functions that are available to a note, including creating and deleting a note, getting likes, moving the note in the note space, changing the note text, and etc. These functions achieve their tasks by making changes to the properties associated with the note. All note properties, such as `noteId`s, `author`, `color`, `postition`, etc, are stored in a `SharedMap` as key-value pairs for easy retrieval. Now, the usage of a `SharedMap` allows us to update the note states locally and have the changes sync with `SharedMap` and propagate to all remote client views. This is done by the function `setChangeListener()`, where a listener is attached to the `SharedMap` and listens for any `valueChanged` event. The `useEffect()` hook in [NoteSpace.tsx](./src/view/NoteSpace.tsx) updates the React state holding the local notes with the function `syncLocalAndFluidState()`, then the `setChangeListener()` is called to continue listening and update local state of all notes.
 
 <br />
 
 | :warning: WARNING                                                                                        |
 |:---------------------------------------------------------------------------------------------------------|
-| Do not try to modify the local state directly as it won't cause any changes for remote clients           |
+| Do not try to modify the local state directly outside of the `useEffect` hook, it will not cause any changes for remote clients.                                                                                |
 
 <br />
 
-While all the property prefixes are static, by attaching unique `noteId` to the end of the property prefix, we ensured that properties for each note are stored individually. Furthermore, with the use of `SharedMap`, state of each note can be updated promptly in real-time.
+- Using `SharedMap` with The Prefix Structure
+    - With different properties stored in the `SharedMap` as key-value pairs, we make use of a prefix structure to differentiate between different properties and notes. Each key contains a prefix that indicates which property this key-value pair holds and for which note. 
+
+    ```ts
+    sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
+    ```
+
+    As shown above, a static prefix is attached to indicate which property this entry holds (`noteId`, `author`, `color`, etc), then to ensure the key is unique for each note, we attach the `noteId` after the static prefix. With this structure, we now ensured that properties for each note are stored individually.
+
+Let's walk through how the the components work together seamlessly, take `setNoteColor()` in [BrainstormModel](./src/BrainstormModel.ts) as example. This method is passed down to its view component, [NoteSpace.tsx](./src/view/NoteSpace.tsx), through props. As the name suggests, this method gets triggered whenever user changes the color of the note. When the color button is selected by the user, the method takes the key (`c_ColorPrefix` + `noteId`) and set the `SharedMap` value to the desired color value. Now that a `SharedMap` key-value pair is changed, the `valueChanged` event is then triggered, and the listener calls the `syncLocalAndFluidState()` method defined in the `useEffect` hook. The `syncLocalAndFluidState()` method then generates new `notes` state with the following procedure:
+
+1. Get the `NoteIds` from the map
+2. Use the IDs as prefixes in `createNote()` to load the data for each individual note. 
+    - `createNote()` will take the `noteId` that's passed in as argument to retrieve each note property from `SharedMap` and populate the new note. Attributes like `didLikeThisCalculated` also filters the retrieved value by `user` and `noteId` to generate unique view from the user's perspective.
+3. Apply a state update with our list of new notes.
+    - With our newly generated and updated list of new notes, we call `setNotes` to update the React state. This updated React state will propagate the changes to all remote clients, resulting in the view updating.
 
 ## Using Audience to Render User Information
 The LetsBrainstorm app make use of the audience property from `FrsContainerServices` to keep track of and render all user related information. 
