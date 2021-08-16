@@ -101,7 +101,7 @@ To keep track of changes made to individual notes, the LetsBrainstorm app make u
 
     As shown above, a static prefix is attached to indicate which property this entry holds (`noteId`, `author`, `color`, etc), then to ensure the key is unique for each note, we attach the `noteId` after the static prefix. With this structure, we now ensured that properties for each note are stored individually.
 
-To summarize how these 2 components work together seamlessly, take `setNoteColor()` in [BrainstormModel](./src/BrainstormModel.ts) as example. This method is passed down to its view component, [NoteSpace.tsx](./src/view/NoteSpace.tsx), through props. As the name suggests, this method gets triggered whenever user changes the color of the note. When the color button is selected by the user, the method takes the key (`c_ColorPrefix` + `noteId`) and sets the `SharedMap` value to the desired color value. Now that a `SharedMap` key-value pair is changed, the `valueChanged` event is then triggered, and the listener calls the `syncLocalAndFluidState()` method defined in the `useEffect` hook. The `syncLocalAndFluidState()` method then generates new `notes` state with the following procedure:
+To summarize how these 2 components work together seamlessly, take `setNoteColor()` in [BrainstormModel](./src/BrainstormModel.ts) as example. This method is passed down to its view component, [NoteSpace.tsx](./src/view/NoteSpace.tsx), through props. As the name suggests, this method gets triggered whenever user changes the color of the note. When the color button is selected by the user, the method takes the key (`c_ColorPrefix` + `noteId`) and sets the `SharedMap` value to the desired color value. Now that a `SharedMap` key-value pair is changed, the `valueChanged` event is then triggered from `setChangeListener()`, and the listener calls the `syncLocalAndFluidState()` method defined in the `useEffect` hook. The `syncLocalAndFluidState()` method then generates new `notes` state with the following procedure:
 
 1. Get the `NoteIds` from the map
 2. Use the IDs as prefixes in `createNote()` to load the data for each individual note. 
@@ -110,6 +110,32 @@ To summarize how these 2 components work together seamlessly, take `setNoteColor
     - With our newly generated and updated list of new notes, we call `setNotes` to update the React state. This updated React state will propagate the changes to all remote clients, resulting in the view updating.
 
 ## Using Audience to Render User Information
-The LetsBrainstorm app make use of the audience property from `FrsContainerServices` to keep track of and render all user related information. 
+The LetsBrainstorm app make use of the `audience` property from `FrsContainerServices` to keep track of and render all user related information. 
 
-In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used to display all active users currently in the session. It is also used to retrieve current user information so the user can be assigned as the author accordingly, such as when the user creates a note.
+In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used to achieve 2 tasks, display all active users currently in the session, and retrieve current user information so the user can be assigned as the author accordingly, such as when the user creates a note.
+
+Similar to how `BrainstormModel` works in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the member values of the audience property is also being tracked as a React state.
+
+```ts
+const [members, setMembers] = React.useState(Array.from(audience.getMembers().values()));
+```
+
+Just like `setChangeListener()` calling `syncLocalAndFluidState()` on a `valueChanged` event described in the previous section, a listener on the `audeince.getMembers()` property is actively listening for a `"membersChanged"` event. When the event occurs, the listener will call the `setMembersCallback()` method.
+
+```ts
+const setMembersCallback = React.useCallback(() => setMembers(
+    Array.from(
+      audience.getMembers().values()
+    )
+  ), [setMembers, audience]);
+```
+
+The `setMembersCallback()` retreives a list of all the active members, and convert it to an array. This array is then used by `setMembers` to update the React state of active users when new clients join or leave the session.
+
+Now, audience also has a `getMyself()` property to get the current client as a member, which allows the user to be assigned as author whenever the user creates a note.
+
+```ts
+const authorInfo = audience.getMyself();
+```
+
+
