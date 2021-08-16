@@ -57,7 +57,7 @@
   "devDependencies": {
     "tinylicious": "^0.4.21640",
     "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
+    "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "22.2.3",
     "@types/node": "^12.19.0",
