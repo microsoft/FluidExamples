@@ -57,6 +57,14 @@ By configuring the `FrsConnectionConfig` that we pass into the `FrsClient` insta
 Now, before you can access any Fluid data, you need to define your container schema after creating a configured `FrsClient` using `FrsConnectionConfig`.
 
 - `containerSchema`, also defined in [Config.ts](./src/Config.ts), is going to include a string `name` and a collection of the data types our application will use.
+```ts
+export const containerSchema = {
+    name: "brainstorm",
+    initialObjects: {
+        map: SharedMap,
+    },
+}
+```
 
 Inside [index.tsx](./src/index.tsx), we defined a `start()` function that uses `getContainerId()` to return a unique ID and determine if this is an existing document (`getContainer()`) or if we need to create a new one (`createContainer()`).
 
@@ -84,7 +92,7 @@ export async function start() {
 }
 ```
 
-Since `start()` is an async function, we'll need to await for the initialObjects to be returned. Once returned, each initialObjects key will point to a connected data structure as defined in the schema.
+Since `start()` is an async function, we'll need to await for the initialObjects to be returned. Once returned, each `initialObjects` key will point to a connected data structure as defined in the schema.
 
 ### Running `FrsClient` against local Tinylicious instance
 - To run against our local Tinylicious instance, we pass the `tenantId` as "local" and make use of `InsecureTokenProvider`. The `InsecureTokenProvider` requires we pass in two values to its constructor, a key string, which can be anything since we are running it locally, and an IUser type object identifying the current user. For running the instance locally, the orderer and storage URLs would point to the Tinylicious instance on the default values of `http://localhost:7070`.
