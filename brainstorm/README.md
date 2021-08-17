@@ -10,32 +10,32 @@ This application was shown during a [Microsoft Build session](https://aka.ms/OD5
 
 ## Getting Started
 
-### Follow the steps below to run this in local mode (Tinylicious):
+Follow the steps below to run this in local mode (Tinylicious):
 
 1. Run `npm install` from the brainstorm folder root
 2. Run `npx tinylicious` to start the "Tinylicious" test service
 3. Run `npm run start` to start the client
-5. Navigate to `http://localhost:3000` in a browser tab
+4. Navigate to `http://localhost:3000` in a browser tab
 
 <br />
 
 | :memo: NOTE                                                                                              |
 |:---------------------------------------------------------------------------------------------------------|
-| Tinylicious is a local, self-contained test service. By running `npx tinylicious` from your terminal window will launch the Tinylicious server. The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.                                                         |
+| Tinylicious is a local, self-contained test service. Running `npx tinylicious` from your terminal window will launch the Tinylicious server. The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.                                                         |
 
 <br />
 
-### Follow the steps below to run this in remote mode (Routerlicious):
+Follow the steps below to run this in remote mode (Routerlicious):
 
 1. Run `npm install` from the brainstorm folder root
-2. Run `npm run start:frs` to start the "Routerlicious" test service
-5. Navigate to `http://localhost:3000` in a browser tab
+2. Run `npm run start:frs` to connect to the Azure Fluid Relay service
+3. Navigate to `http://localhost:3000` in a browser tab
 
 <br />
 
 | :memo: NOTE                                                                                              |
 |:---------------------------------------------------------------------------------------------------------|
-| Routerlicious is a main composed server definition that pulls together multiple micro-services that provide the ordering and storage requirement of Fluid runtime. By running `npm run start:frs` from your terminal window, the environment variable `REACT_APP_FLUID_CLIENT` will be set first, which will be picked up by the `useFrs` flag, and `FrsConnectionConfig` will use the remote mode config format. Then, the command will starts the server.                                                                            |
+| Azure Fluid Relay service is a deployed service implementation that pulls together multiple micro-services that provide the ordering and storage requirement of Fluid runtime. By running `npm run start:frs` from your terminal window, the environment variable `REACT_APP_FLUID_CLIENT` will be set first, which will be picked up by the `useFrs` flag, and `FrsConnectionConfig` will use the remote mode config format. Please use the values provided as part of the service onboarding process to fill in this configuration. Then, the command will connect to your service instance.                                    |
 
 <br />
 
@@ -77,37 +77,36 @@ export const connectionConfig: FrsConnectionConfig = useFrs ? {
 ```
 
 ## Using `SharedMap` and Prefix Structure to Update Note States
-To keep track of changes made to individual notes, the LetsBrainstorm app make use of the `SharedMap` data structure from `FluidContainer` and the prefix structure.
+To keep track of changes made to individual notes, the LetsBrainstorm app makes use of the `SharedMap` data structure from `FluidContainer` and a prefix-based structuring of our data for tracking different properties.
 
 `SharedMap`, specified in `containerSchema`'s `initialObjects` property in [Config.ts](./src/Config.ts), will be loaded into memory when the `FluidContainer` is loaded and you can access them off the `FluidContainer` via the `initialObjects` property.
 
-- Syncing `SharedMap` and View data
-    - The [BrainstormModel](./src/BrainstormModel.ts) defines various functions that are available to a note, including creating and deleting a note, getting likes, moving the note in the note space, changing the note text, and etc. These functions achieve their tasks by making changes to the properties associated with the note. All note properties, such as `noteId`s, `author`, `color`, `postition`, etc, are stored in a `SharedMap` as key-value pairs for easy retrieval. Now, syncing our Fluid and View data requires that we set up an event listener, which mean we need a `useEffect()` hook, defined in [NoteSpace.tsx](./src/view/NoteSpace.tsx).
+### Syncing `SharedMap` and View data
+The [BrainstormModel](./src/BrainstormModel.ts) defines various functions that are available to a note, including creating and deleting a note, getting likes, moving the note in the note space, changing the note text, and etc. These functions achieve their tasks by making changes to the properties associated with the note. All note properties, such as `noteId`s, `author`, `color`, `postition`, etc, are stored in a `SharedMap` as key-value pairs for easy retrieval. Now, syncing our Fluid and View data requires that we set up an event listener, which mean we need a `useEffect()` hook, defined in [NoteSpace.tsx](./src/view/NoteSpace.tsx).
+```ts
+const [notes, setNotes] = React.useState<readonly NoteData[]>([]);
 
-    To sync the data, we created a `syncLocalAndFluidState()` function, called that function once to initialize the data, and then keep listening for the `SharedMap` "valueChanged" event in `setChangeListener()`, and fire the function again each time. Now React will handle updating the view each time the new `notes` state is modified.
+// This runs when via model changes whether initiated by user or from external
+React.useEffect(() => {
+    const syncLocalAndFluidState = () => {
+    const noteDataArr = [];
+    const ids: string[] = model.NoteIds;
 
-    ```ts
-    const [notes, setNotes] = React.useState<readonly NoteData[]>([]);
+    // Recreate the list of cards to re-render them via setNotes
+    for (let noteId of ids) {
+        const newCardData: NoteData = model.CreateNote(noteId, props.author);
+        noteDataArr.push(newCardData);
+    }
+    setNotes(noteDataArr);
+    };
 
-    // This runs when via model changes whether initiated by user or from external
-    React.useEffect(() => {
-        const syncLocalAndFluidState = () => {
-        const noteDataArr = [];
-        const ids: string[] = model.NoteIds;
+    syncLocalAndFluidState();
+    model.setChangeListener(syncLocalAndFluidState);
+    return () => model.removeChangeListener(syncLocalAndFluidState);
+}, [model, props.author]);
 
-        // Recreate the list of cards to re-render them via setNotes
-        for (let noteId of ids) {
-            const newCardData: NoteData = model.CreateNote(noteId, props.author);
-            noteDataArr.push(newCardData);
-        }
-        setNotes(noteDataArr);
-        };
-
-        syncLocalAndFluidState();
-        model.setChangeListener(syncLocalAndFluidState);
-        return () => model.removeChangeListener(syncLocalAndFluidState);
-    }, [model, props.author]);
-    ```
+```
+To sync the data, we created a `syncLocalAndFluidState()` function, called that function once to initialize the data, and then keep listening for the `SharedMap` "valueChanged" event in `setChangeListener()`, and fire the function again each time. Now React will handle updating the view each time the new `notes` state is modified.
 
 <br />
 
@@ -117,14 +116,13 @@ To keep track of changes made to individual notes, the LetsBrainstorm app make u
 
 <br />
 
-- Using `SharedMap` with The Prefix Structure
-    - With different properties stored in the `SharedMap` as key-value pairs, we make use of a prefix structure to differentiate between different properties and notes. Each key contains a prefix that indicates which property this key-value pair holds and for which note. 
+### Using `SharedMap` with The Prefix Structure
+With different properties stored in the `SharedMap` as key-value pairs, we make use of a prefix structure to differentiate between different properties and notes. Each key contains a prefix that indicates which property this key-value pair holds and for which note.
+```ts
+sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
 
-    ```ts
-    sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
-    ```
-
-    As shown above, a static prefix is attached to indicate which property this entry holds (`noteId`, `author`, `color`, etc), then to ensure the key is unique for each note, we attach the `noteId` after the static prefix. With this structure, we now ensured that properties for each note are stored individually.
+```
+As shown above, a static prefix is attached to indicate which property this entry holds (`noteId`, `author`, `color`, etc), then to ensure the key is unique for each note, we attach the `noteId` after the static prefix. With this structure, we now ensured that properties for each note are stored individually.
 
 To summarize how these 2 components work together seamlessly, let's take `setNoteColor()` in [BrainstormModel](./src/BrainstormModel.ts) as example. This method is passed down to its view component, [NoteSpace.tsx](./src/view/NoteSpace.tsx), through props. As the name suggests, this method gets triggered whenever user changes the color of the note. When the color button is selected by the user, the method takes the key (`c_ColorPrefix` + `noteId`) and sets the `SharedMap` value to the desired color value. Now that a `SharedMap` key-value pair is changed, the "valueChanged" event is then triggered from `setChangeListener()`, and the listener fires the `syncLocalAndFluidState()` function defined in the `useEffect` hook. The function then generates new `notes` state with the following procedure:
 
@@ -142,8 +140,6 @@ In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used
 Similar to how `BrainstormModel` works in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the member values of the audience property is also being tracked as a React state so we can display all the active users in the session.
 
 With audience Fluid data and View data, we again, need to set up an event listener, which mean we also need a `useEffect()` hook.
-
-To sync the data, we created a `setMembersCallback()` function, which retreives a list of all the active members and convert it to an array, then have a listener keep listening for the "membersChanged" event, and fire the function each time. Now React will handle updating the view each time the new `members` state is modified.
 
 ```ts
 const [members, setMembers] = React.useState(Array.from(audience.getMembers().values()));
@@ -164,7 +160,9 @@ React.useEffect(() => {
 }, [fluidContainer, audience, setMembersCallback]);
 ```
 
-Now, audience also has a `getMyself()` property to get the current client as a member. By passing this into the view, [NoteSpace.tsx](./src/view/NoteSpace.tsx), as props, this allows the user to be assigned as author whenever the user creates a note.
+To sync the data, we created a `setMembersCallback()` function, which retreives a list of all the active members and convert it to an array, then have a listener keep listening for the "membersChanged" event, and fire the function each time. Now React will handle updating the view each time the new `members` state is modified.
+
+Now, audience also has a `getMyself()` property to get the current client as a member. Passing this into the view, [NoteSpace.tsx](./src/view/NoteSpace.tsx), as props, this allows the user to be assigned as author whenever the user creates a note.
 
 ```ts
 const authorInfo = audience.getMyself();
