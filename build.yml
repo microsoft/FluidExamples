@@ -16,6 +16,12 @@ parameters:
 - name: sudoku
   type: string
   default: sudoku
+- name: fluid-react-starter
+  type: string
+  default: fluid-react-starter
+- name: cra-demo
+  type: string
+  default: cra-demo
 
 trigger:
 - main
