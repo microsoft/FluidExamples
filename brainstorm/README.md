@@ -193,7 +193,7 @@ React.useEffect(() => {
 }, [fluidContainer, audience, setMembersCallback]);
 ```
 
-To sync the data, we created a `setMembersCallback()` function, which retreives a list of all the active members and convert it to an array, then have a listener keep listening for the "membersChanged" event, and fire the function each time. Now React will handle updating the view each time the new `members` state is modified.
+To sync the data, we created a `setMembersCallback()` function, which retrieves a list of all the active members and convert it to an array, then have a listener keep listening for the "membersChanged" event, and fire the function each time. Now React will handle updating the view each time the new `members` state is modified.
 
 Now, audience also has a `getMyself()` property to get the current client as a member. Passing this into the view, [NoteSpace.tsx](./src/view/NoteSpace.tsx), as props, this allows the user to be assigned as author whenever the user creates a note.
 
