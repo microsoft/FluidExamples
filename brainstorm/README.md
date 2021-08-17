@@ -22,7 +22,6 @@ Follow the steps below to run this in local mode (Tinylicious):
 | :memo: NOTE                                                                                                                                             |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Tinylicious is a local, self-contained test service. Running `npx tinylicious` from your terminal window will launch the Tinylicious server. The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.
-|
 
 <br />
 
