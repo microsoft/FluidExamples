@@ -90,6 +90,8 @@ export function NoteSpace(props: NoteSpaceProps) {
             <Note
               {...note}
               id={note.id}
+              client={props.author}
+              author={note.author}
               key={note.id}
               text={note.text}
               setPosition={setPosition}
