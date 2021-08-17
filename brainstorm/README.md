@@ -19,9 +19,10 @@ Follow the steps below to run this in local mode (Tinylicious):
 
 <br />
 
-| :memo: NOTE                                                                                              |
-|:---------------------------------------------------------------------------------------------------------|
-| Tinylicious is a local, self-contained test service. Running `npx tinylicious` from your terminal window will launch the Tinylicious server. The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.                                                         |
+| :memo: NOTE                                                                                                                                             |
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Tinylicious is a local, self-contained test service. Running `npx tinylicious` from your terminal window will launch the Tinylicious server. The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.
+|
 
 <br />
 
@@ -33,9 +34,10 @@ Follow the steps below to run this in remote mode (Routerlicious):
 
 <br />
 
-| :memo: NOTE                                                                                              |
-|:---------------------------------------------------------------------------------------------------------|
-| Azure Fluid Relay service is a deployed service implementation that pulls together multiple micro-services that provide the ordering and storage requirement of Fluid runtime. By running `npm run start:frs` from your terminal window, the environment variable `REACT_APP_FLUID_CLIENT` will be set first, which will be picked up by the `useFrs` flag, and `FrsConnectionConfig` will use the remote mode config format. Please use the values provided as part of the service onboarding process to fill in this configuration. Then, the command will connect to your service instance.                                    |
+| :memo: NOTE                                                                                                                                             |
+:---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Azure Fluid Relay service is a deployed service implementation that pulls together multiple micro-services that provide the ordering and storage requirement of Fluid runtime. By running `npm run start:frs` from your terminal window, the environment variable `REACT_APP_FLUID_CLIENT` will be set first, which will be picked up by the `useFrs` flag, and `FrsConnectionConfig` will use the remote mode config format. Please use the values provided as part of the service onboarding process to fill in this configuration. Then, the command will connect to your service instance.
+|
 
 <br />
 
@@ -52,7 +54,39 @@ You'll be taken to a url similar to 'http://localhost:3000/**#1621961220840**' t
 Now you can create notes, write text, change colors and more!
 
 ## Connecting to the Service
-By configuring the `FrsConnectionConfig` that we pass into the `FrsClient` instance, we can connect to both live FRS and Tinylicious instances. The `FrsConnectionConfig` is defined by the `connectionConfig` constant in [Config.ts](./src/Config.ts), which specifies the tenant ID, orderer and storage. By setting the tenant ID as "local", we allow for the `FrsClient` to run against Tinylicious for development purpose.
+By configuring the `FrsConnectionConfig` that we pass into the `FrsClient` instance, we can connect to both live FRS and Tinylicious instances. The `FrsConnectionConfig` is defined by the `connectionConfig` constant in [Config.ts](./src/Config.ts), which specifies the tenant ID, orderer and storage. 
+
+Now, before you can access any Fluid data, you need to define your container schema after creating a configured `FrsClient` using `FrsConnectionConfig`.
+
+- `containerSchema`, also defined in [Config.ts](./src/Config.ts), is going to include a string `name` and a collection of the data types our application will use.
+
+Inside [index.tsx](./src/index.tsx), we defined a `start()` function that uses `getContainerId()` to return a unique ID and determine if this is an existing document (getContainer) or if we need to create a new one (createContainer).
+
+```ts
+export async function start() {
+    initializeIcons();
+    const getContainerId = (): { containerId: string; isNew: boolean } => {
+        let isNew = false;
+        if (location.hash.length === 0) {
+            isNew = true;
+            location.hash = Date.now().toString();
+        }
+        const containerId = location.hash.substring(1);
+        return { containerId, isNew };
+    };
+
+    const { containerId, isNew } = getContainerId();
+
+    const client = new FrsClient(connectionConfig);
+
+    const frsResources = isNew
+        ? await client.createContainer({ id: containerId }, containerSchema)
+        : await client.getContainer({ id: containerId }, containerSchema);
+    ...
+}
+```
+
+Since `start()` is an async function, we'll need to await for the initialObjects to be returned. Once returned, each initialObjects key will point to a connected data structure as defined in the schema.
 
 - Running `FrsClient` against local Tinylicious instance
     - To run against our local Tinylicious instance, we pass the `tenantId` as "local" and make use of `InsecureTokenProvider`. The `InsecureTokenProvider` requires we pass in two values to its constructor, a key string, which can be anything since we are running it locally, and an IUser type object identifying the current user. For running the instance locally, the orderer and storage URLs would point to the Tinylicious instance on the default values of `http://localhost:7070`.
@@ -110,9 +144,10 @@ To sync the data, we created a `syncLocalAndFluidState()` function, called that 
 
 <br />
 
-| :warning: WARNING                                                                                        |
-|:---------------------------------------------------------------------------------------------------------|
-| Do not try to modify the local state directly outside of the `useEffect` hook, it will not cause any changes for remote clients.                                                                                |
+| :warning: WARNING                                                                                                                                       |
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Do not try to modify the local state directly outside of the `useEffect` hook, it will not cause any changes for remote clients.    
+|
 
 <br />
 
@@ -138,7 +173,7 @@ The LetsBrainstorm app make use of the `audience` property from `FrsContainerSer
 
 In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used to achieve 2 tasks, display all active users currently in the session, and retrieve current user information so the user can be assigned as the author accordingly, such as when the user creates a note.
 
-Similar to how `BrainstormModel` works in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the member values of the audience property is also being tracked as a React state so we can display all the active users in the session.
+Similar to how `BrainstormModel` works in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the member values of the audience property are also being tracked in a React state so we can display all the active users in the session.
 
 With audience Fluid data and View data, we again, need to set up an event listener, which mean we also need a `useEffect()` hook.
 
