@@ -7,7 +7,7 @@ export type NoteFooterProps = Pick<NoteData, "author" | "client" | "color">;
 
 export function NoteFooter(props: NoteFooterProps) {
   const { author, client, color = DefaultColor } = props;
-  const authorName = author.userName === client?.userName as string? "you" : author.userName;
+  const authorName = author.userName === client?.userName? "you" : author.userName;
 
   return (
     <div style={{ flex: 1 }}>

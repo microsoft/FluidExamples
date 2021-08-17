@@ -27,7 +27,6 @@ export type NoteProps = Readonly<{
   Pick<
     NoteData,
     | "author"
-    | "client"
     | "position"
     | "color"
     | "didILikeThisCalculated"
@@ -59,7 +58,7 @@ export function Note(props: NoteProps) {
     <div className={rootClass} ref={drag} style={{ left, top }}>
       <NoteHeader {...props} />
       <NoteBody setText={setText} text={text} color={color} />
-      <NoteFooter author={props.author} client={client} color={color} />
+      <NoteFooter client={client} author={props.author} color={color} />
     </div>
   );
 }
