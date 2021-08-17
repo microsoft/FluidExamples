@@ -81,8 +81,33 @@ To keep track of changes made to individual notes, the LetsBrainstorm app make u
 
 `SharedMap`, specified in `containerSchema`'s `initialObjects` property in [Config.ts](./src/Config.ts), will be loaded into memory when the `FluidContainer` is loaded and you can access them off the `FluidContainer` via the `initialObjects` property.
 
-- `SharedMap` and The State Update Loop
-    - The [BrainstormModel](./src/BrainstormModel.ts) defines various functions that are available to a note, including creating and deleting a note, getting likes, moving the note in the note space, changing the note text, and etc. These functions achieve their tasks by making changes to the properties associated with the note. All note properties, such as `noteId`s, `author`, `color`, `postition`, etc, are stored in a `SharedMap` as key-value pairs for easy retrieval. Now, the usage of a `SharedMap` allows us to update the note states locally and have the changes sync with `SharedMap` and propagate to all remote client views. This is done by the function `setChangeListener()`, where a listener is attached to the `SharedMap` and listens for any `valueChanged` event. The `useEffect()` hook in [NoteSpace.tsx](./src/view/NoteSpace.tsx) updates the React state holding the local notes with the function `syncLocalAndFluidState()`, then the `setChangeListener()` is called to continue listening and update local state of all notes.
+- Syncing `SharedMap` and View data
+    - The [BrainstormModel](./src/BrainstormModel.ts) defines various functions that are available to a note, including creating and deleting a note, getting likes, moving the note in the note space, changing the note text, and etc. These functions achieve their tasks by making changes to the properties associated with the note. All note properties, such as `noteId`s, `author`, `color`, `postition`, etc, are stored in a `SharedMap` as key-value pairs for easy retrieval. Now, syncing our Fluid and View data requires that we set up an event listener, which mean we need a `useEffect()` hook, defined in [NoteSpace.tsx](./src/view/NoteSpace.tsx).
+
+    To sync the data, we created a `syncLocalAndFluidState()` function, called that function once to initialize the data, and then keep listening for the `SharedMap` "valueChanged" event in `setChangeListener()`, and fire the function again each time. Now React will handle updating the view each time the new `notes` state is modified.
+
+    ```ts
+    const [notes, setNotes] = React.useState<readonly NoteData[]>([]);
+
+    // This runs when via model changes whether initiated by user or from external
+    React.useEffect(() => {
+        const syncLocalAndFluidState = () => {
+        const noteDataArr = [];
+        const ids: string[] = model.NoteIds;
+
+        // Recreate the list of cards to re-render them via setNotes
+        for (let noteId of ids) {
+            const newCardData: NoteData = model.CreateNote(noteId, props.author);
+            noteDataArr.push(newCardData);
+        }
+        setNotes(noteDataArr);
+        };
+
+        syncLocalAndFluidState();
+        model.setChangeListener(syncLocalAndFluidState);
+        return () => model.removeChangeListener(syncLocalAndFluidState);
+    }, [model, props.author]);
+    ```
 
 <br />
 
@@ -101,11 +126,11 @@ To keep track of changes made to individual notes, the LetsBrainstorm app make u
 
     As shown above, a static prefix is attached to indicate which property this entry holds (`noteId`, `author`, `color`, etc), then to ensure the key is unique for each note, we attach the `noteId` after the static prefix. With this structure, we now ensured that properties for each note are stored individually.
 
-To summarize how these 2 components work together seamlessly, take `setNoteColor()` in [BrainstormModel](./src/BrainstormModel.ts) as example. This method is passed down to its view component, [NoteSpace.tsx](./src/view/NoteSpace.tsx), through props. As the name suggests, this method gets triggered whenever user changes the color of the note. When the color button is selected by the user, the method takes the key (`c_ColorPrefix` + `noteId`) and sets the `SharedMap` value to the desired color value. Now that a `SharedMap` key-value pair is changed, the `valueChanged` event is then triggered from `setChangeListener()`, and the listener calls the `syncLocalAndFluidState()` method defined in the `useEffect` hook. The `syncLocalAndFluidState()` method then generates new `notes` state with the following procedure:
+To summarize how these 2 components work together seamlessly, let's take `setNoteColor()` in [BrainstormModel](./src/BrainstormModel.ts) as example. This method is passed down to its view component, [NoteSpace.tsx](./src/view/NoteSpace.tsx), through props. As the name suggests, this method gets triggered whenever user changes the color of the note. When the color button is selected by the user, the method takes the key (`c_ColorPrefix` + `noteId`) and sets the `SharedMap` value to the desired color value. Now that a `SharedMap` key-value pair is changed, the "valueChanged" event is then triggered from `setChangeListener()`, and the listener fires the `syncLocalAndFluidState()` function defined in the `useEffect` hook. The function then generates new `notes` state with the following procedure:
 
 1. Get the `NoteIds` from the map
 2. Use the IDs as prefixes in `createNote()` to load the data for each individual note. 
-    - `createNote()` will take the `noteId` that's passed in as argument to retrieve each note property from `SharedMap` and populate the new note. Attributes like `didLikeThisCalculated` also filters the retrieved value by `user` and `noteId` to generate unique view from the user's perspective.
+    - `createNote()` will take the `noteId` that's passed in as argument to retrieve each note property from `SharedMap` and populate the new note. Note property like `didLikeThisCalculated` is done by filtering the retrieved value by `user` and `noteId` to generate unique view from the user's perspective.
 3. Apply a state update with our list of new notes.
     - With our newly generated and updated list of new notes, we call `setNotes` to update the React state. This updated React state will propagate the changes to all remote clients, resulting in the view updating.
 
@@ -114,23 +139,30 @@ The LetsBrainstorm app make use of the `audience` property from `FrsContainerSer
 
 In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used to achieve 2 tasks, display all active users currently in the session, and retrieve current user information so the user can be assigned as the author accordingly, such as when the user creates a note.
 
-Similar to how `BrainstormModel` works in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the member values of the audience property is also being tracked as a React state.
+Similar to how `BrainstormModel` works in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the member values of the audience property is also being tracked as a React state so we can display all the active users in the session.
+
+With audience Fluid data and View data, we again, need to set up an event listener, which mean we also need a `useEffect()` hook.
+
+To sync the data, we created a `setMembersCallback()` function, which retreives a list of all the active members and convert it to an array, then have a listener keep listening for the "membersChanged" event, and fire the function each time. Now React will handle updating the view each time the new `members` state is modified.
 
 ```ts
 const [members, setMembers] = React.useState(Array.from(audience.getMembers().values()));
-```
 
-Just like `setChangeListener()` calling `syncLocalAndFluidState()` on a `valueChanged` event described in the previous section, a listener on the `audeince.getMembers()` property is actively listening for a `"membersChanged"` event. When the event occurs, the listener will call the `setMembersCallback()` method.
-
-```ts
 const setMembersCallback = React.useCallback(() => setMembers(
     Array.from(
       audience.getMembers().values()
     )
   ), [setMembers, audience]);
-```
 
-The `setMembersCallback()` retreives a list of all the active members and convert it to an array. This array is then used by `setMembers` to update the React state of active users when new clients join or leave the session.
+React.useEffect(() => {
+    fluidContainer.on("connected", setMembersCallback);
+    audience.on("membersChanged", setMembersCallback);
+    return () => {
+        fluidContainer.off("connected", () => setMembersCallback);
+        audience.off("membersChanged", () => setMembersCallback);
+    };
+}, [fluidContainer, audience, setMembersCallback]);
+```
 
 Now, audience also has a `getMyself()` property to get the current client as a member. By passing this into the view, [NoteSpace.tsx](./src/view/NoteSpace.tsx), as props, this allows the user to be assigned as author whenever the user creates a note.
 
