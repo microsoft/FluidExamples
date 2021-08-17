@@ -132,7 +132,7 @@ const setMembersCallback = React.useCallback(() => setMembers(
 
 The `setMembersCallback()` retreives a list of all the active members and convert it to an array. This array is then used by `setMembers` to update the React state of active users when new clients join or leave the session.
 
-Now, audience also has a `getMyself()` property to get the current client as a member. By passing this into the view as props, this allows the user to be assigned as author whenever the user creates a note.
+Now, audience also has a `getMyself()` property to get the current client as a member. By passing this into the view, [NoteSpace.tsx](./src/view/NoteSpace.tsx), as props, this allows the user to be assigned as author whenever the user creates a note.
 
 ```ts
 const authorInfo = audience.getMyself();
