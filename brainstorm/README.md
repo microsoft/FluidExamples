@@ -36,7 +36,6 @@ Follow the steps below to run this in remote mode (Routerlicious):
 | :memo: NOTE                                                                                                                                             |
 :---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Azure Fluid Relay service is a deployed service implementation that pulls together multiple micro-services that provide the ordering and storage requirement of Fluid runtime. By running `npm run start:frs` from your terminal window, the environment variable `REACT_APP_FLUID_CLIENT` will be set first, which will be picked up by the `useFrs` flag, and `FrsConnectionConfig` will use the remote mode config format. Please use the values provided as part of the service onboarding process to fill in this configuration. Then, the command will connect to your service instance.
-|
 
 <br />
 
@@ -145,8 +144,7 @@ To sync the data, we created a `syncLocalAndFluidState()` function, called that 
 
 | :warning: WARNING                                                                                                                                       |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Do not try to modify the local state directly outside of the `useEffect` hook, it will not cause any changes for remote clients.    
-|
+| Do not try to modify the local state directly outside of the `useEffect` hook, it will not cause any changes for remote clients.
 
 <br />
 
