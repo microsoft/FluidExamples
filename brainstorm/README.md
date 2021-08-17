@@ -1,9 +1,5 @@
 # Lets Brainstorm
 
-```
-This example is using an experimental API surface so please be cautious. We will break it!
-```
-
 Brainstorm is an example of using the Fluid Framework to build a collaborative line of business application. In this example each user can create their own sticky notes that is managed on a board.
 
 This application was shown during a [Microsoft Build session](https://aka.ms/OD522).
