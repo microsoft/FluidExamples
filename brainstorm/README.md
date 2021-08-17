@@ -58,7 +58,7 @@ Now, before you can access any Fluid data, you need to define your container sch
 
 - `containerSchema`, also defined in [Config.ts](./src/Config.ts), is going to include a string `name` and a collection of the data types our application will use.
 
-Inside [index.tsx](./src/index.tsx), we defined a `start()` function that uses `getContainerId()` to return a unique ID and determine if this is an existing document (getContainer) or if we need to create a new one (createContainer).
+Inside [index.tsx](./src/index.tsx), we defined a `start()` function that uses `getContainerId()` to return a unique ID and determine if this is an existing document (`getContainer()`) or if we need to create a new one (`createContainer()`).
 
 ```ts
 export async function start() {
