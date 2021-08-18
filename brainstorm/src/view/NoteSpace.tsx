@@ -67,7 +67,7 @@ export function NoteSpace(props: NoteSpaceProps) {
           };
 
           const setText = (text: string) => {
-            model.SetNoteText(note.id, text);
+            model.SetNoteText(note.id, text, props.author);
           };
 
           const onLike = () => {
@@ -91,6 +91,7 @@ export function NoteSpace(props: NoteSpaceProps) {
               {...note}
               id={note.id}
               client={props.author}
+              lastEditedMember={note.lastEditedMember}
               author={note.author}
               key={note.id}
               text={note.text}

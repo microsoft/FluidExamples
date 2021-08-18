@@ -39,6 +39,7 @@ export function Header(props: HeaderProps) {
         x: Math.floor(Math.random() * (scrollWidth - NOTE_SIZE.width)),
         y: Math.floor(Math.random() * (scrollHeight - NOTE_SIZE.height)),
       },
+      lastEditedMember: props.author,
       author: props.author,
       numLikesCalculated: 0,
       didILikeThisCalculated: false,

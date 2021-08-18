@@ -4,6 +4,7 @@ export type Position = Readonly<{ x: number; y: number }>;
 
 export type NoteData = Readonly<{
   id: any;
+  lastEditedMember: FrsMember;
   client?: FrsMember;
   text?: string;
   author: FrsMember;

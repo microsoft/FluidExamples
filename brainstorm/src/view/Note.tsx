@@ -16,6 +16,7 @@ import { NoteFooter } from "./NoteFooter";
 export type NoteProps = Readonly<{
   id: string;
   client: FrsMember;
+  lastEditedMember: FrsMember;
   author: FrsMember;
   setPosition: (position: Position) => void;
   onLike: () => void;
@@ -38,6 +39,7 @@ export function Note(props: NoteProps) {
   const {
     id,
     client,
+    lastEditedMember,
     position: { x: left, y: top },
     color = DefaultColor,
     setText,
@@ -58,7 +60,7 @@ export function Note(props: NoteProps) {
     <div className={rootClass} ref={drag} style={{ left, top }}>
       <NoteHeader {...props} />
       <NoteBody setText={setText} text={text} color={color} />
-      <NoteFooter client={client} author={props.author} color={color} />
+      <NoteFooter client={client} lastEditedMember={lastEditedMember} color={color} />
     </div>
   );
 }

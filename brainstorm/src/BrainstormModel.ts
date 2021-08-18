@@ -5,6 +5,7 @@ import { NoteData, Position } from "./Types";
 const c_NoteIdPrefix = "noteId_";
 const c_PositionPrefix = "position_";
 const c_AuthorPrefix = "author_";
+const c_LastEditedPrefix = "lastEdited_";
 const c_votePrefix = "vote_";
 const c_TextPrefix = "text_";
 const c_ColorPrefix = "color_";
@@ -13,7 +14,7 @@ export type BrainstormModel = Readonly<{
   CreateNote(noteId: string, myAuthor: FrsMember): NoteData;
   MoveNote(noteId: string, newPos: Position): void;
   SetNote(noteId: string, newCardData: NoteData): void;
-  SetNoteText(noteId: string, noteText: string): void;
+  SetNoteText(noteId: string, noteText: string, lastEdited: FrsMember): void;
   SetNoteColor(noteId: string, noteColor: string): void;
   LikeNote(noteId: string, author: FrsMember): void;
   GetNoteLikedUsers(noteId: string): FrsMember[];
@@ -41,8 +42,9 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
     return sharedMap.get(c_NoteIdPrefix + noteId) === 0;
   };
 
-  const SetNoteText = (noteId: string, noteText: string) => {
+  const SetNoteText = (noteId: string, noteText: string, lastEditedMember: FrsMember) => {
     sharedMap.set(c_TextPrefix + noteId, noteText);
+    sharedMap.set(c_LastEditedPrefix + noteId, lastEditedMember);
   };
 
   const SetNoteColor = (noteId: string, noteColor: string) => {
@@ -54,6 +56,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
     CreateNote(noteId: string, myAuthor: FrsMember): NoteData {
       const newNote: NoteData = {
         id: noteId,
+        lastEditedMember: sharedMap.get(c_LastEditedPrefix + noteId)!,
         text: sharedMap.get(c_TextPrefix + noteId),
         position: sharedMap.get(c_PositionPrefix + noteId)!,
         author: sharedMap.get(c_AuthorPrefix + noteId)!,
@@ -92,7 +95,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
     SetNote(noteId: string, newCardData: NoteData) {
       sharedMap.set(c_PositionPrefix + noteId, newCardData.position);
       sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
-      SetNoteText(newCardData.id, newCardData.text!);
+      SetNoteText(newCardData.id, newCardData.text!, newCardData.lastEditedMember);
       sharedMap.set(c_NoteIdPrefix + noteId, 1);
       sharedMap.set(c_ColorPrefix + noteId, newCardData.color);
     },

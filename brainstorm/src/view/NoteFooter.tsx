@@ -3,11 +3,11 @@ import { TextField } from "@fluentui/react";
 import { NoteData } from "../Types";
 import { ColorOptions, DefaultColor } from "./Color";
 
-export type NoteFooterProps = Pick<NoteData, "author" | "client" | "color">;
+export type NoteFooterProps = Pick<NoteData, "client" | "lastEditedMember" | "color">;
 
 export function NoteFooter(props: NoteFooterProps) {
-  const { author, client, color = DefaultColor } = props;
-  const authorName = author.userName === client?.userName? "you" : author.userName;
+  const { client, lastEditedMember, color = DefaultColor } = props;
+  const lastEditedMemberName = client?.userName === lastEditedMember.userName? "you" : lastEditedMember.userName;
 
   return (
     <div style={{ flex: 1 }}>
@@ -17,7 +17,7 @@ export function NoteFooter(props: NoteFooterProps) {
         readOnly={true}
         resizable={false}
         autoAdjustHeight
-        value={"Created by " + authorName}
+        value={"Last edited by " + lastEditedMemberName}
       />
     </div>
   );
