@@ -299,7 +299,7 @@ Here we see in [NoteHeader.tsx](./src/view/NoteHeader.tsx), the `tooltipAuthorNa
 ### 3. Displaying Like and the Note's liked users
     
 - Liking a note
-    The way liking a note works is a bit different than creating a note. We are now passing `authorInfo` into [NoteSpace.tsx](./src/view/NoteSpace.tsx) as props. This is also where we defined the like button action.
+    - The way liking a note works is a bit different than creating a note. We are now passing `authorInfo` into [NoteSpace.tsx](./src/view/NoteSpace.tsx) as props. This is also where we defined the like button action.
 
     ```ts
     const onLike = () => {
@@ -344,7 +344,7 @@ Here we see in [NoteHeader.tsx](./src/view/NoteHeader.tsx), the `tooltipAuthorNa
     ...
     ```
 - Displaying liked users
-    In order to gather all the liked user for a specific note, we defined a `getLikedUsers()` in , which calls `GetNoteLikedUsers()` and works similarly to `onLike()`.
+    - In order to gather all the liked user for a specific note, we defined a `getLikedUsers()` in , which calls `GetNoteLikedUsers()` and works similarly to `onLike()`.
     
     ```ts
     const getLikedUsers = () => {
