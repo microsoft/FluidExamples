@@ -428,7 +428,7 @@ const SetNoteText = (noteId: string, noteText: string, lastEditedMember: FrsMemb
     sharedMap.set(c_LastEditedPrefix + noteId, { member: lastEditedMember, time: Date.now() });
   };
 ```
-The reason for adding a timestamp is because given that Fluid updates so quickly, in the event where multiple users are editing the same note, we want to wait a little bit after all changes are done before displaying the last edited user. By doing this, we can prevent the "last edited user" feature to flicker with user names, which could potentially be distracting.
+The reason for adding a timestamp is because given that Fluid updates so quickly, in the event where multiple users are editing the same note, we want to wait a little bit after all changes are done before displaying the last edited user. By doing this, we can prevent the text field from flickering with user names, which could potentially be distracting.
 
 Now, to display the last edited user, we are passing in the `lastEdited` object literal and the `currentUser` into [Note.tsx](./src/view/Note.tsx) as props, which is also passed into [NoteFooter.tsx](./src/view/NoteFooter.tsx) as props.
 
@@ -459,7 +459,7 @@ return (
 
 Here we see that `lastEditedMemberName` is instantiated depending on if the last edited user is the same as the current user and if the last change in content is 2 seconds or more ago, before finally displaying the output.
 
-One final caveat to this feature is that we are using the `useEffect()` hook to update our views, but with our implementation, the hook will only be triggered when a user makes a change to the `SharedMap`. Hence, to update the last edited user for the note after 2 seconds has passed, we added a timer to trigger a `useEffect()` hook in [NoteSpace.tsx](./src/view/NoteSpace.tsx) every 3 seconds and refresh the view.
+One final caveat to this feature is that we are using the `useEffect()` hook to update our views, but with our implementation, the hook will only be triggered when there is a change to the `SharedMap`. Hence, we added a timer to trigger a `useEffect()` hook in [NoteSpace.tsx](./src/view/NoteSpace.tsx) every 3 seconds and refresh the view.
 
 ```ts
 // This runs when via model changes whether initiated by user or from external
