@@ -372,10 +372,7 @@ Here we see in [NoteHeader.tsx](./src/view/NoteHeader.tsx), the `tooltipAuthorNa
         />
       );
     },
-    calloutProps: {
-      beakWidth: 10,
-    },
-  };
+    ...
   ```
 
   Now, back to `GetNoteLikedUsers()` in [BrainstormModel](./src/BrainstormModel.ts). In order to gather all liked users from `SharedMap`, we have to perform a few filtering.
