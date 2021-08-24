@@ -44,19 +44,18 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
 
   const SetNoteText = (noteId: string, noteText: string, lastEditedMember: FrsMember) => {
     sharedMap.set(c_TextPrefix + noteId, noteText);
-    sharedMap.set(c_LastEditedPrefix + noteId, lastEditedMember);
+    sharedMap.set(c_LastEditedPrefix + noteId, { member: lastEditedMember, time: Date.now() });
   };
 
   const SetNoteColor = (noteId: string, noteColor: string) => {
     sharedMap.set(c_ColorPrefix + noteId, noteColor);
   };
 
-
   return {
     CreateNote(noteId: string, myAuthor: FrsMember): NoteData {
       const newNote: NoteData = {
         id: noteId,
-        lastEditedMember: sharedMap.get(c_LastEditedPrefix + noteId)!,
+        lastEdited: sharedMap.get(c_LastEditedPrefix + noteId)!,
         text: sharedMap.get(c_TextPrefix + noteId),
         position: sharedMap.get(c_PositionPrefix + noteId)!,
         author: sharedMap.get(c_AuthorPrefix + noteId)!,
@@ -95,7 +94,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
     SetNote(noteId: string, newCardData: NoteData) {
       sharedMap.set(c_PositionPrefix + noteId, newCardData.position);
       sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
-      SetNoteText(newCardData.id, newCardData.text!, newCardData.lastEditedMember);
+      SetNoteText(newCardData.id, newCardData.text!, newCardData.lastEdited.member);
       sharedMap.set(c_NoteIdPrefix + noteId, 1);
       sharedMap.set(c_ColorPrefix + noteId, newCardData.color);
     },

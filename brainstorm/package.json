@@ -52,7 +52,8 @@
     "react": "^16.10.2",
     "react-dnd": "^14.0.2",
     "react-dnd-html5-backend": "^14.0.0",
-    "react-dom": "^16.10.2"
+    "react-dom": "^16.10.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "tinylicious": "^0.4.21640",
@@ -63,6 +64,7 @@
     "@types/node": "^12.19.0",
     "@types/react": "^16.9.15",
     "@types/react-dom": "^16.9.4",
+    "@types/uuid": "^8.3.0",
     "react-scripts": "4.0.2",
     "typescript": "~4.1.3"
   }

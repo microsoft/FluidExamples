@@ -15,9 +15,7 @@ import { NoteFooter } from "./NoteFooter";
 
 export type NoteProps = Readonly<{
   id: string;
-  client: FrsMember;
-  lastEditedMember: FrsMember;
-  author: FrsMember;
+  currentUser: FrsMember;
   setPosition: (position: Position) => void;
   onLike: () => void;
   getLikedUsers: () => FrsMember[];
@@ -28,6 +26,7 @@ export type NoteProps = Readonly<{
   Pick<
     NoteData,
     | "author"
+    | "lastEdited"
     | "position"
     | "color"
     | "didILikeThisCalculated"
@@ -38,8 +37,8 @@ export type NoteProps = Readonly<{
 export function Note(props: NoteProps) {
   const {
     id,
-    client,
-    lastEditedMember,
+    currentUser,
+    lastEdited,
     position: { x: left, y: top },
     color = DefaultColor,
     setText,
@@ -60,7 +59,7 @@ export function Note(props: NoteProps) {
     <div className={rootClass} ref={drag} style={{ left, top }}>
       <NoteHeader {...props} />
       <NoteBody setText={setText} text={text} color={color} />
-      <NoteFooter client={client} lastEditedMember={lastEditedMember} color={color} />
+      <NoteFooter currentUser={currentUser} lastEdited={lastEdited} color={color} />
     </div>
   );
 }

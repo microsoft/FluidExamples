@@ -15,13 +15,13 @@ export type NoteSpaceProps = Readonly<{
 export function NoteSpace(props: NoteSpaceProps) {
   const { model } = props;
   const [notes, setNotes] = React.useState<readonly NoteData[]>([]);
+  const [, setTime] = React.useState(Date.now());
 
   // This runs when via model changes whether initiated by user or from external
   React.useEffect(() => {
     const syncLocalAndFluidState = () => {
       const noteDataArr = [];
       const ids: string[] = model.NoteIds;
-
       // Recreate the list of cards to re-render them via setNotes
       for (let noteId of ids) {
         const newCardData: NoteData = model.CreateNote(noteId, props.author);
@@ -30,9 +30,18 @@ export function NoteSpace(props: NoteSpaceProps) {
       setNotes(noteDataArr);
     };
 
+    // Timer to refresh so as to update the "last edited" feature when there is no edit
+    const timer = setInterval(() => {
+      setTime(Date.now());
+    }, 3000);
+
     syncLocalAndFluidState();
     model.setChangeListener(syncLocalAndFluidState);
-    return () => model.removeChangeListener(syncLocalAndFluidState);
+    
+    return () => {
+      model.removeChangeListener(syncLocalAndFluidState);
+      clearInterval(timer);
+    }
   }, [model, props.author]);
 
   const rootStyle: IStyle = {
@@ -90,8 +99,8 @@ export function NoteSpace(props: NoteSpaceProps) {
             <Note
               {...note}
               id={note.id}
-              client={props.author}
-              lastEditedMember={note.lastEditedMember}
+              currentUser={props.author}
+              lastEdited={note.lastEdited}
               author={note.author}
               key={note.id}
               text={note.text}
