@@ -11,7 +11,7 @@ import { BrainstormView } from './view/BrainstormView';
 import "./view/index.css"
 import "./view/App.css";
 import { themeNameToTheme } from './view/Themes';
-import { connectionConfig, containerSchema} from "./Config";
+import { connectionConfig, containerSchema } from "./Config";
 
 export async function start() {
     initializeIcons();

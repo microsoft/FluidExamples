@@ -170,7 +170,7 @@ To summarize how these 2 components work together seamlessly, let's take `setNot
     - With our newly generated and updated list of new notes, we call `setNotes` to update the React state. This updated React state will propagate the changes to all remote clients, resulting in the view updating.
 
 ## Using Audience to Render User Information
-The LetsBrainstorm app make use of the `audience` property from `FrsContainerServices` to keep track of and render all user related information. Namely, we use `audience` to create a list of active members in the session and retrieve user information.
+The LetsBrainstorm app make use of the `audience` property from `FrsContainerServices` to keep track of and render all user related information. Namely, we are using `audience` to create a list of active members in the session and retrieve user information.
 
 In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used similarly to how `BrainstormModel` works in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the member values of the audience property are also being tracked in a React state so we can display all the active users in the session.
 
@@ -197,20 +197,20 @@ React.useEffect(() => {
 
 To sync the data, we created a `setMembersCallback()` function, which retrieves a list of all the active members and convert it to an array, then have a listener keep listening for the "membersChanged" event, and fire the function each time. Now React will handle updating the view each time the new `members` state is modified.
 
-Now, audience also has a `getMyself()` property to get the current client as a member. Passing this into the view as props will allows the user information to be displayed or processed when the user performs different note operations (creating a note, liking a note, and editing a note).
+Now, audience also has a `getMyself()` property to get the current client as a member. Passing this into the view as props will allow the user information to be displayed or processed when the user performs different note operations (creating a note, liking a note, and editing a note).
 
 ```ts
 const authorInfo = audience.getMyself();
 ```
 
-With `members` and `authorInfo` defined, we can used these to achieve couple of tasks:
+With `members` and `authorInfo` defined, we can use these to achieve several tasks:
 
 1. displaying all current active users
 2. displaying author name in persona tooltip 
 3. displaying like and the note's liked users
 4. displaying the note's last edited user
 
-### 1. Displaying All Current Actuve Users
+### 1. Displaying All Current Active Users
 To display all active members in the session, we are using the `Facepile` element from `@fluentui/react`. This element will display all the active members in their respective personas. The persona will display the image if the user has one, otherwise, it will display the first letter of their names. Now, in order to use the `Facepile` element, we first pass the `member` variable into our `Header` element, defined [here](./src/view/Header.tsx), as argument.
 
 ```ts
@@ -236,9 +236,9 @@ The `Facepile` element requires that we pass in an array `IFacepilePersona[]`. T
 const personas = React.useMemo(() => props.members.map(member => {return { personaName: member.userName}}), [props.members]);
 ```
 
-We use the map function of the array to extract each member's `userName` and map it to an object literal with `personaName` property, to match the `IFacepilePersona` definition. Notice the use of `React.useMemo` allows us to only recompute the memoized value when one of the value has changed.
+We use the map function of the array to extract each member's `userName` and map it to an object literal with `personaName` property, to match the `IFacepilePersona` definition. Notice the use of `React.useMemo` allows us to only recompute the memoized value when one of the values has changed.
 
-With the required personas array created, we not pass it into the the `Facepile` element.
+With the required personas array created, we now pass it into the the `Facepile` element.
 
 ```ts
 const farItems: ICommandBarItemProps[] = [
@@ -255,23 +255,23 @@ const farItems: ICommandBarItemProps[] = [
 ### 2. Displaying Author Name in Persona Tooltip
 Like mentioned earlier, `authorInfo` is created for the current user information to interact with different note operations. Here we will focus on assigning the user as author when creating a note and displaying the author's name as tooltip when hovered over the persona.
 
-When the user creates a note, the user will be assinged as the note's author. To achieve this, we are passing in `authorInfo` as props to [Header.tsx](./src/view/Header.tsx), where the button action for a adding note in defined.
+When the user creates a note, the user will be assinged as the note's author. To achieve this, we are passing in `authorInfo` as props to [Header.tsx](./src/view/Header.tsx), where the button action for a adding note is defined.
 
 ```ts
 const onAddNote = () => {
     const { scrollHeight, scrollWidth } = document.getElementById("NoteSpace")!;
     const id = uuidv4();
     const newCardData: NoteData = {
-    id,
-    position: {
-        x: Math.floor(Math.random() * (scrollWidth - NOTE_SIZE.width)),
-        y: Math.floor(Math.random() * (scrollHeight - NOTE_SIZE.height)),
-    },
-    lastEdited: { member: props.author, time: Date.now() },
-    author: props.author,
-    numLikesCalculated: 0,
-    didILikeThisCalculated: false,
-    color
+        id,
+        position: {
+            x: Math.floor(Math.random() * (scrollWidth - NOTE_SIZE.width)),
+            y: Math.floor(Math.random() * (scrollHeight - NOTE_SIZE.height)),
+        },
+        lastEdited: { member: props.author, time: Date.now() },
+        author: props.author,
+        numLikesCalculated: 0,
+        didILikeThisCalculated: false,
+        color
     };
     props.model.SetNote(id, newCardData);
 };
@@ -282,7 +282,7 @@ Here you can see that the `authorInfo` that's passed in is set as the value for 
 Now, with the note author assigned, we can now pass in same `author` property of `NoteData` to the `Note` element in [NoteSpace.tsx](./src/view/NoteSpace.tsx) as props, which is then pased into [NoteHeader.tsx](./src/view/NoteHeader.tsx) as props as well.
 
 ```ts
-const tooltipAuthorName = props.author.userName === props.currentUser.userName? "you" : props.author.userName;
+const tooltipAuthorName = props.author.userName === props.currentUser.userName ? "you" : props.author.userName;
 const items: ICommandBarItemProps[] = [
 {
     key: "persona",
@@ -344,38 +344,38 @@ Here we see in [NoteHeader.tsx](./src/view/NoteHeader.tsx), the `tooltipAuthorNa
     ...
     ```
 - Displaying liked users
-    - In order to gather all the liked user for a specific note, we defined a `getLikedUsers()` in , which calls `GetNoteLikedUsers()` and works similarly to `onLike()`.
+    - In order to gather all the liked users for a specific note, we defined a `getLikedUsers()` in [NoteSpace.tsx](./src/view/NoteSpace.tsx), which calls `GetNoteLikedUsers()` and works similarly to `onLike()`.
     
     ```ts
     const getLikedUsers = () => {
         return model.GetNoteLikedUsers(note.id);
     };
     ```
-    `getLikedUsers` is also passed into `Note.tsx`(./src/view/Note.tsx) and [NoteHeader.tsx](./src/view/NoteHeader.tsx) as props, then the function gets called to render a `ReactionListCallout` of liked users.
+    `getLikedUsers` is also passed into [Note.tsx](./src/view/Note.tsx) and [NoteHeader.tsx](./src/view/NoteHeader.tsx) as props, then the function gets called to render a `ReactionListCallout` of liked users.
 
 
     ```ts
     const likeBtnTooltipProps: ITooltipProps = {
 
-    onRenderContent: () => {
-      const likedUserList = props.getLikedUsers();
+        onRenderContent: () => {
+            const likedUserList = props.getLikedUsers();
 
-      if (likedUserList.length === 0) {
-        // Don't render a tooltip if no users reacted.
-        return null;
-      }
-      return (
-        <ReactionListCallout
-          label={"Like Reactions"}
-          reactionIconName={"Like"}
-          usersToDisplay={likedUserList}
-        />
-      );
-    },
+            if (likedUserList.length === 0) {
+                // Don't render a tooltip if no users reacted.
+                return null;
+            }
+            return (
+                <ReactionListCallout
+                label={"Like Reactions"}
+                reactionIconName={"Like"}
+                usersToDisplay={likedUserList}
+                />
+            );
+        },
     ...
-  ```
+    ```
 
-  Now, back to `GetNoteLikedUsers()` in [BrainstormModel](./src/BrainstormModel.ts). In order to gather all liked users from `SharedMap`, we have to perform a few filtering.
+  Now, back to `GetNoteLikedUsers()` in [BrainstormModel](./src/BrainstormModel.ts). In order to gather all liked users from `SharedMap`, we have to perform a few filtering opertations.
 
   ```ts
    GetNoteLikedUsers(noteId: string): FrsMember[] {
@@ -393,7 +393,7 @@ Here we see in [NoteHeader.tsx](./src/view/NoteHeader.tsx), the `tooltipAuthorNa
   As shown here, we first take all the keys from `SharedMap` and filter them by the vote prefix to get a list of keys that's only relevant to that note's likes. We then filter again to exclude all the likes that are undefined, leaving us with a list of users that have liked the note.
 
 ### 4. Displaying The Note's Last Edited User
-Now let's focus on a more complex use case of `authorInfo`, editing a note and displaying the note's last edited user. When displaying the last edited user for the note, we are taking into account of the current user and the last edited user. If the last edited user is the same as the current user, instead of displaying the user's name, we display "Last edited by you" to be more intuitive. It is also important to define that only when the user alters the content/text inside the body of a note is considered editing. In other words, only when `setNoteText()` in [BrainstormModel](./src/BrainstormModel.ts) is called will we update the note's last edited user.
+Now let's focus on a more complex use case of `authorInfo`, editing a note and displaying the note's last edited user. When displaying the last edited user for the note, we are taking into account the current user and the last edited user. If the last edited user is the same as the current user, instead of displaying the user's name, we display "Last edited by you" to be more intuitive. It is also important to define that only when the user alters the content/text inside the body of a note is it considered editing. In other words, only when `SetNoteText()` in [BrainstormModel](./src/BrainstormModel.ts) is called will we update the note's last edited user.
 
 ```ts
 const setText = (text: string) => {

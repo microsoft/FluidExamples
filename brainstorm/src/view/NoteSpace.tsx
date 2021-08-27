@@ -12,10 +12,22 @@ export type NoteSpaceProps = Readonly<{
   author: FrsMember;
 }>;
 
+const useRefState = () => {
+  const [time, setTime] = React.useState(Date.now());
+  const timeRef = React.useRef(time);
+  React.useEffect(
+    () => {
+      timeRef.current = time;
+    },
+    [time],
+  );
+  return [timeRef, setTime];
+};
+
 export function NoteSpace(props: NoteSpaceProps) {
   const { model } = props;
   const [notes, setNotes] = React.useState<readonly NoteData[]>([]);
-  const [, setTime] = React.useState(Date.now());
+  const [time, setTime] = React.useState(Date.now());
 
   // This runs when via model changes whether initiated by user or from external
   React.useEffect(() => {
@@ -30,19 +42,13 @@ export function NoteSpace(props: NoteSpaceProps) {
       setNotes(noteDataArr);
     };
 
-    // Timer to refresh so as to update the "last edited" feature when there is no edit
-    const timer = setInterval(() => {
-      setTime(Date.now());
-    }, 3000);
-
     syncLocalAndFluidState();
     model.setChangeListener(syncLocalAndFluidState);
     
     return () => {
       model.removeChangeListener(syncLocalAndFluidState);
-      clearInterval(timer);
     }
-  }, [model, props.author]);
+  }, [model, props.author, time]);
 
   const rootStyle: IStyle = {
     flexGrow: 1,
@@ -95,6 +101,10 @@ export function NoteSpace(props: NoteSpaceProps) {
             model.SetNoteColor(note.id, color);
           };
 
+          const refreshView = () => {
+            setTime(Date.now());
+          };
+
           return (
             <Note
               {...note}
@@ -104,6 +114,7 @@ export function NoteSpace(props: NoteSpaceProps) {
               author={note.author}
               key={note.id}
               text={note.text}
+              refreshView={refreshView}
               setPosition={setPosition}
               onLike={onLike}
               getLikedUsers={getLikedUsers}

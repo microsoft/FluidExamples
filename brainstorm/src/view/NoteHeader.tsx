@@ -23,7 +23,7 @@ import { NoteProps } from "./Note"
 
 const HeaderComponent = (props: NoteProps) => {
   const colorButtonRef = React.useRef();
-  const tooltipAuthorName = props.author.userName === props.currentUser.userName? "you" : props.author.userName;
+  const tooltipAuthorName = props.author.userName === props.currentUser.userName ? "you" : props.author.userName;
 
   const headerProps = {
     className: mergeStyles(getHeaderStyleForColor(props.color)),
@@ -58,7 +58,7 @@ const HeaderComponent = (props: NoteProps) => {
         return (
           <TooltipHost
             styles={{ root: { alignSelf: "center", display: "block" } }}
-            content={"Created by " + tooltipAuthorName}
+            content={`Created by ${ tooltipAuthorName }`} 
           >
             <PersonaCoin
               styles={{
