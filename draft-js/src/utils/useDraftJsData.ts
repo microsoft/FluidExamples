@@ -4,8 +4,8 @@
  */
 
 import { useState, useEffect } from "react";
+import { getTinyliciousContainer } from "@fluid-experimental/get-container";
 import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
-import { getTinyliciousContainer } from "@fluidframework/get-tinylicious-container";
 import { Container } from "@fluidframework/container-loader";
 import { FluidDraftJsObject } from "../fluid-object";
 import { FluidDraftJsContainer } from "../containers";
