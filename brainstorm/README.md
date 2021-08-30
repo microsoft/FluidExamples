@@ -308,9 +308,11 @@ else if (isDirty.current && lastEdited.time !== dirtyTimeStamp.current && timeou
 }
 ```
 
-To ensure we only update the last edited user after content hasn't been changed for 3 seconds or more, we implemented a timer that will run for 3 seconds after the last edit ofthis note.
+To ensure we only update the last edited user after content hasn't been changed for 3 seconds or more, we implemented a timer that will run for 3 seconds after the last edit of this note.
 
-When the note's `lastEdited.time` is updated, we need to start the timer, update the new `dirtyTimeStamp` and set the dirty flag so that `lastEditedMemberName` is correctly reflected. While the timer is running, if a new edit comes in with an updated `lastEdited.time`, we first update the `dirtyTimeStamp` to reflect the lastest `lastEdited.time` then clear out the old timer and kick start a new one. This mechanism ensures that we are always tracking the lastest changes, and only when the last content of the note hasn't been updated for 3 seconds do we display the actual last edited user.
+Because we are implementing a timer, it is important that the values we are tracking, `isDirty`, `dirtyTimeStamp`, and `timeout` persist after each render; therefore, the `useRef` hooks are used for these variables.
+
+To know when the timer needs to be kick started, we look for when the note's `lastEdited.time` is updated. When the updated `lastEdited.time` is passed in, we update the new `dirtyTimeStamp`, start the timer, and set the dirty flag so that `lastEditedMemberName` is correctly reflected. While the timer is running, if a new edit comes in with an updated `lastEdited.time`, we first update the `dirtyTimeStamp` to reflect the lastest `lastEdited.time` then clear out the old timer and kick start a new one. This mechanism ensures that we are always tracking the lastest changes, and only when the last content of the note hasn't been updated for 3 seconds do we display the actual last edited user.
 
 Now, we are awared that this probably isn't the most optimal and intuitive solution for a feature like this, in fact, there is actually a [package](https://github.com/microsoft/FluidFramework/blob/main/experimental/framework/last-edited/README.md) within Fluid Framework that helps us achieve this task. However, for the purpose of demonstration and what we can use the `audience` propety to achieve, we think the implementation of this feature is justified.
 
