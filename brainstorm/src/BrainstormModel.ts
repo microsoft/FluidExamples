@@ -14,7 +14,7 @@ export type BrainstormModel = Readonly<{
   CreateNote(noteId: string, myAuthor: FrsMember): NoteData;
   MoveNote(noteId: string, newPos: Position): void;
   SetNote(noteId: string, newCardData: NoteData): void;
-  SetNoteText(noteId: string, noteText: string, lastEditedUserId: string, lastEditedUserName: string): void;
+  SetNoteText(noteId: string, noteText: string, lastEditedId: string, lastEditedName: string): void;
   SetNoteColor(noteId: string, noteColor: string): void;
   LikeNote(noteId: string, author: FrsMember): void;
   GetNoteLikedUsers(noteId: string): FrsMember[];
@@ -42,9 +42,9 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
     return sharedMap.get(c_NoteIdPrefix + noteId) === 0;
   };
 
-  const SetNoteText = (noteId: string, noteText: string, lastEditedUserId: string, lastEditedUserName: string) => {
+  const SetNoteText = (noteId: string, noteText: string, lastEditedId: string, lastEditedName: string) => {
     sharedMap.set(c_TextPrefix + noteId, noteText);
-    sharedMap.set(c_LastEditedPrefix + noteId, { userId: lastEditedUserId, userName: lastEditedUserName, time: Date.now() });
+    sharedMap.set(c_LastEditedPrefix + noteId, { userId: lastEditedId, userName: lastEditedName, time: Date.now() });
   };
 
   const SetNoteColor = (noteId: string, noteColor: string) => {
