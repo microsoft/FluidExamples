@@ -10,12 +10,6 @@ parameters:
 - name: brainstorm
   type: string
   default: brainstorm
-- name: draft-js
-  type: string
-  default: draft-js
-- name: sudoku
-  type: string
-  default: sudoku
 - name: fluid-react-starter
   type: string
   default: fluid-react-starter
