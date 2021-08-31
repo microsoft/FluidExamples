@@ -30,6 +30,10 @@ export function NoteSpace(props: NoteSpaceProps) {
       setNotes(noteDataArr);
     };
 
+    setInterval(() => {
+      setTime(Date.now());
+    }, 3000);
+
     syncLocalAndFluidState();
     model.setChangeListener(syncLocalAndFluidState);
     
@@ -89,10 +93,6 @@ export function NoteSpace(props: NoteSpaceProps) {
             model.SetNoteColor(note.id, color);
           };
 
-          const refreshView = () => {
-            setTime(Date.now());
-          };
-
           return (
             <Note
               {...note}
@@ -102,7 +102,6 @@ export function NoteSpace(props: NoteSpaceProps) {
               author={note.author}
               key={note.id}
               text={note.text}
-              refreshView={refreshView}
               setPosition={setPosition}
               onLike={onLike}
               getLikedUsers={getLikedUsers}

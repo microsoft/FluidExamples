@@ -16,7 +16,6 @@ import { NoteFooter } from "./NoteFooter";
 export type NoteProps = Readonly<{
   id: string;
   currentUser: FrsMember;
-  refreshView: () => void;
   setPosition: (position: Position) => void;
   onLike: () => void;
   getLikedUsers: () => FrsMember[];
@@ -40,7 +39,6 @@ export function Note(props: NoteProps) {
     id,
     currentUser,
     lastEdited,
-    refreshView,
     position: { x: left, y: top },
     color = DefaultColor,
     setText,
@@ -61,7 +59,7 @@ export function Note(props: NoteProps) {
     <div className={rootClass} ref={drag} style={{ left, top }}>
       <NoteHeader {...props} />
       <NoteBody setText={setText} text={text} color={color} />
-      <NoteFooter currentUser={currentUser} lastEdited={lastEdited} refreshView={refreshView} color={color} />
+      <NoteFooter currentUser={currentUser} lastEdited={lastEdited} color={color} />
     </div>
   );
 }

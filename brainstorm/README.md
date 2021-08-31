@@ -275,46 +275,40 @@ return (
   );
 ```
 
-Here we see that `lastEditedMemberName` is instantiated depending on if the last edited user is the same as the current user and if the last change in content is 3 seconds or more ago, before finally displaying the output.
+Here we see that `lastEditedMemberName` is instantiated depending on if the last edited user is the same as the current user and if the last change in content is 2 seconds or more ago, before finally displaying the output.
 
 ```ts
-//deplay time in ms for waiting note content changes to be settle
-const delay = 3000;
-
-let isDirty = React.useRef<boolean>(false);
 let lastEditedMemberName;
-let dirtyTimeStamp = React.useRef<number | undefined>(lastEdited.time);
-let timeout = React.useRef<NodeJS.Timeout | undefined>(undefined);
 
-// if note is not dirty and a new edit came in, start the timer
-if (!isDirty.current && lastEdited.time !== dirtyTimeStamp.current) {
-  // update the dirty time stamp to the new last edited time
-    dirtyTimeStamp.current = lastEdited.time;
-    timeout.current = setTimeout(() => {
-        isDirty.current = false;
-        refreshView();
-    }, delay);
-    // set the dirty flag so lastEditedMemberName is displayed as "..."
-    isDirty.current = true;
-} 
-else if (isDirty.current && lastEdited.time !== dirtyTimeStamp.current && timeout.current !== undefined) {
-  // dirty flag is set, so restart a new timer
-    dirtyTimeStamp.current = lastEdited.time;
-    clearTimeout(timeout.current);
-    timeout.current = setTimeout(() => {
-      isDirty.current = false;
-      refreshView();
-  }, delay);
-}
+  if(Date.now() - lastEdited.time >= 2000) {
+    lastEditedMemberName = currentUser?.userName === lastEdited.userName ? "you" : lastEdited.userName;
+  }
+  else {
+    lastEditedMemberName = "...";
+  }
 ```
 
-To ensure we only update the last edited user after content hasn't been changed for 3 seconds or more, we implemented a timer that will run for 3 seconds after the last edit of this note.
+To ensure we only update the last edited user after content hasn't been changed for 2 seconds or more, we added a timer that will refresh the note states every 3 seconds.
 
-Because we are implementing a timer, it is important that the values we are tracking, `isDirty`, `dirtyTimeStamp`, and `timeout` persist after each render; therefore, the `useRef` hooks are used for these variables.
+```ts
+React.useEffect(() => {
+  const syncLocalAndFluidState = () => {
+    const noteDataArr = [];
+    const ids: string[] = model.NoteIds;
+    // Recreate the list of cards to re-render them via setNotes
+    for (let noteId of ids) {
+      const newCardData: NoteData = model.CreateNote(noteId, props.author);
+      noteDataArr.push(newCardData);
+    }
+    setNotes(noteDataArr);
+  };
 
-To know when the timer needs to be kick started, we look for when the note's `lastEdited.time` is updated. When the updated `lastEdited.time` is passed in, we update the new `dirtyTimeStamp`, start the timer, and set the dirty flag so that `lastEditedMemberName` is correctly reflected. While the timer is running, if a new edit comes in with an updated `lastEdited.time`, we first update the `dirtyTimeStamp` to reflect the lastest `lastEdited.time` then clear out the old timer and kick start a new one. This mechanism ensures that we are always tracking the lastest changes, and only when the last content of the note hasn't been updated for 3 seconds do we display the actual last edited user.
+  setInterval(() => {
+    setTime(Date.now());
+  }, 3000);
+  ```
 
-Now, we are awared that this probably isn't the most optimal and intuitive solution for a feature like this, in fact, there is actually a [package](https://github.com/microsoft/FluidFramework/blob/main/experimental/framework/last-edited/README.md) within Fluid Framework that helps us achieve this task. However, for the purpose of demonstration and what we can use the `audience` propety to achieve, we think the implementation of this feature is justified.
+Now, we are aware that this probably isn't the most optimal and intuitive solution for a feature like this, in fact, there is actually a [package](https://github.com/microsoft/FluidFramework/blob/main/experimental/framework/last-edited/README.md) within Fluid Framework that helps us achieve this task. However, for the purpose of demonstration and what we can use the `audience` propety to achieve, we think the implementation of this feature is justified. We are also planning on refactoring the app to allow for an easier experience when updating both local and remote states.
 
 
 
