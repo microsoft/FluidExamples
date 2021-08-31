@@ -251,44 +251,18 @@ The reason for adding a timestamp is because given that Fluid updates so quickly
 Now, to display the last edited user, we are passing in the `lastEdited` object literal and the `currentUser` into [Note.tsx](./src/view/Note.tsx) as props, which is also passed into [NoteFooter.tsx](./src/view/NoteFooter.tsx) as props.
 
 ```ts
+//deplay time in ms for waiting note content changes to be settle
+const delay = 2000;
 let lastEditedMemberName;
 
-// To prevent flickering, wait for 2s to ensure no one else is editing the note
-if(!isDirty.current) {
-    lastEditedMemberName = currentUser?.userName === lastEdited.member.userName ? "you" : lastEdited.member.userName;
-  }
-  else {
-    lastEditedMemberName = "...";
-  }
-
-return (
-    <div style={{ flex: 1 }}>
-      <TextField
-        styles={{ fieldGroup: { background: ColorOptions[color].light}, field: { color: "grey"}}}
-        borderless
-        readOnly={true}
-        resizable={false}
-        autoAdjustHeight
-        value={`Last edited by ${lastEditedMemberName}`}
-      />
-    </div>
-  );
-```
-
-Here we see that `lastEditedMemberName` is instantiated depending on if the last edited user is the same as the current user and if the last change in content is 2 seconds or more ago, before finally displaying the output.
-
-```ts
-let lastEditedMemberName;
-
-  if(Date.now() - lastEdited.time >= 2000) {
+  if(Date.now() - lastEdited.time >= delay) {
     lastEditedMemberName = currentUser?.userName === lastEdited.userName ? "you" : lastEdited.userName;
   }
   else {
     lastEditedMemberName = "...";
   }
 ```
-
-To ensure we only update the last edited user after content hasn't been changed for 2 seconds or more, we added a timer that will refresh the note states every 3 seconds.
+Here we see that `lastEditedMemberName` is instantiated depending on if the last edited user is the same as the current user and if the last change in content is 2 seconds or more ago, before finally displaying the output.
 
 ```ts
 React.useEffect(() => {
@@ -307,6 +281,7 @@ React.useEffect(() => {
     setTime(Date.now());
   }, 3000);
   ```
+To ensure we only update the last edited user after content hasn't been changed for 2 seconds or more, we added a timer that will refresh the note states every 3 seconds in [NoteSpace.tsx](./src/view/NoteSpace.tsx)
 
 Now, we are aware that this probably isn't the most optimal and intuitive solution for a feature like this, in fact, there is actually a [package](https://github.com/microsoft/FluidFramework/blob/main/experimental/framework/last-edited/README.md) within Fluid Framework that helps us achieve this task. However, for the purpose of demonstration and what we can use the `audience` propety to achieve, we think the implementation of this feature is justified. We are also planning on refactoring the app to allow for an easier experience when updating both local and remote states.
 

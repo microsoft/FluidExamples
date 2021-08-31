@@ -59,7 +59,7 @@ export function Note(props: NoteProps) {
     <div className={rootClass} ref={drag} style={{ left, top }}>
       <NoteHeader {...props} />
       <NoteBody setText={setText} text={text} color={color} />
-      <NoteFooter currentUser={currentUser} lastEdited={lastEdited} color={color} />
+      <NoteFooter currentUser={currentUser} lastEdited={lastEdited} />
     </div>
   );
 }

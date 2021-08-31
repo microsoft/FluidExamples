@@ -1,19 +1,18 @@
 import React from "react";
-import { TextField, Label } from "@fluentui/react";
+import { Text } from "@fluentui/react";
 import { FrsMember } from "@fluid-experimental/frs-client";
 import { NoteData } from "../Types";
-import { ColorOptions, DefaultColor } from "./Color";
 
-export type NoteFooterProps = { currentUser : FrsMember } & Pick<NoteData, "lastEdited" | "color">;
+export type NoteFooterProps = { currentUser : FrsMember } & Pick<NoteData, "lastEdited">;
 
 //deplay time in ms for waiting note content changes to be settle
-const delay = 3000;
+const delay = 2000;
 
 export function NoteFooter(props: NoteFooterProps) {
-  const { currentUser, lastEdited, color = DefaultColor } = props;
+  const { currentUser, lastEdited } = props;
   let lastEditedMemberName;
 
-  if(Date.now() - lastEdited.time >= 2000) {
+  if(Date.now() - lastEdited.time >= delay) {
     lastEditedMemberName = currentUser?.userName === lastEdited.userName ? "you" : lastEdited.userName;
   }
   else {
@@ -22,14 +21,16 @@ export function NoteFooter(props: NoteFooterProps) {
 
   return (
     <div style={{ flex: 1 }}>
-      <TextField
-        styles={{ fieldGroup: { background: ColorOptions[color].light}, field: { color: "grey"}}}
-        borderless
-        readOnly={true}
-        resizable={false}
-        autoAdjustHeight
-        value={`Last edited by ${lastEditedMemberName}`}
-      />
+      <Text 
+        block={true} 
+        nowrap={true} 
+        variant={"medium"}
+        styles={{
+          root: { alignSelf: "center", marginLeft: 7 },
+        }}
+      > 
+        Last edited by {lastEditedMemberName}
+      </Text>
     </div>
   );
 }
