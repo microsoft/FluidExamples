@@ -70,7 +70,7 @@ export function NoteSpace(props: NoteSpaceProps) {
           };
 
           const setText = (text: string) => {
-            model.SetNoteText(note.id, text, props.author.userId, props.author.userName);
+            model.SetNoteText(note.id, text, props.author.userId, props.author.userName, Date.now());
           };
 
           const onLike = () => {
