@@ -12,18 +12,6 @@ export type NoteSpaceProps = Readonly<{
   author: FrsMember;
 }>;
 
-const useRefState = () => {
-  const [time, setTime] = React.useState(Date.now());
-  const timeRef = React.useRef(time);
-  React.useEffect(
-    () => {
-      timeRef.current = time;
-    },
-    [time],
-  );
-  return [timeRef, setTime];
-};
-
 export function NoteSpace(props: NoteSpaceProps) {
   const { model } = props;
   const [notes, setNotes] = React.useState<readonly NoteData[]>([]);
@@ -82,7 +70,7 @@ export function NoteSpace(props: NoteSpaceProps) {
           };
 
           const setText = (text: string) => {
-            model.SetNoteText(note.id, text, props.author);
+            model.SetNoteText(note.id, text, props.author.userId, props.author.userName);
           };
 
           const onLike = () => {

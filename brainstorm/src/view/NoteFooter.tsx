@@ -39,7 +39,7 @@ export function NoteFooter(props: NoteFooterProps) {
   }
 
   if(!isDirty.current) {
-    lastEditedMemberName = currentUser?.userName === lastEdited.member.userName ? "you" : lastEdited.member.userName;
+    lastEditedMemberName = currentUser?.userName === lastEdited.userName ? "you" : lastEdited.userName;
   }
   else {
     lastEditedMemberName = "...";
