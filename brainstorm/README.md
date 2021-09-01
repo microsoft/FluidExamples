@@ -197,7 +197,7 @@ React.useEffect(() => {
 
 To sync the data, we created a `setMembersCallback()` function, which retrieves a list of all the active members and convert it to an array, then have a listener keep listening for the "membersChanged" event, and fire the function each time. Now React will handle updating the view each time the new `members` state is modified.
 
-The audience object also has a `getMyself()` function that returns the current client as a member. This is passed in as a view prop so that the user information to be displayed or processed when the user performs different note operations (creating a note, liking a note, and editing a note).
+The audience object also has a `getMyself()` function that returns the current client as a member. This is passed in as a view prop so that the user information can be displayed or processed when the user performs different note operations (creating a note, liking a note, and editing a note).
 
 ```ts
 const authorInfo = audience.getMyself();
@@ -207,7 +207,7 @@ With `members` and `authorInfo` defined, we can use these to achieve several tas
 
 1. displaying all current active users
 2. displaying author name in persona tooltip 
-3. displaying like and the note's liked users
+3. displaying likes for the note
 4. displaying the note's last edited user
 
 ### Example Walk-through
@@ -219,7 +219,7 @@ const setText = (text: string) => {
 };
 ```
 
-As seen in here in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the `setText()` function calls the `SetNoteText()` function from [BrainstormModel](./src/BrainstormModel.ts), passing in `props.author`, which is the `authorInfo` passed to the `NoteSpace` element as argument. Similar to `onLike()` mentioned previously, the `setText()` function defined here is passed into [NoteBody.tsx](./src/view/NoteBody.tsx) as props where it will be called when the text changes as seen below.
+As seen here and in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the `setText()` function calls the `SetNoteText()` function from [BrainstormModel](./src/BrainstormModel.ts), passing in `props.author`, which is the `authorInfo` passed to the `NoteSpace` element. The `setText()` function is passed into [NoteBody.tsx](./src/view/NoteBody.tsx) where it will be called when the text changes as seen below.
 
 ```ts
 return (
@@ -246,7 +246,7 @@ const SetNoteText = (noteId: string, noteText: string, lastEditedMember: FrsMemb
     sharedMap.set(c_LastEditedPrefix + noteId, { member: lastEditedMember, time: Date.now() });
   };
 ```
-The reason for adding a timestamp is because given that Fluid updates so quickly, in the event where multiple users are editing the same note, we want to wait a little bit after all changes are done before displaying the last edited user. By doing this, we can prevent the text field from flickering with user names, which could potentially be distracting.
+In the event where multiple users are editing the same note, we want to wait a little bit after all changes are done before displaying the last edited user. By doing this, we can prevent the text field from flickering with user names.
 
 Now, to display the last edited user, we are passing in the `lastEdited` object literal and the `currentUser` into [Note.tsx](./src/view/Note.tsx) as props, which is also passed into [NoteFooter.tsx](./src/view/NoteFooter.tsx) as props.
 
