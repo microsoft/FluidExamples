@@ -170,11 +170,9 @@ To summarize how these 2 components work together seamlessly, let's take `setNot
     - With our newly generated and updated list of new notes, we call `setNotes` to update the React state. This updated React state will propagate the changes to all remote clients, resulting in the view updating.
 
 ## Using Audience to Render User Information
-The LetsBrainstorm app make use of the `audience` property from `FrsContainerServices` to keep track of and render all user related information. 
+The LetsBrainstorm app makes use of the `audience` property from `FrsContainerServices` to keep track of and render all user related information.
 
-In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used to achieve 2 tasks, display all active users currently in the session, and retrieve current user information so the user can be assigned as the author accordingly, such as when the user creates a note.
-
-Similar to how `BrainstormModel` works in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the member values of the audience property are also being tracked in a React state so we can display all the active users in the session.
+In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used similarly to how `BrainstormModel` works in [NoteSpace.tsx](./src/view/NoteSpace.tsx). The member values of the audience property are also being tracked in a React state so we can display all the active users in the session.
 
 With audience Fluid data and View data, we again, need to set up an event listener, which mean we also need a `useEffect()` hook.
 
@@ -199,10 +197,94 @@ React.useEffect(() => {
 
 To sync the data, we created a `setMembersCallback()` function, which retrieves a list of all the active members and convert it to an array, then have a listener keep listening for the "membersChanged" event, and fire the function each time. Now React will handle updating the view each time the new `members` state is modified.
 
-Now, audience also has a `getMyself()` property to get the current client as a member. Passing this into the view, [NoteSpace.tsx](./src/view/NoteSpace.tsx), as props, this allows the user to be assigned as author whenever the user creates a note.
+The audience object also has a `getMyself()` function that returns the current client as a member. This is passed in as a view prop so that the user information can be displayed or processed when the user performs different note operations (creating a note, liking a note, and editing a note).
 
 ```ts
 const authorInfo = audience.getMyself();
 ```
+
+With `members` and `authorInfo` defined, we can use these to achieve several tasks:
+
+1. displaying all current active users
+2. displaying author name in persona tooltip 
+3. displaying likes for the note
+4. displaying the note's last edited user
+
+### Example Walk-through
+Because the usage of the `audience` objects work in a similar fashion, let's focus on the more complex use case, editing a note and displaying the note's last edited user. When displaying the last edited user for the note, we are taking into account the current and the last edited user. If the last edited user is the same as the current user, instead of displaying the user's name, we display "Last edited by you" to be more intuitive. It is also important to define that only when the user alters the content/text inside the body of a note is it considered editing. In other words, only when `SetNoteText()` in [BrainstormModel](./src/BrainstormModel.ts) is called will we update the note's last edited user.
+
+```ts
+const setText = (text: string) => {
+    model.SetNoteText(note.id, text, props.author);
+};
+```
+
+As seen here and in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the `setText()` function calls the `SetNoteText()` function from [BrainstormModel](./src/BrainstormModel.ts), passing in `props.author`, which is the `authorInfo` passed to the `NoteSpace` element. The `setText()` function is passed into [NoteBody.tsx](./src/view/NoteBody.tsx) where it will be called when the text changes as seen below.
+
+```ts
+return (
+    <div style={{ flex: 1 }}>
+      <TextField
+        styles={{ fieldGroup: { background: ColorOptions[color].light } }}
+        borderless
+        multiline
+        resizable={false}
+        autoAdjustHeight
+        onChange={(event) => setText(event.currentTarget.value)}
+        value={text}
+        placeholder={"Enter Text Here"}
+      />
+    </div>
+  );
+```
+
+Going back to `SetNoteText()` from [BrainstormModel](./src/BrainstormModel.ts), we can see in the definition below that we are not only updating the last edited member but also giving it a timestamp of when it was last edited.
+
+```ts
+const SetNoteText = (noteId: string, noteText: string, lastEditedMember: FrsMember) => {
+    sharedMap.set(c_TextPrefix + noteId, noteText);
+    sharedMap.set(c_LastEditedPrefix + noteId, { member: lastEditedMember, time: Date.now() });
+  };
+```
+In the event where multiple users are editing the same note, we want to wait a little bit after all changes are done before displaying the last edited user. By doing this, we can prevent the text field from flickering with user names.
+
+Now, to display the last edited user, we are passing in the `lastEdited` object literal and the `currentUser` into [Note.tsx](./src/view/Note.tsx) as props, which is also passed into [NoteFooter.tsx](./src/view/NoteFooter.tsx) as props.
+
+```ts
+//deplay time in ms for waiting note content changes to be settle
+const delay = 2000;
+let lastEditedMemberName;
+
+  if(Date.now() - lastEdited.time >= delay) {
+    lastEditedMemberName = currentUser?.userName === lastEdited.userName ? "you" : lastEdited.userName;
+  }
+  else {
+    lastEditedMemberName = "...";
+  }
+```
+Here we see that `lastEditedMemberName` is instantiated depending on if the last edited user is the same as the current user and if the last change in content is 2 seconds or more ago, before finally displaying the output.
+
+```ts
+React.useEffect(() => {
+  const syncLocalAndFluidState = () => {
+    const noteDataArr = [];
+    const ids: string[] = model.NoteIds;
+    // Recreate the list of cards to re-render them via setNotes
+    for (let noteId of ids) {
+      const newCardData: NoteData = model.CreateNote(noteId, props.author);
+      noteDataArr.push(newCardData);
+    }
+    setNotes(noteDataArr);
+  };
+
+  setInterval(() => {
+    setTime(Date.now());
+  }, 3000);
+  ```
+To ensure we only update the last edited user after content hasn't been changed for 2 seconds or more, we added a timer that will refresh the note states every 3 seconds in [NoteSpace.tsx](./src/view/NoteSpace.tsx)
+
+Now, we are aware that this probably isn't the most optimal and intuitive solution for a feature like this, in fact, there is actually a [package](https://github.com/microsoft/FluidFramework/blob/main/experimental/framework/last-edited/README.md) within Fluid Framework that helps us achieve this task. However, for the purpose of demonstration and what we can use the `audience` propety to achieve, we think the implementation of this feature is justified. We are also planning on refactoring the app to allow for an easier experience when updating both local and remote states.
+
+
 
 

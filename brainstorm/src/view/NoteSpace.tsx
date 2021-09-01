@@ -15,13 +15,13 @@ export type NoteSpaceProps = Readonly<{
 export function NoteSpace(props: NoteSpaceProps) {
   const { model } = props;
   const [notes, setNotes] = React.useState<readonly NoteData[]>([]);
+  const [time, setTime] = React.useState(Date.now());
 
   // This runs when via model changes whether initiated by user or from external
   React.useEffect(() => {
     const syncLocalAndFluidState = () => {
       const noteDataArr = [];
       const ids: string[] = model.NoteIds;
-
       // Recreate the list of cards to re-render them via setNotes
       for (let noteId of ids) {
         const newCardData: NoteData = model.CreateNote(noteId, props.author);
@@ -30,10 +30,17 @@ export function NoteSpace(props: NoteSpaceProps) {
       setNotes(noteDataArr);
     };
 
+    setInterval(() => {
+      setTime(Date.now());
+    }, 3000);
+
     syncLocalAndFluidState();
     model.setChangeListener(syncLocalAndFluidState);
-    return () => model.removeChangeListener(syncLocalAndFluidState);
-  }, [model, props.author]);
+    
+    return () => {
+      model.removeChangeListener(syncLocalAndFluidState);
+    }
+  }, [model, props.author, time]);
 
   const rootStyle: IStyle = {
     flexGrow: 1,
@@ -67,7 +74,7 @@ export function NoteSpace(props: NoteSpaceProps) {
           };
 
           const setText = (text: string) => {
-            model.SetNoteText(note.id, text);
+            model.SetNoteText(note.id, text, props.author.userId, props.author.userName, Date.now());
           };
 
           const onLike = () => {
@@ -90,6 +97,9 @@ export function NoteSpace(props: NoteSpaceProps) {
             <Note
               {...note}
               id={note.id}
+              currentUser={props.author}
+              lastEdited={note.lastEdited}
+              author={note.author}
               key={note.id}
               text={note.text}
               setPosition={setPosition}
