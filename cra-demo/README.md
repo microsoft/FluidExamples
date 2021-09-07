@@ -15,9 +15,9 @@ Concepts you will learn:
 In this demo we will be doing the following:
 
 1. [Install Create-React-App](#cra)
-2. [Install Fluid Package Dependencies](#install)
-3. [Import and Initialize Dependencies](#import)
-4. [Get Fluid Data](#init)
+2. [Install Fluid package dependencies](#install)
+3. [Import and initialize Fluid dependencies](#import)
+4. [Get the Fluid SharedMap](#init)
 5. [Update the view](#view)
 6. [Next Steps](#next)
 
@@ -49,7 +49,7 @@ Open up a new terminal tab and start up our React app
 npm run start
 ```
 
-## 2. <a style="position: relative; top: 20px" name="install"></a> Install Fluid Package Dependencies
+## 2. <a style="position: relative; top: 20px" name="install"></a> Install Fluid package dependencies
 
 There are two packages to install to get started with Fluid:
 
@@ -69,7 +69,7 @@ yarn add fluid-framework @fluidframework/tinylicious-client
 
 Lastly, open up the `App.js` file, as that will be the only file we need to edit.
 
-## 3. <a style="position: relative; top: 20px" name="import"></a> Import and Initialize Fluid Dependencies
+## 3. <a style="position: relative; top: 20px" name="import"></a> Import and initialize Fluid dependencies
 
 `TinyliciousClient` is a client for `Tinylicious`, a local Fluid server used for testing our application. The client will include a method for creating a [Fluid container](https://fluidframework.com/docs/glossary/#container) with a set of initial [DDSes](https://fluidframework.com/docs/concepts/dds/) or [DataObjects](https://fluidframework.com/docs/glossary/#dataobject) that are defined in the `containerSchema`.
 
@@ -174,7 +174,7 @@ React.useEffect(() => {
 ```
 
 
-## 5. <a style="position: relative; top: 20px" name="view"></a>  Update the view
+## 5. <a style="position: relative; top: 20px" name="view"></a> Update the view
 
 In this simple multi-user app, we are going to build a button that, when pressed, shows the current timestamp. We will store that timestamp in Fluid so that each co-authors will automatically see the most recent timestamp at which any author pressed the button.
 
