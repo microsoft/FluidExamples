@@ -16,7 +16,7 @@ const containerSchema = {
 
 const timeKey = "time-key";
 
-const getFluidObjects = async () => {
+const getMyMap = async () => {
     let container;
     if (location.hash <= 1) {
         ({ container } = await client.createContainer(containerSchema));
@@ -27,32 +27,31 @@ const getFluidObjects = async () => {
         const id = location.hash.substring(1);
         ({ container } = await client.getContainer(id, containerSchema));
     }
-    return container.initialObjects;
+    return container.initialObjects.myMap;
 }
 
 function App() {
 
-    const [fluidObjects, setFluidObjects] = React.useState(undefined);
+    const [fluidMap, setFluidMap] = React.useState(undefined);
     React.useEffect(() => {
-        getFluidObjects().then(objects => setFluidObjects(objects));
+        getMyMap().then(map => setFluidMap(map));
     }, []);
 
     const [viewData, setViewData] = React.useState(undefined);
     React.useEffect(() => {
-        if (fluidObjects !== undefined) {
-            const { myMap } = fluidObjects;
-            const syncView = () => setViewData({ time: myMap.get(timeKey) });
+        if (fluidMap !== undefined) {
+            const syncView = () => setViewData({ time: fluidMap.get(timeKey) });
             syncView();
-            myMap.on("valueChanged", syncView);
-            return () => { myMap.off("valueChanged", syncView) }
+            fluidMap.on("valueChanged", syncView);
+            return () => { fluidMap.off("valueChanged", syncView) }
         }
-    }, [fluidObjects])
+    }, [fluidMap])
 
 
     if (!viewData) return <div />;
 
     // business logic could be passed into the view via context
-    const setTime = () => fluidObjects.myMap.set(timeKey, Date.now().toString());
+    const setTime = () => fluidMap.set(timeKey, Date.now().toString());
 
     return (
         <div>
