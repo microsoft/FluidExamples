@@ -40,9 +40,13 @@ function App() {
     const [viewData, setViewData] = React.useState(undefined);
     React.useEffect(() => {
         if (fluidMap !== undefined) {
+            // sync Fluid data into view state
             const syncView = () => setViewData({ time: fluidMap.get(timeKey) });
+            // ensure sync runs at least once
             syncView();
+            // update state each time our map changes
             fluidMap.on("valueChanged", syncView);
+            // turn off listener when component is unmounted
             return () => { fluidMap.off("valueChanged", syncView) }
         }
     }, [fluidMap])
