@@ -12,7 +12,7 @@ Concepts you will learn:
 
 ## Demo introduction
 
-In this demo you will be doing the following:
+In this demo we will be doing the following:
 
 1. [Install Create-React-App](#cra)
 2. [Install Fluid Package Dependencies](#install)
@@ -53,30 +53,27 @@ npm run start
 
 There are two packages to install to get started with Fluid:
 
-`@fluid-experimental/frs-client` - Defines the client we'll use to connect to our Fluid [container](https://fluidframework.com/docs/glossary/#container), both locally and if deployed
-`@fluid-experimental/fluid-framework` - Contains the SharedMap you will use to sync data
+`fluid-framework` - The primary Fluid package that contains the SharedMap we'll use to sync data
+
+`@fluidframework/tinylicious-client` - Defines the client we'll use to get our Fluid [container](https://fluidframework.com/docs/glossary/#container) for local development
 
 ### Using NPM
 ```bash
-npm install @fluid-experimental/frs-client @fluid-experimental/fluid-framework
+npm install fluid-framework @fluidframework/tinylicious-client
 ```
 
 ### Using Yarn
 ```bash
-yarn add @fluid-experimental/frs-client @fluid-experimental/fluid-framework
+yarn add fluid-framework @fluidframework/tinylicious-client
 ```
-
-\* These are still experimental packages, and not ready for production
 
 Lastly, open up the `App.js` file, as that will be the only file we need to edit.
 
 ## 3. <a style="position: relative; top: 20px" name="import"></a> Import and Initialize Fluid Dependencies
 
-`FrsClient` is a client for `Tinylicious`, a local test Fluid server while testing our application. It provides methods to create a [Fluid container](https://fluidframework.com/docs/glossary/#container) with a set of initial [DDSes](https://fluidframework.com/docs/concepts/dds/) or [DataObjects](https://fluidframework.com/docs/glossary/#dataobject) that are defined in the `containerSchema`.
+`TinyliciousClient` is a client for `Tinylicious`, a local Fluid server used for testing our application. The client will include a method for creating a [Fluid container](https://fluidframework.com/docs/glossary/#container) with a set of initial [DDSes](https://fluidframework.com/docs/concepts/dds/) or [DataObjects](https://fluidframework.com/docs/glossary/#dataobject) that are defined in the `containerSchema`.
 
 > The Fluid container interacts with the processes and distributes operations, manages the lifecycle of Fluid objects, and provides a request API for accessing Fluid objects.
-
-`InsecureTokenProvider` is a class that we will use to provide temporary credentials to our `Tinylicious` server. In production this would be replaced with an official token provider.
 
 `SharedMap` is the DDS that we will initialize on our container.
 
@@ -85,120 +82,103 @@ Lastly, open up the `App.js` file, as that will be the only file we need to edit
 // Add to the top of the file
 
 import React from "react";
-import { FrsClient, InsecureTokenProvider } from "@fluid-experimental/frs-client";
+import { TinyliciousClient } from "@fluidframework/tinylicious-client";
 import { SharedMap } from "@fluid-experimental/fluid-framework";
 ```
 
-### 3.a Create unique container IDs
+### 3.a Configure the service client
 
-Fluid collaboration happens in [containers](https://fluidframework.com/docs/glossary/#container), which have unique identifiers (like a document filename). For this example we'll use the hash part of the URL as the identifier, and generate a new hash if there isn't one present already. The `getContainerId` function will automate this for us.
-
-```jsx
-// add below imports
-const getContainerId = () => {
-    let isNew = false;
-    if (window.location.hash.length === 0) {
-        isNew = true;
-        window.location.hash = Date.now().toString();
-    }
-    const containerId = window.location.hash.substring(1);
-    return { containerId, isNew };
-};
-```
-
-### 3.b Configure the service client
-
-This demo illustrates using a local configuration, but in a production environment you could swap this out with a production configuration without changing your application.
+This demo illustrates using the Tinylicious for local development, so the client is a new instance of the `TinyliciousClient`.
 
 ```js
-// add below getContainerId
-const localConfig = {
-    tenantId: "local",
-    tokenProvider: new InsecureTokenProvider("anyValue", { id: "userId" }),
-    orderer: "http://localhost:7070",
-    storage: "http://localhost:7070",
-};
+// add below imports
+const client = new TinyliciousClient();
 ```
 
-## 4. <a style="position: relative; top: 20px" name="init"></a> Get Fluid Data
+Before the client can create any containers, we need a `containerSchema` that will define, by name, the data objects needed in this application.
 
-Before you can access any Fluid data, you need to create a  configured FRS `client` and define your container schema.
+```js
+const containerSchema = {
+    initialObjects: { myMap: SharedMap }
+}; 
+```
 
-- `containerSchema` is going to include a string `name` and a collection of the data types our application will use.
+Since we'll be dealing with map data, it's common to store important map keys as constants, rather than typing the raw string each time.
 
-The following `getFluidData` function utilizes the `getContainerId` to return a unique ID and determine if this is an existing document (`getContainer`) or if we need to create a new one (`createContainer`).
+```js
+const timeKey = "time-key";
+```
 
-Since `getFluidData` is an async function, we'll need to `await` for the `initialObjects` to be returned. Once returned, each `initialObjects` key will point to a connected data structure as defined in the schema.
+## 4. <a style="position: relative; top: 20px" name="init"></a> Get the Fluid SharedMap
 
-```jsx
-// after creating an instance
-const getFluidData = async () => {
-    const { containerId, isNew } = getContainerId();
+Fluid applications can be loaded in one of two states, creating or loading . This demo differentiates these states by the presence, or absence of a hash string(`localhost:3000/#abc`), which will also serves as the container `id`. The function below will return the `myMap` SharedMap, defined above, from either a new container, or an existing container, based on the presence of a hash long enough to include an `id` value. 
 
-    const client = new FrsClient(localConfig);
 
-    const containerSchema = {
-        name: 'cra-demo-container',
-        initialObjects: { mySharedMap: SharedMap }
-    };
-
-    const { fluidContainer } = isNew
-        ? await client.createContainer({id: containerId}, containerSchema)
-        : await client.getContainer({id: containerId}, containerSchema);
-    // returned initialObjects are live Fluid data structures
-    return fluidContainer.initialObjects;
+```js
+const getMyMap = async () => {
+    let container;
+    if (location.hash <= 1) {
+        ({ container } = await client.createContainer(containerSchema));
+        container.initialObjects.myMap.set(timeKey, Date.now().toString());
+        const id = await container.attach();
+        location.hash = id;
+    } else {
+        const id = location.hash.substring(1);
+        ({ container } = await client.getContainer(id, containerSchema));
+    }
+    return container.initialObjects.myMap;
 }
 ```
 
-### 4.a getFluidData on load
 
-Now that we've defined how to get our Fluid data, we need to tell React to call `getFluidData` on load and then store the result in state.
-React's [`useState`](https://reactjs.org/docs/hooks-state.html) will provide the storage we need, and [`useEffect`](https://reactjs.org/docs/hooks-effect.html) will allow us to call `getFluidData` on render, passing the returned value into `fluidData`. By setting an empty dependency array at the end of the `useEffect`, we ensure that this function only gets called once.
+### 4.a Get the SharedMap on load
+
+Now that we've defined how to get our Fluid map, we need to tell React to call `getMyMap` on load, and then store the result in state.
+React's [`useState`](https://reactjs.org/docs/hooks-state.html) will provide the storage we need, and [`useEffect`](https://reactjs.org/docs/hooks-effect.html) will allow us to call `getMyMap` on render, passing the returned value into `setFluidMap`. 
+
+By setting an empty dependency array at the end of the `useEffect`, we ensure that this function only gets called once.
 
 ```jsx
 // Add to the top of our App
-const [fluidData, setFluidData] = React.useState();
+const [fluidMap, setFluidMap] = React.useState(undefined);
 
 React.useEffect(() => {
-    // Get/Create container and return live Fluid data
-    getFluidData().then(data => setFluidData(data));
+    getMyMap().then(myMap => setFluidMap(myMap));
 }, []);
 ```
 
 ### 4.b Sync Fluid and View data
 
-Syncing our Fluid and View data requires that we set up an event listener, which is another usecase for `useEffect`. This second `useEffect` function will return early if `fluidData` is not defined and be ran again once `fluidData` has been set thanks to the added dependency.
+Syncing our Fluid and View data requires that we set up an event listener, which is another usecase for `useEffect`. This second `useEffect` function will return early if `fluidMap` is not defined and be ran again once `fluidMap` has been set thanks to the added dependency.
 
-To sync the data we're going to create a `syncView` function, call that function once to initialize the data, and then keep listening for the `mySharedMap` "valueChanged" event, and fire the function again each time. Now React will handle updating the view each time the new `viewData` state is modified.
+To sync the data we're going to create a `syncView` function, call that function once to initialize the view, and then continue calling that function each time the map's "valueChanged" event is raised.
 
 
 
 ```jsx
 // Add below the previous useEffect
-
-const [viewData, setViewData] = React.useState();
+const [viewData, setViewData] = React.useState(undefined);
 
 React.useEffect(() => {
-    if (!fluidData) return;
-
-    const { mySharedMap } = fluidData;
-    // sync Fluid data into view state
-    const syncView = () => setViewData({ time: mySharedMap.get("time") });
-    // ensure sync runs at least once
-    syncView();
-    // update state each time our map changes
-    mySharedMap.on("valueChanged", syncView);
-    return () => { mySharedMap.off("valueChanged", syncView) }
-
-}, [fluidData])
+    if (fluidMap !== undefined) {
+        // sync Fluid data into view state
+        const syncView = () => setViewData({ time: fluidMap.get(timeKey) });
+        // ensure sync runs at least once
+        syncView();
+        // update state each time our map changes
+        fluidMap.on("valueChanged", syncView);
+        // turn off listener when component is unmounted
+        return () => { fluidMap.off("valueChanged", syncView) }
+    }
+}, [fluidMap])
 ```
 
 
 ## 5. <a style="position: relative; top: 20px" name="view"></a>  Update the view
 
-In this simple multi-user app, we are going to build a button that, when pressed, shows the current timestamp. We will store that timestamp in Fluid. This allows co-authors to automatically see the most recent timestamp at which any author pressed the button.
+In this simple multi-user app, we are going to build a button that, when pressed, shows the current timestamp. We will store that timestamp in Fluid so that each co-authors will automatically see the most recent timestamp at which any author pressed the button.
 
-To make sure we don't render the app too soon, we return a blank `<div />` until the `map` is defined. Once that's done, we'll render a button that sets the `time` key in our `map` to the current timestamp. Each time this button is pressed, every user will see the latest value stored in the `time` state variable.
+To make sure we don't render the app too soon, we return a blank `<div />` until the `viewData` is defined. Once that's done, we'll render a button that sets the `timeKey` key in `myMap` to the current timestamp. Each time this button is pressed, every user will see the latest value stored in the `time` state variable.
 
 ```jsx
     // update the App return
@@ -207,7 +187,7 @@ To make sure we don't render the app too soon, we return a blank `<div />` until
 
     return (
         <div className="App">
-            <button onClick={() => fluidData.mySharedMap.set("time", Date.now().toString())}>
+            <button onClick={() => fluidData.mySharedMap.set(timeKey, Date.now().toString())}>
                 click
             </button>
             <span>{viewData.time}</span>

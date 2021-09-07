@@ -18,7 +18,7 @@ const timeKey = "time-key";
 
 const getMyMap = async () => {
     let container;
-    if (location.hash <= 1) {
+    if (location.hash.length <= 1) {
         ({ container } = await client.createContainer(containerSchema));
         container.initialObjects.myMap.set(timeKey, Date.now().toString());
         const id = await container.attach();
@@ -34,7 +34,7 @@ function App() {
 
     const [fluidMap, setFluidMap] = React.useState(undefined);
     React.useEffect(() => {
-        getMyMap().then(map => setFluidMap(map));
+        getMyMap().then(myMap => setFluidMap(myMap));
     }, []);
 
     const [viewData, setViewData] = React.useState(undefined);
