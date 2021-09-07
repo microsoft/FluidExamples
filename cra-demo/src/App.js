@@ -16,23 +16,24 @@ const containerSchema = {
 
 const timeKey = "time-key";
 
+const getFluidObjects = async () => {
+    let container;
+    if (location.hash <= 1) {
+        ({ container } = await client.createContainer(containerSchema));
+        container.initialObjects.myMap.set(timeKey, Date.now().toString());
+        const id = await container.attach();
+        location.hash = id;
+    } else {
+        const id = location.hash.substring(1);
+        ({ container } = await client.getContainer(id, containerSchema));
+    }
+    return container.initialObjects;
+}
+
 function App() {
 
     const [fluidObjects, setFluidObjects] = React.useState(undefined);
     React.useEffect(() => {
-        const getFluidObjects = async () => {
-            let container;
-            if (location.hash <= 1) {
-                ({ container } = await client.createContainer(containerSchema));
-                container.initialObjects.myMap.set(timeKey, Date.now().toString());
-                const id = await container.attach();
-                location.hash = id;
-            } else {
-                const id = location.hash.substring(1);
-                ({ container } = await client.getContainer(id, containerSchema));
-            }
-            return container.initialObjects;
-        }
         getFluidObjects().then(objects => setFluidObjects(objects));
     }, []);
 
