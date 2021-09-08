@@ -4,7 +4,8 @@
  */
 
 import { initializeIcons, ThemeProvider } from "@fluentui/react";
-import { FrsClient } from '@fluid-experimental/frs-client';
+import { AzureClient, AzureContainerServices } from '@fluidframework/azure-client';
+import { FluidContainer } from "fluid-framework";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrainstormView } from './view/BrainstormView';
@@ -20,7 +21,6 @@ export async function start() {
         let isNew = false;
         if (location.hash.length === 0) {
             isNew = true;
-            location.hash = Date.now().toString();
         }
         const containerId = location.hash.substring(1);
         return { containerId, isNew };
@@ -28,16 +28,21 @@ export async function start() {
 
     const { containerId, isNew } = getContainerId();
 
-    const client = new FrsClient(connectionConfig);
+    const client = new AzureClient(connectionConfig);
 
-    const frsResources = isNew
-        ? await client.createContainer({ id: containerId }, containerSchema)
-        : await client.getContainer({ id: containerId }, containerSchema);
+    let container: FluidContainer;
+    let services: AzureContainerServices;
 
+    if (isNew) {
+        ({ container, services } = await client.createContainer(containerSchema));
+        location.hash = await container.attach();
+    } else {
+        ({ container, services } = await client.getContainer(containerId, containerSchema));
+    }
 
-    if (!frsResources.fluidContainer.connected) {
+    if (!container.connected) {
         await new Promise<void>((resolve) => {
-            frsResources.fluidContainer.once("connected", () => {
+            container.once("connected", () => {
                 resolve();
             });
         });
@@ -46,7 +51,7 @@ export async function start() {
     ReactDOM.render(
         <React.StrictMode>
             <ThemeProvider theme={themeNameToTheme("default")}>
-                <BrainstormView frsResources={frsResources} />
+                <BrainstormView container={container} services={services} />
             </ThemeProvider>
         </React.StrictMode>,
         document.getElementById('root')

@@ -1,6 +1,6 @@
 {
   "name": "@fluid-example/brainstorm",
-  "version": "0.44.0",
+  "version": "0.46.0",
   "description": "A simple brainstorming app built using Create React App plus a Fluid data model",
   "homepage": "https://fluidframework.com",
   "repository": "microsoft/FluidExamples",
@@ -15,7 +15,7 @@
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "start:server": "tinylicious",
-    "start:frs": "cross-env REACT_APP_FLUID_CLIENT='\"frs\"' npm run start",
+    "start:azure": "cross-env REACT_APP_FLUID_CLIENT='\"azure\"' npm run start",
     "test": "react-scripts test",
     "test:report": "echo No test for this example"
   },
@@ -45,9 +45,9 @@
   },
   "dependencies": {
     "@fluentui/react": "^8.1.1",
-    "@fluid-experimental/fluid-framework": "^0.44.0",
-    "@fluid-experimental/frs-client": "^0.44.0",
-    "@fluidframework/test-runtime-utils": "0.44.0",
+    "fluid-framework": "^0.47.0",
+    "@fluidframework/azure-client": "^0.47.0",
+    "@fluidframework/test-runtime-utils": "^0.47.0",
     "cross-env": "^7.0.3",
     "react": "^16.10.2",
     "react-dnd": "^14.0.2",
@@ -56,7 +56,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "tinylicious": "^0.4.21640",
+    "tinylicious": "^0.4.34614",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

@@ -1,5 +1,5 @@
 import { IStyle, mergeStyles, ThemeProvider } from "@fluentui/react";
-import { FrsMember } from "@fluid-experimental/frs-client";
+import { AzureMember } from "@fluidframework/azure-client";
 import React from "react";
 import { useDrop } from 'react-dnd';
 import { NoteData, Position } from "../Types";
@@ -9,7 +9,7 @@ import { lightTheme } from "./Themes";
 
 export type NoteSpaceProps = Readonly<{
   model: BrainstormModel;
-  author: FrsMember;
+  author: AzureMember;
 }>;
 
 export function NoteSpace(props: NoteSpaceProps) {

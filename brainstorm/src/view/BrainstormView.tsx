@@ -1,5 +1,6 @@
 import { mergeStyles, Spinner } from "@fluentui/react";
-import { FrsResources } from "@fluid-experimental/frs-client";
+import { AzureContainerServices } from "@fluidframework/azure-client";
+import { FluidContainer } from "fluid-framework";
 import * as React from "react";
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -7,11 +8,11 @@ import { BrainstormModel, createBrainstormModel } from "../BrainstormModel";
 import { Header } from "./Header";
 import { NoteSpace } from "./NoteSpace";
 
-export const BrainstormView = (props: { frsResources: FrsResources }) => {
-  const { frsResources: { fluidContainer, containerServices } } = props;
-  const [model] = React.useState<BrainstormModel>(createBrainstormModel(fluidContainer));
+export const BrainstormView = (props: { container: FluidContainer, services: AzureContainerServices }) => {
+  const { container, services } = props;
+  const [model] = React.useState<BrainstormModel>(createBrainstormModel(container));
 
-  const audience = containerServices.audience;
+  const audience = services.audience;
   const [members, setMembers] = React.useState(Array.from(audience.getMembers().values()));
   const authorInfo = audience.getMyself();
   const setMembersCallback = React.useCallback(() => setMembers(
@@ -21,13 +22,13 @@ export const BrainstormView = (props: { frsResources: FrsResources }) => {
   ), [setMembers, audience]);
   // Setup a listener to update our users when new clients join the session
   React.useEffect(() => {
-    fluidContainer.on("connected", setMembersCallback);
+    container.on("connected", setMembersCallback);
     audience.on("membersChanged", setMembersCallback);
     return () => {
-      fluidContainer.off("connected", () => setMembersCallback);
+      container.off("connected", () => setMembersCallback);
       audience.off("membersChanged", () => setMembersCallback);
     };
-  }, [fluidContainer, audience, setMembersCallback]);
+  }, [container, audience, setMembersCallback]);
 
   const wrapperClass = mergeStyles({
     height: "100%",

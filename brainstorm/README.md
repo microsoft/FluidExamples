@@ -24,14 +24,14 @@ Follow the steps below to run this in local mode (Tinylicious):
 Follow the steps below to run this in remote mode (Routerlicious):
 
 1. Run `npm install` from the brainstorm folder root
-2. Run `npm run start:frs` to connect to the Azure Fluid Relay service
+2. Run `npm run start:azure` to connect to the Azure Fluid Relay service
 3. Navigate to `http://localhost:3000` in a browser tab
 
 <br />
 
 | :memo: NOTE                                                                                                                                             |
 :---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Azure Fluid Relay service is a deployed service implementation that pulls together multiple micro-services that provide the ordering and storage requirement of Fluid runtime. By running `npm run start:frs` from your terminal window, the environment variable `REACT_APP_FLUID_CLIENT` will be set first, which will be picked up by the `useFrs` flag, and `FrsConnectionConfig` will use the remote mode config format. Please use the values provided as part of the service onboarding process to fill in this configuration. Then, the command will connect to your service instance.
+| Azure Fluid Relay service is a deployed service implementation that pulls together multiple micro-services that provide the ordering and storage requirement of Fluid runtime. By running `npm run start:azure` from your terminal window, the environment variable `REACT_APP_FLUID_CLIENT` will be set first, which will be picked up by the `useAzure` flag, and `AzureConnectionConfig` will use the remote mode config format. Please use the values provided as part of the service onboarding process to fill in this configuration. Then, the command will connect to your service instance.
 
 <br />
 
@@ -48,9 +48,9 @@ You'll be taken to a url similar to 'http://localhost:3000/**#1621961220840**' t
 Now you can create notes, write text, change colors and more!
 
 ## Connecting to the Service
-By configuring the `FrsConnectionConfig` that we pass into the `FrsClient` instance, we can connect to both live FRS and Tinylicious instances. The `FrsConnectionConfig` is defined by the `connectionConfig` constant in [Config.ts](./src/Config.ts), which specifies the tenant ID, orderer and storage. 
+By configuring the `AzureConnectionConfig` that we pass into the `AzureClient` instance, we can connect to both live Azure and Tinylicious instances. The `AzureConnectionConfig` is defined by the `connectionConfig` constant in [Config.ts](./src/Config.ts), which specifies the tenant ID, orderer and storage. 
 
-Now, before you can access any Fluid data, you need to define your container schema after creating a configured `FrsClient` using `FrsConnectionConfig`.
+Now, before you can access any Fluid data, you need to define your container schema after creating a configured `AzureClient` using `AzureConnectionConfig`.
 
 - `containerSchema`, also defined in [Config.ts](./src/Config.ts), is going to include a string `name` and a collection of the data types our application will use.
 ```ts
@@ -62,16 +62,16 @@ export const containerSchema = {
 }
 ```
 
-Inside [index.tsx](./src/index.tsx), we defined a `start()` function that uses `getContainerId()` to return a unique ID and determine if this is an existing document (`getContainer()`) or if we need to create a new one (`createContainer()`).
+Inside [index.tsx](./src/index.tsx), we defined a `start()` function that uses `getContainerId()` to check for the container ID in the URL and determine if this is an existing document (`getContainer()`) or if we need to create a new one (`createContainer()`).
 
 ```ts
 export async function start() {
     initializeIcons();
+
     const getContainerId = (): { containerId: string; isNew: boolean } => {
         let isNew = false;
         if (location.hash.length === 0) {
             isNew = true;
-            location.hash = Date.now().toString();
         }
         const containerId = location.hash.substring(1);
         return { containerId, isNew };
@@ -79,29 +79,34 @@ export async function start() {
 
     const { containerId, isNew } = getContainerId();
 
-    const client = new FrsClient(connectionConfig);
+    const client = new AzureClient(connectionConfig);
 
-    const frsResources = isNew
-        ? await client.createContainer({ id: containerId }, containerSchema)
-        : await client.getContainer({ id: containerId }, containerSchema);
+    let azureResources: { container: FluidContainer, services: AzureContainerServices };
+
+    if (isNew) {
+        azureResources = await client.createContainer(containerSchema);
+        location.hash = await azureResources.container.attach();
+    } else {
+        azureResources = await client.getContainer(containerId, containerSchema);
+    }
     ...
 }
 ```
 
 Since `start()` is an async function, we'll need to await for the initialObjects to be returned. Once returned, each `initialObjects` key will point to a connected data structure as defined in the schema.
 
-### Running `FrsClient` against local Tinylicious instance
+### Running `AzureClient` against local Tinylicious instance
 - To run against our local Tinylicious instance, we pass the `tenantId` as "local" and make use of `InsecureTokenProvider`. The `InsecureTokenProvider` requires we pass in two values to its constructor, a key string, which can be anything since we are running it locally, and an IUser type object identifying the current user. For running the instance locally, the orderer and storage URLs would point to the Tinylicious instance on the default values of `http://localhost:7070`.
 
-### Running `FrsClient` against live FRS instance
-- To run against live FRS Instance, tenant ID, orderer and storage URLs are required. We make use of `FrsAzFunctionTokenProvider` which takes in the Azure function URL and an optional `"userId" | "userName" | "additionalDetails"` type object identifying the current user, thereby making an axios `GET` request call to the Azure Function. This axios call takes in the tenant ID, documentId and userID/userName as optional parameters. The Azure Function is responsible for mapping the `tenantId` to tenant key secret to generate and sign the token such that the service will accept it.
+### Running `AzureClient` against live Azure Fluid Relay service instance
+- To run against live Azure Instance, tenant ID, orderer and storage URLs are required. We make use of `AzureFunctionTokenProvider` which takes in the Azure function URL and an optional `"userId" | "userName" | "additionalDetails"` type object identifying the current user, thereby making an axios `GET` request call to the Azure Function. This axios call takes in the tenant ID, documentId and userID/userName as optional parameters. The Azure Function is responsible for mapping the `tenantId` to tenant key secret to generate and sign the token such that the service will accept it.
 
-To add more versatility, we also incorporated the `useFrs` flag. Depending on the npm command you run (`npm run start` or `npm run start:frs`), the flag will toggle between local and remote mode using the same config format. We make use of `FrsAzFunctionTokenProvider` for running against live FRS instance since it is more secured, without exposing the tenant secret key in the client-side code whereas while running the service locally for development purpose, we make use of `InsecureTokenProvider`.
+To add more versatility, we also incorporated the `useAzure` flag. Depending on the npm command you run (`npm run start` or `npm run start:azure`), the flag will toggle between local and remote mode using the same config format. We make use of `AzureFunctionTokenProvider` for running against live Azure instance since it is more secured, without exposing the tenant secret key in the client-side code whereas while running the service locally for development purpose, we make use of `InsecureTokenProvider`.
 
 ```ts
-export const connectionConfig: FrsConnectionConfig = useFrs ? {
+export const connectionConfig: AzureConnectionConfig = useAzure ? {
     tenantId: "YOUR-TENANT-ID-HERE",
-    tokenProvider: new FrsAzFunctionTokenProvider("AZURE-FUNCTION-URL"+"/api/GetFrsToken", { userId: "test-user", userName: "Test User" }),
+    tokenProvider: new AzureFunctionTokenProvider("AZURE-FUNCTION-URL"+"/api/GetAzureToken", { userId: "test-user", userName: "Test User" }),
     orderer: "ENTER-ORDERER-URL-HERE",
     storage: "ENTER-STORAGE-URL-HERE",
 } : {
@@ -170,7 +175,7 @@ To summarize how these 2 components work together seamlessly, let's take `setNot
     - With our newly generated and updated list of new notes, we call `setNotes` to update the React state. This updated React state will propagate the changes to all remote clients, resulting in the view updating.
 
 ## Using Audience to Render User Information
-The LetsBrainstorm app makes use of the `audience` property from `FrsContainerServices` to keep track of and render all user related information.
+The LetsBrainstorm app makes use of the `audience` property from `AzureContainerServices` to keep track of and render all user related information.
 
 In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used similarly to how `BrainstormModel` works in [NoteSpace.tsx](./src/view/NoteSpace.tsx). The member values of the audience property are also being tracked in a React state so we can display all the active users in the session.
 
@@ -241,7 +246,7 @@ return (
 Going back to `SetNoteText()` from [BrainstormModel](./src/BrainstormModel.ts), we can see in the definition below that we are not only updating the last edited member but also giving it a timestamp of when it was last edited.
 
 ```ts
-const SetNoteText = (noteId: string, noteText: string, lastEditedMember: FrsMember) => {
+const SetNoteText = (noteId: string, noteText: string, lastEditedMember: AzureMember) => {
     sharedMap.set(c_TextPrefix + noteId, noteText);
     sharedMap.set(c_LastEditedPrefix + noteId, { member: lastEditedMember, time: Date.now() });
   };
