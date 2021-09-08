@@ -1,9 +1,9 @@
 import React from "react";
 import { Text } from "@fluentui/react";
-import { FrsMember } from "@fluid-experimental/frs-client";
+import { AzureMember } from "@fluidframework/azure-client";
 import { NoteData } from "../Types";
 
-export type NoteFooterProps = { currentUser : FrsMember } & Pick<NoteData, "lastEdited">;
+export type NoteFooterProps = { currentUser : AzureMember } & Pick<NoteData, "lastEdited">;
 
 //deplay time in ms for waiting note content changes to be settle
 const delay = 2000;

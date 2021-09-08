@@ -4,7 +4,7 @@ import {
   ICommandBarItemProps,
   Facepile,
 } from "@fluentui/react";
-import { FrsMember } from "@fluid-experimental/frs-client";
+import { AzureMember } from "@fluidframework/azure-client";
 import React from "react";
 import { BrainstormModel } from "../BrainstormModel";
 import { DefaultColor } from "./Color";
@@ -21,8 +21,8 @@ function uuidv4() {
 }
 export interface HeaderProps {
   model: BrainstormModel;
-  author: FrsMember;
-  members: FrsMember[];
+  author: AzureMember;
+  members: AzureMember[];
 }
 
 export function Header(props: HeaderProps) {
