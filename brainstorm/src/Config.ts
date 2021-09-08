@@ -20,7 +20,7 @@ export const userConfig = {
 
 export const connectionConfig: AzureClientProps = useAzure ? { connection: {
     tenantId: "YOUR-TENANT-ID-HERE",
-    tokenProvider: new AzureFunctionTokenProvider("AZURE-FUNCTION-URL" + "/api/GetFrsToken", { userId: "test-user", userName: "Test User" }),
+    tokenProvider: new AzureFunctionTokenProvider("AZURE-FUNCTION-URL" + "/api/GetAzureToken", { userId: "test-user", userName: "Test User" }),
     orderer: "ENTER-ORDERER-URL-HERE",
     storage: "ENTER-STORAGE-URL-HERE",
 }} : { connection: {
