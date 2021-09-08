@@ -1,17 +1,12 @@
-import { SharedMap, ISharedMap, FluidContainer } from '@fluid-experimental/fluid-framework';
-import {
-  FrsConnectionConfig,
-  InsecureTokenProvider,
-  FrsAzFunctionTokenProvider,
-} from '@fluid-experimental/frs-client';
-import { v4 as uuid } from 'uuid';
+import { SharedMap, ISharedMap, FluidContainer, ContainerSchema } from 'fluid-framework';
+import { TinyliciousClientProps } from '@fluidframework/tinylicious-client';
+
 
 ////
 // Container and App setup
 ////
 
-export const containerConfig = {
-  name: 'cra-demo-container',
+export const containerSchema: ContainerSchema = {
   initialObjects: {
     myMap: SharedMap,
   },
@@ -19,10 +14,10 @@ export const containerConfig = {
 
 // changes URL path to your fluid pages
 // "fluid" yields a `/fluid/123` file path
-export const FILEPATH = 'fluid';
+export const FILEPATH: string = 'fluid';
 
 // Additional service configuration
-export const serviceConfig = {};
+export const clientProps: TinyliciousClientProps = {};
 
 // Setup default data on initialObjects
 export const setDefaultData = (fluidContainer: FluidContainer) => {
@@ -42,24 +37,3 @@ export const setDefaultData = (fluidContainer: FluidContainer) => {
   }
 };
 
-////
-// Connection Config
-////
-
-export const useFrs: boolean = process.env.REACT_APP_USE_FRS !== undefined;
-
-export const user = { id: uuid(), name: 'TestUser' };
-
-export const connectionConfig: FrsConnectionConfig = useFrs
-  ? {
-      tenantId: 'YOUR-TENANT-ID-HERE',
-      tokenProvider: new FrsAzFunctionTokenProvider('YOUR-AZURE-FUNCTION-URL-HERE', {userId: user.id, userName: user.name}),
-      orderer: 'YOUR-ORDERER-URL-HERE',
-      storage: 'YOUR-STORAGE-URL-HERE',
-    }
-  : {
-      tenantId: 'local',
-      tokenProvider: new InsecureTokenProvider('fooBar', user),
-      orderer: 'http://localhost:7070',
-      storage: 'http://localhost:7070',
-    };

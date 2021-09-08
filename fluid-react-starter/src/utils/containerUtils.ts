@@ -1,29 +1,24 @@
-import { FrsClient } from '@fluid-experimental/frs-client';
-import { v4 as uuid } from 'uuid';
+import { TinyliciousClient } from '@fluidframework/tinylicious-client';
 import {
-  containerConfig,
+  containerSchema,
+  clientProps,
   setDefaultData,
-  serviceConfig,
   FILEPATH,
-  connectionConfig,
 } from '../config';
 
-const client = new FrsClient(connectionConfig);
+const client = new TinyliciousClient(clientProps);
 
 export const createFilePath = (id: string) => {
   return `/${FILEPATH}/${id}`;
 };
 
 export const createFluidFile = async () => {
-  const id = uuid();
-  const { fluidContainer } = await client.createContainer(
-    { ...serviceConfig, id },
-    containerConfig
-  );
-  setDefaultData(fluidContainer);
+  const { container } = await client.createContainer(containerSchema);
+  setDefaultData(container);
+  const id = await container.attach();
   return createFilePath(id);
 };
 
 export const getFluidContainer = async (id: string) => {
-  return await client.getContainer({ ...serviceConfig, id }, containerConfig);
+  return await client.getContainer(id, containerSchema);
 };
