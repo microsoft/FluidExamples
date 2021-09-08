@@ -62,11 +62,11 @@ export const containerSchema = {
 }
 ```
 
-Inside [index.tsx](./src/index.tsx), we defined a `start()` function that uses `getContainerId()` to check for the container ID in the URL and determine if this is an existing document (`getContainer()`) or if we need to create a new one (`createContainer()`).
+Inside [index.tsx](./src/index.tsx), we defined a `start()` function that uses `getContainerId()` to check for the container ID in the URL and determine if this is an existing document (`getContainer()`) or if we need to create a new one (`createContainer()`). When creating a new container, we get its ID from the `container.attach()` call.
 
 ```ts
 export async function start() {
-    initializeIcons();
+        initializeIcons();
 
     const getContainerId = (): { containerId: string; isNew: boolean } => {
         let isNew = false;
@@ -81,13 +81,15 @@ export async function start() {
 
     const client = new AzureClient(connectionConfig);
 
-    let azureResources: { container: FluidContainer, services: AzureContainerServices };
+    let container: FluidContainer;
+    let services: AzureContainerServices;
 
     if (isNew) {
-        azureResources = await client.createContainer(containerSchema);
-        location.hash = await azureResources.container.attach();
+        ({ container, services } = await client.createContainer(containerSchema));
+        const containerId = await container.attach();
+        location.hash = containerId;
     } else {
-        azureResources = await client.getContainer(containerId, containerSchema);
+        ({ container, services } = await client.getContainer(containerId, containerSchema));
     }
     ...
 }

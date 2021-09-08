@@ -35,7 +35,8 @@ export async function start() {
 
     if (isNew) {
         ({ container, services } = await client.createContainer(containerSchema));
-        location.hash = await container.attach();
+        const containerId = await container.attach();
+        location.hash = containerId;
     } else {
         ({ container, services } = await client.getContainer(containerId, containerSchema));
     }
