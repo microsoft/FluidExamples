@@ -36,8 +36,7 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.1.7",
-    "env-cmd": "10.1.0"
+    "@types/react-router-dom": "^5.1.7"
   },
   "eslintConfig": {
     "extends": [
