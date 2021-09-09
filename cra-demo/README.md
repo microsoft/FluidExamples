@@ -14,14 +14,14 @@ Concepts you will learn:
 
 In this demo you will be doing the following:
 
-1. [Install Create-React-App](#cra)
-2. [Install Fluid package dependencies](#install)
-3. [Import and initialize Fluid dependencies](#import)
-4. [Get the Fluid SharedMap](#init)
-5. [Update the view](#view)
-6. [Next Steps](#next)
+  - [1. Use Create-React-App](#1-use-create-react-app)
+  - [2. Install Fluid package dependencies](#2-install-fluid-package-dependencies)
+  - [3. Import and initialize Fluid dependencies](#3-import-and-initialize-fluid-dependencies)
+  - [4. Get the Fluid SharedMap](#4-get-the-fluid-sharedmap)
+  - [5. Update the view](#5-update-the-view)
+  - [6. Next Steps](#6-next-steps)
 
-## 1. <a style="position: relative; top: 20px" name="cra"></a> Use Create-React-App
+## 1. Use Create-React-App
 
 ### Using NPM
 ```bash
@@ -49,7 +49,7 @@ Open up a new terminal tab and start up our React app
 npm run start
 ```
 
-## 2. <a style="position: relative; top: 20px" name="install"></a> Install Fluid package dependencies
+## 2. Install Fluid package dependencies
 
 There are two packages to install to get started with Fluid:
 
@@ -69,7 +69,7 @@ yarn add fluid-framework @fluidframework/tinylicious-client
 
 Lastly, open up the `App.js` file, as that will be the only file edited.
 
-## 3. <a style="position: relative; top: 20px" name="import"></a> Import and initialize Fluid dependencies
+## 3. Import and initialize Fluid dependencies
 
 `TinyliciousClient` is a client for `Tinylicious`, a local Fluid server used for testing our application. The client will include a method for creating a [Fluid container](https://fluidframework.com/docs/glossary/#container) with a set of initial [DDSes](https://fluidframework.com/docs/concepts/dds/) or [DataObjects](https://fluidframework.com/docs/glossary/#dataobject) that are defined in the `containerSchema`.
 
@@ -109,7 +109,7 @@ Since we'll be dealing with map data, it's common to store important map keys as
 const timeKey = "time-key";
 ```
 
-## 4. <a style="position: relative; top: 20px" name="init"></a> Get the Fluid SharedMap
+## 4. Get the Fluid SharedMap
 
 Fluid applications can be loaded in one of two states, creating or loading . This demo differentiates these states by the presence, or absence of a hash string(`localhost:3000/#abc`), which will also serves as the container `id`. The function below will return the `myMap` SharedMap, defined above, from either a new container, or an existing container, based on the presence of a hash long enough to include an `id` value. 
 
@@ -174,7 +174,7 @@ React.useEffect(() => {
 ```
 
 
-## 5. <a style="position: relative; top: 20px" name="view"></a> Update the view
+## 5. Update the view
 
 In this simple multi-user app, you are going to build a button that, when pressed, shows the current timestamp. We will store that timestamp in Fluid so that each co-authors will automatically see the most recent timestamp at which any author pressed the button.
 
@@ -199,7 +199,7 @@ When the app loads it will update the URL. Copy that new URL into a second brows
 
 ![cra](https://user-images.githubusercontent.com/1434956/111496992-faf2dc00-86fd-11eb-815d-5cc539d8f3c8.gif)
 
-## 6. <a style="position: relative; top: 20px" name="next"></a>  Next Steps
+## 6. Next Steps
 
 - Try extending the demo with more key/value pairs and a more complex UI
   - `npm install @fluentui/react` is a great way to add [UI controls](https://developer.microsoft.com/en-us/fluentui#/)
