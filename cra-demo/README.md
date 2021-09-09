@@ -12,7 +12,7 @@ Concepts you will learn:
 
 ## Demo introduction
 
-In this demo we will be doing the following:
+In this demo you will be doing the following:
 
 1. [Install Create-React-App](#cra)
 2. [Install Fluid package dependencies](#install)
@@ -67,7 +67,7 @@ npm install fluid-framework @fluidframework/tinylicious-client
 yarn add fluid-framework @fluidframework/tinylicious-client
 ```
 
-Lastly, open up the `App.js` file, as that will be the only file we need to edit.
+Lastly, open up the `App.js` file, as that will be the only file edited.
 
 ## 3. <a style="position: relative; top: 20px" name="import"></a> Import and initialize Fluid dependencies
 
@@ -75,7 +75,7 @@ Lastly, open up the `App.js` file, as that will be the only file we need to edit
 
 > The Fluid container interacts with the processes and distributes operations, manages the lifecycle of Fluid objects, and provides a request API for accessing Fluid objects.
 
-`SharedMap` is the DDS that we will initialize on our container.
+`SharedMap` is the DDS that will be initialized on our container.
 
 ```js
 // App.js
@@ -95,7 +95,7 @@ This demo illustrates using the Tinylicious for local development, so the client
 const client = new TinyliciousClient();
 ```
 
-Before the client can create any containers, we need a `containerSchema` that will define, by name, the data objects needed in this application.
+Before the client can create any containers, it needs a `containerSchema` that will define, by name, the data objects used in this application.
 
 ```js
 const containerSchema = {
@@ -133,10 +133,10 @@ const getMyMap = async () => {
 
 ### 4.a Get the SharedMap on load
 
-Now that we've defined how to get our Fluid map, we need to tell React to call `getMyMap` on load, and then store the result in state.
-React's [`useState`](https://reactjs.org/docs/hooks-state.html) will provide the storage we need, and [`useEffect`](https://reactjs.org/docs/hooks-effect.html) will allow us to call `getMyMap` on render, passing the returned value into `setFluidMap`. 
+Now that the app has defined how to get our Fluid map, you need to tell React to call `getMyMap` on load, and then store the result in state.
+React's [`useState`](https://reactjs.org/docs/hooks-state.html) will provide the storage needed, and [`useEffect`](https://reactjs.org/docs/hooks-effect.html) will allow us to call `getMyMap` on render, passing the returned value into `setFluidMap`. 
 
-By setting an empty dependency array at the end of the `useEffect`, we ensure that this function only gets called once.
+By setting an empty dependency array at the end of the `useEffect`, the app ensure that this function only gets called once.
 
 ```jsx
 // Add to the top of our App
@@ -149,7 +149,7 @@ React.useEffect(() => {
 
 ### 4.b Sync Fluid and View data
 
-Syncing our Fluid and View data requires that we set up an event listener, which is another usecase for `useEffect`. This second `useEffect` function will return early if `fluidMap` is not defined and be ran again once `fluidMap` has been set thanks to the added dependency.
+Syncing our Fluid and View data requires that the app sets up an event listener, which is another usecase for `useEffect`. This second `useEffect` function will return early if `fluidMap` is not defined and be ran again once `fluidMap` has been set thanks to the added dependency.
 
 To sync the data we're going to create a `syncView` function, call that function once to initialize the view, and then continue calling that function each time the map's "valueChanged" event is raised.
 
@@ -176,9 +176,9 @@ React.useEffect(() => {
 
 ## 5. <a style="position: relative; top: 20px" name="view"></a> Update the view
 
-In this simple multi-user app, we are going to build a button that, when pressed, shows the current timestamp. We will store that timestamp in Fluid so that each co-authors will automatically see the most recent timestamp at which any author pressed the button.
+In this simple multi-user app, you are going to build a button that, when pressed, shows the current timestamp. We will store that timestamp in Fluid so that each co-authors will automatically see the most recent timestamp at which any author pressed the button.
 
-To make sure we don't render the app too soon, we return a blank `<div />` until the `viewData` is defined. Once that's done, we'll render a button that sets the `timeKey` key in `myMap` to the current timestamp. Each time this button is pressed, every user will see the latest value stored in the `time` state variable.
+To make sure the app does not render too soon, it returns a blank `<div />` until the `viewData` is defined. Once that's done, we'll render a button that sets the `timeKey` key in `myMap` to the current timestamp. Each time this button is pressed, every user will see the latest value stored in the `time` state variable.
 
 ```jsx
     // update the App return
