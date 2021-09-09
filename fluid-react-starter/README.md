@@ -59,7 +59,7 @@ npm run start
 
 Inside of `src/config.ts`, you can define the `initialObjects` that are returned by the container in the `containerSchema`. 
 
-To add another DSS to this list, make sure that the DDS is imported from `fluid-framework`, select a key, and add the DDS to `initialObjects`.
+To add another DDS to this list, make sure that the DDS is imported from `fluid-framework`, select a key, and add the DDS to `initialObjects`.
 
 ```ts
 import { SharedMap, SharedCounter } from 'fluid-framework';
