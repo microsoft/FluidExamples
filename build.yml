@@ -16,6 +16,9 @@ parameters:
 - name: cra-demo
   type: string
   default: cra-demo
+- name: multi-framework-diceroller
+  type: string
+  default: multi-framework-diceroller
 
 trigger:
 - main
