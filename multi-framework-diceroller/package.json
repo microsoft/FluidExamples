@@ -10,7 +10,8 @@
         "build:dev": "webpack --env clean",
         "start": "concurrently \"npm:start:server\" \"npm:start:client\"",
         "start:client": "webpack serve",
-        "start:server": "npx tinylicious"
+        "start:server": "npx tinylicious",
+        "test:report": "echo No test for this example"
     },
     "dependencies": {
         "@babel/preset-react": "^7.14.5",
