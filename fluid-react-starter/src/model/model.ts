@@ -1,6 +1,6 @@
-import { ISharedMap, FluidContainer, IValueChanged } from '@fluid-experimental/fluid-framework';
+import { ISharedMap, FluidContainer, IValueChanged } from 'fluid-framework';
 import { EventEmitter } from 'events';
-import { FrsContainerServices, FrsMember, IFrsAudience } from '@fluid-experimental/frs-client';
+import { TinyliciousContainerServices, TinyliciousMember, ITinyliciousAudience } from '@fluidframework/tinylicious-client';
 import { Node } from './types';
 
 export type EventPayload = {
@@ -11,8 +11,8 @@ export type EventPayload = {
 
 export class FluidModel extends EventEmitter {
   private map: ISharedMap;
-  private audience: IFrsAudience;
-  constructor(private container: FluidContainer, private services: FrsContainerServices) {
+  private audience: ITinyliciousAudience;
+  constructor(private container: FluidContainer, private services: TinyliciousContainerServices) {
     super();
     this.map = container.initialObjects.myMap as ISharedMap;
     this.audience = services.audience;
@@ -35,7 +35,7 @@ export class FluidModel extends EventEmitter {
     });
   }
 
-  public getAudience = (): FrsMember[] => {
+  public getAudience = (): TinyliciousMember[] => {
     const members = Array.from(this.audience.getMembers().values());
 
     return members; 
