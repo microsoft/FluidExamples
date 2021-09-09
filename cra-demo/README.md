@@ -53,9 +53,9 @@ npm run start
 
 There are two packages to install to get started with Fluid:
 
-`fluid-framework` - The primary Fluid package that contains the SharedMap we'll use to sync data
+`fluid-framework` -- The primary Fluid package that contains the SharedMap we'll use to sync data.
 
-`@fluidframework/tinylicious-client` - Defines the client we'll use to get our Fluid [container](https://fluidframework.com/docs/glossary/#container) for local development
+`@fluidframework/tinylicious-client` -- Defines the client we'll use to get our Fluid [container](https://fluidframework.com/docs/glossary/#container) for local development.
 
 ### Using NPM
 ```bash
