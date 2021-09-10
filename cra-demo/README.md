@@ -19,7 +19,7 @@ In this demo you will be doing the following:
   - [3. Import and initialize Fluid dependencies](#3-import-and-initialize-fluid-dependencies)
   - [4. Get the Fluid SharedMap](#4-get-the-fluid-sharedmap)
   - [5. Update the view](#5-update-the-view)
-  - [6. Next Steps](#6-next-steps)
+  - [6. Next steps](#6-next-steps)
 
 ## 1. Use Create-React-App
 
