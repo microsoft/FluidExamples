@@ -14,14 +14,14 @@ Concepts you will learn:
 
 In this example you will do the following:
 
-  - [1. Use Create React App](#1-use-create-react-app)
-  - [2. Install Fluid package dependencies](#2-install-fluid-package-dependencies)
-  - [3. Import and initialize Fluid dependencies](#3-import-and-initialize-fluid-dependencies)
-  - [4. Get the Fluid SharedMap](#4-get-the-fluid-sharedmap)
-  - [5. Update the view](#5-update-the-view)
-  - [6. Next steps](#6-next-steps)
+  - [Use Create React App](use-create-react-app)
+  - [Install Fluid package dependencies](install-fluid-package-dependencies)
+  - [Import and initialize Fluid dependencies](import-and-initialize-fluid-dependencies)
+  - [Get the Fluid SharedMap](get-the-fluid-sharedmap)
+  - [Update the view](update-the-view)
+  - [Next steps](next-steps)
 
-## 1. Use Create React App
+## Use Create React App
 
 ### Using NPM
 ```bash
@@ -35,7 +35,7 @@ npx create-react-app my-app-name
 cd my-app-name
 ```
 
-### 1.a Start the app
+### Start the app
 
 The `tinylicious` server will be needed to run this demo locally.
 
@@ -49,7 +49,7 @@ Open up a new terminal tab and start up our React app
 npm run start
 ```
 
-## 2. Install Fluid package dependencies
+## Install Fluid package dependencies
 
 There are two packages to install to get started with Fluid:
 
@@ -69,7 +69,7 @@ yarn add fluid-framework @fluidframework/tinylicious-client
 
 Lastly, open up the `App.js` file, as that will be the only file edited.
 
-## 3. Import and initialize Fluid dependencies
+## Import and initialize Fluid dependencies
 
 `TinyliciousClient` is a client for `Tinylicious`, a local Fluid server used for testing our application. The client will include a method for creating a [Fluid container]({{< relref "containers.md" >}}) with a set of initial [DDSes]({{< relref "dds.md" >}}) or [shared objects]({{< relref "glossary.md#shared-objects" >}}) that are defined in the `containerSchema`.
 
@@ -86,7 +86,7 @@ import { TinyliciousClient } from "@fluidframework/tinylicious-client";
 import { SharedMap } from "@fluid-experimental/fluid-framework";
 ```
 
-### 3.a Configure the service client
+### Configure the service client
 
 This demo illustrates using the Tinylicious for local development, so the client is a new instance of the `TinyliciousClient`.
 
@@ -109,7 +109,7 @@ It's a common pattern to store important map keys as constants, rather than typi
 const timeKey = "time-key";
 ```
 
-## 4. Get the Fluid `SharedMap`
+## Get the Fluid `SharedMap`
 
 Fluid applications can be loaded in one of two states, creating or loading. This demo differentiates these states by the presence, or absence of a hash string (`localhost:3000/#abc`), which will also serves as the container `id`. The function below will return the `myMap` SharedMap, defined above, from either a new container, or an existing container, based on the presence of a hash long enough to include an `id` value. 
 
@@ -131,7 +131,7 @@ const getMyMap = async () => {
 ```
 
 
-### 4.a Get the SharedMap on load
+### Get the SharedMap on load
 
 Now that the app has defined how to get our Fluid map, you need to tell React to call `getMyMap` on load, and then store the result in state.
 React's [useState hook](https://reactjs.org/docs/hooks-state.html) will provide the storage needed, and [useEffect](https://reactjs.org/docs/hooks-effect.html) will allow us to call `getMyMap` on render, passing the returned value into `setFluidMap`. 
@@ -147,7 +147,7 @@ React.useEffect(() => {
 }, []);
 ```
 
-### 4.b Sync Fluid and view data
+### Sync Fluid and view data
 
 Syncing our Fluid and view data requires that the app create an event listener, which is another opportunity for `useEffect`. This second `useEffect` function will return early if `fluidMap` is not defined and run again once `fluidMap` has been set thanks to the added dependency.
 
@@ -174,7 +174,7 @@ React.useEffect(() => {
 ```
 
 
-## 5. Update the view
+## Update the view
 
 In this simple multi-user app, you are going to build a button that, when pressed, shows the current timestamp. We will store that timestamp in Fluid so that each co-authors will automatically see the most recent timestamp at which any author pressed the button.
 
@@ -199,7 +199,7 @@ When the app loads it will update the URL. Copy that new URL into a second brows
 
 ![cra](https://user-images.githubusercontent.com/1434956/111496992-faf2dc00-86fd-11eb-815d-5cc539d8f3c8.gif)
 
-## 6. Next steps
+## Next steps
 
 - Try extending the example with more key/value pairs and a more complex UI
   - `npm install @fluentui/react` is a great way to add [UI controls](https://developer.microsoft.com/en-us/fluentui#/)
