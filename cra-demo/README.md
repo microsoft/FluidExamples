@@ -14,7 +14,7 @@ Concepts you will learn:
 
 In this demo you will be doing the following:
 
-  - [1. Use Create-React-App](#1-use-create-react-app)
+  - [1. Use Create React App](#1-use-create-react-app)
   - [2. Install Fluid package dependencies](#2-install-fluid-package-dependencies)
   - [3. Import and initialize Fluid dependencies](#3-import-and-initialize-fluid-dependencies)
   - [4. Get the Fluid SharedMap](#4-get-the-fluid-sharedmap)
