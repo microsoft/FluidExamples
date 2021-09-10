@@ -109,7 +109,7 @@ Since we'll be dealing with map data, it's common to store important map keys as
 const timeKey = "time-key";
 ```
 
-## 4. Get the Fluid SharedMap
+## 4. Get the Fluid `SharedMap`
 
 Fluid applications can be loaded in one of two states, creating or loading . This demo differentiates these states by the presence, or absence of a hash string(`localhost:3000/#abc`), which will also serves as the container `id`. The function below will return the `myMap` SharedMap, defined above, from either a new container, or an existing container, based on the presence of a hash long enough to include an `id` value. 
 
