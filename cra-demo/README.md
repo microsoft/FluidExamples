@@ -21,7 +21,7 @@ In this demo you will be doing the following:
   - [5. Update the view](#5-update-the-view)
   - [6. Next steps](#6-next-steps)
 
-## 1. Use Create-React-App
+## 1. Use Create React App
 
 ### Using NPM
 ```bash
