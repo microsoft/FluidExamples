@@ -12,7 +12,7 @@ Concepts you will learn:
 
 ## Demo introduction
 
-In this demo you will be doing the following:
+In this example you will do the following:
 
   - [1. Use Create React App](#1-use-create-react-app)
   - [2. Install Fluid package dependencies](#2-install-fluid-package-dependencies)
@@ -111,7 +111,7 @@ const timeKey = "time-key";
 
 ## 4. Get the Fluid `SharedMap`
 
-Fluid applications can be loaded in one of two states, creating or loading . This demo differentiates these states by the presence, or absence of a hash string(`localhost:3000/#abc`), which will also serves as the container `id`. The function below will return the `myMap` SharedMap, defined above, from either a new container, or an existing container, based on the presence of a hash long enough to include an `id` value. 
+Fluid applications can be loaded in one of two states, creating or loading. This demo differentiates these states by the presence, or absence of a hash string (`localhost:3000/#abc`), which will also serves as the container `id`. The function below will return the `myMap` SharedMap, defined above, from either a new container, or an existing container, based on the presence of a hash long enough to include an `id` value. 
 
 
 ```js
@@ -134,7 +134,7 @@ const getMyMap = async () => {
 ### 4.a Get the SharedMap on load
 
 Now that the app has defined how to get our Fluid map, you need to tell React to call `getMyMap` on load, and then store the result in state.
-React's [`useState`](https://reactjs.org/docs/hooks-state.html) will provide the storage needed, and [`useEffect`](https://reactjs.org/docs/hooks-effect.html) will allow us to call `getMyMap` on render, passing the returned value into `setFluidMap`. 
+React's [useState hook](https://reactjs.org/docs/hooks-state.html) will provide the storage needed, and [useEffect](https://reactjs.org/docs/hooks-effect.html) will allow us to call `getMyMap` on render, passing the returned value into `setFluidMap`. 
 
 By setting an empty dependency array at the end of the `useEffect`, the app ensure that this function only gets called once.
 
@@ -147,9 +147,9 @@ React.useEffect(() => {
 }, []);
 ```
 
-### 4.b Sync Fluid and View data
+### 4.b Sync Fluid and view data
 
-Syncing our Fluid and View data requires that the app sets up an event listener, which is another usecase for `useEffect`. This second `useEffect` function will return early if `fluidMap` is not defined and be ran again once `fluidMap` has been set thanks to the added dependency.
+Syncing our Fluid and view data requires that the app create an event listener, which is another opportunity for `useEffect`. This second `useEffect` function will return early if `fluidMap` is not defined and run again once `fluidMap` has been set thanks to the added dependency.
 
 To sync the data we're going to create a `syncView` function, call that function once to initialize the view, and then continue calling that function each time the map's "valueChanged" event is raised.
 
@@ -178,7 +178,7 @@ React.useEffect(() => {
 
 In this simple multi-user app, you are going to build a button that, when pressed, shows the current timestamp. We will store that timestamp in Fluid so that each co-authors will automatically see the most recent timestamp at which any author pressed the button.
 
-To make sure the app does not render too soon, it returns a blank `<div />` until the `viewData` is defined. Once that's done, we'll render a button that sets the `timeKey` key in `myMap` to the current timestamp. Each time this button is pressed, every user will see the latest value stored in the `time` state variable.
+To make sure the app does not render too soon, it returns a blank `<div />` until the `viewData` is defined. Once that's done, it renders a button that sets the `timeKey` key in `myMap` to the current timestamp. Each time this button is pressed, every user will see the latest value stored in the `time` state variable.
 
 ```jsx
     // update the App return
@@ -199,8 +199,8 @@ When the app loads it will update the URL. Copy that new URL into a second brows
 
 ![cra](https://user-images.githubusercontent.com/1434956/111496992-faf2dc00-86fd-11eb-815d-5cc539d8f3c8.gif)
 
-## 6. Next Steps
+## 6. Next steps
 
-- Try extending the demo with more key/value pairs and a more complex UI
+- Try extending the example with more key/value pairs and a more complex UI
   - `npm install @fluentui/react` is a great way to add [UI controls](https://developer.microsoft.com/en-us/fluentui#/)
 - Try using other DDSes such as the [SharedString](https://fluidframework.com/docs/apis/sequence/sharedstring/)
