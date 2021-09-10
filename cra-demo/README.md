@@ -71,7 +71,7 @@ Lastly, open up the `App.js` file, as that will be the only file edited.
 
 ## 3. Import and initialize Fluid dependencies
 
-`TinyliciousClient` is a client for `Tinylicious`, a local Fluid server used for testing our application. The client will include a method for creating a [Fluid container](https://fluidframework.com/docs/glossary/#container) with a set of initial [DDSes](https://fluidframework.com/docs/concepts/dds/) or [DataObjects](https://fluidframework.com/docs/glossary/#dataobject) that are defined in the `containerSchema`.
+`TinyliciousClient` is a client for `Tinylicious`, a local Fluid server used for testing our application. The client will include a method for creating a [Fluid container]({{< relref "containers.md" >}}) with a set of initial [DDSes]({{< relref "dds.md" >}}) or [shared objects]({{< relref "glossary.md#shared-objects" >}}) that are defined in the `containerSchema`.
 
 > The Fluid container interacts with the processes and distributes operations, manages the lifecycle of Fluid objects, and provides a request API for accessing Fluid objects.
 
