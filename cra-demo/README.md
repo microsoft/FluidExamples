@@ -103,7 +103,7 @@ const containerSchema = {
 }; 
 ```
 
-Since we'll be dealing with map data, it's common to store important map keys as constants, rather than typing the raw string each time.
+It's a common pattern to store important map keys as constants, rather than typing the raw string each time.
 
 ```js
 const timeKey = "time-key";
