@@ -18,14 +18,14 @@ const timeKey = "time-key";
 
 const getMyMap = async () => {
     let container;
-    if (location.hash.length <= 1) {
+    const containerId = location.hash.substring(1)
+    if (!containerId) {
         ({ container } = await client.createContainer(containerSchema));
         container.initialObjects.myMap.set(timeKey, Date.now().toString());
         const id = await container.attach();
         location.hash = id;
-    } else {
-        const id = location.hash.substring(1);
-        ({ container } = await client.getContainer(id, containerSchema));
+    } else {       
+        ({ container } = await client.getContainer(containerId, containerSchema));
     }
     return container.initialObjects.myMap;
 }
