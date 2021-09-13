@@ -14,12 +14,12 @@ Concepts you will learn:
 
 In this example you will do the following:
 
-  - [Use Create React App](use-create-react-app)
-  - [Install Fluid package dependencies](install-fluid-package-dependencies)
-  - [Import and initialize Fluid dependencies](import-and-initialize-fluid-dependencies)
-  - [Get the Fluid SharedMap](get-the-fluid-sharedmap)
-  - [Update the view](update-the-view)
-  - [Next steps](next-steps)
+  - [Use Create React App](#use-create-react-app)
+  - [Install Fluid package dependencies](#install-fluid-package-dependencies)
+  - [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
+  - [Get the Fluid SharedMap](#get-the-fluid-sharedmap)
+  - [Update the view](#update-the-view)
+  - [Next steps](#next-steps)
 
 ## Use Create React App
 
