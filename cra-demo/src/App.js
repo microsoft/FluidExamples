@@ -18,7 +18,7 @@ const timeKey = "time-key";
 
 const getMyMap = async () => {
     let container;
-    const containerId = location.hash.substring(1)
+    const containerId = location.hash.substring(1);
     if (!containerId) {
         ({ container } = await client.createContainer(containerSchema));
         container.initialObjects.myMap.set(timeKey, Date.now().toString());
