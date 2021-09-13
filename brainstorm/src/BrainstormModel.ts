@@ -1,5 +1,5 @@
-import { FluidContainer, ISharedMap, SharedMap } from "@fluid-experimental/fluid-framework";
-import { FrsMember } from "@fluid-experimental/frs-client";
+import { FluidContainer, ISharedMap, SharedMap } from "fluid-framework";
+import { AzureMember } from "@fluidframework/azure-client";
 import { NoteData, Position } from "./Types";
 
 const c_NoteIdPrefix = "noteId_";
@@ -11,13 +11,13 @@ const c_TextPrefix = "text_";
 const c_ColorPrefix = "color_";
 
 export type BrainstormModel = Readonly<{
-  CreateNote(noteId: string, myAuthor: FrsMember): NoteData;
+  CreateNote(noteId: string, myAuthor: AzureMember): NoteData;
   MoveNote(noteId: string, newPos: Position): void;
   SetNote(noteId: string, newCardData: NoteData): void;
   SetNoteText(noteId: string, noteText: string, lastEditedId: string, lastEditedName: string, lastEditedTime: number): void;
   SetNoteColor(noteId: string, noteColor: string): void;
-  LikeNote(noteId: string, author: FrsMember): void;
-  GetNoteLikedUsers(noteId: string): FrsMember[];
+  LikeNote(noteId: string, author: AzureMember): void;
+  GetNoteLikedUsers(noteId: string): AzureMember[];
   DeleteNote(noteId: string): void;
   NoteIds: string[];
   setChangeListener(listener: () => void): void;
@@ -52,7 +52,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
   };
 
   return {
-    CreateNote(noteId: string, myAuthor: FrsMember): NoteData {
+    CreateNote(noteId: string, myAuthor: AzureMember): NoteData {
       const newNote: NoteData = {
         id: noteId,
         lastEdited: sharedMap.get(c_LastEditedPrefix + noteId)!,
@@ -75,7 +75,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
       return newNote;
     },
 
-    GetNoteLikedUsers(noteId: string): FrsMember[] {
+    GetNoteLikedUsers(noteId: string): AzureMember[] {
       return (
         Array.from(sharedMap
           .keys())
@@ -103,7 +103,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
 
     SetNoteColor,
 
-    LikeNote(noteId: string, author: FrsMember) {
+    LikeNote(noteId: string, author: AzureMember) {
       const voteString = c_votePrefix + noteId + "_" + author.userId;
       sharedMap.get(voteString) === author
         ? sharedMap.set(voteString, undefined)

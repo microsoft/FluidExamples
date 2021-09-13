@@ -7,16 +7,14 @@
   "author": "Microsoft and contributors",
   "scripts": {
     "start": "react-scripts start",
-    "start:frs": "env-cmd -f .env.frs react-scripts start",
-    "build": "env-cmd -f .env.frs react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "test:report": "echo No test for this example",
     "eject": "react-scripts eject"
   },
   "dependencies": {
     "@fluentui/react": "^8.17.1",
-    "@fluid-experimental/fluid-framework": "^0.45.0",
-    "@fluid-experimental/frs-client": "^0.45.0",
+    "@fluidframework/tinylicious-client": "^0.47.0",
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -26,6 +24,7 @@
     "@types/react-dom": "^17.0.6",
     "@types/uuid": "^8.3.0",
     "axios": "^0.21.1",
+    "fluid-framework": "^0.47.0",
     "immer": "^9.0.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -37,8 +36,7 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.1.7",
-    "env-cmd": "10.1.0"
+    "@types/react-router-dom": "^5.1.7"
   },
   "eslintConfig": {
     "extends": [

@@ -1,7 +1,7 @@
 import {
   mergeStyles,
 } from "@fluentui/react";
-import { FrsMember } from "@fluid-experimental/frs-client";
+import { AzureMember } from "@fluidframework/azure-client";
 import React from "react";
 import { useDrag } from "react-dnd";
 import { DefaultColor } from "./Color";
@@ -15,10 +15,10 @@ import { NoteFooter } from "./NoteFooter";
 
 export type NoteProps = Readonly<{
   id: string;
-  currentUser: FrsMember;
+  currentUser: AzureMember;
   setPosition: (position: Position) => void;
   onLike: () => void;
-  getLikedUsers: () => FrsMember[];
+  getLikedUsers: () => AzureMember[];
   onDelete: () => void;
   onColorChange: (color: string) => void;
   setText: (text: string) => void;

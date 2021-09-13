@@ -1,4 +1,4 @@
-import { FrsMember } from '@fluid-experimental/frs-client';
+import { TinyliciousMember } from '@fluidframework/tinylicious-client';
 import { FluidModel } from '../model';
 import { Node } from '../model/types';
 import { useGetStore } from '../utils/hooks';
@@ -67,7 +67,7 @@ type IAudienceQueries = {
   getAudienceSize: () => number;
 }
 
-export const useGetAudienceStore = () => useGetStore<FrsMember[], {}, IAudienceQueries>({
+export const useGetAudienceStore = () => useGetStore<TinyliciousMember[], {}, IAudienceQueries>({
   initialState: (model) => model.getAudience(),
   queries: {
     getAudienceSize: (state) => state.length
