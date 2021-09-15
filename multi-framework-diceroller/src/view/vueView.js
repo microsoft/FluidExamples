@@ -11,7 +11,7 @@ import { diceValueKey } from "../app";
  * @param dice - The SharedMap holding the collaborative data
  * @param elem - The HTMLElement to render into
  */
-export const  vueRenderView = (dice, elem) => {
+export const  vueDiceRoller = (dice, elem) => {
     const app = createApp({
         template: `
         <div style="text-align: center" >
