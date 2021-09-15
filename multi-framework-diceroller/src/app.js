@@ -5,7 +5,8 @@
 
 import { SharedMap } from "fluid-framework";
 import { TinyliciousClient } from "@fluidframework/tinylicious-client";
-import { jsRenderView as renderDiceRoller } from "./view";
+// Change jsDiceRoller to wcDiceRoller, reactDiceRoller or vueDiceRoller to see other view frameworks
+import { jsDiceRoller as diceRoller } from "./view";
 
 export const diceValueKey = "dice-value-key";
 
@@ -19,13 +20,13 @@ const createNewDice = async () => {
     const { container } = await client.createContainer(containerSchema);
     container.initialObjects.diceMap.set(diceValueKey, 1);
     const id = container.attach();
-    renderDiceRoller(container.initialObjects.diceMap, root);
+    diceRoller(container.initialObjects.diceMap, root);
     return id;
 }
 
 const loadExistingDice = async (id) => {
     const { container } = await client.getContainer(id, containerSchema);
-    renderDiceRoller(container.initialObjects.diceMap, root);
+    diceRoller(container.initialObjects.diceMap, root);
 }
 
 async function start() {

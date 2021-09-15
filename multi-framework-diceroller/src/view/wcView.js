@@ -44,7 +44,7 @@ class Dice extends HTMLElement {
   }
 }
 
-export const wcRenderView = (diceMap, elem) => {
+export const wcDiceRoller = (diceMap, elem) => {
   customElements.define("wc-dice", Dice);
   const dice = document.createElement("wc-dice");
   dice.onRoll = number => diceMap.set(diceValueKey, number);

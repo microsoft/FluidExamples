@@ -19,7 +19,7 @@ template.innerHTML = `
   </div>
 `
 
-export const jsRenderView = (diceMap, elem) => {
+export const jsDiceRoller = (diceMap, elem) => {
     elem.appendChild(template.content.cloneNode(true));
 
     const rollButton = elem.querySelector(".roll");

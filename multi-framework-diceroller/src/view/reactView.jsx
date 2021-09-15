@@ -8,7 +8,7 @@ import ReactDOM from "react-dom";
 
 import { diceValueKey } from "../app";
 
-export const reactRenderView = (dice, elem) => {
+export const reactDiceRoller = (dice, elem) => {
     ReactDOM.render(<ReactView dice={dice} />, elem);
 }
 
