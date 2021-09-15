@@ -13,7 +13,7 @@ npm start
 ```
 ## Changing view frameworks
 
-This repo demonstrates rendering the dice roller using JavaScript, Web Components, React and Vue. The default view is JavaScipt, and to switch to another view framework, change the `diceRoller` import in `src/app.js` line 8 as follows.
+This repo demonstrates rendering the dice roller using JavaScript, Web Components, React and Vue. The default view is JavaScipt. To switch to another view framework, change the `diceRoller` import in `src/app.js` line 8 as follows.
 
 ```js
 // Default JS view
