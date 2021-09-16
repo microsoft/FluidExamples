@@ -5,6 +5,19 @@
 
 import { diceValueKey } from "../app";
 
+// To see this view rendered, change the import in app.js to:
+// import { wcDiceRoller as diceRoller } from "./view";
+export const wcDiceRoller = (diceMap, elem) => {
+  customElements.define("wc-dice", Dice);
+  const dice = document.createElement("wc-dice");
+  dice.onRoll = number => diceMap.set(diceValueKey, number);
+  const updateDice = () => dice.setAttribute("value", diceMap.get(diceValueKey));
+  updateDice();
+  diceMap.on("valueChanged", updateDice)
+
+  elem.append(dice);
+}
+
 const template = document.createElement("template");
 
 template.innerHTML = `
@@ -18,15 +31,12 @@ template.innerHTML = `
     <button class="roll"> Roll </button>
   </div>
 `
-
 class Dice extends HTMLElement {
   constructor() {
     super();
-
     const shadow = this.attachShadow({ mode: "open" });
     shadow.appendChild(template.content.cloneNode(true));
     this.diceValue = shadow.querySelector(".dice");
-
     shadow.querySelector(".roll").onclick = () => this.onRoll(Math.floor(Math.random() * 6) + 1);
   }
 
@@ -44,13 +54,3 @@ class Dice extends HTMLElement {
   }
 }
 
-export const wcDiceRoller = (diceMap, elem) => {
-  customElements.define("wc-dice", Dice);
-  const dice = document.createElement("wc-dice");
-  dice.onRoll = number => diceMap.set(diceValueKey, number);
-  const updateDice = () => dice.setAttribute("value", diceMap.get(diceValueKey));
-  updateDice();
-  diceMap.on("valueChanged", updateDice)
-
-  elem.append(dice);
-}

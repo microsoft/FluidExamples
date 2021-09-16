@@ -6,11 +6,8 @@
 import { createApp } from "vue";
 import { diceValueKey } from "../app";
 
-/**
- * Render Dice into a given HTMLElement as a text character, with a button to roll it.
- * @param dice - The SharedMap holding the collaborative data
- * @param elem - The HTMLElement to render into
- */
+// To see this view rendered, change the import in app.js to:
+// import { vueDiceRoller as diceRoller } from "./view";
 export const  vueDiceRoller = (dice, elem) => {
     const app = createApp({
         template: `
