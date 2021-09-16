@@ -1,12 +1,11 @@
-import { enableProdMode } from '@angular/core';
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
 import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
 
-if (environment.production) {
-  enableProdMode();
-}
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));

@@ -1,6 +1,14 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { SharedMap } from "fluid-framework";
 import { TinyliciousClient } from '@fluidframework/tinylicious-client';
+
+interface TimestampDataModel { time: string | undefined; }
+interface FluidDataModel { sharedTimestamp: SharedMap };
 
 @Component({
   selector: 'app-root',
@@ -9,12 +17,12 @@ import { TinyliciousClient } from '@fluidframework/tinylicious-client';
 })
 export class AppComponent implements OnInit {
 
-  fluidSharedObjects: any;  // TODO define type
-  localTimestamp: any; // TODO define type
+  fluidSharedObjects: FluidDataModel | undefined;
+  localTimestamp: TimestampDataModel | undefined;
 
   ngOnInit() {
     this.getFluidData()
-      .then((data) => {
+      .then((data: any) => {
         this.fluidSharedObjects = data;
         this.syncData();
       });
@@ -27,7 +35,6 @@ export class AppComponent implements OnInit {
     const containerSchema = {
       initialObjects: { sharedTimestamp: SharedMap }
     };
-
 
     // TODO 2: Get the container from the Fluid service.
     let container;
@@ -67,7 +74,7 @@ export class AppComponent implements OnInit {
   }
 
   onButtonClick() {
-    this.fluidSharedObjects.sharedTimestamp.set("time", Date.now().toString());
+    this.fluidSharedObjects?.sharedTimestamp.set("time", Date.now().toString());
   }
 
 }
