@@ -8,7 +8,6 @@ import { SharedMap } from "fluid-framework";
 import { TinyliciousClient } from '@fluidframework/tinylicious-client';
 
 interface TimestampDataModel { time: string | undefined; }
-interface FluidDataModel { sharedTimestamp: SharedMap };
 
 @Component({
   selector: 'app-root',
@@ -17,13 +16,12 @@ interface FluidDataModel { sharedTimestamp: SharedMap };
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  fluidSharedObjects: FluidDataModel | undefined;
+  sharedTimestamp: SharedMap | undefined;
   localTimestamp: TimestampDataModel | undefined;
-  sharedTimestamp: FluidDataModel['sharedTimestamp'] | undefined;
-  updateLocalTimestamp: ((...args: any[]) => void) | undefined;
+  updateLocalTimestamp: (() => void) | undefined;
 
   async ngOnInit() {
-    this.fluidSharedObjects = await this.getFluidData();
+    this.sharedTimestamp = await this.getFluidData();
     this.syncData();
   }
 
@@ -47,14 +45,13 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     // TODO 3: Return the Fluid timestamp object.
-    return container.initialObjects as any as FluidDataModel;
+    return container.initialObjects.sharedTimestamp as SharedMap;
   }
 
   syncData() {
     // Only sync if the Fluid SharedMap object is defined.
-    if (this.fluidSharedObjects) {
+    if (this.sharedTimestamp) {
       // TODO 4: Set the value of the localTimestamp state object that will appear in the UI.
-      this.sharedTimestamp = this.fluidSharedObjects.sharedTimestamp;
       this.updateLocalTimestamp = () => { this.localTimestamp = { time: this.sharedTimestamp!.get("time") } };
       this.updateLocalTimestamp();
 
@@ -64,7 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onButtonClick() {
-    this.fluidSharedObjects?.sharedTimestamp.set("time", Date.now().toString());
+    this.sharedTimestamp?.set("time", Date.now().toString());
   }
 
   ngOnDestroy() {
