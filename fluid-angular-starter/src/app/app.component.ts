@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
   }
 
   async getFluidData() {
-
     // TODO 1: Configure the container.
     const client = new TinyliciousClient();
     const containerSchema = {
