@@ -20,12 +20,9 @@ export class AppComponent implements OnInit {
   fluidSharedObjects: FluidDataModel | undefined;
   localTimestamp: TimestampDataModel | undefined;
 
-  ngOnInit() {
-    this.getFluidData()
-      .then((data: any) => {
-        this.fluidSharedObjects = data;
-        this.syncData();
-      });
+  async ngOnInit() {
+    this.fluidSharedObjects = await this.getFluidData();
+    this.syncData();
   }
 
   async getFluidData() {
@@ -49,7 +46,7 @@ export class AppComponent implements OnInit {
     }
 
     // TODO 3: Return the Fluid timestamp object.
-    return container.initialObjects;
+    return container.initialObjects as any as FluidDataModel;
 
   }
 

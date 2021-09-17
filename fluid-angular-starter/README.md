@@ -4,7 +4,7 @@
 
 This repo is a Fluid starter template that was created to answer the question "how do I create a Fluid app that is more complex than Hello World?" To answer this question this repo makes the following assumptions:
 
-1. You want to use Angular CLI for your view
+1. You want to use Angular for your view
 2. You want to keep clear separation between your model and view
 3. You want a light state management framework to remove the boilerplate needed to store, access and modify Angular app state
 4. You already have Node installed on your local machine. If not, follow the instructions [here](https://nodejs.org/en/download/).
