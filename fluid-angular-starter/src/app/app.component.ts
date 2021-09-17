@@ -50,7 +50,6 @@ export class AppComponent implements OnInit {
 
   syncData() {
     if (this.fluidSharedObjects) {
-
       // TODO 4: Set the value of the localTimestamp state object that will appear in the UI.
       const { sharedTimestamp } = this.fluidSharedObjects;
       const updateLocalTimestamp = () => this.localTimestamp = { time: sharedTimestamp.get("time") };
