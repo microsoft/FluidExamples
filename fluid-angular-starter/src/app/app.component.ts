@@ -46,7 +46,6 @@ export class AppComponent implements OnInit {
 
     // TODO 3: Return the Fluid timestamp object.
     return container.initialObjects as any as FluidDataModel;
-
   }
 
   syncData() {
