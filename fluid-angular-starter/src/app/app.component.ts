@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SharedMap } from "fluid-framework";
 import { TinyliciousClient } from '@fluidframework/tinylicious-client';
 
@@ -15,10 +15,12 @@ interface FluidDataModel { sharedTimestamp: SharedMap };
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   fluidSharedObjects: FluidDataModel | undefined;
   localTimestamp: TimestampDataModel | undefined;
+  sharedTimestamp: FluidDataModel['sharedTimestamp'] | undefined;
+  updateLocalTimestamp: ((...args: any[]) => void) | undefined;
 
   async ngOnInit() {
     this.fluidSharedObjects = await this.getFluidData();
@@ -49,27 +51,25 @@ export class AppComponent implements OnInit {
   }
 
   syncData() {
+    // Only sync if the Fluid SharedMap object is defined.
     if (this.fluidSharedObjects) {
-
       // TODO 4: Set the value of the localTimestamp state object that will appear in the UI.
-      const { sharedTimestamp } = this.fluidSharedObjects;
-      const updateLocalTimestamp = () => this.localTimestamp = { time: sharedTimestamp.get("time") };
-      updateLocalTimestamp();
+      this.sharedTimestamp = this.fluidSharedObjects.sharedTimestamp;
+      this.updateLocalTimestamp = () => { this.localTimestamp = { time: this.sharedTimestamp!.get("time") } };
+      this.updateLocalTimestamp();
 
       // TODO 5: Register handlers.
-      sharedTimestamp.on("valueChanged", updateLocalTimestamp);
-
-      // TODO 6: Delete handler registration when the React App component is dismounted.
-      return () => { sharedTimestamp.off("valueChanged", updateLocalTimestamp) }
-
-    }
-    else {
-      return; // Do nothing because there is no Fluid SharedMap object yet.
+      this.sharedTimestamp!.on("valueChanged", this.updateLocalTimestamp!);
     }
   }
 
   onButtonClick() {
     this.fluidSharedObjects?.sharedTimestamp.set("time", Date.now().toString());
+  }
+
+  ngOnDestroy() {
+    // TODO 6: Delete handler registration when the Angular App component is dismounted.
+    this.sharedTimestamp!.off("valueChanged", this.updateLocalTimestamp!);
   }
 
 }
