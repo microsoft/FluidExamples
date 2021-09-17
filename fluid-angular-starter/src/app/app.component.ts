@@ -60,7 +60,6 @@ export class AppComponent implements OnInit {
 
       // TODO 6: Delete handler registration when the React App component is dismounted.
       return () => { sharedTimestamp.off("valueChanged", updateLocalTimestamp) }
-
     }
     else {
       return; // Do nothing because there is no Fluid SharedMap object yet.
