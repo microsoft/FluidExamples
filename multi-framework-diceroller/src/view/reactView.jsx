@@ -5,9 +5,10 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-
 import { diceValueKey } from "../app";
 
+// To see this view rendered, change the import in app.js to:
+// import { reactDiceRoller as diceRoller } from "./view";
 export const reactDiceRoller = (dice, elem) => {
     ReactDOM.render(<ReactView dice={dice} />, elem);
 }
