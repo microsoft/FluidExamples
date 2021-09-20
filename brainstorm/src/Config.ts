@@ -7,7 +7,6 @@ import { InsecureTokenProvider } from "@fluidframework/test-runtime-utils";
 export const useAzure = process.env.REACT_APP_FLUID_CLIENT === "azure";
 
 export const containerSchema = {
-    name: "brainstorm",
     initialObjects: {
         map: SharedMap,
     },

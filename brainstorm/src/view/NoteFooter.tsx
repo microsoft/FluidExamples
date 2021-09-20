@@ -12,10 +12,14 @@ export function NoteFooter(props: NoteFooterProps) {
   const { currentUser, lastEdited } = props;
   let lastEditedMemberName;
 
+  // Only display the author name if 2 seconds have elapsed since the note was last edited.
   if(Date.now() - lastEdited.time >= delay) {
+    // Dynamically display the last edited author name based on if the user is the last edited author
+    // If the user is the last edited author, display "you", otherwise, display the author's name.
     lastEditedMemberName = currentUser?.userName === lastEdited.userName ? "you" : lastEdited.userName;
   }
   else {
+    // Display "..." to indicate the note is being edited.
     lastEditedMemberName = "...";
   }
 

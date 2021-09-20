@@ -17,7 +17,7 @@ export function NoteSpace(props: NoteSpaceProps) {
   const [notes, setNotes] = React.useState<readonly NoteData[]>([]);
   const [time, setTime] = React.useState(Date.now());
 
-  // This runs when via model changes whether initiated by user or from external
+  // This runs when model changes whether initiated by user or from external
   React.useEffect(() => {
     const syncLocalAndFluidState = () => {
       const noteDataArr = [];
@@ -30,11 +30,25 @@ export function NoteSpace(props: NoteSpaceProps) {
       setNotes(noteDataArr);
     };
 
+    // Use SetInterval to trigger useEffect() every 3 secs and refresh the note states.
+    // This allows the last edited author name to be updated when there is no more edits
+    // to trigger refreshing the view.
+
+    // Note: We are aware that this probably isn't the most optimal and intuitive
+    // solution for a feature like this, in fact, there is actually a 
+    // last edited package (https://github.com/microsoft/FluidFramework/blob/main/experimental/framework/last-edited/README.md)
+    // within Fluid Framework that helps us achieve this task. However, for the purpose
+    // of demonstration and what we can use the `audience` propety to achieve, we think
+    // the implementation of this feature is justified. We are also planning on refactoring
+    // the app to allow for an easier experience when updating both local and remote states.
     setInterval(() => {
       setTime(Date.now());
     }, 3000);
 
     syncLocalAndFluidState();
+
+    // Add a listener on the BrainstormModel listener
+    // The listener will call syncLocalAndFluidState everytime there a "valueChanged" event.
     model.setChangeListener(syncLocalAndFluidState);
     
     return () => {
