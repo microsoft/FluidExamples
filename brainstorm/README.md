@@ -220,10 +220,10 @@ const authorInfo = audience.getMyself();
 With `members` and `authorInfo` defined, we use these to achieve several tasks:
 
 1. displaying all current active users
-    All current active users are displayed as FacePile, or a list of personas, on the top right corner of the app.   
+    * All current active users are displayed as FacePile, or a list of personas, on the top right corner of the app.   
 2. displaying author name in persona tooltip
-    When hovered over the note's persona, the author who created the name will be displayed dynamically.
+    * When hovered over the note's persona, the author who created the name will be displayed dynamically.
 3. displaying likes for the note
-    When hovered over the like button, a list of all the users that liked the note will be shown.
+    * When hovered over the like button, a list of all the users that liked the note will be shown.
 4. displaying the note's last edited user
-    Once there are no changes to the note's content, the last edited author will be determined and shown at the bottom of the note.
+    * Once there are no changes to the note's content, the last edited author will be determined and shown at the bottom of the note.
