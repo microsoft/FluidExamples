@@ -29,7 +29,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
   // The sharedMap can be updated by any user connected to the session
   const sharedMap: ISharedMap = fluid.initialObjects.map as SharedMap;
 
-  // check if note is complete
+  // check if note is complete (if it has a page position and an author)
   const IsCompleteNote = (noteId: string) => {
     if (
       !sharedMap.get(c_PositionPrefix + noteId) ||
