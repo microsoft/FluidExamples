@@ -41,9 +41,9 @@ This package is based on the [Create React App](https://reactjs.org/docs/create-
 
 1. Navigate to `http://localhost:3000`
 
-  You'll be taken to a url similar to `http://localhost:3000/**#1621961220840**` the path `##1621961220840` specifies one brainstorm document.
+  You'll be taken to a url similar to `http://localhost:3000/**#1621961220840**` the path `#1621961220840` specifies one brainstorm document.
 
-2. Create another chrome tab with `http://localhost:3000/**#1621961220840**`
+2. Navigate to the same url in another window or tab
 
 Now you can create notes, write text, change colors and more!
 
@@ -170,7 +170,7 @@ As shown above, a static prefix is attached to indicate which property this entr
 
 | :warning: WARNING                                                                                                                                       |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `SharedMap` does not store object in the DDS map the same way it would be stored in a conventional map data structure. It is recommended to only store the necessary primitive data types in `SharedMap`.
+| `SharedMap` does not preserve object references like a conventional map data structure, and object comparisons of `SharedMap` values will be invalid . In this case, it is recommended to only store the necessary primitive data types in `SharedMap` or implement a custom comparison function.
 
 <br />
 
@@ -222,8 +222,8 @@ With `members` and `authorInfo` defined, we use these to achieve several tasks:
 1. displaying all current active users
     * All current active users are displayed as FacePile, or a list of personas, on the top right corner of the app.   
 2. displaying author name in persona tooltip
-    * When hovered over the note's persona, the author who created the name will be displayed dynamically.
+    * When hovering over the note's persona, the author who created the name will be displayed dynamically.
 3. displaying likes for the note
-    * When hovered over the like button, a list of all the users that liked the note will be shown.
+    * When hovering over the like button, a list of all the users that liked the note will be shown.
 4. displaying the note's last edited user
     * Once there are no changes to the note's content, the last edited author will be determined and shown at the bottom of the note.

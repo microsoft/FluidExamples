@@ -29,7 +29,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
   // The sharedMap can be updated by any user connected to the session
   const sharedMap: ISharedMap = fluid.initialObjects.map as SharedMap;
 
-  // check is note is complete
+  // check if note is complete
   const IsCompleteNote = (noteId: string) => {
     if (
       !sharedMap.get(c_PositionPrefix + noteId) ||
@@ -40,7 +40,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
     return true;
   };
 
-  // Check if ote is deleted (noteId is 0)
+  // Check if note is deleted (noteId is 0)
   const IsDeletedNote = (noteId: string) => {
     return sharedMap.get(c_NoteIdPrefix + noteId) === 0;
   };
@@ -50,7 +50,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
     // update the note's text in sharedMap
     sharedMap.set(c_TextPrefix + noteId, noteText);
     // update the note's last edited author name and timestamp
-    // WARNING: sharedMap does not store object in the DDS map the same way it would be stored in a conventional map data structure.
+    // WARNING: sharedMap does not preserve object references in the DDS map the same way it would be in a conventional map data structure.
     // Hence, instead of storing the entire AzureMember object, we are only storing the necessary primitive data types metadata.
     sharedMap.set(c_LastEditedPrefix + noteId, { userId: lastEditedId, userName: lastEditedName, time: lastEditedTime });
   };
@@ -115,15 +115,17 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
 
     SetNoteColor,
 
-    // Set the note as liked or unliked by the author
-    LikeNote(noteId: string, author: AzureMember) {
-      const voteString = c_votePrefix + noteId + "_" + author.userId;
+    // Set or unset the note as liked by the user
+    LikeNote(noteId: string, user: AzureMember) {
+      const voteString = c_votePrefix + noteId + "_" + user.userId;
 
-    // WARNING: sharedMap does not store object in the DDS map the same way it would be stored in a conventional map data structure.
-    // Hence, instead of storing the entire AzureMember object, we are only storing the necessary primitive data types metadata.
-      sharedMap.get(voteString)?.userId === author.userId
+    // WARNING: SharedMap does not preserve object references like a conventional map data structure, and object comparisons of SharedMap values
+    // will be invalid . In this case, it is recommended to only store the necessary primitive data types in SharedMap or implement a custom
+    // comparison function.
+    // Due to the warning above, instead of storing the entire AzureMember object, we are only storing the necessary primitive data types metadata.
+      sharedMap.get(voteString)?.userId === user.userId
         ? sharedMap.set(voteString, undefined)
-        : sharedMap.set(voteString, { userId: author.userId, userName: author.userName } );
+        : sharedMap.set(voteString, { userId: user.userId, userName: user.userName } );
     },
 
     // Delete the note by setting the ID to 0
