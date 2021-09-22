@@ -23,6 +23,9 @@ import { NoteProps } from "./Note"
 
 const HeaderComponent = (props: NoteProps) => {
   const colorButtonRef = React.useRef();
+
+  // Dynamically display a note's author name in the tooltip based on if the user is the author of the note.
+  // If the note is created by the user, display "you", otherwise display the author's name. 
   const tooltipAuthorName = props.author.userName === props.currentUser.userName ? "you" : props.author.userName;
 
   const headerProps = {

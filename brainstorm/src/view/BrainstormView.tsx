@@ -13,7 +13,9 @@ export const BrainstormView = (props: { container: FluidContainer, services: Azu
   const [model] = React.useState<BrainstormModel>(createBrainstormModel(container));
 
   const audience = services.audience;
+  // retrieve all the members currently in the session
   const [members, setMembers] = React.useState(Array.from(audience.getMembers().values()));
+  // set the user as the author so the user can be assigned as the author when needed
   const authorInfo = audience.getMyself();
   const setMembersCallback = React.useCallback(() => setMembers(
     Array.from(

@@ -1,6 +1,6 @@
-# Lets Brainstorm
+# Let's Brainstorm
 
-Brainstorm is an example of using the Fluid Framework to build a collaborative line of business application. In this example each user can create their own sticky notes that is managed on a board.
+Brainstorm is an example of using the Fluid Framework to build a collaborative line of business application. In this example each user can create their own sticky notes that are managed on a board.
 
 This application was shown during a [Microsoft Build session](https://aka.ms/OD522).
 
@@ -41,9 +41,9 @@ This package is based on the [Create React App](https://reactjs.org/docs/create-
 
 1. Navigate to `http://localhost:3000`
 
-You'll be taken to a url similar to 'http://localhost:3000/**#1621961220840**' the path `##1621961220840` is specifies one brainstorm document.
+  You'll be taken to a url similar to `http://localhost:3000/**#1621961220840**` the path `#1621961220840` specifies one brainstorm document.
 
-2. Create another chrome tab with `http://localhost:3000/**#1621961220840**`
+2. Navigate to the same url in another window or tab
 
 Now you can create notes, write text, change colors and more!
 
@@ -52,10 +52,9 @@ By configuring the `AzureConnectionConfig` that we pass into the `AzureClient` i
 
 Now, before you can access any Fluid data, you need to define your container schema after creating a configured `AzureClient` using `AzureConnectionConfig`.
 
-- `containerSchema`, also defined in [Config.ts](./src/Config.ts), is going to include a string `name` and a collection of the data types our application will use.
+- `containerSchema`, also defined in [Config.ts](./src/Config.ts), is going to include a collection of the data types our application will use.
 ```ts
 export const containerSchema = {
-    name: "brainstorm",
     initialObjects: {
         map: SharedMap,
     },
@@ -167,6 +166,14 @@ sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
 ```
 As shown above, a static prefix is attached to indicate which property this entry holds (`noteId`, `author`, `color`, etc), then to ensure the key is unique for each note, we attach the `noteId` after the static prefix. With this structure, we now ensured that properties for each note are stored individually.
 
+<br />
+
+| :warning: WARNING                                                                                                                                       |
+|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `SharedMap` does not preserve object references like a conventional map data structure, and object comparisons of `SharedMap` values will be invalid . In this case, it is recommended to only store the necessary primitive data types in `SharedMap` or implement a custom comparison function.
+
+<br />
+
 ### Example Walk-through
 To summarize how these 2 components work together seamlessly, let's take `setNoteColor()` in [BrainstormModel](./src/BrainstormModel.ts) as example. This method is passed down to its view component, [NoteSpace.tsx](./src/view/NoteSpace.tsx), through props. As the name suggests, this method gets triggered whenever user changes the color of the note. When the color button is selected by the user, the method takes the key (`c_ColorPrefix` + `noteId`) and sets the `SharedMap` value to the desired color value. Now that a `SharedMap` key-value pair is changed, the "valueChanged" event is then triggered from `setChangeListener()`, and the listener fires the `syncLocalAndFluidState()` function defined in the `useEffect` hook. The function then generates new `notes` state with the following procedure:
 
@@ -177,7 +184,7 @@ To summarize how these 2 components work together seamlessly, let's take `setNot
     - With our newly generated and updated list of new notes, we call `setNotes` to update the React state. This updated React state will propagate the changes to all remote clients, resulting in the view updating.
 
 ## Using Audience to Render User Information
-The LetsBrainstorm app makes use of the `audience` property from `AzureContainerServices` to keep track of and render all user related information.
+The Brainstorm app makes use of the `audience` property from `AzureContainerServices` to keep track of and render all user related information.
 
 In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used similarly to how `BrainstormModel` works in [NoteSpace.tsx](./src/view/NoteSpace.tsx). The member values of the audience property are also being tracked in a React state so we can display all the active users in the session.
 
@@ -210,88 +217,13 @@ The audience object also has a `getMyself()` function that returns the current c
 const authorInfo = audience.getMyself();
 ```
 
-With `members` and `authorInfo` defined, we can use these to achieve several tasks:
+With `members` and `authorInfo` defined, we use these to achieve several tasks:
 
 1. displaying all current active users
-2. displaying author name in persona tooltip 
+    * All current active users are displayed as FacePile, or a list of personas, on the top right corner of the app.   
+2. displaying author name in persona tooltip
+    * When hovering over the note's persona, the author who created the name will be displayed dynamically.
 3. displaying likes for the note
+    * When hovering over the like button, a list of all the users that liked the note will be shown.
 4. displaying the note's last edited user
-
-### Example Walk-through
-Because the usage of the `audience` objects work in a similar fashion, let's focus on the more complex use case, editing a note and displaying the note's last edited user. When displaying the last edited user for the note, we are taking into account the current and the last edited user. If the last edited user is the same as the current user, instead of displaying the user's name, we display "Last edited by you" to be more intuitive. It is also important to define that only when the user alters the content/text inside the body of a note is it considered editing. In other words, only when `SetNoteText()` in [BrainstormModel](./src/BrainstormModel.ts) is called will we update the note's last edited user.
-
-```ts
-const setText = (text: string) => {
-    model.SetNoteText(note.id, text, props.author);
-};
-```
-
-As seen here and in [NoteSpace.tsx](./src/view/NoteSpace.tsx), the `setText()` function calls the `SetNoteText()` function from [BrainstormModel](./src/BrainstormModel.ts), passing in `props.author`, which is the `authorInfo` passed to the `NoteSpace` element. The `setText()` function is passed into [NoteBody.tsx](./src/view/NoteBody.tsx) where it will be called when the text changes as seen below.
-
-```ts
-return (
-    <div style={{ flex: 1 }}>
-      <TextField
-        styles={{ fieldGroup: { background: ColorOptions[color].light } }}
-        borderless
-        multiline
-        resizable={false}
-        autoAdjustHeight
-        onChange={(event) => setText(event.currentTarget.value)}
-        value={text}
-        placeholder={"Enter Text Here"}
-      />
-    </div>
-  );
-```
-
-Going back to `SetNoteText()` from [BrainstormModel](./src/BrainstormModel.ts), we can see in the definition below that we are not only updating the last edited member but also giving it a timestamp of when it was last edited.
-
-```ts
-const SetNoteText = (noteId: string, noteText: string, lastEditedMember: AzureMember) => {
-    sharedMap.set(c_TextPrefix + noteId, noteText);
-    sharedMap.set(c_LastEditedPrefix + noteId, { member: lastEditedMember, time: Date.now() });
-  };
-```
-In the event where multiple users are editing the same note, we want to wait a little bit after all changes are done before displaying the last edited user. By doing this, we can prevent the text field from flickering with user names.
-
-Now, to display the last edited user, we are passing in the `lastEdited` object literal and the `currentUser` into [Note.tsx](./src/view/Note.tsx) as props, which is also passed into [NoteFooter.tsx](./src/view/NoteFooter.tsx) as props.
-
-```ts
-//deplay time in ms for waiting note content changes to be settle
-const delay = 2000;
-let lastEditedMemberName;
-
-  if(Date.now() - lastEdited.time >= delay) {
-    lastEditedMemberName = currentUser?.userName === lastEdited.userName ? "you" : lastEdited.userName;
-  }
-  else {
-    lastEditedMemberName = "...";
-  }
-```
-Here we see that `lastEditedMemberName` is instantiated depending on if the last edited user is the same as the current user and if the last change in content is 2 seconds or more ago, before finally displaying the output.
-
-```ts
-React.useEffect(() => {
-  const syncLocalAndFluidState = () => {
-    const noteDataArr = [];
-    const ids: string[] = model.NoteIds;
-    // Recreate the list of cards to re-render them via setNotes
-    for (let noteId of ids) {
-      const newCardData: NoteData = model.CreateNote(noteId, props.author);
-      noteDataArr.push(newCardData);
-    }
-    setNotes(noteDataArr);
-  };
-
-  setInterval(() => {
-    setTime(Date.now());
-  }, 3000);
-  ```
-To ensure we only update the last edited user after content hasn't been changed for 2 seconds or more, we added a timer that will refresh the note states every 3 seconds in [NoteSpace.tsx](./src/view/NoteSpace.tsx)
-
-Now, we are aware that this probably isn't the most optimal and intuitive solution for a feature like this, in fact, there is actually a [package](https://github.com/microsoft/FluidFramework/blob/main/experimental/framework/last-edited/README.md) within Fluid Framework that helps us achieve this task. However, for the purpose of demonstration and what we can use the `audience` propety to achieve, we think the implementation of this feature is justified. We are also planning on refactoring the app to allow for an easier experience when updating both local and remote states.
-
-
-
-
+    * Once there are no changes to the note's content, the last edited author will be determined and shown at the bottom of the note.

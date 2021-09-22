@@ -30,6 +30,8 @@ export function Header(props: HeaderProps) {
   const [color, setColor] = React.useState(DefaultColor);
   const personas = React.useMemo(() => props.members.map(member => {return { personaName: member.userName}}), [props.members]);
 
+  // add in all the default attributes needed for a new note, including setting the last edited author as the 
+  // user (since user created the note).
   const onAddNote = () => {
     const { scrollHeight, scrollWidth } = document.getElementById("NoteSpace")!;
     const id = uuidv4();

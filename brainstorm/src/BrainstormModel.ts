@@ -25,8 +25,11 @@ export type BrainstormModel = Readonly<{
 }>;
 
 export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
+  // Global sharedMap that stores attributes of all the notes.
+  // The sharedMap can be updated by any user connected to the session
   const sharedMap: ISharedMap = fluid.initialObjects.map as SharedMap;
 
+  // check if note is complete (if it has a page position and an author)
   const IsCompleteNote = (noteId: string) => {
     if (
       !sharedMap.get(c_PositionPrefix + noteId) ||
@@ -37,13 +40,18 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
     return true;
   };
 
-
+  // Check if note is deleted (noteId is 0)
   const IsDeletedNote = (noteId: string) => {
     return sharedMap.get(c_NoteIdPrefix + noteId) === 0;
   };
 
+  // when setting the note text in the sharedMap with the new value, also update the last edited author name and time.
   const SetNoteText = (noteId: string, noteText: string, lastEditedId: string, lastEditedName: string, lastEditedTime: number) => {
+    // update the note's text in sharedMap
     sharedMap.set(c_TextPrefix + noteId, noteText);
+    // update the note's last edited author name and timestamp
+    // WARNING: sharedMap does not preserve object references in the DDS map the same way it would be in a conventional map data structure.
+    // Hence, instead of storing the entire AzureMember object, we are only storing the necessary primitive data types metadata.
     sharedMap.set(c_LastEditedPrefix + noteId, { userId: lastEditedId, userName: lastEditedName, time: lastEditedTime });
   };
 
@@ -52,6 +60,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
   };
 
   return {
+    // Take all the note attributes data stored in the sharedMap and return it as NoteData
     CreateNote(noteId: string, myAuthor: AzureMember): NoteData {
       const newNote: NoteData = {
         id: noteId,
@@ -75,6 +84,7 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
       return newNote;
     },
 
+    // Gets all the users that liked the note
     GetNoteLikedUsers(noteId: string): AzureMember[] {
       return (
         Array.from(sharedMap
@@ -87,10 +97,12 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
       );
     },
 
+    // Update a specific note's x and y coordinate
     MoveNote(noteId: string, newPos: Position) {
       sharedMap.set(c_PositionPrefix + noteId, newPos);
     },
 
+    // Sets all the default note attributes when the note is created
     SetNote(noteId: string, newCardData: NoteData) {
       sharedMap.set(c_PositionPrefix + noteId, newCardData.position);
       sharedMap.set(c_AuthorPrefix + noteId, newCardData.author);
@@ -103,17 +115,25 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
 
     SetNoteColor,
 
-    LikeNote(noteId: string, author: AzureMember) {
-      const voteString = c_votePrefix + noteId + "_" + author.userId;
-      sharedMap.get(voteString) === author
+    // Set or unset the note as liked by the user
+    LikeNote(noteId: string, user: AzureMember) {
+      const voteString = c_votePrefix + noteId + "_" + user.userId;
+
+    // WARNING: SharedMap does not preserve object references like a conventional map data structure, and object comparisons of SharedMap values
+    // will be invalid . In this case, it is recommended to only store the necessary primitive data types in SharedMap or implement a custom
+    // comparison function.
+    // Due to the warning above, instead of storing the entire AzureMember object, we are only storing the necessary primitive data types metadata.
+      sharedMap.get(voteString)?.userId === user.userId
         ? sharedMap.set(voteString, undefined)
-        : sharedMap.set(voteString, author);
+        : sharedMap.set(voteString, { userId: user.userId, userName: user.userName } );
     },
 
+    // Delete the note by setting the ID to 0
     DeleteNote(noteId: string) {
       sharedMap.set(c_NoteIdPrefix + noteId, 0);
     },
 
+    // Get all the noteIds that are still alive (not incomplete or deleted)
     get NoteIds(): string[] {
       return (
         Array.from(sharedMap
@@ -129,10 +149,12 @@ export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
       );
     },
 
+    // Attach a listener on the sharedMap to listen for any value change
     setChangeListener(listener: () => void): void {
       sharedMap.on("valueChanged", listener);
     },
 
+    // Remove listen on the sharedMap
     removeChangeListener(listener: () => void): void {
       sharedMap.off("valueChanged", listener);
     }
