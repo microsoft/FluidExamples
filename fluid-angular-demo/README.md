@@ -1,4 +1,4 @@
-# fluid-angular-starter
+# @fluidframework/angular-demo
 
 ## About this repo
 
