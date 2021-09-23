@@ -65,7 +65,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // TODO 6: Delete handler registration when the Angular App component is dismounted.
+    // Delete handler registration when the Angular App component is dismounted.
     this.sharedTimestamp!.off("valueChanged", this.updateLocalTimestamp!);
   }
 
