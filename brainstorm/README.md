@@ -80,7 +80,7 @@ export async function start() {
 
     const client = new AzureClient(connectionConfig);
 
-    let container: FluidContainer;
+    let container: IFluidContainer;
     let services: AzureContainerServices;
 
     if (isNew) {

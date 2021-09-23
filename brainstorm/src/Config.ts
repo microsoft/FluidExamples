@@ -1,4 +1,4 @@
-import { AzureClientProps, AzureFunctionTokenProvider } from "@fluidframework/azure-client";
+import { AzureClientProps, AzureFunctionTokenProvider, LOCAL_MODE_TENANT_ID } from "@fluidframework/azure-client";
 import { SharedMap } from "fluid-framework";
 import { getRandomName } from "@fluidframework/server-services-client";
 import { v4 as uuid } from 'uuid';
@@ -23,7 +23,7 @@ export const connectionConfig: AzureClientProps = useAzure ? { connection: {
     orderer: "ENTER-ORDERER-URL-HERE",
     storage: "ENTER-STORAGE-URL-HERE",
 }} : { connection: {
-    tenantId: "local",
+    tenantId: LOCAL_MODE_TENANT_ID,
     tokenProvider: new InsecureTokenProvider("fooBar", userConfig),
     orderer: "http://localhost:7070",
     storage: "http://localhost:7070",

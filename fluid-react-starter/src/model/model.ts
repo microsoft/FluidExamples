@@ -1,4 +1,4 @@
-import { ISharedMap, FluidContainer, IValueChanged } from 'fluid-framework';
+import { ISharedMap, IFluidContainer, IValueChanged } from 'fluid-framework';
 import { EventEmitter } from 'events';
 import { TinyliciousContainerServices, TinyliciousMember, ITinyliciousAudience } from '@fluidframework/tinylicious-client';
 import { Node } from './types';
@@ -12,7 +12,7 @@ export type EventPayload = {
 export class FluidModel extends EventEmitter {
   private map: ISharedMap;
   private audience: ITinyliciousAudience;
-  constructor(private container: FluidContainer, private services: TinyliciousContainerServices) {
+  constructor(private container: IFluidContainer, private services: TinyliciousContainerServices) {
     super();
     this.map = container.initialObjects.myMap as ISharedMap;
     this.audience = services.audience;

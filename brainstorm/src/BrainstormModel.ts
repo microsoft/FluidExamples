@@ -1,4 +1,4 @@
-import { FluidContainer, ISharedMap, SharedMap } from "fluid-framework";
+import { IFluidContainer, ISharedMap, SharedMap } from "fluid-framework";
 import { AzureMember } from "@fluidframework/azure-client";
 import { NoteData, Position } from "./Types";
 
@@ -24,7 +24,7 @@ export type BrainstormModel = Readonly<{
   removeChangeListener(listener: () => void): void;
 }>;
 
-export function createBrainstormModel(fluid: FluidContainer): BrainstormModel {
+export function createBrainstormModel(fluid: IFluidContainer): BrainstormModel {
   // Global sharedMap that stores attributes of all the notes.
   // The sharedMap can be updated by any user connected to the session
   const sharedMap: ISharedMap = fluid.initialObjects.map as SharedMap;
