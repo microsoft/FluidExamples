@@ -1,6 +1,6 @@
 {
   "name": "@fluid-example/brainstorm",
-  "version": "0.47.0",
+  "version": "0.48.1",
   "description": "A simple brainstorming app built using Create React App plus a Fluid data model",
   "homepage": "https://fluidframework.com",
   "repository": "microsoft/FluidExamples",
