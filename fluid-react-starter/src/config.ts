@@ -1,4 +1,4 @@
-import { SharedMap, ISharedMap, FluidContainer, ContainerSchema } from 'fluid-framework';
+import { SharedMap, ISharedMap, IFluidContainer, ContainerSchema } from 'fluid-framework';
 import { TinyliciousClientProps } from '@fluidframework/tinylicious-client';
 
 
@@ -20,7 +20,7 @@ export const FILEPATH: string = 'fluid';
 export const clientProps: TinyliciousClientProps = {};
 
 // Setup default data on initialObjects
-export const setDefaultData = (fluidContainer: FluidContainer) => {
+export const setDefaultData = (fluidContainer: IFluidContainer) => {
   const defaultData: any[] = [
     {
       id: '1',

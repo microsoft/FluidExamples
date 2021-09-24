@@ -5,7 +5,7 @@
 
 import { initializeIcons, ThemeProvider } from "@fluentui/react";
 import { AzureClient, AzureContainerServices } from '@fluidframework/azure-client';
-import { FluidContainer } from "fluid-framework";
+import { IFluidContainer } from "fluid-framework";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrainstormView } from './view/BrainstormView';
@@ -30,7 +30,7 @@ export async function start() {
 
     const client = new AzureClient(connectionConfig);
 
-    let container: FluidContainer;
+    let container: IFluidContainer;
     let services: AzureContainerServices;
 
     if (isNew) {

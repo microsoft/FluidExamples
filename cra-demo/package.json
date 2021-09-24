@@ -1,6 +1,6 @@
 {
   "name": "@fluid-example/cra-demo",
-  "version": "0.45.0",
+  "version": "0.48.1",
   "description": "An example app built using Create React App plus a custom Fluid React hook",
   "homepage": "https://fluidframework.com",
   "repository": "microsoft/FluidExamples",
@@ -30,8 +30,8 @@
     ]
   },
   "dependencies": {
-    "@fluidframework/tinylicious-client": "^0.47.0",
-    "fluid-framework": "^0.47.0",
+    "@fluidframework/tinylicious-client": "^0.48.1",
+    "fluid-framework": "^0.48.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   },

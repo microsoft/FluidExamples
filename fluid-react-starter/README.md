@@ -76,7 +76,7 @@ export const containerSchema = {
 Inside of `src/config.ts` you can modify the `setDefaultData` function to change the data added to the initial DDSes upon container creation. Any `initialObjects` specified above will be available on `fluidContainer.initialObjects`. 
 
 ```ts
-export const setDefaultData = (fluidContainer: FluidContainer) => {
+export const setDefaultData = (fluidContainer: IFluidContainer) => {
   const { myMap, myCounter } = fluidContainer.intitialObjects;
   myCounter.increment(1); // start at 1
 }
@@ -86,7 +86,7 @@ export const setDefaultData = (fluidContainer: FluidContainer) => {
 
 All of your application's business logic will be stored in `model.ts`, which is a class with access to both the `FluidContainer` and the `TinyliciousContainerServices`. 
 
-In the `FluidModel` class you can expose new properties and methods that can leverage any of the DDSes provided by your `FluidContainer` or `TinyliciousContainerServices` properties, like `audience`. These properties and methods will be used to provide a `store` of data and actions for your view to access, so keep the model focused on lower level access of the data itself.
+In the `FluidModel` class you can expose new properties and methods that can leverage any of the DDSes provided by your `IFluidContainer` or `TinyliciousContainerServices` properties, like `audience`. These properties and methods will be used to provide a `store` of data and actions for your view to access, so keep the model focused on lower level access of the data itself.
 
 ```ts
   // inside of the constructor
