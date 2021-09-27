@@ -15,7 +15,6 @@
     },
     "dependencies": {
         "@babel/preset-react": "^7.14.5",
-        "@fluidframework/azure-client": "^0.48.1",
         "@fluidframework/tinylicious-client": "^0.48.1",
         "fluid-framework": "^0.48.1",
         "react": "^17.0.2",
