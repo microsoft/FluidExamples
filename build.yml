@@ -10,12 +10,12 @@ parameters:
 - name: brainstorm
   type: string
   default: brainstorm
-- name: fluid-react-starter
+- name: react-starter-template
   type: string
-  default: fluid-react-starter
-- name: cra-demo
+  default: react-starter-template
+- name: react-demo
   type: string
-  default: cra-demo
+  default: react-demo
 - name: multi-framework-diceroller
   type: string
   default: multi-framework-diceroller

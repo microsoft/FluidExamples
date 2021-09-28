@@ -1,4 +1,4 @@
-# @fluid-example/cra-demo
+# @fluid-example/react-demo
 This is an experimental learning tutorial demonstrating the integration of Fluid into [`create-react-app`](https://create-react-app.dev/).
 
 Concepts you will learn:
@@ -197,7 +197,7 @@ To make sure the app does not render too soon, it returns a blank `<div />` unti
 
 When the app loads it will update the URL. Copy that new URL into a second browser and note that if you click the button in one browser, the other browser updates as well.
 
-![cra](https://user-images.githubusercontent.com/1434956/111496992-faf2dc00-86fd-11eb-815d-5cc539d8f3c8.gif)
+![react-demo](https://user-images.githubusercontent.com/1434956/111496992-faf2dc00-86fd-11eb-815d-5cc539d8f3c8.gif)
 
 ## Next steps
 
