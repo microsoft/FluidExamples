@@ -1,4 +1,4 @@
 {
-  "packages": ["brainstorm", "cra-demo", "fluid-react-starter", "multi-framework-diceroller"],
+  "packages": ["brainstorm", "react-demo", "react-starter-template", "multi-framework-diceroller"],
   "version": "0.0.0"
 }

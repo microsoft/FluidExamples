@@ -1,4 +1,4 @@
-# fluid-react-starter
+# react-starter-template
 
 ## About this repo
 
