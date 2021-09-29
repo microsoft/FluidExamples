@@ -14,7 +14,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "start:server": "tinylicious",
+    "start:server": "npx @fluidframework/azure-local-service@latest",
     "start:azure": "cross-env REACT_APP_FLUID_CLIENT='\"azure\"' npm run start",
     "test": "react-scripts test",
     "test:report": "echo No test for this example"
@@ -56,13 +56,12 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "tinylicious": "^0.4.34614",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "22.2.3",
     "@types/node": "^12.19.0",
-    "@types/react": "^16.9.15",
+    "@types/react": "^17.0.25",
     "@types/react-dom": "^16.9.4",
     "@types/uuid": "^8.3.0",
     "react-scripts": "4.0.2",
