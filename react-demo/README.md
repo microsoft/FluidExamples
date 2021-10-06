@@ -83,7 +83,7 @@ Lastly, open up the `App.js` file, as that will be the only file edited.
 
 import React from "react";
 import { TinyliciousClient } from "@fluidframework/tinylicious-client";
-import { SharedMap } from "@fluid-experimental/fluid-framework";
+import { SharedMap } from "fluid-framework";
 ```
 
 ### Configure the service client
@@ -183,13 +183,14 @@ To make sure the app does not render too soon, it returns a blank `<div />` unti
 ```jsx
     // update the App return
 
-    if (!viewData) return <div/>;
+    if (!viewData) return <div />;
+
+    // business logic could be passed into the view via context
+    const setTime = () => fluidMap.set(timeKey, Date.now().toString());
 
     return (
-        <div className="App">
-            <button onClick={() => fluidData.mySharedMap.set(timeKey, Date.now().toString())}>
-                click
-            </button>
+        <div>
+            <button onClick={setTime}> click </button>
             <span>{viewData.time}</span>
         </div>
     )
