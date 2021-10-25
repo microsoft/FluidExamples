@@ -16,7 +16,6 @@ const containerSchema = {
 }
 
 function App() {
-
   const [sharedString, setSharedString] = React.useState();
 
   const getFluidData = async () => {
@@ -26,7 +25,8 @@ function App() {
       container = (await client.createContainer(containerSchema)).container;
       const id = await container.attach();
       window.location.hash = id;
-    } else {
+    }
+    else {
       container = (await client.getContainer(containerId, containerSchema)).container;
     }
     return container.initialObjects.sharedString;
@@ -36,7 +36,6 @@ function App() {
     getFluidData()
       .then(data => setSharedString(data));
   }, []);
-
 
   if (sharedString) {
     return (
@@ -48,7 +47,6 @@ function App() {
   else {
     return <div />;
   }
-
 
 }
 

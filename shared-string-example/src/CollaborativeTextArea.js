@@ -6,12 +6,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 export const CollaborativeTextArea = (props) => {
-  const {
-    sharedStringHelper,
-    spellCheck,
-    className,
-    style,
-  } = props;
+  const sharedStringHelper = props.sharedStringHelper;
 
   const textareaRef = useRef(null);
   const selectionStartRef = useRef(0);
@@ -129,9 +124,6 @@ export const CollaborativeTextArea = (props) => {
       rows={20}
       cols={50}
       ref={textareaRef}
-      className={className}
-      style={style}
-      spellCheck={spellCheck ? spellCheck : false}
       onBeforeInput={storeSelectionInReact}
       onKeyDown={storeSelectionInReact}
       onClick={storeSelectionInReact}
