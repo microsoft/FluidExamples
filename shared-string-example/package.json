@@ -1,0 +1,46 @@
+{
+  "name": "@fluid-example/shared-string",
+  "version": "0.1.0",
+  "description": "An example app using SharedString built using Create React App",
+  "homepage": "https://fluidframework.com",
+  "repository": "microsoft/FluidExamples",
+  "license": "MIT",
+  "author": "Microsoft and contributors",
+  "private": true,
+  "dependencies": {
+    "@fluidframework/tinylicious-client": "^0.49.2",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "cra-template": "1.1.2",
+    "fluid-framework": "^0.49.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
