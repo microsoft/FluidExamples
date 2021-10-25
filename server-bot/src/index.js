@@ -1,8 +1,6 @@
 const SharedMap = require('fluid-framework').SharedMap;
 const TinyliciousClient  = require('@fluidframework/tinylicious-client').TinyliciousClient;
 const readline = require('readline-async');
-// const AzureClient = require('@fluidframework/azure-client').AzureClient;
-// const AzureFunctionTokenProvider = require('@fluidframework/azure-client').AzureFunctionTokenProvider;
 
 const schema = {
     initialObjects: { map: SharedMap }
@@ -11,20 +9,6 @@ const schema = {
 const keyValue = "node-server-bot";
 
 const client = new TinyliciousClient();
-
-// const azureUser = {
-//     userId: "Test User",
-//     userName: "test user"
-// }
-
-// const connectionConfig = {
-//     tenantId: "1e298c52-acdc-49ad-baf7-b2516d555fe7",
-//     tokenProvider: new AzureFunctionTokenProvider("https://sonaliazfunc.azurewebsites.net/api/GetFrsToken", azureUser),
-//     orderer: "https://alfred.westus2.fluidrelay.azure.com",
-//     storage: "https://historian.westus2.fluidrelay.azure.com",
-// }
-
-// const client = new AzureClient({connection: connectionConfig});
 
 async function createContainer() {
     const { container } = await client.createContainer(schema);
