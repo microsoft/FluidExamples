@@ -1,6 +1,6 @@
 # Server-side Node App with Fluid
 
-This repository contains a simple NodeJS application using Fluid. The key take-away is to have the correct container id for the server to run properly. 
+This repository contains a simple NodeJS application that enables all connected clients to generate random numbers and view the result. The key take-away is to have the correct container id for the server to run properly.
 
 ## Getting started
 
