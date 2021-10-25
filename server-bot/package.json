@@ -1,0 +1,20 @@
+{
+  "name": "fluid-server-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm:start:server\" \"npm:start:client\"",
+    "start:client": "node ./src/index.js",
+    "start:server": "npx tinylicious@latest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fluidframework/azure-client": "^0.49.2",
+    "@fluidframework/tinylicious-client": "^0.49.2",
+    "fluid-framework": "^0.49.2",
+    "readline-async": "^0.1.0"
+  }
+}
