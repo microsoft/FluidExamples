@@ -19,6 +19,9 @@ parameters:
 - name: multi-framework-diceroller
   type: string
   default: multi-framework-diceroller
+- name: node-demo
+  type: string
+  default: node-demo
 
 trigger:
 - main
