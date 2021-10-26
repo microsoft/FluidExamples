@@ -1,18 +1,18 @@
-const SharedMap = require('fluid-framework').SharedMap;
-const TinyliciousClient  = require('@fluidframework/tinylicious-client').TinyliciousClient;
-const readline = require('readline-async');
+import { SharedMap } from "fluid-framework";
+import { TinyliciousClient } from "@fluidframework/tinylicious-client";
+import readlineAsync  from "readline-async";
 
 const schema = {
     initialObjects: { map: SharedMap }
 }
 
-const keyValue = "node-server-bot";
+const randomNumberKey = "random-number-key";
 
 const client = new TinyliciousClient();
 
 async function createContainer() {
     const { container } = await client.createContainer(schema);
-    container.initialObjects.map.set(keyValue, 1);
+    container.initialObjects.map.set(randomNumberKey, 1);
     const id = await container.attach();
     console.log("Initializing Node Client----------", id);
     loadCli(container.initialObjects.map);
@@ -25,26 +25,25 @@ async function loadContainer(id) {
     loadCli(container.initialObjects.map);
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+function loadCli(map) {
+    // Set a timer to update the random number every 1 second
+    const newRandomNumber = () => { 
+        map.set(randomNumberKey, Math.floor(Math.random() * 100) + 1);
+    };
+    setInterval(newRandomNumber, 1000);
 
-async function loadCli(map) {
-    map.set(keyValue, Math.floor(Math.random() * 6) + 1);
-
+    // Listen for updates and print changes to the random number
     const updateConsole = () => {
-        console.log("Value: ", map.get(keyValue));
+        console.log("Value: ", map.get(randomNumberKey));
     }
     updateConsole();
     map.on("valueChanged", updateConsole);
-    await sleep(10000);
-    loadCli(map);
 }
 
 async function readInput() {
-    var containerId = "";
-    console.log("Enter Container ID: ");
-    await readline().then( line => {
+    let containerId = "";
+    console.log("Type a Container ID or press Enter to continue: ");
+    await readlineAsync().then( line => {
         console.log("You entered: " + line);
         containerId = line;
     });
