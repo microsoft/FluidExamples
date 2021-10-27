@@ -7,7 +7,7 @@ This repo is an example to demonstrate integrating the Fluid `SharedString` DDS 
 1. You want to use React.js for your view
 1. You already have Node installed on your local machine. If not, follow the instructions [here](https://nodejs.org/en/download/).
 
-For a more detailed explanation of the `SharedString` DDS please click [here](https://fluidframework.com/docs/data-structures/string/).
+For a more detailed explanation of this example please click [here](https://fluidframework.com/docs/recipes/shared-string/).
 
 ## File Overview
 ### `App.js`
