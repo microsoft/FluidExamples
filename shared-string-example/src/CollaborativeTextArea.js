@@ -5,7 +5,7 @@
 
 import React from "react";
 
-function CollaborativeTextArea(props) {
+export const CollaborativeTextArea = (props) => {
   const sharedStringHelper = props.sharedStringHelper;
 
   const textareaRef = React.useRef(null);
@@ -134,5 +134,3 @@ function CollaborativeTextArea(props) {
       value={text} />
   );
 };
-
-export default CollaborativeTextArea;
