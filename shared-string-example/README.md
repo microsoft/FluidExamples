@@ -9,6 +9,16 @@ This repo is an example to demonstrate integrating the Fluid `SharedString` DDS 
 
 For a more detailed explanation of the `SharedString` DDS please click [here](https://fluidframework.com/docs/data-structures/string/).
 
+## File Overview
+### `App.js`
+- This is the first component that will be loaded upon Application startup.
+- This component gets data from the Fluid service, including the `SharedString` object, which will be used by the following two files.
+
+### `SharedStringHelper.js`
+- This is a class that provides simple API's to interact with a `SharedString` object.
+### `CollaborativeTextArea.js`
+- This is a component which integrates a `SharedStringHelper` object with the default `textarea` HTML element to create text which can be co-edited in real time.
+
 --- 
 
 ## Using this repo
