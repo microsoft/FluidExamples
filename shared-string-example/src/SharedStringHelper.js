@@ -107,9 +107,6 @@ export class SharedStringHelper extends TypedEventEmitter {
           // Position snaps to the left side of the deletion if it is inside the deletion.
           newPosition = changeStartPosition;
         }
-        // eslint-disable-next-line max-len
-        // console.log(`previousText: ${previousText} newText: ${this._latestText} ChangeRange: ${changeStartPosition}-${changeEndPosition}, Transform: ${oldPosition} -> ${newPosition}`);
-        // console.log(op);
         return newPosition;
       };
     }

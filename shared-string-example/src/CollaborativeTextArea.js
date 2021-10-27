@@ -3,16 +3,16 @@
  * Licensed under the MIT License.
  */
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
 export const CollaborativeTextArea = (props) => {
   const sharedStringHelper = props.sharedStringHelper;
 
-  const textareaRef = useRef(null);
-  const selectionStartRef = useRef(0);
-  const selectionEndRef = useRef(0);
+  const textareaRef = React.useRef(null);
+  const selectionStartRef = React.useRef(0);
+  const selectionEndRef = React.useRef(0);
 
-  const [text, setText] = useState(sharedStringHelper.getText());
+  const [text, setText] = React.useState(sharedStringHelper.getText());
 
   /**
    * There's been a local change to the textarea content (e.g. user did some typing)
@@ -87,7 +87,7 @@ export const CollaborativeTextArea = (props) => {
     selectionEndRef.current = textareaSelectionEnd;
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     /**
      * There's been a change to the SharedString's data.  This means the most recent state of the text
      * is in the SharedString, and we need to

@@ -10,15 +10,17 @@ import { SharedString } from "fluid-framework";
 import { CollaborativeTextArea } from "./CollaborativeTextArea";
 import { SharedStringHelper } from "./SharedStringHelper";
 
-const client = new TinyliciousClient();
-const containerSchema = {
-  initialObjects: { sharedString: SharedString }
-}
-
 function App() {
-  const [sharedString, setSharedString] = React.useState();
 
+  const [sharedString, setSharedString] = React.useState();
   const getFluidData = async () => {
+    // Configure the container.
+    const client = new TinyliciousClient();
+    const containerSchema = {
+      initialObjects: { sharedString: SharedString }
+    }
+
+    // Get the container from the Fluid service.
     let container;
     const containerId = window.location.hash.substring(1);
     if (!containerId) {
@@ -29,14 +31,17 @@ function App() {
     else {
       container = (await client.getContainer(containerId, containerSchema)).container;
     }
+    // Return the Fluid SharedString object.
     return container.initialObjects.sharedString;
   }
 
+  // Get the Fluid Data data on app startup and store in the state
   React.useEffect(() => {
     getFluidData()
       .then(data => setSharedString(data));
   }, []);
 
+  // Create the view using CollaborativeTextArea & SharedStringHelper
   if (sharedString) {
     return (
       <div className="app">
@@ -47,7 +52,6 @@ function App() {
   else {
     return <div />;
   }
-
 }
 
 export default App;
