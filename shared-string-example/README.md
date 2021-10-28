@@ -15,7 +15,7 @@ For a more detailed explanation of this example please click [here](https://flui
 - This component gets data from the Fluid service, including the `SharedString` object, which will be used by the following two files.
 
 ### `SharedStringHelper.js`
-- This is a class that provides simple API's to interact with a `SharedString` object.
+- This is a class that provides simple APIs to interact with a `SharedString` object.
 ### `CollaborativeTextArea.js`
 - This is a component which integrates a `SharedStringHelper` object with the default `textarea` HTML element to create text which can be co-edited in real time.
 
@@ -25,7 +25,7 @@ For a more detailed explanation of this example please click [here](https://flui
 
 ### Run the app locally
 
-To run our local server, Tinylicious, on the default values of `localhost:7070`, enter the following into a terminal window:
+To run our local server, Tinylicious, on the default URL of `localhost:7070`, enter the following into a terminal window:
 
 ```
 npx tinylicious
