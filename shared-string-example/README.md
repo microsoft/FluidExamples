@@ -2,7 +2,7 @@
 
 ## About this repo
 
-This repo is an example to demonstrate integrating the Fluid `SharedString` DDS into a [`create-react-app`](https://create-react-app.dev/). To use this example, we make the following assumptions:
+This is an example to demonstrate building a collaborative Text Area in React using the `SharedString`. To use this example, we make the following assumptions:
 
 1. You want to use React.js for your view
 1. You already have Node installed on your local machine. If not, follow the instructions [here](https://nodejs.org/en/download/).
