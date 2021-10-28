@@ -1,4 +1,4 @@
-# @fluid-example/shared-string
+# @fluid-example/react-text-area
 
 ## About this repo
 
