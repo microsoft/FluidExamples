@@ -10,8 +10,7 @@ import { SharedString } from "fluid-framework";
 import { CollaborativeTextArea } from "./CollaborativeTextArea";
 import { SharedStringHelper } from "./SharedStringHelper";
 
-function App() {
-
+const useSharedString = () => {
   const [sharedString, setSharedString] = React.useState();
   const getFluidData = async () => {
     // Configure the container.
@@ -40,6 +39,13 @@ function App() {
     getFluidData()
       .then(data => setSharedString(data));
   }, []);
+
+  return sharedString;
+}
+
+function App() {
+  // Load the collaborative SharedString object
+  const sharedString = useSharedString();
 
   // Create the view using CollaborativeTextArea & SharedStringHelper
   if (sharedString) {
