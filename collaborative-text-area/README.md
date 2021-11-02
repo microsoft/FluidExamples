@@ -1,13 +1,13 @@
-# @fluid-example/react-text-area
+# @fluid-example/collaborative-text-area
 
 ## About this repo
 
-This is an example to demonstrate building a collaborative Text Area in React using the `SharedString`. To use this example, we make the following assumptions:
+This is an example to demonstrate building a collaborative text area in React using the `SharedString`. To use this example, we make the following assumptions:
 
 1. You want to use React.js for your view
 1. You already have Node installed on your local machine. If not, follow the instructions [here](https://nodejs.org/en/download/).
 
-For a more detailed explanation of this example please click [here](https://fluidframework.com/docs/recipes/shared-string/).
+For a more detailed explanation of this example please click [here](https://fluidframework.com/docs/recipes/collaborative-text-area/).
 
 ## File Overview
 ### `App.js`

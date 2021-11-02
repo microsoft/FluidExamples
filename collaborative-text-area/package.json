@@ -1,5 +1,5 @@
 {
-  "name": "@fluid-example/react-text-area",
+  "name": "@fluid-example/collaborative-text-area",
   "version": "0.1.0",
   "description": "An example app using SharedString to build a collaborative Text Area",
   "homepage": "https://fluidframework.com",
