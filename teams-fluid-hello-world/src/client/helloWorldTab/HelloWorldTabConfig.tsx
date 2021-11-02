@@ -3,7 +3,7 @@ import { Provider, Flex, Header, Input } from "@fluentui/react-northstar";
 import { useState, useEffect, useRef } from "react";
 import { useTeams } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
-import { createContainer } from "./Util";
+import { createContainer, containerIdString } from "./Util";
 
 /**
  * Implementation of HelloWorldTab configuration page
@@ -18,8 +18,8 @@ export const HelloWorldTabConfig = () => {
         const host = "https://" + window.location.host;
         createContainer().then((containerId) => {
             microsoftTeams.settings.setSettings({
-                contentUrl: host + "/helloWorldTab/?containerId=" + containerId + "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
-                websiteUrl: host + "/helloWorldTab/?containerId=" + containerId + "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+                contentUrl: host + "/helloWorldTab/?" + containerIdString + "=" + containerId + "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+                websiteUrl: host + "/helloWorldTab/?" + containerIdString + "=" + containerId + "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
                 suggestedDisplayName: tabName.current,
                 removeUrl: host + "/helloWorldTab/remove.html?theme={theme}",
                 entityId: tabName.current

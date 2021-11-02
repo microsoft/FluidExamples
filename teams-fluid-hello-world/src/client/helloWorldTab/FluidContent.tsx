@@ -37,7 +37,7 @@ export const FluidContent = (props : FluidContentProps) => {
     };
 
     if (!diceView) {
-        return <div>Loading...</div>;
+        return <div>Loading dice...</div>;
     }
 
     return (

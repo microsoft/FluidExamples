@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 import { FluidContent } from "./FluidContent";
-import { getContainer } from "./Util";
+import { getContainer, containerIdString } from "./Util";
 
 /**
  * Implementation of the HelloWorldTab content page
@@ -23,7 +23,7 @@ export const HelloWorldTab = () => {
     }, [inTeams]);
 
     const getFluidMap = (url : URLSearchParams) => {
-        const containerId = url.get("containerId");
+        const containerId = url.get(containerIdString);
         if (!containerId) {
             throw Error("containerId not found in the URL");
         }
@@ -45,7 +45,14 @@ export const HelloWorldTab = () => {
         }
     }, [inTeams]);
 
+    if (fluidMap !== undefined) {
+        return (
+            <FluidContent fluidMap={fluidMap} />
+        );
+    }
+
     return (
-        <FluidContent fluidMap={fluidMap as SharedMap} />
+        <div>Loading FluidContent...</div>
     );
+
 };
