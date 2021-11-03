@@ -12,7 +12,7 @@ export const HelloWorldTabConfig = () => {
 
     const [{ inTeams, theme, context }] = useTeams({});
     const [text, setText] = useState<string>();
-    const tabName = useRef("");
+    const entityId = useRef("");
 
     const onSaveHandler = async (saveEvent: microsoftTeams.settings.SaveEvent) => {
         const host = "https://" + window.location.host;
@@ -20,9 +20,9 @@ export const HelloWorldTabConfig = () => {
         microsoftTeams.settings.setSettings({
             contentUrl: host + "/helloWorldTab/?" + containerIdQueryParamKey + "=" + containerId + "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
             websiteUrl: host + "/helloWorldTab/?" + containerIdQueryParamKey + "=" + containerId + "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
-            suggestedDisplayName: tabName.current,
+            suggestedDisplayName: entityId.current,
             removeUrl: host + "/helloWorldTab/remove.html?theme={theme}",
-            entityId: tabName.current
+            entityId: entityId.current
         });
         saveEvent.notifySuccess();
     };
@@ -30,7 +30,7 @@ export const HelloWorldTabConfig = () => {
     useEffect(() => {
         if (context) {
             setText(context.entityId);
-            tabName.current = context.entityId;
+            entityId.current = context.entityId;
             microsoftTeams.settings.registerOnSaveHandler(onSaveHandler);
             microsoftTeams.settings.setValidityState(true);
             microsoftTeams.appInitialization.notifySuccess();
@@ -52,7 +52,7 @@ export const HelloWorldTabConfig = () => {
                             onChange={(e, data) => {
                                 if (data) {
                                     setText(data.value);
-                                    tabName.current = data.value;
+                                    entityId.current = data.value;
                                 }
                             }}
                             required />
