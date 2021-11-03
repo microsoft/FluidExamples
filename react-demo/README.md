@@ -5,7 +5,7 @@ Concepts you will learn:
 1. How to integrate Fluid into a React application
 2. How to run and connect your application to a local Fluid service (Tinylicious)
 3. How to create and get Fluid Containers and collaborative objects
-4. How to use a [SharedMap distributed data structure (DDS)](https://fluidframework.com/docs/apis/map/sharedmap/) to sync data between connected clients
+4. How to use a [SharedMap distributed data structure (DDS)](https://fluidframework.com/docs/data-structures/map/) to sync data between connected clients
 
 
 \* Just want to see the code? Jump to the [finished tutorial.](./src/App.js).
