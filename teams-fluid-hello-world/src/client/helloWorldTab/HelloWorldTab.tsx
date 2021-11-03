@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 import { FluidContent } from "./FluidContent";
-import { getContainer, containerIdString } from "./Util";
+import { getContainer, containerIdQueryParamKey } from "./Util";
 
 /**
  * Implementation of the HelloWorldTab content page
@@ -12,7 +12,7 @@ import { getContainer, containerIdString } from "./Util";
 export const HelloWorldTab = () => {
 
     microsoftTeams.initialize();
-    const [{ inTeams, theme, context }] = useTeams();
+    const [{ inTeams }] = useTeams();
 
     const [fluidMap, setFluidMap] = useState<SharedMap | undefined>(undefined);
 
@@ -22,26 +22,25 @@ export const HelloWorldTab = () => {
         }
     }, [inTeams]);
 
-    const getFluidMap = (url : URLSearchParams) => {
-        const containerId = url.get(containerIdString);
+    const getFluidMap = async (url : URLSearchParams) => {
+        const containerId = url.get(containerIdQueryParamKey);
         if (!containerId) {
             throw Error("containerId not found in the URL");
         }
-        getContainer(containerId).then((container) => {
-            const diceMap = container.initialObjects.diceMap as SharedMap;
-            setFluidMap(diceMap);
-        });
+        const container = await getContainer(containerId);
+        const diceMap = container.initialObjects.diceMap as SharedMap;
+        setFluidMap(diceMap);
     };
 
     useEffect(() => {
         if (inTeams === true) {
             microsoftTeams.settings.getSettings(async (instanceSettings) => {
-                const url = new URLSearchParams(instanceSettings.contentUrl);
-                getFluidMap(url);
+                const url = new URL(instanceSettings.contentUrl);
+                getFluidMap(url.searchParams);
             });
-        } else {
-            const url = new URLSearchParams(window.location.search);
-            getFluidMap(url);
+        } else if (inTeams === false) {
+            const url = new URL(window.location.search);
+            getFluidMap(url.searchParams);
         }
     }, [inTeams]);
 

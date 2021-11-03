@@ -1,12 +1,9 @@
 import { SharedMap, IFluidContainer } from "fluid-framework";
 import { AzureClient, AzureClientProps, LOCAL_MODE_TENANT_ID } from "@fluidframework/azure-client";
 import { InsecureTokenProvider } from "@fluidframework/test-client-utils";
-import * as process from "process";
-import * as dotenv from "dotenv-webpack";
 
 export const diceValueKey = "dice-value-key";
-export const containerIdString = "containerId";
-dotenv.config();
+export const containerIdQueryParamKey = "containerId";
 const containerSchema = {
     initialObjects: { diceMap: SharedMap }
 };
@@ -15,15 +12,11 @@ const connectionConfig : AzureClientProps =
 {
     connection: {
         tenantId: LOCAL_MODE_TENANT_ID,
-        // tokenProvider: new InsecureTokenProvider("foobar", { id: "user" }),
-        // orderer: "http://localhost:7070",
-        // storage: "http://localhost:7070"
-        tokenProvider: new InsecureTokenProvider(process.env.REACT_APP_TENANT_KEY as string, { id: "user" }),
-        orderer: process.env.REACT_APP_ORDERER as string,
-        storage: process.env.REACT_APP_STORAGE as string
+        tokenProvider: new InsecureTokenProvider("foobar", { id: "user" }),
+        orderer: "http://localhost:7070",
+        storage: "http://localhost:7070"
     }
 };
-console.log("ab " + process.env.PACKAGE_NAME);
 
 const client = new AzureClient(connectionConfig);
 

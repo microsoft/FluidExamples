@@ -10,20 +10,21 @@ export type FluidContentProps = Readonly<{
 
 export const FluidContent = (props : FluidContentProps) => {
 
-    const [diceView, setDiceView] = useState<{color : string, content : string} | undefined >(undefined);
+    const generateCurrentViewState = (): {color : string, content : string} => {
+        const diceValue = props.fluidMap.get(diceValueKey);
+        // Unicode 0x2680-0x2685 are the sides of a dice (⚀⚁⚂⚃⚄⚅)
+        return {
+            content: String.fromCodePoint(0x267f + diceValue),
+            color: `hsl(${diceValue * 60}, 70%, 30%)`
+        };
+    };
+    const [diceView, setDiceView] = useState<{color : string, content : string} | undefined >(generateCurrentViewState());
 
     useEffect(() => {
         // sync Fluid data into view state
         const updateDice = () => {
-            const diceValue = props.fluidMap.get(diceValueKey);
-            // Unicode 0x2680-0x2685 are the sides of a dice (⚀⚁⚂⚃⚄⚅)
-            setDiceView({
-                content: String.fromCodePoint(0x267f + diceValue),
-                color: `hsl(${diceValue * 60}, 70%, 30%)`
-            });
+            setDiceView(generateCurrentViewState());
         };
-        // ensure update runs at least once
-        updateDice();
         // Use the changed event to trigger the rerender whenever the value changes.
         props.fluidMap.on("valueChanged", updateDice);
 
@@ -36,15 +37,11 @@ export const FluidContent = (props : FluidContentProps) => {
         props.fluidMap.set(diceValueKey, Math.floor(Math.random() * 6) + 1);
     };
 
-    if (!diceView) {
-        return <div>Loading dice...</div>;
-    }
-
     return (
         <div>
             <h2>Hello World!</h2>
             <div className="wrapper" style={{ alignItems: "center" }} >
-                <div className="dice" style={{ color: diceView.color, fontSize: "200px" }}>{diceView.content}</div>
+                <div className="dice" style={{ color: diceView!.color, fontSize: "200px" }}>{diceView!.content}</div>
                 <Button className="roll" style={{ fontSize: "50px" }} onClick={onClick}> Roll </Button>
             </div>
         </div>
