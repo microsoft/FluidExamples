@@ -4,15 +4,23 @@
  */
 
 import React from "react";
+import { ISharedStringHelperTextChangedEventArgs, SharedStringHelper } from "./SharedStringHelper";
 
-export const CollaborativeTextArea = (props) => {
+interface ICollaborativeTextAreaProps {
+  /**
+   * The SharedString that will store the text from the textarea.
+   */
+  sharedStringHelper: SharedStringHelper;
+}
+
+export const CollaborativeTextArea = (props: ICollaborativeTextAreaProps) => {
   const sharedStringHelper = props.sharedStringHelper;
 
-  const textareaRef = React.useRef(null);
-  const selectionStartRef = React.useRef(0);
-  const selectionEndRef = React.useRef(0);
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+  const selectionStartRef = React.useRef<number>(0);
+  const selectionEndRef = React.useRef<number>(0);
 
-  const [text, setText] = React.useState(sharedStringHelper.getText());
+  const [text, setText] = React.useState<string>(sharedStringHelper.getText());
 
   /**
    * There's been a local change to the textarea content (e.g. user did some typing)
@@ -20,7 +28,7 @@ export const CollaborativeTextArea = (props) => {
    * 1. Store the text and selection state in React
    * 2. Store the text state in the SharedString
    */
-  const handleChange = (ev) => {
+  const handleChange = (ev: React.FormEvent<HTMLTextAreaElement>) => {
     // First get and stash the new textarea state
     if (!textareaRef.current) {
       throw new Error("Handling change without current textarea ref?");
@@ -62,7 +70,7 @@ export const CollaborativeTextArea = (props) => {
   /**
    * Set the selection in the DOM textarea itself (updating the UI).
    */
-  const setTextareaSelection = (newStart, newEnd) => {
+  const setTextareaSelection = (newStart: number, newEnd: number) => {
     if (!textareaRef.current) {
       throw new Error("Trying to set selection without current textarea ref?");
     }
@@ -95,7 +103,7 @@ export const CollaborativeTextArea = (props) => {
      * 2. If the change came from a remote source, it may have moved our selection.  Compute it, update
      *    the textarea, and store it in React
      */
-    const handleTextChanged = (event) => {
+    const handleTextChanged = (event: ISharedStringHelperTextChangedEventArgs) => {
       const newText = sharedStringHelper.getText();
       setText(newText);
 

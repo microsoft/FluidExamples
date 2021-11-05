@@ -6,21 +6,21 @@
 import "./App.css";
 import React from "react";
 import { TinyliciousClient } from "@fluidframework/tinylicious-client";
-import { SharedString } from "fluid-framework";
+import { ContainerSchema, IFluidContainer, SharedString } from "fluid-framework";
 import { CollaborativeTextArea } from "./CollaborativeTextArea";
 import { SharedStringHelper } from "./SharedStringHelper";
 
-const useSharedString = () => {
-  const [sharedString, setSharedString] = React.useState();
+const useSharedString = (): SharedString => {
+  const [sharedString, setSharedString] = React.useState<SharedString>();
   const getFluidData = async () => {
     // Configure the container.
-    const client = new TinyliciousClient();
-    const containerSchema = {
+    const client: TinyliciousClient = new TinyliciousClient();
+    const containerSchema: ContainerSchema = {
       initialObjects: { sharedString: SharedString }
     }
 
     // Get the container from the Fluid service.
-    let container;
+    let container: IFluidContainer;
     const containerId = window.location.hash.substring(1);
     if (!containerId) {
       container = (await client.createContainer(containerSchema)).container;
@@ -29,23 +29,30 @@ const useSharedString = () => {
     }
     else {
       container = (await client.getContainer(containerId, containerSchema)).container;
+      if (!container.connected) {
+        await new Promise<void>((resolve) => {
+          container.once("connected", () => {
+            resolve();
+          });
+        });
+      }
     }
     // Return the Fluid SharedString object.
-    return container.initialObjects.sharedString;
+    return container.initialObjects.sharedString as SharedString;
   }
 
   // Get the Fluid Data data on app startup and store in the state
   React.useEffect(() => {
     getFluidData()
-      .then(data => setSharedString(data));
+      .then((data) => setSharedString(data));
   }, []);
 
-  return sharedString;
+  return sharedString as SharedString;
 }
 
 function App() {
   // Load the collaborative SharedString object
-  const sharedString = useSharedString();
+  const sharedString: SharedString = useSharedString();
 
   // Create the view using CollaborativeTextArea & SharedStringHelper
   if (sharedString) {

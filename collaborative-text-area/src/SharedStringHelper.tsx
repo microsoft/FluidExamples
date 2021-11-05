@@ -3,16 +3,36 @@
  * Licensed under the MIT License.
  */
 
+import { IEvent } from "@fluidframework/common-definitions";
 import { TypedEventEmitter } from "@fluidframework/common-utils";
-import { MergeTreeDeltaType } from "@fluidframework/merge-tree";
+// import { MergeTreeDeltaType } from "@fluidframework/merge-tree";  Removed until enum access issue is resolved (https://github.com/microsoft/FluidFramework/issues/8142)
+import { SequenceDeltaEvent, SharedString } from "@fluidframework/sequence";
+
+export interface ISharedStringHelperTextChangedEventArgs {
+  /**
+   * Whether the change originated from the local client.
+   */
+  isLocal: boolean;
+
+  /**
+   * A callback function for this particular change that translates pre-change positions in the sequence into
+   * post-change positions.  For example, to track where a user's caret should move to after a remote change
+   * in order for it to remain in the same portion of the text.
+   */
+  transformPosition: (oldPosition: number) => number;
+}
+
+export interface ISharedStringHelperEvents extends IEvent {
+  (event: "textChanged", listener: (event: ISharedStringHelperTextChangedEventArgs) => void): void;
+}
 
 /**
  * Given a SharedString will provide a friendly API for use.
  */
-export class SharedStringHelper extends TypedEventEmitter {
-  _sharedString;
-  _latestText;
-  constructor(sharedString) {
+export class SharedStringHelper extends TypedEventEmitter<ISharedStringHelperEvents> {
+  private readonly _sharedString: SharedString;
+  private _latestText: string;
+  constructor(sharedString: SharedString) {
     super();
     this._sharedString = sharedString;
     this._latestText = this._sharedString.getText();
@@ -22,21 +42,21 @@ export class SharedStringHelper extends TypedEventEmitter {
   /**
    * @returns The full text stored in the SharedString as a string.
    */
-  getText() {
+  public getText(): string {
     return this._latestText;
   }
 
   /**
    * Insert the string provided at the given position.
    */
-  insertText(text, pos) {
+  public insertText(text: string, pos: number): void {
     this._sharedString.insertText(pos, text);
   }
 
   /**
    * Remove the text within the given range.
    */
-  removeText(start, end) {
+  public removeText(start: number, end: number): void {
     this._sharedString.removeText(start, end);
   }
 
@@ -45,7 +65,7 @@ export class SharedStringHelper extends TypedEventEmitter {
    * within the given range.  Equivalent to doing the two operations sequentially.
    * Consider removing?
    */
-  replaceText(text, start, end) {
+  public replaceText(text: string, start: number, end: number): void {
     this._sharedString.replaceText(start, end, text);
   }
 
@@ -54,15 +74,19 @@ export class SharedStringHelper extends TypedEventEmitter {
    * Most of the work is to build up the appropriate transformPosition function, which allows the caller to translate
    * pre-update positions to post-update positions (e.g. to find where a caret should move to).
    */
-  sequenceDeltaHandler = (event) => {
+  sequenceDeltaHandler = (event: SequenceDeltaEvent) => {
     // const previousText = this._latestText;
     this._latestText = this._sharedString.getText();
     const isLocal = event.isLocal;
 
     const op = event.opArgs.op;
-    let transformPosition;
-    if (op.type === MergeTreeDeltaType.INSERT) {
-      transformPosition = (oldPosition) => {
+    let transformPosition: (oldPosition: number) => number;
+
+    // Here we use `0` to represent an INSERT operation.
+    // Replace with `MergeTreeDeltaType.INSERT` when enum access issue is resolved.
+    // https://github.com/microsoft/FluidFramework/issues/8142
+    if (op.type === 0) {
+      transformPosition = (oldPosition: number) => {
         if (op.pos1 === undefined) {
           throw new Error("pos1 undefined");
         }
@@ -85,8 +109,11 @@ export class SharedStringHelper extends TypedEventEmitter {
         return newPosition;
       };
     }
-    else if (op.type === MergeTreeDeltaType.REMOVE) {
-      transformPosition = (oldPosition) => {
+    // Here we use `1` to represent a REMOVE operation.
+    // Replace with `MergeTreeDeltaType.REMOVE` when enum access issue is resolved.
+    // https://github.com/microsoft/FluidFramework/issues/8142
+    else if (op.type === 1) {
+      transformPosition = (oldPosition: number) => {
         if (op.pos1 === undefined) {
           throw new Error("pos1 undefined");
         }
