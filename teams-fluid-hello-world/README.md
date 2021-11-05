@@ -200,7 +200,7 @@ You will notice that we are setting the `suggestedDisplayName` to `entityId.curr
 
 ### Get the Fluid container
 
-Fluid applications can be loaded in one of two states, creating or loading. Since we've already created the container in the configuration page, we now want to load it in the content page, [HelloWorldTab](./HelloWordlTab.tsx). We will be rewriting everything inside the `HelloWorldTab` constant, so let's remove the all the code within the constant.
+Fluid applications can be loaded in one of two states, creating or loading. Since we've already created the container in the configuration page, we now want to load it in the content page, [HelloWorldTab](./src/client/helloWorldTab/HelloWordlTab.tsx). We will be rewriting everything inside the `HelloWorldTab` constant, so let's remove the all the code within the constant.
 
 To load the container ID, we first need to retrieve the `contentUrl` from the Teams settings. So let's initialize Microsoft Teams first.
 
@@ -273,7 +273,7 @@ if (inTeams === false) {
     );
 }
 ```
-Here if `inTeams` is true, then we will retrieve the URL from the `contentUrl` we defined in [HelloWorldTabConfig](./src/client/helloWorldTab/HelloWorldTabConfig) then as a mandatory step, notify Teams that your app has successfully loaded with `microsoftTeams.appInitialization.notifySuccess()`. If `inTeams` is false, we will return a `div` that says the application only works within Teams.
+Here if `inTeams` is true, then we will retrieve the URL from the `contentUrl` we defined in [HelloWorldTabConfig](./src/client/helloWorldTab/HelloWorldTabConfig.tsx) then as a mandatory step, notify Teams that your app has successfully loaded with `microsoftTeams.appInitialization.notifySuccess()`. If `inTeams` is false, we will return a `div` that says the application only works within Teams.
 
 <br />
 
@@ -420,7 +420,7 @@ Now, you may have notice we are using `InsecureTokenProvider`. This is a conveni
 
 | :memo: NOTE                                                                                                                                             |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| It is important to hide the credentials we are passing into `AzureClientProps`. Teams project comes with a `.env` where you can store your credentials as environment variables. Refer to the section below if you want to use the environment variables in Teams
+| It is important to hide the credentials we are passing into `AzureClientProps`. Teams project comes with a [.env](./.env) where you can store your credentials as environment variables. Refer to the section below if you want to use the environment variables in Teams
 
 ### Setting and getting environment variable
 
