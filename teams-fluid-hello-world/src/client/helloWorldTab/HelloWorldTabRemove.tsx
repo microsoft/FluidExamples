@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import * as React from "react";
 import { Provider, Flex, Text, Header } from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";

@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 // Default entry point for client scripts
 // Automatically generated
 // Please avoid from modifying to much...

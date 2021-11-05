@@ -1,4 +1,9 @@
 import * as React from "react";
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { Button } from "@fluentui/react-northstar";
 import { SharedMap } from "fluid-framework";
 import { diceValueKey } from "./Util";
