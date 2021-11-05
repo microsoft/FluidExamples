@@ -5,7 +5,7 @@ Concepts you will learn:
 1. How to integrate Fluid into a Microsoft Teams tab application
 2. How to run and connect your Teams application to a Fluid service (AzureClient)
 3. How to create and get Fluid Containers and collaborative objects
-4. How to use a [SharedMap distributed data structure (DDS)](https://fluidframework.com/docs/apis/map/sharedmap/) to sync data between connected clients
+4. How to use a [SharedMap distributed data structure (DDS)](https://fluidframework.com/docs/data-structures/map/) to sync data between connected clients
 
 
 \* Just want to see the code? Jump to the [finished tutorial.](./src/client/helloWorldTab).
@@ -79,7 +79,7 @@ Lastly, open up the `src/client/helloWorldTab` folder, as that will be the only 
 
 ### Create a `Util.ts`
 
-Create a new file and name it `Util.ts` in `src/client/helloWorldTab`. This file will contain all the importation, initialization, and functions of Fluid depencies.
+Create a new file and name it [Util.ts](./src/client/helloWorldTab/Util.ts) in `src/client/helloWorldTab`. This file will contain all the importation, initialization, and functions of Fluid depencies.
 
 ```ts
 // Util.ts
@@ -170,7 +170,7 @@ export const containerIdQueryParamKey = "containerId";
 
 ### Create the Fluid container
 
-The creation flow of Teams tab application requires a [configuration page](./HelloWorldTabConfig.tsx). We'll be creating a container in the config page and appending the container ID as an URL query param for easy retrieval in the content page.
+The creation flow of Teams tab application requires a [configuration page](./src/client/helloWorldTab/HelloWorldTabConfig.tsx). We'll be creating a container in the config page and appending the container ID as an URL query param for easy retrieval in the content page.
 
 
 ```ts
@@ -229,7 +229,7 @@ With the basic building blocks in place, we can now get the container and `Share
 const [fluidMap, setFluidMap] = useState<SharedMap | undefined>(undefined);
 ```
 
-The function below will parse the URL to get the query parameter string, defined by `containerIdQueryParamKey` in [Util.ts](./Util.ts), and retreives the container ID. With the container ID, we can now load the container to get the `SharedMap`. Once we have the set the `fluidMap` SharedMap, defined above.
+The function below will parse the URL to get the query parameter string, defined by `containerIdQueryParamKey` in [Util.ts](./src/client/helloWorldTab/Util.ts), and retreives the container ID. With the container ID, we can now load the container to get the `SharedMap`. Once we have the set the `fluidMap` SharedMap, defined above.
 
 ```ts
 // HelloWorldTab.tsx
@@ -273,7 +273,7 @@ if (inTeams === false) {
     );
 }
 ```
-Here if `inTeams` is true, then we will retrieve the URL from the `contentUrl` we defined in `HelloWorldTabConfig` then as a mandatory step, notify Teams that your app has successfully loaded with `microsoftTeams.appInitialization.notifySuccess()`. If `inTeams` is false, we will return a `div` that says the application only works within Teams.
+Here if `inTeams` is true, then we will retrieve the URL from the `contentUrl` we defined in [HelloWorldTabConfig](./src/client/helloWorldTab/HelloWorldTabConfig) then as a mandatory step, notify Teams that your app has successfully loaded with `microsoftTeams.appInitialization.notifySuccess()`. If `inTeams` is false, we will return a `div` that says the application only works within Teams.
 
 <br />
 
@@ -285,7 +285,7 @@ Here if `inTeams` is true, then we will retrieve the URL from the `contentUrl` w
 
 ### Sync Fluid and view data
 
-With `fluidMap` defined, we can now have Fluid and view interact. However, it's better practice and cleaner code, let's separate the Fluid logic from the Teams [content page definition](./HelloWordlTab.tsx), and pass the `fluidMap` to a React component that handles all the Fluid logics.
+With `fluidMap` defined, we can now have Fluid and view interact. However, it's better practice and cleaner code, let's separate the Fluid logic from the Teams [content page definition](./src/client/helloWorldTab/HelloWordlTab.tsx), and pass the `fluidMap` to a React component that handles all the Fluid logics.
 
 Before we pass the `fluidMap` to a React component, we need to ensure that it is defined. If `fluidMap` is not defined, we will just return a loading text.
 
@@ -304,7 +304,7 @@ return (
 );
 ```
 
-Now let's create out React component. Create a `FluidContent.tsx` file under `src/client/helloWorldTab` and import the following React libraries and `dice-value-key` from [Util.ts](./Util.ts).
+Now let's create out React component. Create a [FluidContent.tsx](./src/client/helloWorldTab/FluidContent.tsx) file under `src/client/helloWorldTab` and import the following React libraries and `dice-value-key` from [Util.ts](./src/client/helloWorldTab/Util.ts).
 
 ```ts
 // FluidContent.tsx
@@ -424,7 +424,7 @@ Now, you may have notice we are using `InsecureTokenProvider`. This is a conveni
 
 ### Setting and getting environment variable
 
-To set a environment variable and retreive it in Teams, we can take advantage of the built in `.env` file. Set the environment varible in `.env` like below.
+To set a environment variable and retreive it in Teams, we can take advantage of the built in [.env](./.env) file. Set the environment varible in `.env` like below.
 
 ```bash
 # .env
@@ -432,7 +432,7 @@ To set a environment variable and retreive it in Teams, we can take advantage of
 TENANT_KEY=foobar
 ```
 
-Because the environment variables in `.env` get read in the context of `gulp`, but Teams built on top of `webpack`, so we would have to pass these environment variables into `webpack.config.js` in order to access it in runtime. Add the environment variable from `.env` as shown below.
+Because the environment variables in `.env` get read in the context of `gulp`, but Teams built on top of `webpack`, so we would have to pass these environment variables into [webpack.config.js](./webpack.config.js) in order to access it in runtime. Add the environment variable from `.env` as shown below.
 
 ```js
 // webpack,config.js
@@ -445,7 +445,7 @@ webpack.EnvironmentPlugin({
 }),
 ```
 
-Now, let's access the environment variable in [Util.ts](./Util.ts)
+Now, let's access the environment variable in [Util.ts](./src/client/Util.ts)
 
 ```ts
 // Util.ts
