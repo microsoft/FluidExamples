@@ -16,12 +16,6 @@ export const HelloWorldTab = () => {
 
     const [fluidMap, setFluidMap] = useState<SharedMap | undefined>(undefined);
 
-    useEffect(() => {
-        if (inTeams === true) {
-            microsoftTeams.appInitialization.notifySuccess();
-        }
-    }, [inTeams]);
-
     const getFluidMap = async (url : URLSearchParams) => {
         const containerId = url.get(containerIdQueryParamKey);
         if (!containerId) {
@@ -38,11 +32,15 @@ export const HelloWorldTab = () => {
                 const url = new URL(instanceSettings.contentUrl);
                 getFluidMap(url.searchParams);
             });
-        } else if (inTeams === false) {
-            const url = new URL(window.location.search);
-            getFluidMap(url.searchParams);
+            microsoftTeams.appInitialization.notifySuccess();
         }
     }, [inTeams]);
+
+    if (inTeams === false) {
+        return (
+            <div>This application only works in the context of Microsoft Teams</div>
+        );
+    }
 
     if (fluidMap !== undefined) {
         return (
