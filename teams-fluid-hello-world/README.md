@@ -193,6 +193,14 @@ You will notice that we are setting the `suggestedDisplayName` to `entityId.curr
 
 Fluid applications can be loaded in one of two states, creating or loading. Since we've already created the container in the configuration page, we now want to load it in the content page, [HelloWorldTab](./src/client/helloWorldTab/HelloWordlTab.tsx). We will be rewriting everything inside the `HelloWorldTab` page, so let's remove the all the code there to start.
 
+Add the following import statements.
+
+```ts
+import { SharedMap } from "fluid-framework";
+import { FluidContent } from "./FluidContent";
+import { getContainer, containerIdQueryParamKey } from "./Util";
+```
+
 To load the container ID, we first need to retrieve the `contentUrl` from the Teams settings. So let's initialize Microsoft Teams first.
 
 ```ts
