@@ -1,9 +1,9 @@
 # @fluid-example/teams-fluid-hello-world
-This is an experimental learning tutorial demonstrating the integration of Fluid into [Microsoft Teams tab application](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/what-are-tabs).
+This is a recipe for integrating Fluid-powered real-time collaboration features into a [Microsoft Teams tab application](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/what-are-tabs). In it, we will add a simple dice roller application that allows all members that have the tab open to roll a dice together and see the updates in real-time.
 
 Concepts you will learn:
-1. How to integrate Fluid into a Microsoft Teams tab application
-2. How to run and connect your Teams application to a Fluid service (AzureClient)
+1. How to integrate a Fluid client into a Microsoft Teams tab application
+2. How to run and connect your Teams application to a Fluid service (Azure Fluid Relay)
 3. How to create and get Fluid Containers and collaborative objects
 4. How to use a [SharedMap distributed data structure (DDS)](https://fluidframework.com/docs/data-structures/map/) to sync data between connected clients
 
@@ -12,7 +12,7 @@ Concepts you will learn:
 
 ## Demo introduction
 
-In this example you will do the following:
+In this recipe, you will do the following:
 
   - [Use Microsoft Teams App template](#use-microsoft-teams-app-template)
   - [Install Fluid package dependencies](#install-fluid-package-dependencies)
@@ -21,6 +21,7 @@ In this example you will do the following:
   - [Get the Fluid SharedMap](#get-the-fluid-sharedmap)
   - [Update the view](#update-the-view)
   - [Next steps](#next-steps)
+  - [Common issues](#common-issues)
 
 ## Use Microsoft Teams App template
 
@@ -32,7 +33,7 @@ yo teams
 ```
 Follow the instructions [here](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-channel-group-tab?tabs=nodejs#generate-your-project) to setup Teams Tab application
 
-To maintain consistency with this walk-thorugh, please set the following questions with the following values:
+o maintain consistency with this walk-thorugh, please answer the following questions that are prompted during setup with the following values:
 
 ```ts
 Title of your Microsoft Teams app project? : "TeamsFluidHelloWorld"
@@ -42,15 +43,9 @@ Default Tab Name (max 16 characters)? : "HelloWorldTab"
 
 ### Start the app
 
-The `tinylicious` server will be needed to run this demo locally.
-
-```bash
-npx tinylicious
-```
-
 To run and start the Teams application, open another terminal and follow the instructions [here](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-channel-group-tab?tabs=nodejs#upload-your-application-to-teams).
 
-Now follow the [instructions](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-channel-group-tab?tabs=nodejs#upload-your-application-to-teams) to upload the application to a Teams Tab.
+Now follow the [instructions](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-channel-group-tab?tabs=nodejs#upload-your-application-to-teams) to upload the application to a Teams Tab. At this point, you have a vanilla Teams tab running within your main Teams App. Now, let's add the Fluid functionality to it!
 
 ## Install Fluid package dependencies
 
@@ -229,7 +224,7 @@ With the basic building blocks in place, we can now get the container and `Share
 const [fluidMap, setFluidMap] = useState<SharedMap | undefined>(undefined);
 ```
 
-The function below will parse the URL to get the query parameter string, defined by `containerIdQueryParamKey` in [Util.ts](./src/client/helloWorldTab/Util.ts), and retreives the container ID. With the container ID, we can now load the container to get the `SharedMap`. Once we have the set the `fluidMap` SharedMap, defined above.
+The function below will parse the URL to get the query parameter string, defined by `containerIdQueryParamKey` in [Util.ts](./src/client/helloWorldTab/Util.ts), and retreives the container ID. With the container ID, we can now load the container to get the `SharedMap`. Once we have the `SharedMap`, set the `fluidMap` SharedMap, defined above.
 
 ```ts
 // HelloWorldTab.tsx
@@ -377,7 +372,7 @@ useEffect(() => {
 
     // turn off listener when component is unmounted
     return () => { props.fluidMap.off("valueChanged", updateDice); };
-}, [props.fluidMap]);
+});
 ```
 
 ## Update the view
@@ -412,19 +407,27 @@ When the app loads in Teams, multiple users should be able to join the same tab 
 
 ## Next steps
 
+### Running the application
+
+Now that Fluid functionalities are added, we need a running Fluid service for the app to work!. We can use the `tinylicious` server to run this demo locally. Open a separate command propmt and run the following command:
+
+```bash
+npx tinylicious
+```
+
 ### Using FRS non-local mode
 
 Because this is a Teams tab application, collaboration and interaction is the main focus. Consider replacing the local mode `AzureClientProps` provided above with non-local credentials from your Azure service instance, so others can join in and interact with you in the application! Check out how to provision your Azure Fluid Relay service [here](https://docs.microsoft.com/en-us/azure/azure-fluid-relay/how-tos/provision-fluid-azure-portal).
 
-Now, you may have notice we are using `InsecureTokenProvider`. This is a convenient way of setting the application up quicky, but as the name suggests, it is not secure at all! Please visit [here](https://docs.microsoft.com/en-us/azure/azure-fluid-relay/how-tos/connect-fluid-azure-service#token-providers) to learn more about how to use production ready token providers.
+Now, you may have noticed we are using `InsecureTokenProvider`. This is a convenient way of setting the application up quicky, but as the name suggests, it is not secure at all! Please visit [here](https://docs.microsoft.com/en-us/azure/azure-fluid-relay/how-tos/connect-fluid-azure-service#token-providers) to learn more about how to use production ready token providers.
 
 | :memo: NOTE                                                                                                                                             |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| It is important to hide the credentials we are passing into `AzureClientProps`. Teams project comes with a [.env](./.env) where you can store your credentials as environment variables. Refer to the section below if you want to use the environment variables in Teams
+| It is important to hide the credentials we are passing into `AzureClientProps` from being accidentally checked in. The Teams project comes with a [.env](./.env) where you can store your credentials as environment variables and the file itself is already included in the `.gitignore`. Refer to the section below if you want to use the environment variables in Teams.
 
 ### Setting and getting environment variable
 
-To set a environment variable and retreive it in Teams, we can take advantage of the built in [.env](./.env) file. Set the environment varible in `.env` like below.
+To set a environment variable and retrieve it in Teams, we can take advantage of the built in [.env](./.env) file. Set the environment variable in `.env` like below.
 
 ```bash
 # .env
@@ -432,7 +435,7 @@ To set a environment variable and retreive it in Teams, we can take advantage of
 TENANT_KEY=foobar
 ```
 
-Because the environment variables in `.env` get read in the context of `gulp`, but Teams built on top of `webpack`, so we would have to pass these environment variables into [webpack.config.js](./webpack.config.js) in order to access it in runtime. Add the environment variable from `.env` as shown below.
+To pass the contents of the `.env` file to our client-side app, we need to configure them into [webpack.config.js](./webpack.config.js) so that `webpack` provides access to them at runtime. Add the environment variable from `.env` as shown below.
 
 ```js
 // webpack,config.js
@@ -451,4 +454,19 @@ Now, let's access the environment variable in [Util.ts](./src/client/Util.ts)
 // Util.ts
 
 tokenProvider: new InsecureTokenProvider(JSON.parse(process.env.REACT_APP_TENANT_KEY!), { id: "user" }),
+```
+
+And now if you restart your Teams application, other users on their own computers who also open this tab from their Teams app will be able to roll the dice with you!
+
+
+## Common issues
+
+1. If you are experiencing a semi-transparent warning after you start the app with the message `WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB)`, this can be resolved by updating the following configuration in the `webpack.config.js`.
+
+```js
+{
+  performance: {
+    hints: false
+  }
+}
 ```

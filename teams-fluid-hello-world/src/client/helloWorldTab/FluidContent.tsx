@@ -35,7 +35,7 @@ export const FluidContent = (props : FluidContentProps) => {
 
         // turn off listener when component is unmounted
         return () => { props.fluidMap.off("valueChanged", updateDice); };
-    }, [props.fluidMap]);
+    });
 
     // Set the value at our diceValueKey with a random number between 1 and 6.
     const onClick = () => {
