@@ -26,14 +26,10 @@ In this recipe, you will do the following:
 ## Use Microsoft Teams App template
 
 ### Using NPM
-```bash
-npm install yo gulp-cli --global
-npm install generator-teams --global
-yo teams
-```
-Follow the instructions [here](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-channel-group-tab?tabs=nodejs#generate-your-project) to setup Teams Tab application
 
-o maintain consistency with this walk-thorugh, please answer the following questions that are prompted during setup with the following values:
+Follow the instructions [here](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/how-to/create-channel-group-tab?tabs=nodejs#generate-your-project) to setup a default Teams Tab application.
+
+To maintain consistency with this walk-thorugh, please answer the following questions that are prompted during setup with the following values:
 
 ```ts
 Title of your Microsoft Teams app project? : "TeamsFluidHelloWorld"
@@ -51,7 +47,7 @@ Now follow the [instructions](https://docs.microsoft.com/en-us/microsoftteams/pl
 
 There are three packages to install to get started with Fluid:
 
-`fluid-framework` -- The primary Fluid package that contains the SharedMap we'll use to sync data.
+`fluid-framework` -- The primary Fluid package that contains the SharedMap we'll use to sync data. This can also be used by your tab for other DDSes [link to DDS page on fluidframework.com] as required by your application. However, these are out-of-scope for the purposes of this introductory recipe.
 
 `@fluidframework/azure-client` -- Defines the client we'll use to get our Fluid [container](https://fluidframework.com/docs/glossary/#container) for local and remote development.
 
@@ -66,7 +62,7 @@ Lastly, open up the `src/client/helloWorldTab` folder, as that will be the only 
 
 ## Import and initialize Fluid dependencies
 
-`AzureClient` is a client for `Azure`, it allows both remote and local Fluid server for testing and running our application that we will define in `AzureClientProps`. The client will include a method for creating a [Fluid container]({{< relref "containers.md" >}}) with a set of initial [DDSes]({{< relref "dds.md" >}}) or [shared objects]({{< relref "glossary.md#shared-objects" >}}) that are defined in the `containerSchema`. 
+`AzureClient` is a client for `Azure Fluid Relay`; it allows for both connecting to a remote Azure instance [link to FRS doc page] for production scenarios, and a local Fluid server for testing and developing our application. We will define the configuration for connecting to these services in `AzureClientProps`. The client provides a method for creating a [Fluid container]({{< relref "containers.md" >}}) with a set of initial [DDSes]({{< relref "dds.md" >}}) or [SharedObjects]({{< relref "glossary.md#shared-objects" >}}) that are defined in the `containerSchema`. 
 
 > The Fluid container interacts with the processes and distributes operations, manages the lifecycle of Fluid objects, and provides a request API for accessing Fluid objects.
 
@@ -74,7 +70,7 @@ Lastly, open up the `src/client/helloWorldTab` folder, as that will be the only 
 
 ### Create a `Util.ts`
 
-Create a new file and name it [Util.ts](./src/client/helloWorldTab/Util.ts) in `src/client/helloWorldTab`. This file will contain all the importation, initialization, and functions of Fluid depencies.
+Create a new file and name it [Util.ts](./src/client/helloWorldTab/Util.ts) in `src/client/helloWorldTab`. This file will contain all the importation, initialization, and functions of Fluid dependencies.
 
 ```ts
 // Util.ts
@@ -103,11 +99,11 @@ export async function getContainer(id : string) : Promise<IFluidContainer> {
 };
 ```
 
-Here we are only exporting `createContainer` and `getContainer` because that is all we'll need to interact with Fluid.
+Here we are only exporting `createContainer` and `getContainer` because that is all we'll need to create and fetch our Fluid container.
 
 ### Configure the service client
 
-The client is a new instance of the `AzureClient`, where it supports both remote (FRS) and local mode (Tinylicious).
+The client is a new instance of the `AzureClient`, where it supports both remote (Azure Fluid Relay) and local mode (Azure Local Service).
 
 ```ts
 // Util.ts
@@ -116,7 +112,7 @@ The client is a new instance of the `AzureClient`, where it supports both remote
 const client = new AzureClient(connectionConfig);
 ```
 
-Before the client can be used, it needs a `AzureClientProps` that will define the type of connection the client will be using. We will connect locally for now.
+Before the client can be used, it needs an `AzureClientProps` that will define the type of connection the client will be using. We will connect locally for now.
 
 ```ts
 // Util.ts
@@ -133,7 +129,7 @@ const connectionConfig : AzureClientProps =
 };
 ```
 
-And before the client can create any containers, it needs a `containerSchema` that will define, by name, the data objects used in this application.
+And before the client can create any containers, it needs a `containerSchema` that will define, by name, the data objects used in this application. You can think of the `connectionConfig` as the properties required to connect to the service, whereas the `containerSchema` is defining the data structures for how we want our information to be stored.
 
 ```ts
 // Util.ts
@@ -154,7 +150,7 @@ It's a common pattern to store important map keys as constants, rather than typi
 export const diceValueKey = "dice-value-key";
 ```
 
-We are also going to store the query parameter key as a constant for easy retrieval and parsing
+We are also going to store the query parameter key as a constant for easy retrieval and parsing.
 
 ```ts
 // Util.ts
@@ -187,7 +183,7 @@ microsoftTeams.settings.setSettings({
 });
 ```
 
-Here we are creating a container and then appending the container ID to the `contentUrl` and `websiteUrl` so when the content page loads, we can easily find the container from the query parameter and retreive the container we just created.
+Here we are creating a container and then appending the container ID to the `contentUrl` and `websiteUrl` so when the content page loads, we can easily find the container from the query parameter and retrieve the container we just created.
 
 You will notice that we are setting the `suggestedDisplayName` to `entityId.current`. This will allow the user to name the Tab in the cofig page.
 
@@ -195,7 +191,7 @@ You will notice that we are setting the `suggestedDisplayName` to `entityId.curr
 
 ### Get the Fluid container
 
-Fluid applications can be loaded in one of two states, creating or loading. Since we've already created the container in the configuration page, we now want to load it in the content page, [HelloWorldTab](./src/client/helloWorldTab/HelloWordlTab.tsx). We will be rewriting everything inside the `HelloWorldTab` constant, so let's remove the all the code within the constant.
+Fluid applications can be loaded in one of two states, creating or loading. Since we've already created the container in the configuration page, we now want to load it in the content page, [HelloWorldTab](./src/client/helloWorldTab/HelloWordlTab.tsx). We will be rewriting everything inside the `HelloWorldTab` page, so let's remove the all the code there to start.
 
 To load the container ID, we first need to retrieve the `contentUrl` from the Teams settings. So let's initialize Microsoft Teams first.
 
@@ -206,7 +202,7 @@ To load the container ID, we first need to retrieve the `contentUrl` from the Te
 microsoftTeams.initialize();
 ```
 
-Now, because Teams application is just an iFrame injection of a webpage, it supports opening up the content page in a browser, which will be outside of Teams. So we need to know if the page is in Teams with the provided `inTeams` boolean.
+Now, because Teams application is just an IFrame injection of a webpage, it supports opening up the content page in a browser, which will be outside of Teams. So we need to know if the page is in Teams with the provided `inTeams` boolean.
 
 ```ts
 // HelloWorldTab.tsx
@@ -215,7 +211,7 @@ Now, because Teams application is just an iFrame injection of a webpage, it supp
 const [{ inTeams }] = useTeams();
 ```
 
-With the basic building blocks in place, we can now get the container and `SharedMap`. To get the `SharedMap` and dynmically update it, let's define the `SharedMap` as a React state.
+With the basic building blocks in place, we can now get the container and `SharedMap`. To get the `SharedMap` and dynamically update it, let's define the `SharedMap` as a React state.
 
 ```ts
 // HelloWorldTab.tsx
@@ -268,7 +264,7 @@ if (inTeams === false) {
     );
 }
 ```
-Here if `inTeams` is true, then we will retrieve the URL from the `contentUrl` we defined in [HelloWorldTabConfig](./src/client/helloWorldTab/HelloWorldTabConfig.tsx) then as a mandatory step, notify Teams that your app has successfully loaded with `microsoftTeams.appInitialization.notifySuccess()`. If `inTeams` is false, we will return a `div` that says the application only works within Teams.
+If `inTeams` is true, then we will retrieve the URL from the `contentUrl` we defined in [HelloWorldTabConfig](./src/client/helloWorldTab/HelloWorldTabConfig.tsx) as a mandatory step and notify Teams that your app has successfully loaded with `microsoftTeams.appInitialization.notifySuccess()`. If `inTeams` is false, we will return a `div` that says the application only works within Teams.
 
 <br />
 
@@ -280,7 +276,7 @@ Here if `inTeams` is true, then we will retrieve the URL from the `contentUrl` w
 
 ### Sync Fluid and view data
 
-With `fluidMap` defined, we can now have Fluid and view interact. However, it's better practice and cleaner code, let's separate the Fluid logic from the Teams [content page definition](./src/client/helloWorldTab/HelloWordlTab.tsx), and pass the `fluidMap` to a React component that handles all the Fluid logics.
+With `fluidMap` defined, we can now have Fluid and view interact. However, it's better practice and cleaner code to separate the Fluid logic from the Teams [content page definition](./src/client/helloWorldTab/HelloWordlTab.tsx), and pass the `fluidMap` to a React component that handles all of the interactions with the `SharedMap` itself.
 
 Before we pass the `fluidMap` to a React component, we need to ensure that it is defined. If `fluidMap` is not defined, we will just return a loading text.
 
@@ -336,7 +332,7 @@ export const FluidContent = (props : FluidContentProps) => {
 };
 ```
 
-The Fluid application we are using is a dice roller, so let's first defined how the view will look like. The view will also need to be a React state that get's updated whenever `fluidMap` is updated. Since `fluidMap` will only store the dice value, we can update the view's content and color based on the value.
+The Fluid application we are using is a dice roller, so let's first define what the view will look like. The view will need the dice value as a React state that get's updated whenever `fluidMap` is updated. Since `fluidMap` will provide the current dice value that got rolled, we can update the view's content and color based on the value it returns.
 
 ```ts
 // FluidContent.tsx
@@ -352,7 +348,7 @@ const generateState = (): {color : string, content : string} => {
 };
 ```
 
-Syncing our Fluid and view data requires that the app create an event listener, which is another opportunity for `useEffect`. This `useEffect` function will run everytime `fluidMap` is updated thanks to the added dependency.
+Syncing our Fluid and view data requires that the app create an event listener as `SharedMap` provides a `valueChanged` event that gets triggered everytime it gets modified by any connected client. This is another opportunity for `useEffect`. This `useEffect` function will run everytime `fluidMap` is updated thanks to the added dependency.
 
 To sync the data we're going to create a `updateDice` function and then continue calling that function each time the map's "valueChanged" event is raised.
 
@@ -377,7 +373,7 @@ useEffect(() => {
 
 ## Update the view
 
-In this simple multi-user app, you are going to build a button that, when pressed, rolls the dice. We will store that newly rolled dice value in Fluid so that each co-authors will automatically see the most recent dice roll at which any author pressed the button.
+In this simple multi-user app, you are going to build a button that, when pressed, rolls the dice. We will store that newly rolled dice value in Fluid so that each co-author will automatically see the most recent dice roll at the moment that any other author pressed the button.
 
 Each time this button is pressed, every user will see the latest dice value stored in the `diceView` state variable.
 
@@ -405,6 +401,8 @@ When the app loads in Teams, multiple users should be able to join the same tab 
 
 ![teams-fluid-demo]()
 
+Since this is all running against your `Azure Local Service`, its collaborative capabilities are limited to only running on your machine. Next, we will see how we can truly have anyone who views the tab be able to collaborate by linking our app to an Azure Fluid Relay instance.
+
 ## Next steps
 
 ### Running the application
@@ -415,7 +413,7 @@ Now that Fluid functionalities are added, we need a running Fluid service for th
 npx tinylicious
 ```
 
-### Using FRS non-local mode
+### Using AzureClient with Azure Fluid Relay
 
 Because this is a Teams tab application, collaboration and interaction is the main focus. Consider replacing the local mode `AzureClientProps` provided above with non-local credentials from your Azure service instance, so others can join in and interact with you in the application! Check out how to provision your Azure Fluid Relay service [here](https://docs.microsoft.com/en-us/azure/azure-fluid-relay/how-tos/provision-fluid-azure-portal).
 
