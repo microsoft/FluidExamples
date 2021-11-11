@@ -1,5 +1,5 @@
 # @fluid-example/teams-fluid-hello-world
-This is a recipe for integrating Fluid-powered real-time collaboration features into a [Microsoft Teams tab application](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/what-are-tabs). In it, we will add a simple dice roller application that allows all members that have the tab open to roll a dice together and see the updates in real-time.
+This is a tutorial for integrating Fluid-powered real-time collaboration features into a [Microsoft Teams tab application](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/what-are-tabs). In it, we will add a simple dice roller application that allows all members that have the tab open to roll a dice together and see the updates in real-time.
 
 Concepts you will learn:
 1. How to integrate a Fluid client into a Microsoft Teams tab application
@@ -407,7 +407,9 @@ return (
 
 When the app loads in Teams, multiple users should be able to join the same tab and see the same dice roller. Note that if you roll the dice, the other participants will see the dice get rolled.
 
-![teams-fluid-demo]()
+![teams-fluid-config](https://fluidframework.blob.core.windows.net/static/images/teams-example-config.png)
+![teams-fluid-content](https://fluidframework.blob.core.windows.net/static/images/teams-example-tab.png)
+
 
 Since this is all running against your `Azure Local Service`, its collaborative capabilities are limited to only running on your machine. Next, we will see how we can truly have anyone who views the tab be able to collaborate by linking our app to an Azure Fluid Relay instance.
 
