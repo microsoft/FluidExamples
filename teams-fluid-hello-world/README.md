@@ -417,8 +417,6 @@ return (
 );
 ```
 
-When the app loads in Teams, multiple users should be able to join the same tab and see the same dice roller. Note that if you roll the dice, the other participants will see the dice get rolled.
-
 ![teams-fluid-config](https://fluidframework.blob.core.windows.net/static/images/teams-example-config.png)
 ![teams-fluid-content](https://fluidframework.blob.core.windows.net/static/images/teams-example-tab.png)
 
@@ -431,7 +429,7 @@ Now that Fluid functionalities are added, we need a running Fluid service for th
 npx @fluidframework/azure-local-service@latest
 ```
 
-Since this is all running against your `Azure Local Service`, its collaborative capabilities are limited to only running on your machine. Next, we will see how we can truly have anyone who views the tab be able to collaborate by linking our app to an Azure Fluid Relay instance.
+Since this is all running against your `Azure Local Service`, its collaborative capabilities are limited to only running on your machine. Next, we will see how we can truly have anyone who views the tab be able to collaborate by linking our app to an Azure Fluid Relay instance. That way, when the app loads in Teams, multiple users should be able to join the same tab and see the same dice roller. Note that if you roll the dice, the other participants will see the dice get rolled.
 
 ## Next steps
 
