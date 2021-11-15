@@ -1,27 +1,47 @@
-import React from "react";
-import { TextField } from "@fluentui/react";
-import { NoteData } from "../Types";
-import { ColorOptions, DefaultColor } from "./Color";
+import { TextField } from '@fluentui/react';
+import React from 'react';
+import {
+  useNoteColor,
+  useNoteLastModified,
+  useNoteText,
+} from '../brainstorm-hooks';
+import { useMyself } from '../core/use-myself';
+import { ColorOptions, DefaultColor } from '../Types';
 
-export type NoteBodyProps = Readonly<{
-  setText(text: string): void;
-}> &
-  Pick<NoteData, "text" | "color">;
+export interface NoteBodyProps {
+  noteId: string;
+}
 
 export function NoteBody(props: NoteBodyProps) {
-  const { setText, text, color = DefaultColor } = props;
+  const { noteId } = props;
+  const myself = useMyself();
+
+  const [text, setText] = useNoteText(noteId);
+  const [color] = useNoteColor(noteId);
+  const [, setLastEdited] = useNoteLastModified(noteId);
+
+  const c = color || DefaultColor;
+
+  function onTextChange(ev: any) {
+    setText(ev.currentTarget.value);
+    setLastEdited({
+      time: new Date().getTime(),
+      userId: myself.userId,
+      userName: myself.userName,
+    });
+  }
 
   return (
     <div style={{ flex: 1 }}>
       <TextField
-        styles={{ fieldGroup: { background: ColorOptions[color].light } }}
+        styles={{ fieldGroup: { background: ColorOptions[c].light } }}
         borderless
         multiline
         resizable={false}
         autoAdjustHeight
-        onChange={(event) => setText(event.currentTarget.value)}
+        onChange={onTextChange}
         value={text}
-        placeholder={"Enter Text Here"}
+        placeholder={'Enter Text Here'}
       />
     </div>
   );

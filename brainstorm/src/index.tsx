@@ -3,60 +3,25 @@
  * Licensed under the MIT License.
  */
 
-import { initializeIcons, ThemeProvider } from "@fluentui/react";
-import { AzureClient, AzureContainerServices } from '@fluidframework/azure-client';
-import { IFluidContainer } from "fluid-framework";
+import { initializeIcons, ThemeProvider } from '@fluentui/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrainstormView } from './view/BrainstormView';
-import "./view/index.css"
-import "./view/App.css";
-import { themeNameToTheme } from './view/Themes';
-import { connectionConfig, containerSchema } from "./Config";
+import { App } from './App';
+import './view/App.css';
+import './view/index.css';
+import { themeNameToTheme } from './Themes';
 
 export async function start() {
-    initializeIcons();
+  initializeIcons();
 
-    const getContainerId = (): { containerId: string; isNew: boolean } => {
-        let isNew = false;
-        if (location.hash.length === 0) {
-            isNew = true;
-        }
-        const containerId = location.hash.substring(1);
-        return { containerId, isNew };
-    };
-
-    const { containerId, isNew } = getContainerId();
-
-    const client = new AzureClient(connectionConfig);
-
-    let container: IFluidContainer;
-    let services: AzureContainerServices;
-
-    if (isNew) {
-        ({ container, services } = await client.createContainer(containerSchema));
-        const containerId = await container.attach();
-        location.hash = containerId;
-    } else {
-        ({ container, services } = await client.getContainer(containerId, containerSchema));
-    }
-
-    if (!container.connected) {
-        await new Promise<void>((resolve) => {
-            container.once("connected", () => {
-                resolve();
-            });
-        });
-    }
-
-    ReactDOM.render(
-        <React.StrictMode>
-            <ThemeProvider theme={themeNameToTheme("default")}>
-                <BrainstormView container={container} services={services} />
-            </ThemeProvider>
-        </React.StrictMode>,
-        document.getElementById('root')
-    );
+  ReactDOM.render(
+    <React.StrictMode>
+      <ThemeProvider theme={themeNameToTheme('default')}>
+        <App />
+      </ThemeProvider>
+    </React.StrictMode>,
+    document.getElementById('root'),
+  );
 }
 
 start().catch((error) => console.error(error));
