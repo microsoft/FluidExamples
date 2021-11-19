@@ -8,7 +8,7 @@ import React from "react";
 import { TinyliciousClient } from "@fluidframework/tinylicious-client";
 import { ContainerSchema, IFluidContainer, SharedString } from "fluid-framework";
 import { CollaborativeTextArea } from "./CollaborativeTextArea";
-import { SharedStringHelper } from "./SharedStringHelper";
+import { SharedStringHelper } from "@fluid-experimental/react-inputs";
 
 const useSharedString = (): SharedString => {
   const [sharedString, setSharedString] = React.useState<SharedString>();
@@ -52,7 +52,7 @@ const useSharedString = (): SharedString => {
 
 function App() {
   // Load the collaborative SharedString object
-  const sharedString: SharedString = useSharedString();
+  const sharedString = useSharedString();
 
   // Create the view using CollaborativeTextArea & SharedStringHelper
   if (sharedString) {

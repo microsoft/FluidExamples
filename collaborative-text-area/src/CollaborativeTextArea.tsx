@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import { ISharedStringHelperTextChangedEventArgs, SharedStringHelper } from "./SharedStringHelper";
+import { ISharedStringHelperTextChangedEventArgs, SharedStringHelper } from "@fluid-experimental/react-inputs";
 
 interface ICollaborativeTextAreaProps {
   /**
