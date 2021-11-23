@@ -1,29 +1,31 @@
-import { Icon, Label, Stack } from "@fluentui/react";
-import { AzureMember } from "@fluidframework/azure-client";
-import React from "react";
-import { PersonaList } from "./PersonaList";
+import { Icon, Label, Stack } from '@fluentui/react';
+import { values } from 'lodash';
+import React from 'react';
+import { useNoteVotesList } from '../brainstorm-hooks';
+import { PersonaList } from '../components/PersonaList';
 
 export type ReactionListCalloutProps = {
-  label: string;
-  usersToDisplay: AzureMember[];
-  reactionIconName?: string;
+  noteId: string;
 };
 
 export function ReactionListCallout(props: ReactionListCalloutProps) {
+  const allLikes = useNoteVotesList(props.noteId);
+
+  const likes = values(allLikes);
+  if (likes.length === 0) {
+    return null;
+  }
+
   return (
     <div>
       <Stack horizontal tokens={{ childrenGap: 10 }}>
-        {props.reactionIconName && (
-          <Icon
-            iconName={props.reactionIconName}
-            style={{ fontSize: 15, alignSelf: "center" }}
-          ></Icon>
-        )}
+        <Icon
+          iconName={'Like'}
+          style={{ fontSize: 15, alignSelf: 'center' }}
+        ></Icon>
         <Label>Like Reactions</Label>
       </Stack>
-      <PersonaList
-        users={props.usersToDisplay}
-      />
+      <PersonaList users={likes} />
     </div>
   );
 }

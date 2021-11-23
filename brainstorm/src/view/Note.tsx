@@ -1,69 +1,42 @@
-import {
-  mergeStyles,
-} from "@fluentui/react";
-import { AzureMember } from "@fluidframework/azure-client";
-import React from "react";
-import { useDrag } from "react-dnd";
-import { DefaultColor } from "./Color";
-import {
-  getRootStyleForColor
-} from "./Note.style";
-import { NoteData, Position } from "../Types";
-import { NoteHeader } from "./NoteHeader";
-import { NoteBody } from "./NoteBody";
-import { NoteFooter } from "./NoteFooter";
+import { mergeStyles } from '@fluentui/react';
+import React, { memo } from 'react';
+import { useDrag } from 'react-dnd';
+import { useNotePosition } from '../brainstorm-hooks';
+import { DefaultColor } from '../Types';
+import { getRootStyleForColor } from './Note.style';
+import { NoteBody } from './NoteBody';
+import { NoteFooter } from './NoteFooter';
+import { NoteHeader } from './NoteHeader';
 
-export type NoteProps = Readonly<{
+export interface NoteProps {
   id: string;
-  currentUser: AzureMember;
-  setPosition: (position: Position) => void;
-  onLike: () => void;
-  getLikedUsers: () => AzureMember[];
-  onDelete: () => void;
-  onColorChange: (color: string) => void;
-  setText: (text: string) => void;
-}> &
-  Pick<
-    NoteData,
-    | "author"
-    | "lastEdited"
-    | "position"
-    | "color"
-    | "didILikeThisCalculated"
-    | "numLikesCalculated"
-    | "text"
-  >;
+}
 
-export function Note(props: NoteProps) {
-  const {
-    id,
-    currentUser,
-    lastEdited,
-    position: { x: left, y: top },
-    color = DefaultColor,
-    setText,
-    text
-  } = props;
+export function NoteComponent(props: NoteProps) {
+  const { id } = props;
 
+  const [position] = useNotePosition(id);
+  const left = position?.x || 0;
+  const top = position?.y || 0;
+
+  const color = DefaultColor;
   const [, drag] = useDrag(
     () => ({
-      type: "note",
+      type: 'note',
       item: { id, left, top },
     }),
-    [id, left, top]
+    [id, left, top],
   );
 
   const rootClass = mergeStyles(getRootStyleForColor(color));
 
   return (
     <div className={rootClass} ref={drag} style={{ left, top }}>
-      <NoteHeader {...props} />
-      <NoteBody setText={setText} text={text} color={color} />
-      <NoteFooter currentUser={currentUser} lastEdited={lastEdited} />
+      <NoteHeader noteId={id} />
+      <NoteBody noteId={id} />
+      <NoteFooter noteId={id} />
     </div>
   );
 }
 
-
-
-
+export const Note = memo(NoteComponent);
