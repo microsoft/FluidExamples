@@ -1,6 +1,6 @@
 import { SharedMap } from "fluid-framework";
 import { TinyliciousClient } from "@fluidframework/tinylicious-client";
-import readlineAsync  from "readline-async";
+import readlineSync from "readline-sync";
 
 const schema = {
     initialObjects: { map: SharedMap }
@@ -40,18 +40,8 @@ function loadCli(map) {
     map.on("valueChanged", updateConsole);
 }
 
-async function readInput() {
-    let containerId = "";
-    console.log("Type a Container ID or press Enter to continue: ");
-    await readlineAsync().then( line => {
-        console.log("You entered: " + line);
-        containerId = line;
-    });
-    return containerId;
-}
-
 async function start() {
-    const containerId = await readInput();
+    const containerId = readlineSync.question("Type a Container ID or press Enter to continue: ");
 
     if(containerId.length === 0 || containerId === 'undefined' || containerId === 'null') {
         await createContainer();
