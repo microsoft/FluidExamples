@@ -3,7 +3,7 @@ import { TinyliciousClient } from "@fluidframework/tinylicious-client";
 import readlineAsync  from "readline-async";
 
 const schema = {
-    initialObjects: { map: SharedMap }
+    initialObjects: { sharedRandomNumber: SharedMap }
 }
 
 const randomNumberKey = "random-number-key";
@@ -12,17 +12,17 @@ const client = new TinyliciousClient();
 
 async function createContainer() {
     const { container } = await client.createContainer(schema);
-    container.initialObjects.map.set(randomNumberKey, 1);
+    container.initialObjects.sharedRandomNumber.set(randomNumberKey, 1);
     const id = await container.attach();
     console.log("Initializing Node Client----------", id);
-    loadCli(container.initialObjects.map);
+    loadCli(container.initialObjects.sharedRandomNumber);
     return id;
 }
 
 async function loadContainer(id) {
     const { container } = await client.getContainer(id, schema);
     console.log("Loading Existing Node Client----------", id);
-    loadCli(container.initialObjects.map);
+    loadCli(container.initialObjects.sharedRandomNumber);
 }
 
 function loadCli(map) {
