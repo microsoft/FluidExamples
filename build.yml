@@ -22,12 +22,9 @@ parameters:
 - name: node-demo
   type: string
   default: node-demo
-<<<<<<< HEAD
-=======
 - name: teams-fluid-hello-world
   type: string
   default: teams-fluid-hello-world
->>>>>>> 46ea7f4f2eaf4d90c34aec51741c05e6d38703a5
 
 trigger:
 - main
