@@ -16,7 +16,7 @@ export class FluidModel extends EventEmitter {
     super();
     this.map = container.initialObjects.myMap as ISharedMap;
     this.audience = services.audience;
-    this.map.on("valueChanged", (changed, local, op, target) => {
+    this.map.on("valueChanged", (changed, local, target) => {
       if (!this.nodeExists(changed.key)) {
         const deleteNodePayload: EventPayload = { type: "singleDelete", changed }
         this.emit("modelChanged", deleteNodePayload);

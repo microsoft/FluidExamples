@@ -30,8 +30,8 @@
     ]
   },
   "dependencies": {
-    "@fluidframework/tinylicious-client": "^0.48.1",
-    "fluid-framework": "^0.48.1",
+    "@fluidframework/tinylicious-client": "^0.59.4000",
+    "fluid-framework": "^0.59.4000",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   },

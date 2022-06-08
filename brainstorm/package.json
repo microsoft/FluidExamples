@@ -45,10 +45,10 @@
   },
   "dependencies": {
     "@fluentui/react": "^8.71.0",
-    "fluid-framework": "^0.48.1",
-    "@fluidframework/azure-client": "^0.48.1",
-    "@fluidframework/test-client-utils": "^0.48.1",
+    "@fluidframework/azure-client": "^0.59.3000",
+    "@fluidframework/test-client-utils": "^0.59.4000",
     "cross-env": "^7.0.3",
+    "fluid-framework": "^0.59.4000",
     "react": "^16.10.2",
     "react-dnd": "^14.0.2",
     "react-dnd-html5-backend": "^14.0.0",

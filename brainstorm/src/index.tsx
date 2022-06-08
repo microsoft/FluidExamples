@@ -41,7 +41,7 @@ export async function start() {
         ({ container, services } = await client.getContainer(containerId, containerSchema));
     }
 
-    if (!container.connected) {
+    if (container.connectionState !== 2) {
         await new Promise<void>((resolve) => {
             container.once("connected", () => {
                 resolve();
