@@ -9,6 +9,7 @@
   "private": true,
   "dependencies": {
     "@fluid-experimental/react-inputs": "^0.59.4000",
+    "@fluidframework/container-loader": "^0.59.4001",
     "@fluidframework/tinylicious-client": "^0.59.4000",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",

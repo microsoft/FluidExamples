@@ -9,6 +9,7 @@ import { TinyliciousClient } from "@fluidframework/tinylicious-client";
 import { ContainerSchema, IFluidContainer, SharedString } from "fluid-framework";
 import { CollaborativeTextArea } from "./CollaborativeTextArea";
 import { SharedStringHelper } from "@fluid-experimental/react-inputs";
+import { ConnectionState } from "@fluidframework/container-loader";
 
 const useSharedString = (): SharedString => {
   const [sharedString, setSharedString] = React.useState<SharedString>();
@@ -29,7 +30,7 @@ const useSharedString = (): SharedString => {
     }
     else {
       container = (await client.getContainer(containerId, containerSchema)).container;
-      if (!container.connected) {
+      if (container.connectionState !== ConnectionState.Connected) {
         await new Promise<void>((resolve) => {
           container.once("connected", () => {
             resolve();

@@ -13,6 +13,7 @@ import "./view/index.css"
 import "./view/App.css";
 import { themeNameToTheme } from './view/Themes';
 import { connectionConfig, containerSchema } from "./Config";
+import { ConnectionState } from "@fluidframework/container-loader";
 
 export async function start() {
     initializeIcons();
@@ -41,7 +42,7 @@ export async function start() {
         ({ container, services } = await client.getContainer(containerId, containerSchema));
     }
 
-    if (container.connectionState !== 2) {
+    if (container.connectionState !== ConnectionState.Connected) {
         await new Promise<void>((resolve) => {
             container.once("connected", () => {
                 resolve();
