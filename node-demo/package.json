@@ -1,6 +1,6 @@
 {
   "name": "@fluid-example/node-demo",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "repository": "microsoft/FluidExamples",
   "main": "./src/index.js",
   "scripts": {
@@ -12,8 +12,8 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@fluidframework/tinylicious-client": "^0.59.4000",
-    "fluid-framework": "^0.59.4000",
+    "@fluidframework/tinylicious-client": "^1.0.0",
+    "fluid-framework": "^1.0.0",
     "readline-sync": "^1.4.10"
   },
   "type": "module"
