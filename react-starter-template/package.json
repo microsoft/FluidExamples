@@ -1,6 +1,6 @@
 {
   "name": "react-starter-template",
-  "version": "0.48.1",
+  "version": "0.1.0",
   "homepage": "https://fluidframework.com",
   "repository": "microsoft/FluidExamples",
   "license": "MIT",
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@fluentui/react": "^8.17.1",
-    "@fluidframework/tinylicious-client": "^0.48.1",
+    "@fluidframework/tinylicious-client": "^1.0.0",
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -24,7 +24,7 @@
     "@types/react-dom": "^17.0.6",
     "@types/uuid": "^8.3.0",
     "axios": "^0.21.2",
-    "fluid-framework": "^0.48.1",
+    "fluid-framework": "^1.0.0",
     "immer": "^9.0.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
