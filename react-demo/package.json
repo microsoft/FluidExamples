@@ -1,6 +1,6 @@
 {
   "name": "@fluid-example/react-demo",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "An example app built using Create React App plus a custom Fluid React hook",
   "homepage": "https://fluidframework.com",
   "repository": "microsoft/FluidExamples",

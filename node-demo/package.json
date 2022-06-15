@@ -1,6 +1,6 @@
 {
   "name": "@fluid-example/node-demo",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "repository": "microsoft/FluidExamples",
   "main": "./src/index.js",
   "scripts": {

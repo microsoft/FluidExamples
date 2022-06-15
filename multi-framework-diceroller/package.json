@@ -1,6 +1,6 @@
 {
     "name": "@fluid-example/multi-framework-diceroller",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "description": "Minimal Fluid Container & Data Object sample to implement a collaborative dice roller as a standalone app.",
     "repository": "microsoft/FluidExamples",
     "license": "MIT",
