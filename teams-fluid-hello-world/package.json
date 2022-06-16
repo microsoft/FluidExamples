@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@fluentui/react-northstar": "~0.58.0",
-    "@fluidframework/azure-client": "^0.59.3000",
-    "@fluidframework/test-client-utils": "^0.59.4001",
+    "@fluidframework/azure-client": "^1.0.0-0",
+    "@fluidframework/test-client-utils": "^1.0.1",
     "@microsoft/teams-js": "~1.11.0",
     "axios": "^0.21.1",
     "botbuilder": "4.11.1",

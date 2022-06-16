@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@fluentui/react": "^8.17.1",
-    "@fluidframework/tinylicious-client": "^1.0.0",
+    "@fluidframework/tinylicious-client": "^1.0.1",
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
