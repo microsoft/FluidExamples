@@ -46,7 +46,7 @@
   "dependencies": {
     "@fluentui/react": "^8.71.0",
     "@fluidframework/azure-client": "^0.59.3000",
-    "@fluidframework/test-client-utils": "^0.59.4001",
+    "@fluidframework/test-client-utils": "^1.0.1",
     "cross-env": "^7.0.3",
     "fluid-framework": "^1.0.1",
     "react": "^16.10.2",
