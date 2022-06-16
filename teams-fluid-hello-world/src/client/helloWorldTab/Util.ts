@@ -4,7 +4,7 @@
  */
 
 import { SharedMap, IFluidContainer } from "fluid-framework";
-import { AzureClient, AzureClientProps } from "@fluidframework/azure-client";
+import { AzureClient, AzureClientProps, LOCAL_MODE_TENANT_ID } from "@fluidframework/azure-client";
 import { InsecureTokenProvider } from "@fluidframework/test-client-utils";
 
 export const diceValueKey = "dice-value-key";
@@ -17,9 +17,10 @@ const containerSchema = {
 const connectionConfig : AzureClientProps =
 {
     connection: {
-        type: "local", // YOUR-TENANT-ID-HERE
+        tenantId: LOCAL_MODE_TENANT_ID, // YOUR-TENANT-ID-HERE
         tokenProvider: new InsecureTokenProvider("foobar", { id: "user" }), // ENTER YOUR-TENANT-KEY-HERE
-        endpoint: "http://localhost:7070", // ENTER ENDPOINT_URL-HERE
+        orderer: "http://localhost:7070", // ENTER ORDERER_URL-HERE
+        storage: "http://localhost:7070" // ENTER STORAGE_URL-HERE
     }
 };
 
