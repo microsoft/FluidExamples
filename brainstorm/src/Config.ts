@@ -1,4 +1,4 @@
-import { AzureClientProps, AzureFunctionTokenProvider, LOCAL_MODE_TENANT_ID } from "@fluidframework/azure-client";
+import { AzureClientProps, AzureFunctionTokenProvider } from "@fluidframework/azure-client";
 import { SharedMap } from "fluid-framework";
 import { getRandomName } from "@fluidframework/server-services-client";
 import { v4 as uuid } from 'uuid';
@@ -18,13 +18,11 @@ export const userConfig = {
 };
 
 export const connectionConfig: AzureClientProps = useAzure ? { connection: {
-    tenantId: "YOUR-TENANT-ID-HERE",
+    type: "remote",
     tokenProvider: new AzureFunctionTokenProvider("AZURE-FUNCTION-URL" + "/api/GetAzureToken", { userId: "test-user", userName: "Test User" }),
-    orderer: "ENTER-ORDERER-URL-HERE",
-    storage: "ENTER-STORAGE-URL-HERE",
+    endpoint: "ENTER-SERVICE-ENDPOINT-HERE", // REPLACE WITH YOUR SERVICE ENDPOINT
 }} : { connection: {
-    tenantId: LOCAL_MODE_TENANT_ID,
+    type: "local",
     tokenProvider: new InsecureTokenProvider("fooBar", userConfig),
-    orderer: "http://localhost:7070",
-    storage: "http://localhost:7070",
+    endpoint: "http://localhost:7070",
 }} ;
