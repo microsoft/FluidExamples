@@ -6,7 +6,7 @@
 import "./App.css";
 import React from "react";
 import { TinyliciousClient } from "@fluidframework/tinylicious-client";
-import { ContainerSchema, IFluidContainer, SharedString } from "fluid-framework";
+import { ConnectionState, ContainerSchema, IFluidContainer, SharedString } from "fluid-framework";
 import { CollaborativeTextArea } from "./CollaborativeTextArea";
 import { SharedStringHelper } from "@fluid-experimental/react-inputs";
 
@@ -29,8 +29,7 @@ const useSharedString = (): SharedString => {
     }
     else {
       container = (await client.getContainer(containerId, containerSchema)).container;
-      // TODO: Export ConnectionState type https://github.com/microsoft/FluidFramework/issues/10681
-      if (container.connectionState !== 2 /*Connected*/) {
+      if (container.connectionState !== ConnectionState.Connected) {
         await new Promise<void>((resolve) => {
           container.once("connected", () => {
             resolve();
