@@ -9,7 +9,7 @@ This application was shown during a [Microsoft Build session](https://aka.ms/OD5
 Follow the steps below to run this in local mode (Azure local service):
 
 1. Run `npm install` from the brainstorm folder root
-2. Run `npx @fluidframework/azure-local-service@latest` to start the Azure local service for testing and development
+2. Run `npm run start:server` to start the Azure local service for testing and development
 3. Run `npm run start` to start the client
 4. Navigate to `http://localhost:3000` in a browser tab
 
