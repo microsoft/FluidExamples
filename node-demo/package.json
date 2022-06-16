@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@fluidframework/tinylicious-client": "^1.0.0",
-    "fluid-framework": "^1.0.0",
+    "fluid-framework": "^1.0.1",
     "readline-sync": "^1.4.10"
   },
   "type": "module"
