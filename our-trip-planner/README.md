@@ -1,6 +1,6 @@
 # About
 
-My Trip Planner is an example app where users can collaborate on trip planning. In our example we have hardcoded a single trip called "West Coast Trip", including 3 cities. For each itinerary stop, users can add notes and "to do" items (place to see, description etc). This example intends to educate on how FF collaboration can empower existing apps having their own data model and source of truth. This project is work in progress. In its final form it will address following topics:
+Our Trip Planner is an example app where users can collaborate on trip planning. In our example we have hardcoded a single trip called "West Coast Trip", including 3 cities. For each itinerary stop, users can add notes and "to do" items (place to see, description etc). This example intends to educate on how FF collaboration can empower existing apps having their own data model and source of truth. This project is work in progress. In its final form it will address following topics:
 
 1. Containers. Users should be clear how to reason about when and where to apply FF containers, how to share them etc.
 2. Basic DDSes. Users should be clear how "optimistic" DDSes behave, and how to apply that knowledge in our sample app. We are starting with `SharedMap` and `SharedString`.
