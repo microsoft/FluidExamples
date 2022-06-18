@@ -27,7 +27,7 @@ const connectionConfig: AzureConnectionConfig = {
 
 const useFluidContainer = (): FluidContainer => {
   const [fluidContainer, setFluidContainer] = React.useState<FluidContainer>();
-  const getFluidData = async () => {
+  const loadFluidContainer = async () => {
     // Configure the container.
     const clientProps = {
       connection: connectionConfig,
@@ -63,7 +63,7 @@ const useFluidContainer = (): FluidContainer => {
 
   // Get the Fluid Data data on app startup and store in the state
   React.useEffect(() => {
-    getFluidData()
+    loadFluidContainer()
       .then((data) => setFluidContainer(data));
   }, []);
 

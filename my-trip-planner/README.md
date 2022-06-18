@@ -6,7 +6,7 @@ My Trip Planner is an example app where users can collaborate on trip planning. 
 2. Basic DDSes. Users should be clear how "optimistic" DDSes behave, and how to apply that knowledge in our sample app. We are starting with `SharedMap` and `SharedString`.
 3. Modeling Collaboration. Users should be clear how to model more complex collaboration data. In our sample app here, we have collections where each item can have place, description & category. We want to discuss how we are splitting the model in a way where users do not inadvertently revert each other's changes, while still considering performance implications.
 4. Audience. Users should be clear how to use `audience` to enhance collaboration experience.
-5. Signals. Users should be clear on distinguishing persistent vs non-persistent data, and how each of them apply to various use cases.
+5. Signals (TBD based on availability). Users should be clear on distinguishing persistent vs non-persistent data, and how each of them apply to various use cases.
 6. FF Eventing. Users should be clear how to use events to bind FF data. We have existing examples that talk about eventing, but here we are looking into that same topic, but at a larger scale.
 7. Source of Truth. In our sample app, the source of truth is separate from FF data. Users should be clear how two data sources can be synchronized.
 8. Container States. Users should be clear how container state can be observed and managed.

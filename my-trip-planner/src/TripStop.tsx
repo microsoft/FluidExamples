@@ -1,13 +1,14 @@
 import './App.css';
 import React from 'react';
-import { FluidContainer, SharedMap, SharedString } from "fluid-framework";
-import { Card, Col, Row, Input } from 'antd';
+import { FluidContainer, SharedMap } from "fluid-framework";
+import { Button, Card, Col, Row, Typography } from 'antd';
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { TripStopDetails } from './data/trips';
 const { Meta } = Card;
-const { TextArea } = Input;
+const { Text } = Typography;
 
 interface TripViewData {
-  notes: string,
+  upvotes: number,
 }
 
 interface TripStopProps {
@@ -15,37 +16,39 @@ interface TripStopProps {
   fluidContainer: FluidContainer
 }
 
-const getNotesString = async (container: FluidContainer, id: string) => {
+const getTripStopData = async (container: FluidContainer, id: string) => {
   const map = container.initialObjects.sharedMap as SharedMap;
   const handle = map.get(id);
   if (handle) {
     return await handle.get()
   } else {
-    const sharedString = await container.create(SharedString);
-    map.set(id, sharedString.handle);
-    return sharedString;
+    const stopMap = await container.create(SharedMap);
+    map.set(id, stopMap.handle);
+    return stopMap;
   }
 }
 
 function TripStop(props: TripStopProps) {
   const { city, fluidContainer } = props;
-
   const [viewData, setViewData] = React.useState<TripViewData | undefined>(undefined);
-  const [notes, setNotes] = React.useState<SharedString | undefined>(undefined);
+  const [tripData, setTripData] = React.useState<SharedMap | undefined>(undefined);
   React.useEffect(() => {
-    getNotesString(fluidContainer, city.id).then(n => setNotes(n));
+    getTripStopData(fluidContainer, city.id).then(n => setTripData(n));
   }, [fluidContainer, city]);
 
-
   React.useEffect(() => {
-    if (notes !== undefined) {
-      // sync Fluid data into view state
-      const syncView = () => setViewData({ notes: notes.getText() });
+    if (tripData !== undefined) {
+      const syncView = () => setViewData({ upvotes: tripData.get("upvotes-key") || 0 });
       syncView();
-      notes.on("valueChanged", syncView);
-      return () => { notes.off("valueChanged", syncView) }
+      tripData.on("valueChanged", syncView);
+      return () => { tripData.off("valueChanged", syncView) }
     }
-  }, [notes])
+  }, [tripData])
+
+  const changeUpvotes = (a: number) => {
+    const old = tripData?.get("upvotes-key") || 0
+    tripData?.set("upvotes-key", Math.max(old + a, 0));
+  }
 
   return (
     <Row>
@@ -67,14 +70,11 @@ function TripStop(props: TripStopProps) {
             description={city.date}
           />
         </Card>
-      </Col>
-      <Col flex="400px">
-        <>
-          <TextArea rows={4} placeholder="Itenirary notes" maxLength={6} value={viewData?.notes} />
-        </>
+        <Button onClick={() => changeUpvotes(1)} type="primary" style={{ margin: '5px' }} shape="circle" icon={<CaretUpOutlined />} />
+        <Button onClick={() => changeUpvotes(-1)} type="primary" style={{ margin: '5px' }} shape="circle" icon={<CaretDownOutlined />} />
+        <Text style={{ marginLeft: '10px' }}>Upvotes: {viewData?.upvotes || 0}</Text>
       </Col>
     </Row>
-
   );
 }
 
