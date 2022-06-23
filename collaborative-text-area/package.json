@@ -8,7 +8,7 @@
   "author": "Microsoft and contributors",
   "private": true,
   "dependencies": {
-    "@fluid-experimental/react-inputs": "^1.0.0",
+    "@fluid-experimental/react-inputs": "^1.0.1",
     "@fluidframework/tinylicious-client": "^1.0.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
