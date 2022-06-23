@@ -1,4 +1,4 @@
-import { AzureClientProps, AzureFunctionTokenProvider } from "@fluidframework/azure-client";
+import { AzureClientProps, AzureLocalConnectionConfig, AzureRemoteConnectionConfig } from "@fluidframework/azure-client";
 import { SharedMap } from "fluid-framework";
 import { getRandomName } from "@fluidframework/server-services-client";
 import { v4 as uuid } from 'uuid';
@@ -12,17 +12,22 @@ export const containerSchema = {
     },
 }
 
-export const userConfig = {
+const userConfig = {
     id: uuid(),
     name: getRandomName(),
 };
 
-export const connectionConfig: AzureClientProps = useAzure ? { connection: {
+const remoteConnectionConfig: AzureRemoteConnectionConfig = {
     type: "remote",
-    tokenProvider: new AzureFunctionTokenProvider("AZURE-FUNCTION-URL" + "/api/GetAzureToken", { userId: "test-user", userName: "Test User" }),
-    endpoint: "ENTER-SERVICE-ENDPOINT-HERE", // REPLACE WITH YOUR SERVICE ENDPOINT
-}} : { connection: {
-    type: "local",
-    tokenProvider: new InsecureTokenProvider("fooBar", userConfig),
+    tenantId: "", // REPLACE WITH YOUR TENANT ID
+    tokenProvider: new InsecureTokenProvider("" /* REPLACE WITH YOUR PRIMARY KEY */, { id: "userId" }),
+    endpoint: "", // REPLACE WITH YOUR AZURE ENDPOINT
+};
+
+const localConnectionConfig: AzureLocalConnectionConfig = {
+    type:"local",
+    tokenProvider: new InsecureTokenProvider("", userConfig),
     endpoint: "http://localhost:7070",
-}} ;
+}
+
+export const connectionConfig: AzureClientProps ={ connection: useAzure ? remoteConnectionConfig : localConnectionConfig };
