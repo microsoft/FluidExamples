@@ -10,10 +10,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:report": "echo No test for this example"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "@fluidframework/tinylicious-client": "^1.0.0",
-    "fluid-framework": "^1.0.0",
+    "@fluidframework/tinylicious-client": "^1.0.1",
+    "fluid-framework": "^1.0.1",
     "readline-sync": "^1.4.10"
   },
   "type": "module"

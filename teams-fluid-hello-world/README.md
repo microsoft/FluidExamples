@@ -77,7 +77,7 @@ Create a new file and name it [Util.ts](./src/client/helloWorldTab/Util.ts) in `
 // Add to the top of the file
 
 import { SharedMap, IFluidContainer } from "fluid-framework";
-import { AzureClient, AzureClientProps, LOCAL_MODE_TENANT_ID } from "@fluidframework/azure-client";
+import { AzureClient, AzureClientProps } from "@fluidframework/azure-client";
 import { InsecureTokenProvider } from "@fluidframework/test-client-utils";
 ```
 
@@ -121,10 +121,9 @@ Before the client can be used, it needs an `AzureClientProps` that will define t
 const connectionConfig : AzureClientProps =
 {
     connection: {
-        tenantId: LOCAL_MODE_TENANT_ID,
+        type: "local",
         tokenProvider: new InsecureTokenProvider("foobar", { id: "user" }),
-        orderer: "http://localhost:7070",
-        storage: "http://localhost:7070"
+        endpoint: "http://localhost:7070"
     }
 };
 ```

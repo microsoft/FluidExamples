@@ -9,7 +9,7 @@ This application was shown during a [Microsoft Build session](https://aka.ms/OD5
 Follow the steps below to run this in local mode (Azure local service):
 
 1. Run `npm install` from the brainstorm folder root
-2. Run `npx @fluidframework/azure-local-service@latest` to start the Azure local service for testing and development
+2. Run `npm run start:server` to start the Azure local service for testing and development
 3. Run `npm run start` to start the client
 4. Navigate to `http://localhost:3000` in a browser tab
 
@@ -97,10 +97,14 @@ export async function start() {
 Since `start()` is an async function, we'll need to await for the initialObjects to be returned. Once returned, each `initialObjects` key will point to a connected data structure as defined in the schema.
 
 ### Running `AzureClient` against local service instance
-- To run against our local service instance, we set the `tenantId` to `LOCAL_MODE_TENANT_ID`, imported from `@fluidframework/azure-client`, and make use of `InsecureTokenProvider`. The `InsecureTokenProvider` requires we pass in two values to its constructor, a key string, which can be anything since we are running it locally, and an IUser type object identifying the current user. For running the instance locally, the orderer and storage URLs would point to the local service instance on the default values of `http://localhost:7070`.
+- To run against our local service instance, we make use of `InsecureTokenProvider`.
+  The `InsecureTokenProvider` requires we pass in two values to its constructor, a key string, which can be anything since we are running it locally, and an `IUser` type object identifying the current user.
+  For running the instance locally, the orderer and storage URLs would point to the local service instance on the default values of `http://localhost:7070`.
 
 ### Running `AzureClient` against live Azure Fluid Relay service instance
-- To run against live Azure Instance, tenant ID, orderer and storage URLs are required. We make use of `AzureFunctionTokenProvider` which takes in the Azure function URL and an optional `"userId" | "userName" | "additionalDetails"` type object identifying the current user, thereby making an axios `GET` request call to the Azure Function. This axios call takes in the tenant ID, documentId and userID/userName as optional parameters. The Azure Function is responsible for mapping the `tenantId` to tenant key secret to generate and sign the token such that the service will accept it.
+- To run against live Azure Instance, we make use of `AzureFunctionTokenProvider` which takes in the Azure function URL and an optional `"userId" | "userName" | "additionalDetails"` type object identifying the current user, thereby making an axios `GET` request call to the Azure Function.
+  This axios call takes in the tenant ID, documentId and userID/userName as optional parameters.
+  The Azure Function is responsible for mapping the `tenantId` to tenant key secret to generate and sign the token such that the service will accept it.
 
 To add more versatility, we also incorporated the `useAzure` flag. Depending on the npm command you run (`npm run start` or `npm run start:azure`), the flag will toggle between local and remote mode using the same config format. We make use of `AzureFunctionTokenProvider` for running against live Azure instance since it is more secured, without exposing the tenant secret key in the client-side code whereas while running the service locally for development purpose, we make use of `InsecureTokenProvider`.
 

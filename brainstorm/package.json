@@ -1,6 +1,6 @@
 {
   "name": "@fluid-example/brainstorm",
-  "version":  "0.1.0",
+  "version": "0.1.0",
   "description": "A simple brainstorming app built using Create React App plus a Fluid data model",
   "homepage": "https://fluidframework.com",
   "repository": "microsoft/FluidExamples",
@@ -45,10 +45,10 @@
   },
   "dependencies": {
     "@fluentui/react": "^8.71.0",
-    "@fluidframework/azure-client": "^0.59.3000",
-    "@fluidframework/test-client-utils": "^0.59.4001",
+    "@fluidframework/azure-client": "^1.0.1",
+    "@fluidframework/test-client-utils": "^1.0.1",
     "cross-env": "^7.0.3",
-    "fluid-framework": "^0.59.4001",
+    "fluid-framework": "^1.0.1",
     "react": "^16.10.2",
     "react-dnd": "^14.0.2",
     "react-dnd-html5-backend": "^14.0.0",
