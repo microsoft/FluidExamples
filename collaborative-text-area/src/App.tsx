@@ -4,14 +4,14 @@
  */
 
 import "./App.css";
-import React from "react";
+import { useState, useEffect } from "react";
 import { TinyliciousClient } from "@fluidframework/tinylicious-client";
 import { ConnectionState, ContainerSchema, IFluidContainer, SharedString } from "fluid-framework";
 import { CollaborativeTextArea } from "./CollaborativeTextArea";
 import { SharedStringHelper } from "@fluid-experimental/react-inputs";
 
 const useSharedString = (): SharedString => {
-  const [sharedString, setSharedString] = React.useState<SharedString>();
+  const [sharedString, setSharedString] = useState<SharedString>();
   const getFluidData = async () => {
     // Configure the container.
     const client: TinyliciousClient = new TinyliciousClient();
@@ -23,26 +23,27 @@ const useSharedString = (): SharedString => {
     let container: IFluidContainer;
     const containerId = window.location.hash.substring(1);
     if (!containerId) {
-      container = (await client.createContainer(containerSchema)).container;
+      ({ container } = await client.createContainer(containerSchema));
       const id = await container.attach();
       window.location.hash = id;
+      // Return the Fluid SharedString object.
+      return container.initialObjects.sharedString as SharedString;
     }
-    else {
-      container = (await client.getContainer(containerId, containerSchema)).container;
-      if (container.connectionState !== ConnectionState.Connected) {
-        await new Promise<void>((resolve) => {
-          container.once("connected", () => {
-            resolve();
-          });
+
+    ({ container } = await client.getContainer(containerId, containerSchema));
+    if (container.connectionState !== ConnectionState.Connected) {
+      await new Promise<void>((resolve) => {
+        container.once("connected", () => {
+          resolve();
         });
-      }
+      });
     }
     // Return the Fluid SharedString object.
     return container.initialObjects.sharedString as SharedString;
   }
 
   // Get the Fluid Data data on app startup and store in the state
-  React.useEffect(() => {
+  useEffect(() => {
     getFluidData()
       .then((data) => setSharedString(data));
   }, []);
