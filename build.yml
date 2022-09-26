@@ -7,21 +7,27 @@ pool:
   vmImage: ubuntu-latest
 
 parameters:
+- name: angular-demo
+  type: string
+  default: angular-demo
 - name: brainstorm
   type: string
   default: brainstorm
-- name: react-starter-template
+- name: collaborative-text-area
   type: string
-  default: react-starter-template
-- name: react-demo
-  type: string
-  default: react-demo
+  default: collaborative-text-area
 - name: multi-framework-diceroller
   type: string
   default: multi-framework-diceroller
 - name: node-demo
   type: string
   default: node-demo
+- name: react-demo
+  type: string
+  default: react-demo
+- name: react-starter-template
+  type: string
+  default: react-starter-template
 - name: teams-fluid-hello-world
   type: string
   default: teams-fluid-hello-world
@@ -52,19 +58,19 @@ steps:
     displayName: Install - ${{ parameter.Value }}
     inputs:
       command: 'custom'
-      workingDir: '${{ parameter.Value }}'
+      workingDir: '${{ parameters.buildDirectory }}/examples/${{ parameter.Value }}'
       customCommand: 'install'
   - task: Npm@1
     displayName: Build - ${{ parameter.Value }}
     inputs:
       command: 'custom'
-      workingDir: ${{ parameter.Value }}
+      workingDir: '${{ parameters.buildDirectory }}/examples/${{ parameter.Value }}'
       customCommand: 'run build'
   - task: Npm@1
     displayName: Test - ${{ parameter.Value }}
     inputs:
       command: 'custom'
-      workingDir: ${{ parameter.Value }}
+      workingDir: '${{ parameters.buildDirectory }}/examples/${{ parameter.Value }}'
       customCommand: 'run test:report'
   - task: PublishTestResults@2
     displayName: Publish Test Results - ${{ parameter.Value }}

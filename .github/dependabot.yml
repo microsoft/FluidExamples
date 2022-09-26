@@ -3,16 +3,41 @@ updates:
   # Enable version updates for npm
   - package-ecosystem: "npm"
     # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/brainstorm"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-  # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/draft-js"
+    directory: "examples/angular-demo"
     schedule:
       interval: "weekly"
   - package-ecosystem: "npm"
     # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/sudoku"
+    directory: "examples/brainstorm"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "examples/collaborative-text-area"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "examples/multi-framework-diceroller"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "examples/node-demo"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "examples/react-demo"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "examples/react-starter-template"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "examples/team-fluid-hello-world"
     schedule:
       interval: "weekly"
