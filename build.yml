@@ -58,19 +58,19 @@ steps:
     displayName: Install - ${{ parameter.Value }}
     inputs:
       command: 'custom'
-      workingDir: '${{ parameters.buildDirectory }}/examples/${{ parameter.Value }}'
+      workingDir: 'examples/${{ parameter.Value }}'
       customCommand: 'install'
   - task: Npm@1
     displayName: Build - ${{ parameter.Value }}
     inputs:
       command: 'custom'
-      workingDir: '${{ parameters.buildDirectory }}/examples/${{ parameter.Value }}'
+      workingDir: 'examples/${{ parameter.Value }}'
       customCommand: 'run build'
   - task: Npm@1
     displayName: Test - ${{ parameter.Value }}
     inputs:
       command: 'custom'
-      workingDir: '${{ parameters.buildDirectory }}/examples/${{ parameter.Value }}'
+      workingDir: 'examples/${{ parameter.Value }}'
       customCommand: 'run test:report'
   - task: PublishTestResults@2
     displayName: Publish Test Results - ${{ parameter.Value }}
