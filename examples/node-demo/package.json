@@ -1,7 +1,11 @@
 {
   "name": "@fluid-example/node-demo",
   "version": "0.1.0",
-  "repository": "microsoft/FluidExamples",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/FluidExamples",
+    "directory": "examples/node-demo"
+  },
   "main": "./src/index.js",
   "scripts": {
     "build": "npm build",

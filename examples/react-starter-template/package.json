@@ -1,8 +1,12 @@
 {
-  "name": "react-starter-template",
+  "name": "@fluid-example/react-starter-template",
   "version": "0.1.0",
   "homepage": "https://fluidframework.com",
-  "repository": "microsoft/FluidExamples",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/FluidExamples",
+    "directory": "examples/react-starter-template"
+  },
   "license": "MIT",
   "author": "Microsoft and contributors",
   "scripts": {

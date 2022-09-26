@@ -2,7 +2,11 @@
     "name": "@fluid-example/multi-framework-diceroller",
     "version": "0.1.0",
     "description": "Minimal Fluid Container & Data Object sample to implement a collaborative dice roller as a standalone app.",
-    "repository": "microsoft/FluidExamples",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microsoft/FluidExamples",
+        "directory": "examples/multi-framework-diceroller"
+    },
     "license": "MIT",
     "author": "Microsoft",
     "scripts": {
