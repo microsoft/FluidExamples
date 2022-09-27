@@ -49,9 +49,9 @@ steps:
     alertWarningLevel: 'High'
 
 - task: UseNode@1
-  displayName: Use Node 12.x
+  displayName: Use Node 14.x
   inputs: 
-    version: 12.x
+    version: 14.x
 
 - ${{ each parameter in parameters }}:
   - task: Npm@1
