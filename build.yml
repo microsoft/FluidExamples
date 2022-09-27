@@ -71,6 +71,18 @@ steps:
     inputs:
       command: 'custom'
       workingDir: 'examples/${{ parameter.Value }}'
+      customCommand: 'run test'
+  - task: Npm@1
+    displayName: Lint - ${{ parameter.Value }}
+    inputs:
+      command: 'custom'
+      workingDir: 'examples/${{ parameter.Value }}'
+      customCommand: 'run lint'
+  - task: Npm@1
+    displayName: Test - ${{ parameter.Value }}
+    inputs:
+      command: 'custom'
+      workingDir: 'examples/${{ parameter.Value }}'
       customCommand: 'run test:report'
   - task: PublishTestResults@2
     displayName: Publish Test Results - ${{ parameter.Value }}
