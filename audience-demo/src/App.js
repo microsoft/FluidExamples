@@ -1,8 +1,8 @@
-/* eslint-disable no-restricted-globals */
 /*!
  * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
  * Licensed under the MIT License.
  */
+/* eslint-disable no-restricted-globals */
 
 import React, { useEffect, useState } from "react";
 import { SharedMap } from "fluid-framework";
