@@ -25,6 +25,9 @@ parameters:
 - name: teams-fluid-hello-world
   type: string
   default: teams-fluid-hello-world
+- name: audience-demo
+  type: string
+  default: audience-demo
 
 trigger:
 - main
