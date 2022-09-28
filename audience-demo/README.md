@@ -1,37 +1,27 @@
 # @fluid-example/audience-demo
 
-In the project directory, you can run:
+This repository contains a simple React application which demonstrates Fluid Audiences. The React client will display all users connected to a Fluid Container.
 
-### `npm start`
+--- 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Using this repo
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Start the app locally
 
-### `npm test`
+To run an Azure Client service locally, on the default values of `localhost:7070`, enter the following into a terminal window:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+npm run start:server
+```
 
-### `npm run build`
+With the local service running in the background, we need to connect the application to it. Run the following commands in a new terminal window to start the app. Navigate to `localhost:3000` in the browser to view the app.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm i
+npm run start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Observe app functionality
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The browser should display boxes which represents current members in the audience. The box with the blue border represents the current user who is viewing the browser client while the boxes with the black border represents the other members who are connected to the container. Create a new browser tab and navigate to the running app to simulate a new user entering the collaborative session. As you open and close new tabs, the corresponding member boxes should render on the app.
 

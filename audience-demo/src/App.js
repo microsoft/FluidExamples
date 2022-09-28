@@ -15,7 +15,7 @@ const userConfig = {
   id: user.id,
   name: user.name,
   additionalDetails: {
-      "email": "email@microsoft.com",
+      "email": user.name.replace(/\s/g, '') + "@microsoft.com",
       "date": new Date().toLocaleDateString("en-US")
   }
 }
