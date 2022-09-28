@@ -1,4 +1,4 @@
-## Available Scripts
+# @fluid-example/audience-demo
 
 In the project directory, you can run:
 

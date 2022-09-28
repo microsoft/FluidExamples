@@ -7,9 +7,10 @@ import './AudienceList.css'
 
 function AudienceList(data) {
     let member = data.data[1]
+    let outlineColor = member.isSelf ? 'blue' : 'black'
 
     return (
-        <div className="container">
+        <div className="container" style={{outlineColor: outlineColor}}>
             <div className="subtitle">Name</div>
             <div>
                 {member.userName}

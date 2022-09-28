@@ -51,20 +51,26 @@ const getMyMap = async () => {
 function App() {
 
     const [fluidMembers, setFluidMembers] = useState();
+    const [currentMember, setCurrentMember] = useState();
 
     useEffect(() => {
         getMyMap().then(audience => {
+
           let members = audience.getMembers()
+          let currentUser = audience.getMyself()
+
           setFluidMembers(members)
+          setCurrentMember(currentUser)
 
           audience.on("membersChanged", () => {
             setFluidMembers(audience.getMembers())
+            setCurrentMember(audience.getMyself())
           })
         });
     }, []);
 
 
-    if (!fluidMembers) return <div />;
+    if (!fluidMembers || !currentMember) return <div />;
 
     let membersArray = Array.from(fluidMembers)
 
@@ -72,8 +78,9 @@ function App() {
         <div>
           {
             membersArray.map((data, key) => {
+              data[1].isSelf = (data[1].userId === currentMember.userId)
               return (
-                  <AudienceList data={data} key={key}/>
+                  <AudienceList data={data} key={key} />
               );
             })
           }
