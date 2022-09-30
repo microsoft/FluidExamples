@@ -7,39 +7,36 @@ import { useEffect, useState } from "react";
 import { AudienceList } from "./AudienceList";
 import { SharedMap } from "fluid-framework";
 import { AzureClient } from "@fluidframework/azure-client";
-import { InsecureTokenProvider, generateTestUser } from "@fluidframework/test-client-utils"
+import { InsecureTokenProvider } from "@fluidframework/test-client-utils"
 import { Navigate, useLocation } from "react-router-dom"
-
-let user = generateTestUser();
-
-const userConfig = {
-  id: undefined,
-  name: user.name,
-  additionalDetails: {
-      "email": user.name.replace(/\s/g, '') + "@example.com",
-      "date": new Date().toLocaleDateString("en-US")
-  }
-};
-
-const serviceConfig = {
-  connection: {
-      type: "local",
-      tokenProvider: new InsecureTokenProvider("" , userConfig),
-      endpoint: "http://localhost:7070",
-  }
-};
-
-const client = new AzureClient(serviceConfig);
-
-const containerSchema = {
-    initialObjects: { myMap: SharedMap }
-};
 
 /**
  * Load the Fluid container and return the services object so that we can use it later
  */
-const tryGetAudienceObject = async (userId, containerId) => {
-    userConfig.id = userId;
+const tryGetAudienceObject = async (userId, userName, containerId) => {
+    const userConfig = {
+      id: userId,
+      name: userName,
+      additionalDetails: {
+          "email": userName.replace(/\s/g, '') + "@example.com",
+          "date": new Date().toLocaleDateString("en-US")
+      }
+    };
+
+    const serviceConfig = {
+      connection: {
+          type: "local",
+          tokenProvider: new InsecureTokenProvider("" , userConfig),
+          endpoint: "http://localhost:7070",
+      }
+    };
+
+    const client = new AzureClient(serviceConfig);
+
+    const containerSchema = {
+        initialObjects: { myMap: SharedMap }
+    };
+
     let container;
     let services;
     if (!containerId) {
@@ -59,15 +56,22 @@ const tryGetAudienceObject = async (userId, containerId) => {
 export const AudienceDisplay = () => {
     const location = useLocation();
     const selection = location.state;
-    const userId = (selection?.userId == 'random') ? (user.id) : (selection?.userId);
     const containerId = selection?.containerId;
+
+    const userId = selection?.userId == "random" ? Math.random() : selection?.userId;
+    const userNameList = {
+      "user1" : "User One",
+      "user2" : "User Two",
+      "random" : "Random User"
+    };
+    const userName = userNameList[selection?.userId];
 
     const [fluidMembers, setFluidMembers] = useState();
     const [currentMember, setCurrentMember] = useState();
     const [containerNotFound, setContainerNotFound] = useState(false);
   
     useEffect(() => {
-        tryGetAudienceObject(userId, containerId).then(audience => {
+        tryGetAudienceObject(userId, userName, containerId).then(audience => {
           if(!audience) {
             setContainerNotFound(true);
             alert("error: container id not found.");

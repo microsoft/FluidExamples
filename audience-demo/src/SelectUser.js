@@ -9,7 +9,7 @@ import { useState } from 'react';
 export const SelectUser = () => {
     const selectStyle = {
       marginTop: '2rem',
-      marginLeft: '2rem',
+      marginRight: '2rem',
       width: '150px',
       height: '30px',
     };
@@ -26,13 +26,16 @@ export const SelectUser = () => {
     };
   
     return (
-      <div>
-          <div style={selectStyle}>
+      <div style={{display: 'flex', flexDirection:'column'}}>
+          <div style={{marginBottom: '2rem'}}>
             Enter Container Id:
-            <input type="text" id="containerIdInput" onChange={() => handleChange()}></input>
+            <input type="text" id="containerIdInput" onChange={() => handleChange()} style={{marginLeft: '2rem'}}></input>
           </div>
-          {/* In the case of no ID in the containerIdInput: Select a User to create a new container and join as the selected user
-              In the case of ID in the containerIdInput: Select a User to join container ID:[id] as the user */}
+          {
+            (containerId) ? 
+              (<div style={{}}>Select a User to join container ID: {containerId} as the user</div>)
+              : (<div style={{}}>Select a User to create a new container and join as the selected user</div>)
+          }
           <nav>
             <button type="submit" style={selectStyle} onClick={() => handleSubmit("user1")}>User 1</button>
             <button type="submit" style={selectStyle} onClick={() => handleSubmit("user2")}>User 2</button>

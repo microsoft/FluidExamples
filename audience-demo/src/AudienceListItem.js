@@ -10,17 +10,17 @@ export const AudienceListItem = (memberData) => {
     const subtitleStyle = {
         fontSize: 'large',
         fontWeight: 'bold',
-        marginTop: '1rem',
+        marginTop: '0.5rem',
     };
 
     const containerStyle = {
-        padding: '2rem',
-        margin: '2rem',
+        padding: '1rem',
+        margin: '1rem',
         display: 'flex',
         justifyContent: 'center',
         outline: 'solid',
         flexDirection: 'column',
-        maxWidth: '50%',
+        maxWidth: '25%',
         outlineColor
     };
 
