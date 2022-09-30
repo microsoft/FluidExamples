@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 import { SharedMap } from "fluid-framework";
 import { AzureClient } from "@fluidframework/azure-client";
 import { InsecureTokenProvider, generateTestUser } from "@fluidframework/test-client-utils"
+import { Navigate } from 'react-router-dom'
 
 let user = generateTestUser();
 
@@ -46,8 +47,12 @@ const tryGetAudienceObject = async (userId, containerId) => {
         ({ container, services } = await client.createContainer(containerSchema));
         const id = await container.attach();
         location.hash = id;
-    } else {       
-        ({ container, services } = await client.getContainer(containerId, containerSchema));
+    } else { 
+        try {
+            ({ container, services } = await client.getContainer(containerId, containerSchema));
+        } catch(e) {
+            return 'not found'
+        }      
     }
     return services.audience;
 };
@@ -60,10 +65,16 @@ function AudienceDisplay() {
 
     const [fluidMembers, setFluidMembers] = useState();
     const [currentMember, setCurrentMember] = useState();
+    const [containerNotFound, setContainerNotFound] = useState(false);
   
     useEffect(() => {
         tryGetAudienceObject(userId, containerId).then(audience => {
-  
+          if(audience == 'not found') {
+            setContainerNotFound(true)
+            alert("error: container id not found.")
+            return     
+          }
+
           let members = audience.getMembers()
           let currentUser = audience.getMyself()
   
@@ -77,9 +88,10 @@ function AudienceDisplay() {
         });
     }, []);
   
-  
-    if (!fluidMembers || !currentMember) return <div />;
-  
+    if(containerNotFound) return (<Navigate to="/"/>);
+
+    if (!fluidMembers || !currentMember) return (<div/>);
+    
     return (
         <div>
           <AudienceList fluidMembers={fluidMembers} currentMember={currentMember}/>

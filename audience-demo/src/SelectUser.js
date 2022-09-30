@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 function SelectUser() {
-    const btn = {
+    const select = {
       marginTop: '2rem',
       marginLeft: '2rem',
       width: '150px',
@@ -23,16 +23,18 @@ function SelectUser() {
   
     return (
       <div>
-          Enter Container Id:
-          <input type="text" id="containerIdInput" onChange={() => handleChange()}></input>
+          <div style={select}>
+            Enter Container Id:
+            <input type="text" id="containerIdInput" onChange={() => handleChange()}></input>
+          </div>
           <nav>
-            <button type="submit" style={btn}>
+            <button type="submit" style={select}>
               <Link to="/AudienceDisplay" state={{ userId: 'user1', containerId: containerId }}>User 1</Link>
             </button>
-            <button type="submit" style={btn}>
+            <button type="submit" style={select}>
               <Link to="/AudienceDisplay" state={{ userId: 'user2', containerId: containerId }}>User 2</Link>
             </button>
-            <button type="submit" style={btn}>
+            <button type="submit" style={select}>
               <Link to="/AudienceDisplay" state={{ userId: 'random', containerId: containerId }}>Random User</Link>
             </button>
           </nav>
