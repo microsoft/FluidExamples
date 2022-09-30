@@ -4,10 +4,10 @@
  */
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SelectUser from "./SelectUser";
-import AudienceDisplay from "./AudienceDisplay";
+import { SelectUser } from "./SelectUser";
+import { AudienceDisplay } from "./AudienceDisplay";
 
-function App() {
+export const App = () => {
   return (
     <BrowserRouter>
       <div>
@@ -21,5 +21,3 @@ function App() {
     </BrowserRouter>
   );
 };
-
-export default App;

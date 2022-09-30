@@ -4,12 +4,11 @@ Licensed under the MIT License.
 */
 
 import { useEffect, useState } from "react";
-import AudienceList from "./AudienceList";
-import { useLocation } from 'react-router-dom';
+import { AudienceList } from "./AudienceList";
 import { SharedMap } from "fluid-framework";
 import { AzureClient } from "@fluidframework/azure-client";
 import { InsecureTokenProvider, generateTestUser } from "@fluidframework/test-client-utils"
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from "react-router-dom"
 
 let user = generateTestUser();
 
@@ -40,7 +39,7 @@ const containerSchema = {
  * Load the Fluid container and return the services object so that we can use it later
  */
 const tryGetAudienceObject = async (userId, containerId) => {
-    userConfig.id = userId
+    userConfig.id = userId;
     let container;
     let services;
     if (!containerId) {
@@ -51,16 +50,16 @@ const tryGetAudienceObject = async (userId, containerId) => {
         try {
             ({ container, services } = await client.getContainer(containerId, containerSchema));
         } catch(e) {
-            return
+            return;
         }      
     }
     return services.audience;
 };
 
-function AudienceDisplay() {
+export const AudienceDisplay = () => {
     const location = useLocation();
     const selection = location.state;
-    const userId = (selection?.userId == 'random') ? (user.id) : (selection?.userId)
+    const userId = (selection?.userId == 'random') ? (user.id) : (selection?.userId);
     const containerId = selection?.containerId;
 
     const [fluidMembers, setFluidMembers] = useState();
@@ -70,21 +69,21 @@ function AudienceDisplay() {
     useEffect(() => {
         tryGetAudienceObject(userId, containerId).then(audience => {
           if(!audience) {
-            setContainerNotFound(true)
-            alert("error: container id not found.")
-            return     
+            setContainerNotFound(true);
+            alert("error: container id not found.");
+            return;
           }
 
-          let members = audience.getMembers()
-          let currentUser = audience.getMyself()
+          let members = audience.getMembers();
+          let currentUser = audience.getMyself();
   
-          setFluidMembers(members)
-          setCurrentMember(currentUser)
+          setFluidMembers(members);
+          setCurrentMember(currentUser);
   
           audience.on("membersChanged", () => {
-            setFluidMembers(audience.getMembers())
-            setCurrentMember(audience.getMyself())
-          })
+            setFluidMembers(audience.getMembers());
+            setCurrentMember(audience.getMyself());
+          });
         });
     }, []);
   
@@ -98,5 +97,3 @@ function AudienceDisplay() {
         </div>
     )
 }
-
-export default AudienceDisplay

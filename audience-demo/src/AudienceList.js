@@ -1,13 +1,18 @@
-import AudienceListItem from "./AudienceListItem";
+/*!
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT License.
+*/
 
-function AudienceList(data) {
+import { AudienceListItem } from "./AudienceListItem";
+
+export const AudienceList = (data) => {
     const currentMember = data.currentMember;
     const fluidMembers = data.fluidMembers;
 
-    let list = [];
+    const list = [];
     fluidMembers.forEach((data, key) => {
-        data.isSelf = (data.userId === currentMember.userId);
-        list.push(<AudienceListItem data={data} key={key}/>);
+        const isSelf = (data.userId === currentMember.userId);
+        list.push(<AudienceListItem data={data} key={key} isSelf={isSelf}/>);
     });
 
     return (
@@ -16,5 +21,3 @@ function AudienceList(data) {
         </div>
     );
 };
-
-export default AudienceList
