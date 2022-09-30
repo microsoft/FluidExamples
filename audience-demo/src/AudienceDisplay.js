@@ -51,7 +51,7 @@ const tryGetAudienceObject = async (userId, containerId) => {
         try {
             ({ container, services } = await client.getContainer(containerId, containerSchema));
         } catch(e) {
-            return 'not found'
+            return
         }      
     }
     return services.audience;
@@ -60,7 +60,7 @@ const tryGetAudienceObject = async (userId, containerId) => {
 function AudienceDisplay() {
     const location = useLocation();
     const selection = location.state;
-    const userId = selection?.userId;
+    const userId = (selection?.userId == 'random') ? (user.id) : (selection?.userId)
     const containerId = selection?.containerId;
 
     const [fluidMembers, setFluidMembers] = useState();
@@ -69,7 +69,7 @@ function AudienceDisplay() {
   
     useEffect(() => {
         tryGetAudienceObject(userId, containerId).then(audience => {
-          if(audience == 'not found') {
+          if(!audience) {
             setContainerNotFound(true)
             alert("error: container id not found.")
             return     

@@ -32,7 +32,7 @@ function AudienceListItem(memberData) {
             </div>
             <div style={subtitle}>ID</div>
             <div>
-                {member.userId};
+                {member.userId}
             </div>
             <div style={subtitle}>Connections</div>
             { 
