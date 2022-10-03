@@ -78,8 +78,8 @@ export const AudienceDisplay = () => {
             return;
           }
 
-          let members = audience.getMembers();
-          let currentUser = audience.getMyself();
+          const members = audience.getMembers();
+          const currentUser = audience.getMyself();
   
           setFluidMembers(members);
           setCurrentMember(currentUser);
