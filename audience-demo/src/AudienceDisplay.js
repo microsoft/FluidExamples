@@ -4,7 +4,6 @@ Licensed under the MIT License.
 */
 
 import { useEffect, useState } from "react";
-import { AudienceList } from "./AudienceList";
 import { SharedMap } from "fluid-framework";
 import { AzureClient } from "@fluidframework/azure-client";
 import { InsecureTokenProvider } from "@fluidframework/test-client-utils"
@@ -93,3 +92,50 @@ export const AudienceDisplay = (props) => {
         </div>
     )
 }
+
+const AudienceList = (data) => {
+  const currentMember = data.currentMember;
+  const fluidMembers = data.fluidMembers;
+
+  const list = [];
+  fluidMembers.forEach((member, key) => {
+      const isSelf = (member.userId === currentMember.userId);
+      const outlineColor = isSelf ? 'blue' : 'black';
+
+      list.push(
+        <div style={{
+          padding: '1rem',
+          margin: '1rem',
+          display: 'flex',
+          outline: 'solid',
+          flexDirection: 'column',
+          maxWidth: '25%',
+          outlineColor
+        }} key={key}>
+          <div style={{fontWeight: 'bold'}}>Name</div>
+          <div>
+              {member.userName}
+          </div>
+          <div style={{fontWeight: 'bold'}}>ID</div>
+          <div>
+              {member.userId}
+          </div>
+          <div style={{fontWeight: 'bold'}}>Connections</div>
+          { 
+              member.connections.map((data, key) => {
+                  return (<div key={key}>{data.id}</div>);
+              })
+          }
+          <div style={{fontWeight: 'bold'}}>Additional Details</div>
+          { JSON.stringify(member.additionalDetails, null, '\t') }
+        </div>
+      );
+  });
+
+  return (
+      <div>
+          {list}
+      </div>
+  );
+};
+
