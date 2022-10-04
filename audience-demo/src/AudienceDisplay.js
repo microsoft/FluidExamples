@@ -71,16 +71,16 @@ export const AudienceDisplay = (props) => {
             return;
           }
 
-          const members = audience.getMembers();
-          const currentUser = audience.getMyself();
-  
-          setFluidMembers(members);
-          setCurrentMember(currentUser);
-  
-          audience.on("membersChanged", () => {
+          const updateMembers = () => {
             setFluidMembers(audience.getMembers());
             setCurrentMember(audience.getMyself());
-          });
+          }
+  
+          updateMembers();
+  
+          audience.on("membersChanged", updateMembers);
+
+          return () => { audience.off("membersChanged", updateMembers) };
         });
     }, []);
   
