@@ -8,7 +8,6 @@ import { AudienceList } from "./AudienceList";
 import { SharedMap } from "fluid-framework";
 import { AzureClient } from "@fluidframework/azure-client";
 import { InsecureTokenProvider } from "@fluidframework/test-client-utils"
-import { Navigate, useLocation } from "react-router-dom"
 
 /**
  * Load the Fluid container and return the services object so that we can use it later
@@ -53,27 +52,22 @@ const tryGetAudienceObject = async (userId, userName, containerId) => {
     return services.audience;
 };
 
-export const AudienceDisplay = () => {
-    const location = useLocation();
-    const selection = location.state;
-    const containerId = selection?.containerId;
-
-    const userId = selection?.userId == "random" ? Math.random() : selection?.userId;
+export const AudienceDisplay = (props) => {
+    const userId = props.userId == "random" ? Math.random() : props.userId;
     const userNameList = {
       "user1" : "User One",
       "user2" : "User Two",
       "random" : "Random User"
     };
-    const userName = userNameList[selection?.userId];
+    const userName = userNameList[props.userId];
 
     const [fluidMembers, setFluidMembers] = useState();
     const [currentMember, setCurrentMember] = useState();
-    const [containerNotFound, setContainerNotFound] = useState(false);
   
     useEffect(() => {
-        tryGetAudienceObject(userId, userName, containerId).then(audience => {
+        tryGetAudienceObject(userId, userName, props.containerId).then(audience => {
           if(!audience) {
-            setContainerNotFound(true);
+            props.onContainerNotFound();
             alert("error: container id not found.");
             return;
           }
@@ -91,8 +85,6 @@ export const AudienceDisplay = () => {
         });
     }, []);
   
-    if(containerNotFound) return (<Navigate to="/"/>);
-
     if (!fluidMembers || !currentMember) return (<div/>);
     
     return (
