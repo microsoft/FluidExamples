@@ -16,11 +16,11 @@ export const App = () => {
     setDisplayAudience(true)
     setUserId(userId);
     setContainerId(containerId);
-  });
+  }, [displayAudience, userId, containerId]);
 
   const handleContainerNotFound = useCallback(() => {
     setDisplayAudience(false)
-  });
+  }, [setDisplayAudience]);
 
   return (
     (displayAudience) ? 
