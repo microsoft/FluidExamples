@@ -18,101 +18,51 @@ updates:
       - dependency-name: "@fluidframework/*"
 
   - package-ecosystem: "npm"
-
     directory: "/brainstorm"
-
     schedule:
-
       interval: "weekly"
-
     allow:
-
       - dependency-name: "fluid-framework"
-
       - dependency-name: "@fluidframework/*"
-
-
-
 
   - package-ecosystem: "collaborative-text-area"
-
     directory: "/angular-demo"
-
     schedule:
-
       interval: "weekly"
-
     allow:
-
       - dependency-name: "fluid-framework"
-
       - dependency-name: "@fluidframework/*"
 
-
-
-
   - package-ecosystem: "npm"
-
     directory: "/multi-framework-diceroller"
-
     schedule:
-
       interval: "weekly"
-
     allow:
-
       - dependency-name: "fluid-framework"
-
       - dependency-name: "@fluidframework/*"
 
-
-
-
   - package-ecosystem: "npm"
-
     directory: "/node-demo"
-
     schedule:
-
       interval: "weekly"
-
     allow:
-
       - dependency-name: "fluid-framework"
-
       - dependency-name: "@fluidframework/*"
 
-
-
-
   - package-ecosystem: "npm"
-
     directory: "/react-demo"
-
     schedule:
-
       interval: "weekly"
-
     allow:
-
       - dependency-name: "fluid-framework"
-
       - dependency-name: "@fluidframework/*"
 
- 
-
   - package-ecosystem: "npm"
-
     directory: "/react-starter-template"
-
     schedule:
-
       interval: "weekly"
-
     allow:
-
       - dependency-name: "fluid-framework"
-
       - dependency-name: "@fluidframework/*"
 
   - package-ecosystem: "npm"
