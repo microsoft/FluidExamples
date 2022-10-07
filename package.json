@@ -16,8 +16,8 @@
     "type": "git",
     "url": "git+https://github.com/microsoft/FluidExamples.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Microsoft",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/microsoft/FluidExamples/issues"
   },

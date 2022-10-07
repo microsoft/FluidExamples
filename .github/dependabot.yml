@@ -72,5 +72,3 @@ updates:
     allow:
       - dependency-name: "fluid-framework"
       - dependency-name: "@fluidframework/*"
-
-
