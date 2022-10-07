@@ -1,18 +1,126 @@
 version: 2
+
 updates:
-  # Enable version updates for npm
   - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/angular-demo"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
+
+  - package-ecosystem: "npm"
+    directory: "/audience-demo"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
+
+  - package-ecosystem: "npm"
+
     directory: "/brainstorm"
+
     schedule:
+
       interval: "weekly"
+
+    allow:
+
+      - dependency-name: "fluid-framework"
+
+      - dependency-name: "@fluidframework/*"
+
+
+
+
+  - package-ecosystem: "collaborative-text-area"
+
+    directory: "/angular-demo"
+
+    schedule:
+
+      interval: "weekly"
+
+    allow:
+
+      - dependency-name: "fluid-framework"
+
+      - dependency-name: "@fluidframework/*"
+
+
+
+
   - package-ecosystem: "npm"
-  # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/draft-js"
+
+    directory: "/multi-framework-diceroller"
+
     schedule:
+
       interval: "weekly"
+
+    allow:
+
+      - dependency-name: "fluid-framework"
+
+      - dependency-name: "@fluidframework/*"
+
+
+
+
   - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/sudoku"
+
+    directory: "/node-demo"
+
+    schedule:
+
+      interval: "weekly"
+
+    allow:
+
+      - dependency-name: "fluid-framework"
+
+      - dependency-name: "@fluidframework/*"
+
+
+
+
+  - package-ecosystem: "npm"
+
+    directory: "/react-demo"
+
+    schedule:
+
+      interval: "weekly"
+
+    allow:
+
+      - dependency-name: "fluid-framework"
+
+      - dependency-name: "@fluidframework/*"
+
+ 
+
+  - package-ecosystem: "npm"
+
+    directory: "/react-starter-template"
+
+    schedule:
+
+      interval: "weekly"
+
+    allow:
+
+      - dependency-name: "fluid-framework"
+
+      - dependency-name: "@fluidframework/*"
+
+  - package-ecosystem: "npm"
+    directory: "/teams-fluid-hello-world"
     schedule:
       interval: "weekly"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
+
+
