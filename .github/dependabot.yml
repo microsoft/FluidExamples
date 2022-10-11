@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/angular-demo"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     allow:
       - dependency-name: "fluid-framework"
       - dependency-name: "@fluidframework/*"
@@ -12,7 +12,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/audience-demo"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     allow:
       - dependency-name: "fluid-framework"
       - dependency-name: "@fluidframework/*"
@@ -20,7 +20,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/brainstorm"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     allow:
       - dependency-name: "fluid-framework"
       - dependency-name: "@fluidframework/*"
@@ -28,7 +28,7 @@ updates:
   - package-ecosystem: "collaborative-text-area"
     directory: "/angular-demo"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     allow:
       - dependency-name: "fluid-framework"
       - dependency-name: "@fluidframework/*"
@@ -36,7 +36,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/multi-framework-diceroller"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     allow:
       - dependency-name: "fluid-framework"
       - dependency-name: "@fluidframework/*"
@@ -44,7 +44,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/node-demo"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     allow:
       - dependency-name: "fluid-framework"
       - dependency-name: "@fluidframework/*"
@@ -52,7 +52,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/react-demo"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     allow:
       - dependency-name: "fluid-framework"
       - dependency-name: "@fluidframework/*"
@@ -60,7 +60,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/react-starter-template"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     allow:
       - dependency-name: "fluid-framework"
       - dependency-name: "@fluidframework/*"
@@ -68,7 +68,7 @@ updates:
   - package-ecosystem: "npm"
     directory: "/teams-fluid-hello-world"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     allow:
       - dependency-name: "fluid-framework"
       - dependency-name: "@fluidframework/*"
