@@ -5,7 +5,7 @@
 
 import { useState, useCallback } from "react";
 import { AudienceDisplay } from "./AudienceDisplay";
-import { UserIdSelection } from "./UserIdSelection"
+import { UserIdSelection } from "./UserIdSelection";
 
 export const App = () => {
   const [displayAudience, setDisplayAudience] = useState(false);
