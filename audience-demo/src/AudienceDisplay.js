@@ -6,7 +6,7 @@ Licensed under the MIT License.
 import { useEffect, useState } from "react";
 import { SharedMap } from "fluid-framework";
 import { AzureClient } from "@fluidframework/azure-client";
-import { InsecureTokenProvider } from "@fluidframework/test-client-utils"
+import { InsecureTokenProvider } from "@fluidframework/test-client-utils";
 
 /**
  * Load the Fluid container and return the services object so that we can use it later

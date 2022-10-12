@@ -13,7 +13,7 @@ export const UserIdSelection = (props) => {
       height: '30px',
     };
 
-    const [containerId, setContainerId] = useState();
+    const [containerId, setContainerId] = useState(location.hash.substring(1));
 
     const handleSubmit = (userId) => {
       props.onSelectUser(userId, containerId);
@@ -27,7 +27,7 @@ export const UserIdSelection = (props) => {
       <div style={{display: 'flex', flexDirection:'column'}}>
         <div style={{marginBottom: '2rem'}}>
           Enter Container Id:
-          <input type="text" id="containerIdInput" onChange={() => handleChange()} style={{marginLeft: '2rem'}}></input>
+          <input type="text" id="containerIdInput" value={containerId} onChange={() => handleChange()} style={{marginLeft: '2rem'}}></input>
         </div>
         {
           (containerId) ? 
