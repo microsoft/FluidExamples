@@ -5,7 +5,7 @@
 
 import { useState, useCallback } from "react";
 import { AudienceDisplay } from "./AudienceDisplay";
-import { SelectUser } from "./SelectUser"
+import { UserIdSelection } from "./UserIdSelection"
 
 export const App = () => {
   const [displayAudience, setDisplayAudience] = useState(false);
@@ -25,6 +25,6 @@ export const App = () => {
   return (
     (displayAudience) ? 
     <AudienceDisplay userId={userId} containerId={containerId} onContainerNotFound={handleContainerNotFound}/> :
-    <SelectUser onSelectUser={handleSelectUser}/>
+    <UserIdSelection onSelectUser={handleSelectUser}/>
   );
 };

@@ -5,8 +5,8 @@ Licensed under the MIT License.
 
 import { useState } from 'react';
 
-export const SelectUser = (props) => {
-    const selectStyle = {
+export const UserIdSelection = (props) => {
+    const selectionStyle = {
       marginTop: '2rem',
       marginRight: '2rem',
       width: '150px',
@@ -35,9 +35,9 @@ export const SelectUser = (props) => {
             : (<div style={{}}>Select a User to create a new container and join as the selected user</div>)
         }
         <nav>
-          <button type="submit" style={selectStyle} onClick={() => handleSubmit("user1")}>User 1</button>
-          <button type="submit" style={selectStyle} onClick={() => handleSubmit("user2")}>User 2</button>
-          <button type="submit" style={selectStyle} onClick={() => handleSubmit("random")}>Random User</button>
+          <button type="submit" style={selectionStyle} onClick={() => handleSubmit("user1")}>User 1</button>
+          <button type="submit" style={selectionStyle} onClick={() => handleSubmit("user2")}>User 2</button>
+          <button type="submit" style={selectionStyle} onClick={() => handleSubmit("random")}>Random User</button>
         </nav>
       </div>
     );
