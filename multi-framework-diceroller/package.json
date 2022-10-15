@@ -11,7 +11,10 @@
         "start": "concurrently \"npm:start:server\" \"npm:start:client\"",
         "start:client": "webpack serve",
         "start:server": "npx tinylicious",
-        "test:report": "echo No test for this example"
+        "test:report": "echo No test for this example",
+        "prettier": "prettier --check .",
+        "prettier:fix": "prettier --write .",
+        "lint": "npm run prettier"
     },
     "dependencies": {
         "@babel/preset-react": "^7.14.5",
@@ -30,7 +33,8 @@
         "html-webpack-plugin": "^4.3.0",
         "webpack": "^4.46.0",
         "webpack-cli": "^4.2.0",
-        "webpack-dev-server": "^3.11.0"
+        "webpack-dev-server": "^3.11.0",
+        "prettier": "^2.7.1"
     },
     "prettier": {
         "trailingComma": "es5",

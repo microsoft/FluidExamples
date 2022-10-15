@@ -1,13 +1,9 @@
-import {
-  mergeStyles,
-} from "@fluentui/react";
+import { mergeStyles } from "@fluentui/react";
 import { AzureMember } from "@fluidframework/azure-client";
 import React from "react";
 import { useDrag } from "react-dnd";
 import { DefaultColor } from "./Color";
-import {
-  getRootStyleForColor
-} from "./Note.style";
+import { getRootStyleForColor } from "./Note.style";
 import { NoteData, Position } from "../Types";
 import { NoteHeader } from "./NoteHeader";
 import { NoteBody } from "./NoteBody";
@@ -42,7 +38,7 @@ export function Note(props: NoteProps) {
     position: { x: left, y: top },
     color = DefaultColor,
     setText,
-    text
+    text,
   } = props;
 
   const [, drag] = useDrag(
@@ -63,7 +59,3 @@ export function Note(props: NoteProps) {
     </div>
   );
 }
-
-
-
-

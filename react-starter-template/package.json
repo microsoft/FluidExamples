@@ -10,7 +10,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:report": "echo No test for this example",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "lint": "npm run prettier"
   },
   "dependencies": {
     "@fluentui/react": "^8.17.1",
@@ -36,7 +39,8 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.1.7"
+    "@types/react-router-dom": "^5.1.7",
+    "prettier": "^2.7.1"
   },
   "eslintConfig": {
     "extends": [

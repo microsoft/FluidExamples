@@ -1,7 +1,7 @@
 import { IStyle, mergeStyles, ThemeProvider } from "@fluentui/react";
 import { AzureMember } from "@fluidframework/azure-client";
 import React from "react";
-import { useDrop } from 'react-dnd';
+import { useDrop } from "react-dnd";
 import { NoteData, Position } from "../Types";
 import { Note } from "./Note";
 import { BrainstormModel } from "../BrainstormModel";
@@ -35,7 +35,7 @@ export function NoteSpace(props: NoteSpaceProps) {
     // to trigger refreshing the view.
 
     // Note: We are aware that this probably isn't the most optimal and intuitive
-    // solution for a feature like this, in fact, there is actually a 
+    // solution for a feature like this, in fact, there is actually a
     // last edited package (https://github.com/microsoft/FluidFramework/blob/main/experimental/framework/last-edited/README.md)
     // within Fluid Framework that helps us achieve this task. However, for the purpose
     // of demonstration and what we can use the `audience` propety to achieve, we think
@@ -50,10 +50,10 @@ export function NoteSpace(props: NoteSpaceProps) {
     // Add a listener on the BrainstormModel listener
     // The listener will call syncLocalAndFluidState everytime there a "valueChanged" event.
     model.setChangeListener(syncLocalAndFluidState);
-    
+
     return () => {
       model.removeChangeListener(syncLocalAndFluidState);
-    }
+    };
   }, [model, props.author, time]);
 
   const rootStyle: IStyle = {
@@ -65,19 +65,22 @@ export function NoteSpace(props: NoteSpaceProps) {
 
   const spaceClass = mergeStyles(rootStyle);
 
-  const [, drop] = useDrop(() => ({
-    accept: 'note',
-    drop(item: any, monitor) {
-      const delta = monitor.getDifferenceFromInitialOffset()!;
-      const left = Math.round(item.left + delta.x);
-      const top = Math.round(item.top + delta.y);
-      model.MoveNote(item.id, {
-        x: left > 0 ? left : 0,
-        y: top > 0 ? top : 0
-      })
-      return undefined;
-    },
-  }), [model]);
+  const [, drop] = useDrop(
+    () => ({
+      accept: "note",
+      drop(item: any, monitor) {
+        const delta = monitor.getDifferenceFromInitialOffset()!;
+        const left = Math.round(item.left + delta.x);
+        const top = Math.round(item.top + delta.y);
+        model.MoveNote(item.id, {
+          x: left > 0 ? left : 0,
+          y: top > 0 ? top : 0,
+        });
+        return undefined;
+      },
+    }),
+    [model]
+  );
 
   return (
     <div id="NoteSpace" ref={drop} className={spaceClass}>
@@ -88,7 +91,13 @@ export function NoteSpace(props: NoteSpaceProps) {
           };
 
           const setText = (text: string) => {
-            model.SetNoteText(note.id, text, props.author.userId, props.author.userName, Date.now());
+            model.SetNoteText(
+              note.id,
+              text,
+              props.author.userId,
+              props.author.userName,
+              Date.now()
+            );
           };
 
           const onLike = () => {

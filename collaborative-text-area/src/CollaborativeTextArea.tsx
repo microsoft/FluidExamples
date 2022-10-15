@@ -4,7 +4,10 @@
  */
 
 import React from "react";
-import { ISharedStringHelperTextChangedEventArgs, SharedStringHelper } from "@fluid-experimental/react-inputs";
+import {
+  ISharedStringHelperTextChangedEventArgs,
+  SharedStringHelper,
+} from "@fluid-experimental/react-inputs";
 
 interface ICollaborativeTextAreaProps {
   /**
@@ -53,17 +56,27 @@ export const CollaborativeTextArea = (props: ICollaborativeTextAreaProps) => {
     // This is also a bad assumption, in the undo case.
     const isTextInserted = newCaretPosition - oldSelectionStart > 0;
     if (isTextInserted) {
-      const insertedText = newText.substring(oldSelectionStart, newCaretPosition);
+      const insertedText = newText.substring(
+        oldSelectionStart,
+        newCaretPosition
+      );
       const isTextReplaced = oldSelectionEnd - oldSelectionStart > 0;
       if (!isTextReplaced) {
         sharedStringHelper.insertText(insertedText, oldSelectionStart);
       } else {
-        sharedStringHelper.replaceText(insertedText, oldSelectionStart, oldSelectionEnd);
+        sharedStringHelper.replaceText(
+          insertedText,
+          oldSelectionStart,
+          oldSelectionEnd
+        );
       }
     } else {
       // Text was removed
       const charactersDeleted = oldText.length - newText.length;
-      sharedStringHelper.removeText(newCaretPosition, newCaretPosition + charactersDeleted);
+      sharedStringHelper.removeText(
+        newCaretPosition,
+        newCaretPosition + charactersDeleted
+      );
     }
   };
 
@@ -85,7 +98,9 @@ export const CollaborativeTextArea = (props: ICollaborativeTextAreaProps) => {
    */
   const storeSelectionInReact = () => {
     if (!textareaRef.current) {
-      throw new Error("Trying to remember selection without current textarea ref?");
+      throw new Error(
+        "Trying to remember selection without current textarea ref?"
+      );
     }
     const textareaElement = textareaRef.current;
 
@@ -103,15 +118,21 @@ export const CollaborativeTextArea = (props: ICollaborativeTextAreaProps) => {
      * 2. If the change came from a remote source, it may have moved our selection.  Compute it, update
      *    the textarea, and store it in React
      */
-    const handleTextChanged = (event: ISharedStringHelperTextChangedEventArgs) => {
+    const handleTextChanged = (
+      event: ISharedStringHelperTextChangedEventArgs
+    ) => {
       const newText = sharedStringHelper.getText();
       setText(newText);
 
       // If the event was our own then the caret will already be in the new location.
       // Otherwise, transform our selection position based on the change.
       if (!event.isLocal) {
-        const newSelectionStart = event.transformPosition(selectionStartRef.current);
-        const newSelectionEnd = event.transformPosition(selectionEndRef.current);
+        const newSelectionStart = event.transformPosition(
+          selectionStartRef.current
+        );
+        const newSelectionEnd = event.transformPosition(
+          selectionEndRef.current
+        );
         setTextareaSelection(newSelectionStart, newSelectionEnd);
         storeSelectionInReact();
       }
@@ -139,6 +160,7 @@ export const CollaborativeTextArea = (props: ICollaborativeTextAreaProps) => {
       // onChange is recommended over onInput for React controls
       // https://medium.com/capital-one-tech/how-to-work-with-forms-inputs-and-events-in-react-c337171b923b
       onChange={handleChange}
-      value={text} />
+      value={text}
+    />
   );
 };

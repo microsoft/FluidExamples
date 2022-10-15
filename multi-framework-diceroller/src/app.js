@@ -12,7 +12,7 @@ export const diceValueKey = "dice-value-key";
 
 const client = new TinyliciousClient();
 const containerSchema = {
-    initialObjects: { diceMap: SharedMap }
+    initialObjects: { diceMap: SharedMap },
 };
 const root = document.getElementById("content");
 
@@ -22,16 +22,16 @@ const createNewDice = async () => {
     const id = container.attach();
     diceRoller(container.initialObjects.diceMap, root);
     return id;
-}
+};
 
 const loadExistingDice = async (id) => {
     const { container } = await client.getContainer(id, containerSchema);
     diceRoller(container.initialObjects.diceMap, root);
-}
+};
 
 async function start() {
     if (location.hash) {
-        await loadExistingDice(location.hash.substring(1))
+        await loadExistingDice(location.hash.substring(1));
     } else {
         const id = await createNewDice();
         location.hash = id;
@@ -39,5 +39,3 @@ async function start() {
 }
 
 start().catch((error) => console.error(error));
-
-

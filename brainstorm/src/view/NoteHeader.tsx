@@ -19,21 +19,23 @@ import {
   tooltipHostStyle,
 } from "./Note.style";
 import { ReactionListCallout } from "./ReactionListCallout";
-import { NoteProps } from "./Note"
+import { NoteProps } from "./Note";
 
 const HeaderComponent = (props: NoteProps) => {
   const colorButtonRef = React.useRef();
 
   // Dynamically display a note's author name in the tooltip based on if the user is the author of the note.
-  // If the note is created by the user, display "you", otherwise display the author's name. 
-  const tooltipAuthorName = props.author.userName === props.currentUser.userName ? "you" : props.author.userName;
+  // If the note is created by the user, display "you", otherwise display the author's name.
+  const tooltipAuthorName =
+    props.author.userName === props.currentUser.userName
+      ? "you"
+      : props.author.userName;
 
   const headerProps = {
     className: mergeStyles(getHeaderStyleForColor(props.color)),
   };
 
   const likeBtnTooltipProps: ITooltipProps = {
-
     onRenderContent: () => {
       const likedUserList = props.getLikedUsers();
 
@@ -61,7 +63,7 @@ const HeaderComponent = (props: NoteProps) => {
         return (
           <TooltipHost
             styles={{ root: { alignSelf: "center", display: "block" } }}
-            content={`Created by ${ tooltipAuthorName }`} 
+            content={`Created by ${tooltipAuthorName}`}
           >
             <PersonaCoin
               styles={{
@@ -149,11 +151,16 @@ const HeaderComponent = (props: NoteProps) => {
         farItems={farItems}
       />
     </div>
-  )
-}
+  );
+};
 
-export const NoteHeader = React.memo(HeaderComponent, (prevProps, nextProps) => {
-  return prevProps.color === nextProps.color
-    && prevProps.numLikesCalculated === nextProps.numLikesCalculated
-    && prevProps.didILikeThisCalculated === nextProps.didILikeThisCalculated
-})
+export const NoteHeader = React.memo(
+  HeaderComponent,
+  (prevProps, nextProps) => {
+    return (
+      prevProps.color === nextProps.color &&
+      prevProps.numLikesCalculated === nextProps.numLikesCalculated &&
+      prevProps.didILikeThisCalculated === nextProps.didILikeThisCalculated
+    );
+  }
+);

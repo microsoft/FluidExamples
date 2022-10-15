@@ -7,11 +7,12 @@ export const DiceRollerList = () => {
   const {
     dispatch,
     actions: { editDice, createDice, deleteDice },
-    queries: { getAllDice, getByValue }
+    queries: { getAllDice, getByValue },
   } = useGetDiceStore();
 
-  const {queries: {getAudienceSize}} = useGetAudienceStore();
-
+  const {
+    queries: { getAudienceSize },
+  } = useGetAudienceStore();
 
   const randomizeDice = (id: string) =>
     dispatch(
@@ -30,7 +31,6 @@ export const DiceRollerList = () => {
       randomizeDice(dice.key);
     });
   };
-
 
   const diceRollers = allDice.map((dice: any) => (
     <DiceRoller

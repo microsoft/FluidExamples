@@ -6,7 +6,12 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import { TinyliciousClient } from "@fluidframework/tinylicious-client";
-import { ConnectionState, ContainerSchema, IFluidContainer, SharedString } from "fluid-framework";
+import {
+  ConnectionState,
+  ContainerSchema,
+  IFluidContainer,
+  SharedString,
+} from "fluid-framework";
 import { CollaborativeTextArea } from "./CollaborativeTextArea";
 import { SharedStringHelper } from "@fluid-experimental/react-inputs";
 
@@ -16,8 +21,8 @@ const useSharedString = (): SharedString => {
     // Configure the container.
     const client: TinyliciousClient = new TinyliciousClient();
     const containerSchema: ContainerSchema = {
-      initialObjects: { sharedString: SharedString }
-    }
+      initialObjects: { sharedString: SharedString },
+    };
 
     // Get the container from the Fluid service.
     let container: IFluidContainer;
@@ -40,16 +45,15 @@ const useSharedString = (): SharedString => {
     }
     // Return the Fluid SharedString object.
     return container.initialObjects.sharedString as SharedString;
-  }
+  };
 
   // Get the Fluid Data data on app startup and store in the state
   useEffect(() => {
-    getFluidData()
-      .then((data) => setSharedString(data));
+    getFluidData().then((data) => setSharedString(data));
   }, []);
 
   return sharedString as SharedString;
-}
+};
 
 function App() {
   // Load the collaborative SharedString object
@@ -59,11 +63,12 @@ function App() {
   if (sharedString) {
     return (
       <div className="app">
-        <CollaborativeTextArea sharedStringHelper={new SharedStringHelper(sharedString)} />
+        <CollaborativeTextArea
+          sharedStringHelper={new SharedStringHelper(sharedString)}
+        />
       </div>
     );
-  }
-  else {
+  } else {
     return <div />;
   }
 }

@@ -1,14 +1,14 @@
 import React from 'react';
 import { FluidModel, EventPayload } from '../../model';
 import { useModel } from './';
-import { Draft } from "immer";
-import { useImmerReducer, Reducer } from "use-immer";
+import { Draft } from 'immer';
+import { useImmerReducer, Reducer } from 'use-immer';
 
 interface UseGetStoreProps<
   S,
   A extends { [id: string]: (payload: any) => void },
   Q extends { [id: string]: (...args: any) => any }
-  > {
+> {
   initialState: (model: FluidModel) => S;
   actions: {
     [Property in keyof A]: (model: FluidModel, payload: Parameters<A[Property]>[0]) => void;
@@ -37,10 +37,7 @@ export function useGetStore<
 
   const reducer: Reducer<S, any> = (draft, op) => props.reducer(model, draft, op);
 
-  const [state, dispatchState] = useImmerReducer(
-    reducer,
-    props.initialState(model)
-  );
+  const [state, dispatchState] = useImmerReducer(reducer, props.initialState(model));
 
   React.useEffect(() => {
     const callItemDispatch = (payload: any) => {

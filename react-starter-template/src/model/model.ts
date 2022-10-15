@@ -1,6 +1,10 @@
 import { ISharedMap, IFluidContainer, IValueChanged } from 'fluid-framework';
 import { EventEmitter } from 'events';
-import { TinyliciousContainerServices, TinyliciousMember, ITinyliciousAudience } from '@fluidframework/tinylicious-client';
+import {
+  TinyliciousContainerServices,
+  TinyliciousMember,
+  ITinyliciousAudience,
+} from '@fluidframework/tinylicious-client';
 import { Node } from './types';
 
 export type EventPayload = {
@@ -16,38 +20,38 @@ export class FluidModel extends EventEmitter {
     super();
     this.map = container.initialObjects.myMap as ISharedMap;
     this.audience = services.audience;
-    this.map.on("valueChanged", (changed, local, target) => {
+    this.map.on('valueChanged', (changed, local, target) => {
       if (!this.nodeExists(changed.key)) {
-        const deleteNodePayload: EventPayload = { type: "singleDelete", changed }
-        this.emit("modelChanged", deleteNodePayload);
+        const deleteNodePayload: EventPayload = { type: 'singleDelete', changed };
+        this.emit('modelChanged', deleteNodePayload);
       } else {
-        const changedNodePayload: EventPayload = { type: "singleChange", changed }
-        this.emit("modelChanged", changedNodePayload);
+        const changedNodePayload: EventPayload = { type: 'singleChange', changed };
+        this.emit('modelChanged', changedNodePayload);
       }
     });
-    this.audience.on("memberAdded", (members) => {
-      const membersChangedPayload = { type: "membersChanged" };
-      this.emit("modelChanged", membersChangedPayload);
+    this.audience.on('memberAdded', (members) => {
+      const membersChangedPayload = { type: 'membersChanged' };
+      this.emit('modelChanged', membersChangedPayload);
     });
-    this.audience.on("memberRemoved", (members) => {
-      const membersChangedPayload = { type: "membersChanged" };
-      this.emit("modelChanged", membersChangedPayload);
+    this.audience.on('memberRemoved', (members) => {
+      const membersChangedPayload = { type: 'membersChanged' };
+      this.emit('modelChanged', membersChangedPayload);
     });
   }
 
   public getAudience = (): TinyliciousMember[] => {
     const members = Array.from(this.audience.getMembers().values());
 
-    return members; 
-  }
+    return members;
+  };
 
   public getAllNodeIds = (): string[] => {
     return Array.from(this.map.keys());
   };
 
   private nodeExists = (id: string) => {
-    return this.getAllNodeIds().includes(id)
-  }
+    return this.getAllNodeIds().includes(id);
+  };
 
   public getNode = (id: string): Node => {
     const node = this.map.get<Node>(id);
@@ -72,7 +76,7 @@ export class FluidModel extends EventEmitter {
 
   public deleteNode = (id: string) => {
     this.map.delete(id);
-  }
+  };
 
   public createNode = (id: string, data: Node) => {
     if (this.map.get(id)) {

@@ -18,7 +18,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start:server": "npx @fluidframework/azure-local-service@latest",
-    "test:report": "echo No test for this example"
+    "test:report": "echo No test for this example",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "lint": "npm run prettier"
   },
   "browserslist": {
     "production": [
@@ -34,6 +37,7 @@
   },
   "devDependencies": {
     "buffer": "^6.0.3",
-    "url": "^0.11.0"
+    "url": "^0.11.0",
+    "prettier": "^2.7.1"
   }
 }

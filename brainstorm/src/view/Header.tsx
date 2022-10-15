@@ -28,9 +28,15 @@ export interface HeaderProps {
 export function Header(props: HeaderProps) {
   const colorButtonRef = React.useRef<any>();
   const [color, setColor] = React.useState(DefaultColor);
-  const personas = React.useMemo(() => props.members.map(member => {return { personaName: member.userName}}), [props.members]);
+  const personas = React.useMemo(
+    () =>
+      props.members.map((member) => {
+        return { personaName: member.userName };
+      }),
+    [props.members]
+  );
 
-  // add in all the default attributes needed for a new note, including setting the last edited author as the 
+  // add in all the default attributes needed for a new note, including setting the last edited author as the
   // user (since user created the note).
   const onAddNote = () => {
     const { scrollHeight, scrollWidth } = document.getElementById("NoteSpace")!;
@@ -41,11 +47,15 @@ export function Header(props: HeaderProps) {
         x: Math.floor(Math.random() * (scrollWidth - NOTE_SIZE.width)),
         y: Math.floor(Math.random() * (scrollHeight - NOTE_SIZE.height)),
       },
-      lastEdited: { userId: props.author.userId, userName: props.author.userName, time: Date.now() },
+      lastEdited: {
+        userId: props.author.userId,
+        userName: props.author.userName,
+        time: Date.now(),
+      },
       author: props.author,
       numLikesCalculated: 0,
       didILikeThisCalculated: false,
-      color
+      color,
     };
     props.model.SetNote(id, newCardData);
   };
@@ -96,10 +106,12 @@ export function Header(props: HeaderProps) {
   const farItems: ICommandBarItemProps[] = [
     {
       key: "presence",
-      onRender: () => <Facepile
-      styles={{ root: { alignSelf: "center" } }}
-      personas={personas}
-    />,
+      onRender: () => (
+        <Facepile
+          styles={{ root: { alignSelf: "center" } }}
+          personas={personas}
+        />
+      ),
     },
   ];
   return (

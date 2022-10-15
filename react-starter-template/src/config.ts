@@ -1,7 +1,6 @@
 import { SharedMap, ISharedMap, IFluidContainer, ContainerSchema } from 'fluid-framework';
 import { TinyliciousClientProps } from '@fluidframework/tinylicious-client';
 
-
 ////
 // Container and App setup
 ////
@@ -36,4 +35,3 @@ export const setDefaultData = (fluidContainer: IFluidContainer) => {
     map.set(data.id, { value: data.value });
   }
 };
-

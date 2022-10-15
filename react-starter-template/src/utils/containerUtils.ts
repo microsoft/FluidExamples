@@ -1,10 +1,5 @@
 import { TinyliciousClient } from '@fluidframework/tinylicious-client';
-import {
-  containerSchema,
-  clientProps,
-  setDefaultData,
-  FILEPATH,
-} from '../config';
+import { containerSchema, clientProps, setDefaultData, FILEPATH } from '../config';
 
 const client = new TinyliciousClient(clientProps);
 

@@ -21,9 +21,7 @@ export function ReactionListCallout(props: ReactionListCalloutProps) {
         )}
         <Label>Like Reactions</Label>
       </Stack>
-      <PersonaList
-        users={props.usersToDisplay}
-      />
+      <PersonaList users={props.usersToDisplay} />
     </div>
   );
 }
