@@ -1,40 +1,39 @@
 body {
-	font-family: sans-serif;
+  font-family: sans-serif;
 
-	max-width: 80vw;
-	margin: 0 auto;
+  max-width: 80vw;
+  margin: 0 auto;
 }
 
 .l-header {
-	display: flex;
+  display: flex;
 
-	box-sizing: border-box;
-	width: 100%;
-	min-height: 5em;
-	padding: 1em;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 5em;
+  padding: 1em;
 
-	align-content: space-between;
-	align-items: stretch;
-	justify-content: space-between;
+  align-content: space-between;
+  align-items: stretch;
+  justify-content: space-between;
 
-	h1 {
-		box-sizing: border-box;
-		padding-left: 1.5em;
-		padding-right: 1.5em;
-
-	}
+  h1 {
+    box-sizing: border-box;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+  }
 }
 
 .l-article {
-	margin: 3em 2em;
+  margin: 3em 2em;
 }
 
 .l-title {
-	flex-grow: 1;
+  flex-grow: 1;
 }
 
 img.logo {
-	width: 100%;
-	min-width: 76px;
-	height: auto;
+  width: 100%;
+  min-width: 76px;
+  height: auto;
 }

@@ -1,4 +1,4 @@
-// Copyright (c) Wictor Wilén. All rights reserved. 
+// Copyright (c) Wictor Wilén. All rights reserved.
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license.
 
@@ -13,10 +13,10 @@ const config = {};
 // Set environment variables
 const env = argv.env;
 if (env === undefined) {
-    require("dotenv").config();
+  require("dotenv").config();
 } else {
-    log(`Using custom .env: ${env}`);
-    require("dotenv").config({ path: path.resolve(process.cwd(), env) });
+  log(`Using custom .env: ${env}`);
+  require("dotenv").config({ path: path.resolve(process.cwd(), env) });
 }
 process.env.VERSION = package.version;
 
