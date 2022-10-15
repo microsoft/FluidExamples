@@ -1,6 +1,6 @@
 {
   "name": "@fluid-example/angular-demo",
-  "version":  "0.1.0",
+  "version": "0.1.0",
   "homepage": "https://fluidframework.com",
   "repository": "microsoft/FluidExamples",
   "license": "MIT",
@@ -10,7 +10,13 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "prettier": "prettier --check .",
+    "eslint": "eslint --format stylish src",
+    "eslint:fix": "eslint --ext .ts src",
+    "prettier:fix": "prettier --write .",
+    "lint:fix": "npm run prettier:fix && npm run eslint:fix",
+    "lint": "npm run prettier"
   },
   "private": true,
   "dependencies": {
@@ -33,6 +39,8 @@
     "@angular/compiler-cli": "~12.2.0",
     "@types/debug": "^4.1.7",
     "@types/node": "^12.11.1",
-    "typescript": "~4.3.5"
+    "typescript": "~4.3.5",
+    "prettier": "^2.7.1",
+    "eslint": "^8.25.0"
   }
 }
