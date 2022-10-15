@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "preserveConstEnums": true
+    "preserveConstEnums": true,
   },
-  "include": ["src"]
+  "include": ["src"],
 }

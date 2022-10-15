@@ -16,9 +16,11 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "test:report": "echo No test for this example",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write .",
-    "lint": "npm run prettier"
+    "format": "npm run prettier:fix",
+    "lint": "npm run prettier",
+    "lint:fix": "npm run prettier:fix",
+    "prettier": "prettier --check . --ignore-path ./.prettierignore",
+    "prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
   },
   "browserslist": {
     "production": [

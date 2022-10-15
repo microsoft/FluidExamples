@@ -13,16 +13,16 @@ For a more detailed explanation of this example please click [here](https://flui
 
 ### `App.js`
 
-- This is the first component that will be loaded upon Application startup.
-- This component gets data from the Fluid service, including the `SharedString` object, which will be used by the following two files.
+-   This is the first component that will be loaded upon Application startup.
+-   This component gets data from the Fluid service, including the `SharedString` object, which will be used by the following two files.
 
 ### `SharedStringHelper.js`
 
-- This is a class that provides simple APIs to interact with a `SharedString` object.
+-   This is a class that provides simple APIs to interact with a `SharedString` object.
 
 ### `CollaborativeTextArea.js`
 
-- This is a component which integrates a `SharedStringHelper` object with the default `textarea` HTML element to create text which can be co-edited in real time.
+-   This is a component which integrates a `SharedStringHelper` object with the default `textarea` HTML element to create text which can be co-edited in real time.
 
 ---
 

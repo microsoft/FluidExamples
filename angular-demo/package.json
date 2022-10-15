@@ -11,9 +11,11 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write .",
-    "lint": "npm run prettier"
+    "format": "npm run prettier:fix",
+    "lint": "npm run prettier",
+    "lint:fix": "npm run prettier:fix",
+    "prettier": "prettier --check . --ignore-path ./.prettierignore",
+    "prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
   },
   "private": true,
   "dependencies": {

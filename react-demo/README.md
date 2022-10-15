@@ -15,12 +15,12 @@ Concepts you will learn:
 
 In this example you will do the following:
 
-- [Use Create React App](#use-create-react-app)
-- [Install Fluid package dependencies](#install-fluid-package-dependencies)
-- [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
-- [Get the Fluid SharedMap](#get-the-fluid-sharedmap)
-- [Update the view](#update-the-view)
-- [Next steps](#next-steps)
+-   [Use Create React App](#use-create-react-app)
+-   [Install Fluid package dependencies](#install-fluid-package-dependencies)
+-   [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
+-   [Get the Fluid SharedMap](#get-the-fluid-sharedmap)
+-   [Update the view](#update-the-view)
+-   [Next steps](#next-steps)
 
 ## Use Create React App
 
@@ -104,7 +104,7 @@ Before the client can create any containers, it needs a `containerSchema` that w
 
 ```js
 const containerSchema = {
-  initialObjects: { myMap: SharedMap },
+    initialObjects: { myMap: SharedMap },
 };
 ```
 
@@ -120,17 +120,17 @@ Fluid applications can be loaded in one of two states, creating or loading. This
 
 ```js
 const getMyMap = async () => {
-  let container;
-  if (location.hash <= 1) {
-    ({ container } = await client.createContainer(containerSchema));
-    container.initialObjects.myMap.set(timeKey, Date.now().toString());
-    const id = await container.attach();
-    location.hash = id;
-  } else {
-    const id = location.hash.substring(1);
-    ({ container } = await client.getContainer(id, containerSchema));
-  }
-  return container.initialObjects.myMap;
+    let container;
+    if (location.hash <= 1) {
+        ({ container } = await client.createContainer(containerSchema));
+        container.initialObjects.myMap.set(timeKey, Date.now().toString());
+        const id = await container.attach();
+        location.hash = id;
+    } else {
+        const id = location.hash.substring(1);
+        ({ container } = await client.getContainer(id, containerSchema));
+    }
+    return container.initialObjects.myMap;
 };
 ```
 
@@ -146,7 +146,7 @@ By setting an empty dependency array at the end of the `useEffect`, the app ensu
 const [fluidMap, setFluidMap] = React.useState(undefined);
 
 React.useEffect(() => {
-  getMyMap().then((myMap) => setFluidMap(myMap));
+    getMyMap().then((myMap) => setFluidMap(myMap));
 }, []);
 ```
 
@@ -161,18 +161,18 @@ To sync the data we're going to create a `syncView` function, call that function
 const [viewData, setViewData] = React.useState(undefined);
 
 React.useEffect(() => {
-  if (fluidMap !== undefined) {
-    // sync Fluid data into view state
-    const syncView = () => setViewData({ time: fluidMap.get(timeKey) });
-    // ensure sync runs at least once
-    syncView();
-    // update state each time our map changes
-    fluidMap.on("valueChanged", syncView);
-    // turn off listener when component is unmounted
-    return () => {
-      fluidMap.off("valueChanged", syncView);
-    };
-  }
+    if (fluidMap !== undefined) {
+        // sync Fluid data into view state
+        const syncView = () => setViewData({ time: fluidMap.get(timeKey) });
+        // ensure sync runs at least once
+        syncView();
+        // update state each time our map changes
+        fluidMap.on("valueChanged", syncView);
+        // turn off listener when component is unmounted
+        return () => {
+            fluidMap.off("valueChanged", syncView);
+        };
+    }
 }, [fluidMap]);
 ```
 
@@ -191,10 +191,10 @@ if (!viewData) return <div />;
 const setTime = () => fluidMap.set(timeKey, Date.now().toString());
 
 return (
-  <div>
-    <button onClick={setTime}> click </button>
-    <span>{viewData.time}</span>
-  </div>
+    <div>
+        <button onClick={setTime}> click </button>
+        <span>{viewData.time}</span>
+    </div>
 );
 ```
 
@@ -204,6 +204,6 @@ When the app loads it will update the URL. Copy that new URL into a second brows
 
 ## Next steps
 
-- Try extending the example with more key/value pairs and a more complex UI
-  - `npm install @fluentui/react` is a great way to add [UI controls](https://developer.microsoft.com/en-us/fluentui#/)
-- Try using other DDSes such as the [SharedString](https://fluidframework.com/docs/apis/sequence/sharedstring/)
+-   Try extending the example with more key/value pairs and a more complex UI
+    -   `npm install @fluentui/react` is a great way to add [UI controls](https://developer.microsoft.com/en-us/fluentui#/)
+-   Try using other DDSes such as the [SharedString](https://fluidframework.com/docs/apis/sequence/sharedstring/)

@@ -55,13 +55,13 @@ By configuring the `AzureConnectionConfig` that we pass into the `AzureClient` i
 
 Now, before you can access any Fluid data, you need to define your container schema after creating a configured `AzureClient` using `AzureConnectionConfig`.
 
-- `containerSchema`, also defined in [Config.ts](./src/Config.ts), is going to include a collection of the data types our application will use.
+-   `containerSchema`, also defined in [Config.ts](./src/Config.ts), is going to include a collection of the data types our application will use.
 
 ```ts
 export const containerSchema = {
-  initialObjects: {
-    map: SharedMap,
-  },
+    initialObjects: {
+        map: SharedMap,
+    },
 };
 ```
 
@@ -102,35 +102,35 @@ Since `start()` is an async function, we'll need to await for the initialObjects
 
 ### Running `AzureClient` against local service instance
 
-- To run against our local service instance, we make use of `InsecureTokenProvider`.
-  The `InsecureTokenProvider` requires we pass in two values to its constructor, a key string, which can be anything since we are running it locally, and an `IUser` type object identifying the current user.
-  For running the instance locally, the orderer and storage URLs would point to the local service instance on the default values of `http://localhost:7070`.
+-   To run against our local service instance, we make use of `InsecureTokenProvider`.
+    The `InsecureTokenProvider` requires we pass in two values to its constructor, a key string, which can be anything since we are running it locally, and an `IUser` type object identifying the current user.
+    For running the instance locally, the orderer and storage URLs would point to the local service instance on the default values of `http://localhost:7070`.
 
 ### Running `AzureClient` against live Azure Fluid Relay service instance
 
-- To run against live Azure Instance, we make use of `AzureFunctionTokenProvider` which takes in the Azure function URL and an optional `"userId" | "userName" | "additionalDetails"` type object identifying the current user, thereby making an axios `GET` request call to the Azure Function.
-  This axios call takes in the tenant ID, documentId and userID/userName as optional parameters.
-  The Azure Function is responsible for mapping the `tenantId` to tenant key secret to generate and sign the token such that the service will accept it.
+-   To run against live Azure Instance, we make use of `AzureFunctionTokenProvider` which takes in the Azure function URL and an optional `"userId" | "userName" | "additionalDetails"` type object identifying the current user, thereby making an axios `GET` request call to the Azure Function.
+    This axios call takes in the tenant ID, documentId and userID/userName as optional parameters.
+    The Azure Function is responsible for mapping the `tenantId` to tenant key secret to generate and sign the token such that the service will accept it.
 
 To add more versatility, we also incorporated the `useAzure` flag. Depending on the npm command you run (`npm run start` or `npm run start:azure`), the flag will toggle between local and remote mode using the same config format. We make use of `AzureFunctionTokenProvider` for running against live Azure instance since it is more secured, without exposing the tenant secret key in the client-side code whereas while running the service locally for development purpose, we make use of `InsecureTokenProvider`.
 
 ```ts
 export const connectionConfig: AzureConnectionConfig = useAzure
-  ? {
-      tenantId: "YOUR-TENANT-ID-HERE",
-      tokenProvider: new AzureFunctionTokenProvider(
-        "AZURE-FUNCTION-URL" + "/api/GetAzureToken",
-        { userId: "test-user", userName: "Test User" }
-      ),
-      orderer: "ENTER-ORDERER-URL-HERE",
-      storage: "ENTER-STORAGE-URL-HERE",
-    }
-  : {
-      tenantId: "local",
-      tokenProvider: new InsecureTokenProvider("fooBar", user),
-      orderer: "http://localhost:7070",
-      storage: "http://localhost:7070",
-    };
+    ? {
+          tenantId: "YOUR-TENANT-ID-HERE",
+          tokenProvider: new AzureFunctionTokenProvider(
+              "AZURE-FUNCTION-URL" + "/api/GetAzureToken",
+              { userId: "test-user", userName: "Test User" },
+          ),
+          orderer: "ENTER-ORDERER-URL-HERE",
+          storage: "ENTER-STORAGE-URL-HERE",
+      }
+    : {
+          tenantId: "local",
+          tokenProvider: new InsecureTokenProvider("fooBar", user),
+          orderer: "http://localhost:7070",
+          storage: "http://localhost:7070",
+      };
 ```
 
 ## Using `SharedMap` and Prefix Structure to Update Note States
@@ -148,21 +148,21 @@ const [notes, setNotes] = React.useState<readonly NoteData[]>([]);
 
 // This runs when via model changes whether initiated by user or from external
 React.useEffect(() => {
-  const syncLocalAndFluidState = () => {
-    const noteDataArr = [];
-    const ids: string[] = model.NoteIds;
+    const syncLocalAndFluidState = () => {
+        const noteDataArr = [];
+        const ids: string[] = model.NoteIds;
 
-    // Recreate the list of cards to re-render them via setNotes
-    for (let noteId of ids) {
-      const newCardData: NoteData = model.CreateNote(noteId, props.author);
-      noteDataArr.push(newCardData);
-    }
-    setNotes(noteDataArr);
-  };
+        // Recreate the list of cards to re-render them via setNotes
+        for (let noteId of ids) {
+            const newCardData: NoteData = model.CreateNote(noteId, props.author);
+            noteDataArr.push(newCardData);
+        }
+        setNotes(noteDataArr);
+    };
 
-  syncLocalAndFluidState();
-  model.setChangeListener(syncLocalAndFluidState);
-  return () => model.removeChangeListener(syncLocalAndFluidState);
+    syncLocalAndFluidState();
+    model.setChangeListener(syncLocalAndFluidState);
+    return () => model.removeChangeListener(syncLocalAndFluidState);
 }, [model, props.author]);
 ```
 
@@ -202,9 +202,9 @@ To summarize how these 2 components work together seamlessly, let's take `setNot
 
 1. Get the `NoteIds` from the map
 2. Use the IDs as prefixes in `createNote()` to load the data for each individual note.
-   - `createNote()` will take the `noteId` that's passed in as argument to retrieve each note property from `SharedMap` and populate the new note. Note property like `didLikeThisCalculated` is done by filtering the retrieved value by `user` and `noteId` to generate unique view from the user's perspective.
+    - `createNote()` will take the `noteId` that's passed in as argument to retrieve each note property from `SharedMap` and populate the new note. Note property like `didLikeThisCalculated` is done by filtering the retrieved value by `user` and `noteId` to generate unique view from the user's perspective.
 3. Apply a state update with our list of new notes.
-   - With our newly generated and updated list of new notes, we call `setNotes` to update the React state. This updated React state will propagate the changes to all remote clients, resulting in the view updating.
+    - With our newly generated and updated list of new notes, we call `setNotes` to update the React state. This updated React state will propagate the changes to all remote clients, resulting in the view updating.
 
 ## Using Audience to Render User Information
 
@@ -215,22 +215,20 @@ In the [BrainstormView](./src/BrainstormView.tsx), the audience property is used
 With audience Fluid data and View data, we again, need to set up an event listener, which mean we also need a `useEffect()` hook.
 
 ```ts
-const [members, setMembers] = React.useState(
-  Array.from(audience.getMembers().values())
-);
+const [members, setMembers] = React.useState(Array.from(audience.getMembers().values()));
 
 const setMembersCallback = React.useCallback(
-  () => setMembers(Array.from(audience.getMembers().values())),
-  [setMembers, audience]
+    () => setMembers(Array.from(audience.getMembers().values())),
+    [setMembers, audience],
 );
 
 React.useEffect(() => {
-  fluidContainer.on("connected", setMembersCallback);
-  audience.on("membersChanged", setMembersCallback);
-  return () => {
-    fluidContainer.off("connected", () => setMembersCallback);
-    audience.off("membersChanged", () => setMembersCallback);
-  };
+    fluidContainer.on("connected", setMembersCallback);
+    audience.on("membersChanged", setMembersCallback);
+    return () => {
+        fluidContainer.off("connected", () => setMembersCallback);
+        audience.off("membersChanged", () => setMembersCallback);
+    };
 }, [fluidContainer, audience, setMembersCallback]);
 ```
 
@@ -245,10 +243,10 @@ const authorInfo = audience.getMyself();
 With `members` and `authorInfo` defined, we use these to achieve several tasks:
 
 1. displaying all current active users
-   - All current active users are displayed as FacePile, or a list of personas, on the top right corner of the app.
+    - All current active users are displayed as FacePile, or a list of personas, on the top right corner of the app.
 2. displaying author name in persona tooltip
-   - When hovering over the note's persona, the author who created the name will be displayed dynamically.
+    - When hovering over the note's persona, the author who created the name will be displayed dynamically.
 3. displaying likes for the note
-   - When hovering over the like button, a list of all the users that liked the note will be shown.
+    - When hovering over the like button, a list of all the users that liked the note will be shown.
 4. displaying the note's last edited user
-   - Once there are no changes to the note's content, the last edited author will be determined and shown at the bottom of the note.
+    - Once there are no changes to the note's content, the last edited author will be determined and shown at the bottom of the note.

@@ -15,11 +15,11 @@ In this readme we'll walk you through the following topics:
 
 ### Using this repo locally
 
-- Run the app locally
+-   Run the app locally
 
 ### Modifying the model
 
-- Modify the schema to include additional DDSes
+-   Modify the schema to include additional DDSes
 
 ---
 
@@ -52,9 +52,9 @@ To add another DDS to this list, make sure that the DDS is imported from `fluid-
 import { SharedMap, SharedCounter } from "fluid-framework";
 
 export const containerSchema = {
-  initialObjects: {
-    myMap: SharedMap,
-    myCounter: SharedCounter,
-  },
+    initialObjects: {
+        myMap: SharedMap,
+        myCounter: SharedCounter,
+    },
 };
 ```

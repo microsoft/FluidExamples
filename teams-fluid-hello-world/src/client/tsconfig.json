@@ -7,7 +7,7 @@
     "strictNullChecks": true,
     "jsx": "react",
     "sourceMap": true,
-    "allowJs": true
+    "allowJs": true,
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }
