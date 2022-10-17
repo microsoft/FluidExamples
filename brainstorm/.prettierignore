@@ -6,3 +6,11 @@ node_modules
 
 # Build output
 dist
+build
+
+# VSCode settings
+.vscode
+build
+
+# VSCode settings
+.vscode
