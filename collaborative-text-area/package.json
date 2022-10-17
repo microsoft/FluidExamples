@@ -23,6 +23,9 @@
     "web-vitals": "^1.1.2",
     "prettier": "^2.7.1"
   },
+  "devDependencies": {
+    "@fluidframework/build-common": "^1.0.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

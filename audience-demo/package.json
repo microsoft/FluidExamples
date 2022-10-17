@@ -38,6 +38,7 @@
     ]
   },
   "devDependencies": {
+    "@fluidframework/build-common": "^1.0.0",
     "buffer": "^6.0.3",
     "url": "^0.11.0",
     "prettier": "^2.7.1"

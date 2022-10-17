@@ -27,6 +27,7 @@
         "vue": "^3.2.11"
     },
     "devDependencies": {
+        "@fluidframework/build-common": "^1.0.0",
         "@babel/core": "^7.15.5",
         "@babel/preset-env": "^7.15.0",
         "babel-loader": "^8.2.2",

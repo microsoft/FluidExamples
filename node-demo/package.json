@@ -22,5 +22,8 @@
     "readline-sync": "^1.4.10",
     "prettier": "^2.7.1"
   },
+  "devDependencies": {
+    "@fluidframework/build-common": "^1.0.0"
+  },
   "type": "module"
 }

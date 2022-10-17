@@ -41,6 +41,7 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
+    "@fluidframework/build-common": "^1.0.0",
     "@types/react-router-dom": "^5.1.7",
     "prettier": "^2.7.1"
   },
@@ -61,12 +62,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "prettier": {
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "semi": true,
-    "singleQuote": true,
-    "printWidth": 100
   }
 }
