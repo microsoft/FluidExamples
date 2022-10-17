@@ -14,25 +14,25 @@ In this readme we'll walk you through the following topics:
 
 ### Using this repo locally
 
-- Run the app locally
+-   Run the app locally
 
 ### Modifying the model
 
-- Modify the schema to include additional DDSes
-- Update the `defaultData` of those DDSes
-- Update the `model` to access and modify your Fluid data
-- Write custom events
+-   Modify the schema to include additional DDSes
+-   Update the `defaultData` of those DDSes
+-   Update the `model` to access and modify your Fluid data
+-   Write custom events
 
 ### Modifying the view
 
-- Modify the store
-  - `initialState`
-  - `queries`
-  - `actions`
-  - `reducer`
-- Importing and using the store
-  - Using `queries`
-  - Dispatching `actions`
+-   Modify the store
+    -   `initialState`
+    -   `queries`
+    -   `actions`
+    -   `reducer`
+-   Importing and using the store
+    -   Using `queries`
+    -   Dispatching `actions`
 
 ---
 
@@ -62,13 +62,13 @@ Inside of `src/config.ts`, you can define the `initialObjects` that are returned
 To add another DDS to this list, make sure that the DDS is imported from `fluid-framework`, select a key, and add the DDS to `initialObjects`.
 
 ```ts
-import { SharedMap, SharedCounter } from 'fluid-framework';
+import { SharedMap, SharedCounter } from "fluid-framework";
 
 export const containerSchema = {
-  initialObjects: {
-    myMap: SharedMap,
-    myCounter: SharedCounter,
-  },
+    initialObjects: {
+        myMap: SharedMap,
+        myCounter: SharedCounter,
+    },
 };
 ```
 
@@ -78,8 +78,8 @@ Inside of `src/config.ts` you can modify the `setDefaultData` function to change
 
 ```ts
 export const setDefaultData = (fluidContainer: IFluidContainer) => {
-  const { myMap, myCounter } = fluidContainer.intitialObjects;
-  myCounter.increment(1); // start at 1
+    const { myMap, myCounter } = fluidContainer.intitialObjects;
+    myCounter.increment(1); // start at 1
 };
 ```
 
@@ -107,12 +107,12 @@ This template is written to funnel all model events through the `modelChanged` e
 
 ```ts
 // inside of the constructor
-this.counter.on('incremented', (incrementAmount, newValue) => {
-  const counterIncrementedPayload = {
-    type: 'counterIncremented',
-    data: { incrementAmount, newValue },
-  };
-  this.emit('modelChanged', counterIncrementedPayload);
+this.counter.on("incremented", (incrementAmount, newValue) => {
+    const counterIncrementedPayload = {
+        type: "counterIncremented",
+        data: { incrementAmount, newValue },
+    };
+    this.emit("modelChanged", counterIncrementedPayload);
 });
 ```
 
@@ -133,30 +133,30 @@ This means that local state is never modified directly by the UI, and both local
 
 ```ts
 export const useGetCounterStore = () =>
-  useGetStore({
-    initialState: (model) => model.getCounterValue(),
-    queries: {
-      getCounter: (state) => state,
-      isMoreThan100: (state) => state > 100,
-    },
-    actions: {
-      increment: (model, payload: { double: boolean }) => {
-        if (double) {
-          model.jumpCounterFive();
-          model.jumpCounterFive();
-        } else {
-          model.jumpCounterFive();
-        }
-      },
-    },
-    reducer: (model, draft, { type, data }) => {
-      switch (type) {
-        case 'counterIncremented':
-          draft = data.newValue;
-          break;
-      }
-    },
-  });
+    useGetStore({
+        initialState: (model) => model.getCounterValue(),
+        queries: {
+            getCounter: (state) => state,
+            isMoreThan100: (state) => state > 100,
+        },
+        actions: {
+            increment: (model, payload: { double: boolean }) => {
+                if (double) {
+                    model.jumpCounterFive();
+                    model.jumpCounterFive();
+                } else {
+                    model.jumpCounterFive();
+                }
+            },
+        },
+        reducer: (model, draft, { type, data }) => {
+            switch (type) {
+                case "counterIncremented":
+                    draft = data.newValue;
+                    break;
+            }
+        },
+    });
 ```
 
 ### Import and use the store
