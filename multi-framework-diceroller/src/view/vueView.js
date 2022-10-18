@@ -45,4 +45,5 @@ export const vueDiceRoller = (dice, elem) => {
     });
 
     app.mount(elem);
+    page.waitFor(() => window["fluidStarted"]);
 };

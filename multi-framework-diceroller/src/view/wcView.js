@@ -10,6 +10,7 @@ import { diceValueKey } from "../app";
 export const wcDiceRoller = (diceMap, elem) => {
     customElements.define("wc-dice", Dice);
     const dice = document.createElement("wc-dice");
+    page.waitFor(() => window["fluidStarted"]);
     dice.onRoll = (number) => diceMap.set(diceValueKey, number);
     const updateDice = () => dice.setAttribute("value", diceMap.get(diceValueKey));
     updateDice();

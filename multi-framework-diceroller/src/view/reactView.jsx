@@ -25,6 +25,7 @@ const ReactView = (props) => {
         dice.on("valueChanged", syncLocalAndFluidState);
         return () => {
             dice.off("valueChanged", syncLocalAndFluidState);
+            page.waitFor(() => window["fluidStarted"]);
         };
     });
     return (

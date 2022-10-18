@@ -11,12 +11,12 @@
         "start": "concurrently \"npm:start:server\" \"npm:start:client\"",
         "start:client": "webpack serve",
         "start:server": "npx tinylicious",
-        "test:report": "echo No test for this example",
         "format": "npm run prettier:fix",
         "lint": "npm run prettier",
         "lint:fix": "npm run prettier:fix",
         "prettier": "prettier --check . --ignore-path ./.prettierignore",
-        "prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
+        "prettier:fix": "prettier --write . --ignore-path ./.prettierignore",
+        "test:report": "start-server-and-test start:server 7070 jest"
     },
     "dependencies": {
         "@babel/preset-react": "^7.14.5",
@@ -37,7 +37,11 @@
         "webpack": "^4.46.0",
         "webpack-cli": "^4.2.0",
         "webpack-dev-server": "^3.11.0",
-        "prettier": "^2.7.1"
+        "prettier": "^2.7.1",
+        "jest": "^26.6.3",
+        "jest-puppeteer": "^4.3.0",
+        "puppeteer": "^1.20.0",
+        "start-server-and-test": "^1.11.6"
     },
     "prettier": {
         "trailingComma": "es5",
