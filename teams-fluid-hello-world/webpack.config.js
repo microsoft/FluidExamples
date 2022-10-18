@@ -14,96 +14,113 @@ const argv = require("yargs").argv;
 const debug = argv.debug !== undefined;
 const lint = !(argv["no-linting"] || argv.l === true);
 
-const config = [{
-    entry: {
-        server: [
-            path.join(__dirname, "/src/server/server.ts")
-        ]
+const config = [
+    {
+        entry: {
+            server: [path.join(__dirname, "/src/server/server.ts")],
+        },
+        mode: debug ? "development" : "production",
+        output: {
+            path: path.join(__dirname, "/dist"),
+            filename: "[name].js",
+            devtoolModuleFilenameTemplate: debug ? "[absolute-resource-path]" : "[]",
+        },
+        externals: [nodeExternals()],
+        devtool: debug ? "source-map" : "source-map",
+        resolve: {
+            extensions: [".ts", ".tsx", ".js"],
+            alias: {},
+        },
+        target: "node",
+        node: {
+            __dirname: false,
+            __filename: false,
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.tsx?$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: "ts-loader",
+                        options: {
+                            transpileOnly: true,
+                        },
+                    },
+                },
+            ],
+        },
+        plugins: [
+            new ForkTsCheckerWebpackPlugin({
+                typescript: {
+                    configFile: "./src/server/tsconfig.json",
+                },
+            }),
+        ],
     },
-    mode: debug ? "development" : "production",
-    output: {
-        path: path.join(__dirname, "/dist"),
-        filename: "[name].js",
-        devtoolModuleFilenameTemplate: debug ? "[absolute-resource-path]" : "[]"
+    {
+        entry: {
+            client: [path.join(__dirname, "/src/client/client.ts")],
+        },
+        mode: debug ? "development" : "production",
+        output: {
+            path: path.join(__dirname, "/dist/web/scripts"),
+            filename: "[name].js",
+            libraryTarget: "umd",
+            library: "teamsFluidHelloWorld",
+            publicPath: "/scripts/",
+        },
+        externals: {},
+        devtool: debug ? "source-map" : "source-map",
+        resolve: {
+            extensions: [".ts", ".tsx", ".js"],
+            alias: {},
+        },
+        target: "web",
+        module: {
+            rules: [
+                {
+                    test: /\.tsx?$/,
+                    exclude: /node_modules/,
+                    use: {
+                        loader: "ts-loader",
+                        options: {
+                            transpileOnly: true,
+                        },
+                    },
+                },
+            ],
+        },
+        plugins: [
+            new webpack.EnvironmentPlugin({
+                PUBLIC_HOSTNAME: undefined,
+                TAB_APP_ID: null,
+                TAB_APP_URI: null,
+            }),
+            new ForkTsCheckerWebpackPlugin({
+                typescript: {
+                    configFile: "./src/client/tsconfig.json",
+                },
+            }),
+        ],
     },
-    externals: [nodeExternals()],
-    devtool: debug ? "source-map" : "source-map",
-    resolve: {
-        extensions: [".ts", ".tsx", ".js"],
-        alias: {}
-    },
-    target: "node",
-    node: {
-        __dirname: false,
-        __filename: false
-    },
-    module: {
-        rules: [{
-            test: /\.tsx?$/,
-            exclude: /node_modules/,
-            use: {
-                loader: "ts-loader",
-                options: {
-                    transpileOnly: true
-                }
-            }
-        }]
-    },
-    plugins: [
-        new ForkTsCheckerWebpackPlugin({
-            typescript: {
-                configFile: "./src/server/tsconfig.json"
-            }
-        })
-    ]
-},
-{
-    entry: {
-        client: [
-            path.join(__dirname, "/src/client/client.ts")
-        ]
-    },
-    mode: debug ? "development" : "production",
-    output: {
-        path: path.join(__dirname, "/dist/web/scripts"),
-        filename: "[name].js",
-        libraryTarget: "umd",
-        library: "teamsFluidHelloWorld",
-        publicPath: "/scripts/"
-    },
-    externals: {},
-    devtool: debug ? "source-map" : "source-map",
-    resolve: {
-        extensions: [".ts", ".tsx", ".js"],
-        alias: {}
-    },
-    target: "web",
-    module: {
-        rules: [{
-            test: /\.tsx?$/,
-            exclude: /node_modules/,
-            use: {
-                loader: "ts-loader",
-                options: {
-                    transpileOnly: true
-                }
-            }
-        }]
-    },
-    plugins: [
-        new webpack.EnvironmentPlugin({ PUBLIC_HOSTNAME: undefined, TAB_APP_ID: null, TAB_APP_URI: null }),
-        new ForkTsCheckerWebpackPlugin({
-            typescript: {
-                configFile: "./src/client/tsconfig.json"
-            }
-        })
-    ]
-}
 ];
 
 if (lint !== false) {
-    config[0].plugins.push(new ESLintPlugin({ extensions: ["ts", "tsx"], failOnError: false, lintDirtyModulesOnly: debug }));
-    config[1].plugins.push(new ESLintPlugin({ extensions: ["ts", "tsx"], failOnError: false, lintDirtyModulesOnly: debug }));
+    config[0].plugins.push(
+        new ESLintPlugin({
+            extensions: ["ts", "tsx"],
+            failOnError: false,
+            lintDirtyModulesOnly: debug,
+        }),
+    );
+    config[1].plugins.push(
+        new ESLintPlugin({
+            extensions: ["ts", "tsx"],
+            failOnError: false,
+            lintDirtyModulesOnly: debug,
+        }),
+    );
 }
 
 module.exports = config;

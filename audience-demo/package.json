@@ -18,7 +18,12 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start:server": "npx @fluidframework/azure-local-service@latest",
-    "test:report": "echo No test for this example"
+    "test:report": "echo No test for this example",
+    "format": "npm run prettier:fix",
+    "lint": "npm run prettier",
+    "lint:fix": "npm run prettier:fix",
+    "prettier": "prettier --check . --ignore-path ./.prettierignore",
+    "prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
   },
   "browserslist": {
     "production": [
@@ -33,7 +38,9 @@
     ]
   },
   "devDependencies": {
+    "@fluidframework/build-common": "^1.0.0",
     "buffer": "^6.0.3",
-    "url": "^0.11.0"
+    "url": "^0.11.0",
+    "prettier": "^2.7.1"
   }
 }

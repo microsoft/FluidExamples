@@ -27,21 +27,14 @@
     {
       "configurationUrl": "https://1211-47-186-115-30.ngrok.io/helloWorldTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
       "canUpdateConfiguration": true,
-      "scopes": [
-        "team"
-      ]
+      "scopes": ["team"]
     }
   ],
   "staticTabs": [],
   "bots": [],
   "connectors": [],
   "composeExtensions": [],
-  "permissions": [
-    "identity",
-    "messageTeamMembers"
-  ],
-  "validDomains": [
-    "1211-47-186-115-30.ngrok.io"
-  ],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": ["1211-47-186-115-30.ngrok.io"],
   "showLoadingIndicator": false
 }

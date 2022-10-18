@@ -10,7 +10,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:report": "echo No test for this example",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "npm run prettier:fix",
+    "lint": "npm run prettier",
+    "lint:fix": "npm run prettier:fix",
+    "prettier": "prettier --check . --ignore-path ./.prettierignore",
+    "prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
   },
   "dependencies": {
     "@fluentui/react": "^8.17.1",
@@ -36,7 +41,9 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.1.7"
+    "@fluidframework/build-common": "^1.0.0",
+    "@types/react-router-dom": "^5.1.7",
+    "prettier": "^2.7.1"
   },
   "eslintConfig": {
     "extends": [
@@ -55,12 +62,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "prettier": {
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "semi": true,
-    "singleQuote": true,
-    "printWidth": 100
   }
 }

@@ -14,7 +14,6 @@ import { createContainer, containerIdQueryParamKey } from "./Util";
  * Implementation of HelloWorldTab configuration page
  */
 export const HelloWorldTabConfig = () => {
-
     const [{ inTeams, theme, context }] = useTeams({});
     const [text, setText] = useState<string>();
     const entityId = useRef("");
@@ -23,11 +22,23 @@ export const HelloWorldTabConfig = () => {
         const host = "https://" + window.location.host;
         const containerId = await createContainer();
         microsoftTeams.settings.setSettings({
-            contentUrl: host + "/helloWorldTab/?" + containerIdQueryParamKey + "=" + containerId + "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
-            websiteUrl: host + "/helloWorldTab/?" + containerIdQueryParamKey + "=" + containerId + "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+            contentUrl:
+                host +
+                "/helloWorldTab/?" +
+                containerIdQueryParamKey +
+                "=" +
+                containerId +
+                "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+            websiteUrl:
+                host +
+                "/helloWorldTab/?" +
+                containerIdQueryParamKey +
+                "=" +
+                containerId +
+                "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
             suggestedDisplayName: entityId.current,
             removeUrl: host + "/helloWorldTab/remove.html?theme={theme}",
-            entityId: entityId.current
+            entityId: entityId.current,
         });
         saveEvent.notifySuccess();
     };
@@ -40,7 +51,7 @@ export const HelloWorldTabConfig = () => {
             microsoftTeams.settings.setValidityState(true);
             microsoftTeams.appInitialization.notifySuccess();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [context]);
 
     return (
@@ -60,7 +71,8 @@ export const HelloWorldTabConfig = () => {
                                     entityId.current = data.value;
                                 }
                             }}
-                            required />
+                            required
+                        />
                     </div>
                 </Flex.Item>
             </Flex>

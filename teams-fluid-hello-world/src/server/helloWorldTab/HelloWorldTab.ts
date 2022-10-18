@@ -11,5 +11,4 @@ import { PreventIframe } from "express-msteams-host";
 @PreventIframe("/helloWorldTab/index.html")
 @PreventIframe("/helloWorldTab/config.html")
 @PreventIframe("/helloWorldTab/remove.html")
-export class HelloWorldTab {
-}
+export class HelloWorldTab {}

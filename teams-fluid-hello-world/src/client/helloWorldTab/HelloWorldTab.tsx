@@ -15,13 +15,12 @@ import { getContainer, containerIdQueryParamKey } from "./Util";
  * Implementation of the HelloWorldTab content page
  */
 export const HelloWorldTab = () => {
-
     microsoftTeams.initialize();
     const [{ inTeams }] = useTeams();
 
     const [fluidMap, setFluidMap] = useState<SharedMap | undefined>(undefined);
 
-    const getFluidMap = async (url : URLSearchParams) => {
+    const getFluidMap = async (url: URLSearchParams) => {
         const containerId = url.get(containerIdQueryParamKey);
         if (!containerId) {
             throw Error("containerId not found in the URL");
@@ -42,19 +41,12 @@ export const HelloWorldTab = () => {
     }, [inTeams]);
 
     if (inTeams === false) {
-        return (
-            <div>This application only works in the context of Microsoft Teams</div>
-        );
+        return <div>This application only works in the context of Microsoft Teams</div>;
     }
 
     if (fluidMap !== undefined) {
-        return (
-            <FluidContent fluidMap={fluidMap} />
-        );
+        return <FluidContent fluidMap={fluidMap} />;
     }
 
-    return (
-        <div>Loading FluidContent...</div>
-    );
-
+    return <div>Loading FluidContent...</div>;
 };

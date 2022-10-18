@@ -3,8 +3,8 @@ import { TinyliciousClient } from "@fluidframework/tinylicious-client";
 import readlineSync from "readline-sync";
 
 const schema = {
-    initialObjects: { sharedRandomNumber: SharedMap }
-}
+    initialObjects: { sharedRandomNumber: SharedMap },
+};
 
 const randomNumberKey = "random-number-key";
 
@@ -27,7 +27,7 @@ async function loadContainer(id) {
 
 function loadCli(map) {
     // Set a timer to update the random number every 1 second
-    const newRandomNumber = () => { 
+    const newRandomNumber = () => {
         map.set(randomNumberKey, Math.floor(Math.random() * 100) + 1);
     };
     setInterval(newRandomNumber, 1000);
@@ -35,7 +35,7 @@ function loadCli(map) {
     // Listen for updates and print changes to the random number
     const updateConsole = () => {
         console.log("Value: ", map.get(randomNumberKey));
-    }
+    };
     updateConsole();
     map.on("valueChanged", updateConsole);
 }
@@ -43,7 +43,7 @@ function loadCli(map) {
 async function start() {
     const containerId = readlineSync.question("Type a Container ID or press Enter to continue: ");
 
-    if(containerId.length === 0 || containerId === 'undefined' || containerId === 'null') {
+    if (containerId.length === 0 || containerId === "undefined" || containerId === "null") {
         await createContainer();
     } else {
         await loadContainer(containerId);
