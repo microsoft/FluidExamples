@@ -1,4 +1,4 @@
 {
-  "packages": ["brainstorm", "react-demo", "react-starter-template", "multi-framework-diceroller"],
+  "packages": ["**"],
   "version": "0.0.0"
 }
