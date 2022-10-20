@@ -1,6 +1,7 @@
 # @fluid-example/multi-framework-diceroller
 
 This repository contains a simple app that enables all connected clients to roll a dice and view the result, and demonstrates how that dice can be rendered in multiple UI frameworks.
+
 ## Requirements
 
 Node 12.17+
@@ -11,6 +12,7 @@ Node 12.17+
 npm install
 npm start
 ```
+
 ## Changing view frameworks
 
 This repo demonstrates rendering the dice roller using JavaScript, Web Components, React and Vue. The default view is JavaScipt. To switch to another view framework, change the `diceRoller` import in `src/app.js` line 8 as follows.
@@ -27,5 +29,4 @@ import { reactDiceRoller as diceRoller } from "./view";
 
 // Vue view
 import { vueDiceRoller as diceRoller } from "./view";
-
 ```

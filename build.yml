@@ -64,6 +64,12 @@ steps:
       workingDir: ${{ parameter.Value }}
       customCommand: 'run build'
   - task: Npm@1
+    displayName: Lint - ${{ parameter.Value }}
+    inputs:
+      command: 'custom'
+      workingDir: ${{ parameter.Value }}
+      customCommand: 'run lint'
+  - task: Npm@1
     displayName: Test - ${{ parameter.Value }}
     inputs:
       command: 'custom'

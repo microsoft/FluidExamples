@@ -9,19 +9,19 @@ This repo is a Fluid starter template that was created to answer the question "h
 3. You want a light state management framework to remove the boilerplate needed to store, access and modify Angular app state
 4. You already have Node installed on your local machine. If not, follow the instructions [here](https://nodejs.org/en/download/).
 
-
 ## Overview
+
 In this readme we'll walk you through the following topics:
 
 ### Using this repo locally
 
-- Run the app locally
+-   Run the app locally
+
 ### Modifying the model
 
-- Modify the schema to include additional DDSes
+-   Modify the schema to include additional DDSes
 
-
---- 
+---
 
 ## Using this repo
 
@@ -44,17 +44,17 @@ npm run start
 
 ### Specify additional DDSes
 
-Inside of `src/app/app.component.ts`, you can define the `initialObjects` that are returned by the container in the `containerSchema`. 
+Inside of `src/app/app.component.ts`, you can define the `initialObjects` that are returned by the container in the `containerSchema`.
 
 To add another DDS to this list, make sure that the DDS is imported from `fluid-framework`, select a key, and add the DDS to `initialObjects`.
 
 ```ts
-import { SharedMap, SharedCounter } from 'fluid-framework';
+import { SharedMap, SharedCounter } from "fluid-framework";
 
 export const containerSchema = {
-  initialObjects: {
-    myMap: SharedMap,
-    myCounter: SharedCounter
-  },
+    initialObjects: {
+        myMap: SharedMap,
+        myCounter: SharedCounter,
+    },
 };
 ```

@@ -13,7 +13,6 @@ import * as microsoftTeams from "@microsoft/teams-js";
  * Implementation of HelloWorldTab remove page
  */
 export const HelloWorldTabRemove = () => {
-
     const [{ inTeams, theme }] = useTeams();
 
     useEffect(() => {

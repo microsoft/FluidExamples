@@ -17,7 +17,7 @@ template.innerHTML = `
     <div class="dice"></div>
     <button class="roll"> Roll </button>
   </div>
-`
+`;
 
 export const jsDiceRoller = (diceMap, elem) => {
     elem.appendChild(template.content.cloneNode(true));
@@ -39,4 +39,4 @@ export const jsDiceRoller = (diceMap, elem) => {
 
     // Use the changed event to trigger the rerender whenever the value changes.
     diceMap.on("valueChanged", updateDice);
-}
+};

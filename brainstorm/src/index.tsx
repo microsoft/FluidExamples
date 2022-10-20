@@ -4,14 +4,14 @@
  */
 
 import { initializeIcons, ThemeProvider } from "@fluentui/react";
-import { AzureClient, AzureContainerServices } from '@fluidframework/azure-client';
-import { ConnectionState, IFluidContainer  } from "fluid-framework";
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrainstormView } from './view/BrainstormView';
-import "./view/index.css"
+import { AzureClient, AzureContainerServices } from "@fluidframework/azure-client";
+import { ConnectionState, IFluidContainer } from "fluid-framework";
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrainstormView } from "./view/BrainstormView";
+import "./view/index.css";
 import "./view/App.css";
-import { themeNameToTheme } from './view/Themes';
+import { themeNameToTheme } from "./view/Themes";
 import { connectionConfig, containerSchema } from "./Config";
 
 export async function start() {
@@ -55,7 +55,7 @@ export async function start() {
                 <BrainstormView container={container} services={services} />
             </ThemeProvider>
         </React.StrictMode>,
-        document.getElementById('root')
+        document.getElementById("root"),
     );
 }
 

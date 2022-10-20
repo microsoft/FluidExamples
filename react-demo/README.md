@@ -1,12 +1,13 @@
 # @fluid-example/react-demo
+
 This is an experimental learning tutorial demonstrating the integration of Fluid into [`create-react-app`](https://create-react-app.dev/).
 
 Concepts you will learn:
+
 1. How to integrate Fluid into a React application
 2. How to run and connect your application to a local Fluid service (Tinylicious)
 3. How to create and get Fluid Containers and collaborative objects
 4. How to use a [SharedMap distributed data structure (DDS)](https://fluidframework.com/docs/data-structures/map/) to sync data between connected clients
-
 
 \* Just want to see the code? Jump to the [finished tutorial.](./src/App.js).
 
@@ -14,22 +15,24 @@ Concepts you will learn:
 
 In this example you will do the following:
 
-  - [Use Create React App](#use-create-react-app)
-  - [Install Fluid package dependencies](#install-fluid-package-dependencies)
-  - [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
-  - [Get the Fluid SharedMap](#get-the-fluid-sharedmap)
-  - [Update the view](#update-the-view)
-  - [Next steps](#next-steps)
+-   [Use Create React App](#use-create-react-app)
+-   [Install Fluid package dependencies](#install-fluid-package-dependencies)
+-   [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
+-   [Get the Fluid SharedMap](#get-the-fluid-sharedmap)
+-   [Update the view](#update-the-view)
+-   [Next steps](#next-steps)
 
 ## Use Create React App
 
 ### Using NPM
+
 ```bash
 npx create-react-app my-app-name --use-npm
 cd my-app-name
 ```
 
 ### Using Yarn
+
 ```bash
 npx create-react-app my-app-name
 cd my-app-name
@@ -58,11 +61,13 @@ There are two packages to install to get started with Fluid:
 `@fluidframework/tinylicious-client` -- Defines the client we'll use to get our Fluid [container](https://fluidframework.com/docs/glossary/#container) for local development.
 
 ### Using NPM
+
 ```bash
 npm install fluid-framework @fluidframework/tinylicious-client
 ```
 
 ### Using Yarn
+
 ```bash
 yarn add fluid-framework @fluidframework/tinylicious-client
 ```
@@ -99,8 +104,8 @@ Before the client can create any containers, it needs a `containerSchema` that w
 
 ```js
 const containerSchema = {
-    initialObjects: { myMap: SharedMap }
-}; 
+    initialObjects: { myMap: SharedMap },
+};
 ```
 
 It's a common pattern to store important map keys as constants, rather than typing the raw string each time.
@@ -111,8 +116,7 @@ const timeKey = "time-key";
 
 ## Get the Fluid `SharedMap`
 
-Fluid applications can be loaded in one of two states, creating or loading. This demo differentiates these states by the presence, or absence of a hash string (`localhost:3000/#abc`), which will also serves as the container `id`. The function below will return the `myMap` SharedMap, defined above, from either a new container, or an existing container, based on the presence of a hash long enough to include an `id` value. 
-
+Fluid applications can be loaded in one of two states, creating or loading. This demo differentiates these states by the presence, or absence of a hash string (`localhost:3000/#abc`), which will also serves as the container `id`. The function below will return the `myMap` SharedMap, defined above, from either a new container, or an existing container, based on the presence of a hash long enough to include an `id` value.
 
 ```js
 const getMyMap = async () => {
@@ -127,14 +131,13 @@ const getMyMap = async () => {
         ({ container } = await client.getContainer(id, containerSchema));
     }
     return container.initialObjects.myMap;
-}
+};
 ```
-
 
 ### Get the SharedMap on load
 
 Now that the app has defined how to get our Fluid map, you need to tell React to call `getMyMap` on load, and then store the result in state.
-React's [useState hook](https://reactjs.org/docs/hooks-state.html) will provide the storage needed, and [useEffect](https://reactjs.org/docs/hooks-effect.html) will allow us to call `getMyMap` on render, passing the returned value into `setFluidMap`. 
+React's [useState hook](https://reactjs.org/docs/hooks-state.html) will provide the storage needed, and [useEffect](https://reactjs.org/docs/hooks-effect.html) will allow us to call `getMyMap` on render, passing the returned value into `setFluidMap`.
 
 By setting an empty dependency array at the end of the `useEffect`, the app ensure that this function only gets called once.
 
@@ -143,7 +146,7 @@ By setting an empty dependency array at the end of the `useEffect`, the app ensu
 const [fluidMap, setFluidMap] = React.useState(undefined);
 
 React.useEffect(() => {
-    getMyMap().then(myMap => setFluidMap(myMap));
+    getMyMap().then((myMap) => setFluidMap(myMap));
 }, []);
 ```
 
@@ -152,8 +155,6 @@ React.useEffect(() => {
 Syncing our Fluid and view data requires that the app create an event listener, which is another opportunity for `useEffect`. This second `useEffect` function will return early if `fluidMap` is not defined and run again once `fluidMap` has been set thanks to the added dependency.
 
 To sync the data we're going to create a `syncView` function, call that function once to initialize the view, and then continue calling that function each time the map's "valueChanged" event is raised.
-
-
 
 ```jsx
 // Add below the previous useEffect
@@ -168,11 +169,12 @@ React.useEffect(() => {
         // update state each time our map changes
         fluidMap.on("valueChanged", syncView);
         // turn off listener when component is unmounted
-        return () => { fluidMap.off("valueChanged", syncView) }
+        return () => {
+            fluidMap.off("valueChanged", syncView);
+        };
     }
-}, [fluidMap])
+}, [fluidMap]);
 ```
-
 
 ## Update the view
 
@@ -181,19 +183,19 @@ In this simple multi-user app, you are going to build a button that, when presse
 To make sure the app does not render too soon, it returns a blank `<div />` until the `viewData` is defined. Once that's done, it renders a button that sets the `timeKey` key in `myMap` to the current timestamp. Each time this button is pressed, every user will see the latest value stored in the `time` state variable.
 
 ```jsx
-    // update the App return
+// update the App return
 
-    if (!viewData) return <div />;
+if (!viewData) return <div />;
 
-    // business logic could be passed into the view via context
-    const setTime = () => fluidMap.set(timeKey, Date.now().toString());
+// business logic could be passed into the view via context
+const setTime = () => fluidMap.set(timeKey, Date.now().toString());
 
-    return (
-        <div>
-            <button onClick={setTime}> click </button>
-            <span>{viewData.time}</span>
-        </div>
-    )
+return (
+    <div>
+        <button onClick={setTime}> click </button>
+        <span>{viewData.time}</span>
+    </div>
+);
 ```
 
 When the app loads it will update the URL. Copy that new URL into a second browser and note that if you click the button in one browser, the other browser updates as well.
@@ -202,6 +204,6 @@ When the app loads it will update the URL. Copy that new URL into a second brows
 
 ## Next steps
 
-- Try extending the example with more key/value pairs and a more complex UI
-  - `npm install @fluentui/react` is a great way to add [UI controls](https://developer.microsoft.com/en-us/fluentui#/)
-- Try using other DDSes such as the [SharedString](https://fluidframework.com/docs/apis/sequence/sharedstring/)
+-   Try extending the example with more key/value pairs and a more complex UI
+    -   `npm install @fluentui/react` is a great way to add [UI controls](https://developer.microsoft.com/en-us/fluentui#/)
+-   Try using other DDSes such as the [SharedString](https://fluidframework.com/docs/apis/sequence/sharedstring/)

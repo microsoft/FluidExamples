@@ -6,15 +6,14 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = env => {
+module.exports = (env) => {
     const htmlTemplate = "./src/index.html";
-    const plugins = env && env.clean
-        ? [new CleanWebpackPlugin(), new HtmlWebpackPlugin({ template: htmlTemplate })]
-        : [new HtmlWebpackPlugin({ template: htmlTemplate })];
+    const plugins =
+        env && env.clean
+            ? [new CleanWebpackPlugin(), new HtmlWebpackPlugin({ template: htmlTemplate })]
+            : [new HtmlWebpackPlugin({ template: htmlTemplate })];
 
-    const mode = env && env.prod
-        ? "production"
-        : "development";
+    const mode = env && env.prod ? "production" : "development";
 
     return {
         devtool: "inline-source-map",
@@ -33,11 +32,11 @@ module.exports = env => {
                     use: {
                         loader: "babel-loader",
                         options: {
-                            presets: ["@babel/preset-env", "@babel/preset-react"]
-                        }
-                    }
-                }
-            ]
+                            presets: ["@babel/preset-env", "@babel/preset-react"],
+                        },
+                    },
+                },
+            ],
         },
         plugins,
         resolve: {
@@ -47,7 +46,7 @@ module.exports = env => {
             },
         },
         devServer: {
-            open: true
-        }
+            open: true,
+        },
     };
 };

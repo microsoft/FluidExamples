@@ -1,2 +1,2 @@
-export * from './useModel';
-export * from './useGetStore';
+export * from "./useModel";
+export * from "./useGetStore";

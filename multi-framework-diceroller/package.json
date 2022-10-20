@@ -11,7 +11,12 @@
         "start": "concurrently \"npm:start:server\" \"npm:start:client\"",
         "start:client": "webpack serve",
         "start:server": "npx tinylicious",
-        "test:report": "echo No test for this example"
+        "test:report": "echo No test for this example",
+        "format": "npm run prettier:fix",
+        "lint": "npm run prettier",
+        "lint:fix": "npm run prettier:fix",
+        "prettier": "prettier --check . --ignore-path ./.prettierignore",
+        "prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
     },
     "dependencies": {
         "@babel/preset-react": "^7.14.5",
@@ -22,6 +27,7 @@
         "vue": "^3.2.11"
     },
     "devDependencies": {
+        "@fluidframework/build-common": "^1.0.0",
         "@babel/core": "^7.15.5",
         "@babel/preset-env": "^7.15.0",
         "babel-loader": "^8.2.2",
@@ -30,7 +36,8 @@
         "html-webpack-plugin": "^4.3.0",
         "webpack": "^4.46.0",
         "webpack-cli": "^4.2.0",
-        "webpack-dev-server": "^3.11.0"
+        "webpack-dev-server": "^3.11.0",
+        "prettier": "^2.7.1"
     },
     "prettier": {
         "trailingComma": "es5",

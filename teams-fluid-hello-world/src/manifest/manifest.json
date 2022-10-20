@@ -27,21 +27,14 @@
     {
       "configurationUrl": "https://{{PUBLIC_HOSTNAME}}/helloWorldTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
       "canUpdateConfiguration": true,
-      "scopes": [
-        "team"
-      ]
+      "scopes": ["team"]
     }
   ],
   "staticTabs": [],
   "bots": [],
   "connectors": [],
   "composeExtensions": [],
-  "permissions": [
-    "identity",
-    "messageTeamMembers"
-  ],
-  "validDomains": [
-    "{{PUBLIC_HOSTNAME}}"
-  ],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": ["{{PUBLIC_HOSTNAME}}"],
   "showLoadingIndicator": false
 }
