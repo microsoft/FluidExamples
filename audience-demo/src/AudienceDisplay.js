@@ -89,9 +89,7 @@ export const AudienceDisplay = (props) => {
     if (!fluidMembers || !currentMember) return <div />;
 
     return (
-        <div>
-            <AudienceList fluidMembers={fluidMembers} currentMember={currentMember} />
-        </div>
+        <AudienceList fluidMembers={fluidMembers} currentMember={currentMember} />
     );
 };
 
