@@ -6,12 +6,21 @@ Each example is a standalone application that defines a Fluid Container and load
 
 ## Getting Started
 
-To get started, clone the repository and navigate to the examples folders. Navigate to any of the example in this folder and from the example root, you can install and start the example.
+To get started, clone a copy of the repo and change to the repo root directory:
 
-1. Run `npm install` from the example root
-2. Run `npm run start` to start both the client and server
+```shell
+git clone https://github.com/microsoft/FluidExamples.git
+cd FluidExamples
+```
 
-> For more details see the individual example README.md.
+Run the following commands to build the examples.
+
+```shell
+npm install
+npm run build
+```
+
+> You can navigate to individual demos under the examples folder. For more details see the individual demos README.md.
 
 ## Contributing
 
