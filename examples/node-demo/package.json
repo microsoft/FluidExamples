@@ -17,8 +17,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@fluidframework/tinylicious-client": "^1.0.1",
-    "fluid-framework": "^1.0.1",
+    "@fluidframework/tinylicious-client": "^1.3.0",
+    "fluid-framework": "^1.3.0",
     "readline-sync": "^1.4.10",
     "prettier": "^2.7.1"
   },
