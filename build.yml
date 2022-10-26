@@ -46,29 +46,29 @@ steps:
       alertWarningLevel: "High"
 
   - task: UseNode@1
-    displayName: Use Node 12.x
+    displayName: Use Node 14.x
     inputs:
-      version: 12.x
+      version: 14.x
+
+  - task: Npm@1
+    displayName: Install
+    inputs:
+      command: "custom"
+      customCommand: "install"
+
+  - task: Npm@1
+    displayName: Build
+    inputs:
+      command: "custom"
+      customCommand: "run build"
+
+  - task: Npm@1
+    displayName: Lint
+    inputs:
+      command: "custom"
+      customCommand: "run lint"
 
   - ${{ each parameter in parameters }}:
-      - task: Npm@1
-        displayName: Install - ${{ parameter.Value }}
-        inputs:
-          command: "custom"
-          workingDir: "${{ parameter.Value }}"
-          customCommand: "install"
-      - task: Npm@1
-        displayName: Build - ${{ parameter.Value }}
-        inputs:
-          command: "custom"
-          workingDir: ${{ parameter.Value }}
-          customCommand: "run build"
-      - task: Npm@1
-        displayName: Lint - ${{ parameter.Value }}
-        inputs:
-          command: "custom"
-          workingDir: ${{ parameter.Value }}
-          customCommand: "run lint"
       - task: Npm@1
         displayName: Test - ${{ parameter.Value }}
         inputs:
