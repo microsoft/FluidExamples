@@ -11,7 +11,7 @@ describe("react-demo", () => {
     const load = async () => {
         await page.goto(config.globals.URL, {
             waitUntil: ["networkidle2", "load"],
-            timeout: 60000,
+            timeout: 100000,
         });
     };
 
