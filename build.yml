@@ -9,25 +9,25 @@ pool:
 parameters:
   - name: brainstorm
     type: string
-    default: examples/brainstorm
+    default: brainstorm
   - name: react-starter-template
     type: string
-    default: examples/react-starter-template
+    default: react-starter-template
   - name: react-demo
     type: string
-    default: examples/react-demo
+    default: react-demo
   - name: multi-framework-diceroller
     type: string
-    default: examples/multi-framework-diceroller
+    default: multi-framework-diceroller
   - name: node-demo
     type: string
-    default: examples/node-demo
+    default: node-demo
   - name: teams-fluid-hello-world
     type: string
-    default: examples/teams-fluid-hello-world
+    default: teams-fluid-hello-world
   - name: audience-demo
     type: string
-    default: examples/audience-demo
+    default: audience-demo
 
 trigger:
   - main
@@ -50,31 +50,35 @@ steps:
     inputs:
       version: 14.x
 
-  - task: Npm@1
-    displayName: Install
-    inputs:
-      command: "custom"
-      customCommand: "install"
-
-  - task: Npm@1
-    displayName: Build
-    inputs:
-      command: "custom"
-      customCommand: "run build"
-
-  - task: Npm@1
-    displayName: Lint
-    inputs:
-      command: "custom"
-      customCommand: "run lint"
-
   - ${{ each parameter in parameters }}:
+      - task: Npm@1
+        displayName: Install - ${{ parameter.Value }}
+        inputs:
+          command: "custom"
+          workingDir: ${{ parameter.Value }}
+          customCommand: "install"
+
+      - task: Npm@1
+        displayName: Build - ${{ parameter.Value }}
+        inputs:
+          command: "custom"
+          workingDir: ${{ parameter.Value }}
+          customCommand: "run build"
+
+      - task: Npm@1
+        displayName: Lint - ${{ parameter.Value }}
+        inputs:
+          command: "custom"
+          workingDir: ${{ parameter.Value }}
+          customCommand: "run lint"
+
       - task: Npm@1
         displayName: Test - ${{ parameter.Value }}
         inputs:
           command: "custom"
           workingDir: ${{ parameter.Value }}
           customCommand: "run test:report"
+
       - task: PublishTestResults@2
         displayName: Publish Test Results - ${{ parameter.Value }}
         inputs:

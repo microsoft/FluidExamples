@@ -1,4 +1,14 @@
 {
-  "packages": ["examples/**"],
+  "packages": [
+    "angular-demo",
+    "audience-demo",
+    "brainstorm",
+    "collaborative-text-area",
+    "multi-framework-diceroller",
+    "node-demo",
+    "react-demo",
+    "react-starter-template",
+    "teams-fluid-hello-world"
+  ],
   "version": "0.0.0"
 }

@@ -24,5 +24,13 @@
   "bugs": {
     "url": "https://github.com/microsoft/FluidFramework/issues"
   },
-  "homepage": "https://github.com/microsoft/FluidExamples#readme"
+  "homepage": "https://github.com/microsoft/FluidExamples#readme",
+  "exclude": [
+    ".github",
+    ".vscode",
+    ".gitignore",
+    "build.yml",
+    "package.json",
+    "package-lock.json"
+  ]
 }
