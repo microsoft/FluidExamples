@@ -11,6 +11,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:report": "echo No test for this example",
     "format": "npm run prettier:fix",
     "lint": "npm run prettier",
     "lint:fix": "npm run prettier:fix",

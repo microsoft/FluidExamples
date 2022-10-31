@@ -30,6 +30,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:report": "echo No test for this example",
     "eject": "react-scripts eject",
     "format": "npm run prettier:fix",
     "lint": "npm run prettier",

@@ -1,5 +1,5 @@
 {
-  "name": "react-starter-template",
+  "name": "@fluid-example/react-starter-template",
   "version": "0.1.0",
   "homepage": "https://fluidframework.com",
   "repository": "microsoft/FluidExamples",
