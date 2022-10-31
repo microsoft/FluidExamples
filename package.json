@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^5.6.2"
+    "lerna": "^3.22.1"
   },
   "description": "This codebase includes examples of collaborative applications built with the Fluid Framework. For documentation about the Fluid Framework, go to [FluidFramework.com](https://fluidframework.com/). The Fluid Framework repository lives at [Github.com/Microsoft/FluidFramework](https://github.com/microsoft/fluidframework).",
   "version": "1.0.0",
@@ -10,19 +10,16 @@
   "scripts": {
     "test": "lerna run test",
     "build": "lerna run build",
-    "postinstall": "lerna bootstrap --strict --hoist",
-    "lint": "lerna run lint",
-    "lint:fix": "lerna run format",
-    "test:report": "lerna run test:report"
+    "postinstall": "lerna bootstrap"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/microsoft/FluidExamples.git"
   },
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/microsoft/FluidFramework/issues"
+    "url": "https://github.com/microsoft/FluidExamples/issues"
   },
   "homepage": "https://github.com/microsoft/FluidExamples#readme"
 }

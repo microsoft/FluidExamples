@@ -7,27 +7,33 @@ pool:
   vmImage: ubuntu-latest
 
 parameters:
-  - name: brainstorm
+  - name: angular-demo
     type: string
-    default: examples/brainstorm
-  - name: react-starter-template
-    type: string
-    default: examples/react-starter-template
-  - name: react-demo
-    type: string
-    default: examples/react-demo
-  - name: multi-framework-diceroller
-    type: string
-    default: examples/multi-framework-diceroller
-  - name: node-demo
-    type: string
-    default: examples/node-demo
-  - name: teams-fluid-hello-world
-    type: string
-    default: examples/teams-fluid-hello-world
+    default: angular-demo
   - name: audience-demo
     type: string
-    default: examples/audience-demo
+    default: audience-demo
+  - name: brainstorm
+    type: string
+    default: brainstorm
+  - name: collaborative-text-area
+    type: string
+    default: collaborative-text-area
+  - name: multi-framework-diceroller
+    type: string
+    default: multi-framework-diceroller
+  - name: react-demo
+    type: string
+    default: react-demo
+  - name: node-demo
+    type: string
+    default: node-demo
+  - name: react-starter-template
+    type: string
+    default: react-starter-template
+  - name: teams-fluid-hello-world
+    type: string
+    default: teams-fluid-hello-world
 
 trigger:
   - main
@@ -46,29 +52,29 @@ steps:
       alertWarningLevel: "High"
 
   - task: UseNode@1
-    displayName: Use Node 14.x
+    displayName: Use Node 12.x
     inputs:
-      version: 14.x
-
-  - task: Npm@1
-    displayName: Install
-    inputs:
-      command: "custom"
-      customCommand: "install"
-
-  - task: Npm@1
-    displayName: Build
-    inputs:
-      command: "custom"
-      customCommand: "run build"
-
-  - task: Npm@1
-    displayName: Lint
-    inputs:
-      command: "custom"
-      customCommand: "run lint"
+      version: 12.x
 
   - ${{ each parameter in parameters }}:
+      - task: Npm@1
+        displayName: Install - ${{ parameter.Value }}
+        inputs:
+          command: "custom"
+          workingDir: "${{ parameter.Value }}"
+          customCommand: "install"
+      - task: Npm@1
+        displayName: Build - ${{ parameter.Value }}
+        inputs:
+          command: "custom"
+          workingDir: ${{ parameter.Value }}
+          customCommand: "run build"
+      - task: Npm@1
+        displayName: Lint - ${{ parameter.Value }}
+        inputs:
+          command: "custom"
+          workingDir: ${{ parameter.Value }}
+          customCommand: "run lint"
       - task: Npm@1
         displayName: Test - ${{ parameter.Value }}
         inputs:
