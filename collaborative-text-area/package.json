@@ -24,7 +24,10 @@
     "prettier": "^2.7.1"
   },
   "devDependencies": {
-    "@fluidframework/build-common": "^1.0.0"
+    "@fluidframework/build-common": "^1.0.0",
+    "jest-puppeteer": "^6.1.1",
+    "puppeteer": "^19.2.0",
+    "start-server-and-test": "^1.14.0"
   },
   "scripts": {
     "start": "react-scripts start",
