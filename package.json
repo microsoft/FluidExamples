@@ -10,10 +10,7 @@
   "scripts": {
     "test": "lerna run test",
     "build": "lerna run build",
-    "postinstall": "lerna bootstrap --strict --hoist",
-    "lint": "lerna run lint",
-    "lint:fix": "lerna run format",
-    "test:report": "lerna run test:report"
+    "postinstall": "lerna bootstrap"
   },
   "repository": {
     "type": "git",

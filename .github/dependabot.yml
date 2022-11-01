@@ -3,9 +3,16 @@ updates:
   # Enable version updates for npm
   - package-ecosystem: "npm"
     # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/examples/**"
+    directory: "/brainstorm"
     schedule:
-      interval: "daily"
-    allow:
-      - dependency-name: "fluid-framework"
-      - dependency-name: "@fluidframework/*"
+      interval: "weekly"
+  - package-ecosystem: "npm"
+  # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/draft-js"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/sudoku"
+    schedule:
+      interval: "weekly"
