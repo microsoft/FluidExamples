@@ -18,6 +18,7 @@
     "start:azure": "cross-env REACT_APP_FLUID_CLIENT='\"azure\"' npm run start",
     "test": "react-scripts test",
     "test:report": "echo No test for this example",
+    "test:jest": "start-server-and-test start:server 7070 jest",
     "format": "npm run prettier:fix",
     "lint": "npm run prettier",
     "lint:fix": "npm run prettier:fix",

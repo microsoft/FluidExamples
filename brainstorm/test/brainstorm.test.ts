@@ -17,7 +17,7 @@ describe("brainstorm", () => {
 
     beforeEach(async () => {
         await load();
-        expect(await page.title()).toBe("React App");
+        expect(await page.title()).toBe("Lets Brainstorm");
         url = await page.url();
     });
 
