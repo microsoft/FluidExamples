@@ -10,10 +10,10 @@ module.exports = {
         devtools: false,
         args: ["--disable-setuid-sandbox", "--no-sandbox"],
     },
-    // server: {
-    //     command: "npm run start",
-    //     port: 3000,
-    //     launchTimeout: 70000,
-    //     debug: true,
-    // },
+    server: {
+        command: "npm run start:client",
+        port: 3000,
+        launchTimeout: 70000,
+        debug: true,
+    },
 };

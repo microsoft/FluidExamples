@@ -7,10 +7,11 @@
   "author": "Microsoft and contributors",
   "scripts": {
     "start": "react-scripts start",
+    "start:server": "npx tinylicious@latest",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:report": "echo No test for this example",
-    "test:jest": "jest",
+    "test:jest": "start-server-and-test start:server 7070 jest",
     "eject": "react-scripts eject",
     "format": "npm run prettier:fix",
     "lint": "npm run prettier",

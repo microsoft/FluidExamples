@@ -13,7 +13,7 @@ module.exports = {
     // server: {
     //     command: "npm run start",
     //     port: 3000,
-    //     launchTimeout: 70000,
+    //     launchTimeout: 100000,
     //     debug: true,
     // },
 };

@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "scripts": {
     "build": "npm build",
-    "start:client": "node ./src/index.js",
+    "start": "node ./src/index.js",
     "start:server": "npx tinylicious@latest",
     "test": "echo \"Error: no test specified\" && exit 1",
     "test:report": "echo No test for this example",
