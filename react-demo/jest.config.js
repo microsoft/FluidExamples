@@ -4,9 +4,10 @@
  */
 
 module.exports = {
-    preset: "jest-puppeteer",
-    globals: {
-        URL: "http://localhost:3000",
-    },
-    verbose: true,
+	preset: "jest-puppeteer",
+	globals: {
+		URL: "http://localhost:3000",
+	},
+	verbose: true,
+	testTimeout: 20000,
 };

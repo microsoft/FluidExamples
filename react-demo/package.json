@@ -16,7 +16,7 @@
 		"start": "react-scripts start",
 		"start:server": "npx tinylicious@latest",
 		"test": "react-scripts test",
-		"test:report": "jest",
+		"test:report": "start-server-and-test start:server 7070 jest",
 		"format": "npm run prettier:fix",
 		"lint": "npm run prettier",
 		"lint:fix": "npm run prettier:fix",

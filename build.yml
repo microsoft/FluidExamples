@@ -76,18 +76,6 @@ steps:
           workingDir: ${{ parameter.Value }}
           customCommand: "run lint"
       - task: Npm@1
-        displayName: Spin sever
-        inputs:
-          command: "custom",
-          workingDir: ${{ parameter.Value }}
-          customCommand: "start:server"
-      - task: Npm@1
-        displayName: Spin client
-        inputs:
-          command: "custom",
-          workingDir: ${{ parameter.Value }}
-          customCommand: "start"
-      - task: Npm@1
         displayName: Test - ${{ parameter.Value }}
         inputs:
           command: "custom"
