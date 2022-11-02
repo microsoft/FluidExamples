@@ -59,9 +59,9 @@ Now, before you can access any Fluid data, you need to define your container sch
 
 ```ts
 export const containerSchema = {
-    initialObjects: {
-        map: SharedMap,
-    },
+	initialObjects: {
+		map: SharedMap,
+	},
 };
 ```
 
@@ -116,21 +116,21 @@ To add more versatility, we also incorporated the `useAzure` flag. Depending on 
 
 ```ts
 export const connectionConfig: AzureConnectionConfig = useAzure
-    ? {
-          tenantId: "YOUR-TENANT-ID-HERE",
-          tokenProvider: new AzureFunctionTokenProvider(
-              "AZURE-FUNCTION-URL" + "/api/GetAzureToken",
-              { userId: "test-user", userName: "Test User" },
-          ),
-          orderer: "ENTER-ORDERER-URL-HERE",
-          storage: "ENTER-STORAGE-URL-HERE",
-      }
-    : {
-          tenantId: "local",
-          tokenProvider: new InsecureTokenProvider("fooBar", user),
-          orderer: "http://localhost:7070",
-          storage: "http://localhost:7070",
-      };
+	? {
+			tenantId: "YOUR-TENANT-ID-HERE",
+			tokenProvider: new AzureFunctionTokenProvider(
+				"AZURE-FUNCTION-URL" + "/api/GetAzureToken",
+				{ userId: "test-user", userName: "Test User" },
+			),
+			orderer: "ENTER-ORDERER-URL-HERE",
+			storage: "ENTER-STORAGE-URL-HERE",
+	  }
+	: {
+			tenantId: "local",
+			tokenProvider: new InsecureTokenProvider("fooBar", user),
+			orderer: "http://localhost:7070",
+			storage: "http://localhost:7070",
+	  };
 ```
 
 ## Using `SharedMap` and Prefix Structure to Update Note States
@@ -148,21 +148,21 @@ const [notes, setNotes] = React.useState<readonly NoteData[]>([]);
 
 // This runs when via model changes whether initiated by user or from external
 React.useEffect(() => {
-    const syncLocalAndFluidState = () => {
-        const noteDataArr = [];
-        const ids: string[] = model.NoteIds;
+	const syncLocalAndFluidState = () => {
+		const noteDataArr = [];
+		const ids: string[] = model.NoteIds;
 
-        // Recreate the list of cards to re-render them via setNotes
-        for (let noteId of ids) {
-            const newCardData: NoteData = model.CreateNote(noteId, props.author);
-            noteDataArr.push(newCardData);
-        }
-        setNotes(noteDataArr);
-    };
+		// Recreate the list of cards to re-render them via setNotes
+		for (let noteId of ids) {
+			const newCardData: NoteData = model.CreateNote(noteId, props.author);
+			noteDataArr.push(newCardData);
+		}
+		setNotes(noteDataArr);
+	};
 
-    syncLocalAndFluidState();
-    model.setChangeListener(syncLocalAndFluidState);
-    return () => model.removeChangeListener(syncLocalAndFluidState);
+	syncLocalAndFluidState();
+	model.setChangeListener(syncLocalAndFluidState);
+	return () => model.removeChangeListener(syncLocalAndFluidState);
 }, [model, props.author]);
 ```
 
@@ -218,17 +218,17 @@ With audience Fluid data and View data, we again, need to set up an event listen
 const [members, setMembers] = React.useState(Array.from(audience.getMembers().values()));
 
 const setMembersCallback = React.useCallback(
-    () => setMembers(Array.from(audience.getMembers().values())),
-    [setMembers, audience],
+	() => setMembers(Array.from(audience.getMembers().values())),
+	[setMembers, audience],
 );
 
 React.useEffect(() => {
-    fluidContainer.on("connected", setMembersCallback);
-    audience.on("membersChanged", setMembersCallback);
-    return () => {
-        fluidContainer.off("connected", () => setMembersCallback);
-        audience.off("membersChanged", () => setMembersCallback);
-    };
+	fluidContainer.on("connected", setMembersCallback);
+	audience.on("membersChanged", setMembersCallback);
+	return () => {
+		fluidContainer.off("connected", () => setMembersCallback);
+		audience.off("membersChanged", () => setMembersCallback);
+	};
 }, [fluidContainer, audience, setMembersCallback]);
 ```
 

@@ -1,9 +1,9 @@
 {
-  "generator-teams": {
-    "promptValues": {
-      "developer": "Microsoft"
-    },
-    "libraryName": "teamsFluidHelloWorld",
-    "generator-version": "3.3.1"
-  }
+	"generator-teams": {
+		"promptValues": {
+			"developer": "Microsoft"
+		},
+		"libraryName": "teamsFluidHelloWorld",
+		"generator-version": "3.3.1"
+	}
 }

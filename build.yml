@@ -31,9 +31,9 @@ parameters:
   - name: react-starter-template
     type: string
     default: react-starter-template
-  - name: teams-fluid-hello-world
-    type: string
-    default: teams-fluid-hello-world
+  # - name: teams-fluid-hello-world
+  #   type: string
+  #   default: teams-fluid-hello-world
 
 trigger:
   - main
@@ -52,9 +52,9 @@ steps:
       alertWarningLevel: "High"
 
   - task: UseNode@1
-    displayName: Use Node 12.x
+    displayName: Use Node 14.x
     inputs:
-      version: 12.x
+      version: 14.x
 
   - ${{ each parameter in parameters }}:
       - task: Npm@1

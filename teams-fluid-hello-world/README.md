@@ -88,16 +88,16 @@ import { InsecureTokenProvider } from "@fluidframework/test-client-utils";
 // Add below the imports of the file
 
 export async function createContainer(): Promise<string> {
-    const { container } = await client.createContainer(containerSchema);
-    const diceMap = container.initialObjects.diceMap as SharedMap;
-    diceMap.set(diceValueKey, 1);
-    const containerId = await container.attach();
-    return containerId;
+	const { container } = await client.createContainer(containerSchema);
+	const diceMap = container.initialObjects.diceMap as SharedMap;
+	diceMap.set(diceValueKey, 1);
+	const containerId = await container.attach();
+	return containerId;
 }
 
 export async function getContainer(id: string): Promise<IFluidContainer> {
-    const { container } = await client.getContainer(id, containerSchema);
-    return container;
+	const { container } = await client.getContainer(id, containerSchema);
+	return container;
 }
 ```
 
@@ -121,11 +121,11 @@ Before the client can be used, it needs an `AzureClientProps` that will define t
 // add above the previous line
 
 const connectionConfig: AzureClientProps = {
-    connection: {
-        type: "local",
-        tokenProvider: new InsecureTokenProvider("foobar", { id: "user" }),
-        endpoint: "http://localhost:7070",
-    },
+	connection: {
+		type: "local",
+		tokenProvider: new InsecureTokenProvider("foobar", { id: "user" }),
+		endpoint: "http://localhost:7070",
+	},
 };
 ```
 
@@ -136,7 +136,7 @@ And before the client can create any containers, it needs a `containerSchema` th
 // add above the previous line
 
 const containerSchema = {
-    initialObjects: { diceMap: SharedMap },
+	initialObjects: { diceMap: SharedMap },
 };
 ```
 
@@ -173,28 +173,28 @@ Replace the `onSaveHandler` with the following code.
 
 ```ts
 const onSaveHandler = async (saveEvent: microsoftTeams.settings.SaveEvent) => {
-    const host = "https://" + window.location.host;
-    const containerId = await createContainer();
-    microsoftTeams.settings.setSettings({
-        contentUrl:
-            host +
-            "/helloWorldTab/?" +
-            containerIdQueryParamKey +
-            "=" +
-            containerId +
-            "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
-        websiteUrl:
-            host +
-            "/helloWorldTab/?" +
-            containerIdQueryParamKey +
-            "=" +
-            containerId +
-            "&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
-        suggestedDisplayName: entityId.current,
-        removeUrl: host + "/helloWorldTab/remove.html?theme={theme}",
-        entityId: entityId.current,
-    });
-    saveEvent.notifySuccess();
+	const host = "https://" + window.location.host;
+	const containerId = await createContainer();
+	microsoftTeams.settings.setSettings({
+		contentUrl:
+			host +
+			"/helloWorldTab/?" +
+			containerIdQueryParamKey +
+			"=" +
+			containerId +
+			"&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+		websiteUrl:
+			host +
+			"/helloWorldTab/?" +
+			containerIdQueryParamKey +
+			"=" +
+			containerId +
+			"&name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+		suggestedDisplayName: entityId.current,
+		removeUrl: host + "/helloWorldTab/remove.html?theme={theme}",
+		entityId: entityId.current,
+	});
+	saveEvent.notifySuccess();
 };
 ```
 
@@ -220,7 +220,7 @@ import { FluidContent } from "./FluidContent";
 import { getContainer, containerIdQueryParamKey } from "./Util";
 
 export const HelloWorldTab = () => {
-    // Add the following code here
+	// Add the following code here
 };
 ```
 
@@ -258,13 +258,13 @@ The function below will parse the URL to get the query parameter string, defined
 // Add below the previous line
 
 const getFluidMap = async (url: URLSearchParams) => {
-    const containerId = url.get(containerIdQueryParamKey);
-    if (!containerId) {
-        throw Error("containerId not found in the URL");
-    }
-    const container = await getContainer(containerId);
-    const diceMap = container.initialObjects.diceMap as SharedMap;
-    setFluidMap(diceMap);
+	const containerId = url.get(containerIdQueryParamKey);
+	if (!containerId) {
+		throw Error("containerId not found in the URL");
+	}
+	const container = await getContainer(containerId);
+	const diceMap = container.initialObjects.diceMap as SharedMap;
+	setFluidMap(diceMap);
 };
 ```
 
@@ -280,17 +280,17 @@ By setting an empty dependency array at the end of the `useEffect`, the app ensu
 // Add below the getFluidMap definition
 
 useEffect(() => {
-    if (inTeams === true) {
-        microsoftTeams.settings.getSettings(async (instanceSettings) => {
-            const url = new URL(instanceSettings.contentUrl);
-            getFluidMap(url.searchParams);
-        });
-        microsoftTeams.appInitialization.notifySuccess();
-    }
+	if (inTeams === true) {
+		microsoftTeams.settings.getSettings(async (instanceSettings) => {
+			const url = new URL(instanceSettings.contentUrl);
+			getFluidMap(url.searchParams);
+		});
+		microsoftTeams.appInitialization.notifySuccess();
+	}
 }, [inTeams]);
 
 if (inTeams === false) {
-    return <div>This application only works in the context of Microsoft Teams</div>;
+	return <div>This application only works in the context of Microsoft Teams</div>;
 }
 ```
 
@@ -316,7 +316,7 @@ Before we pass the `fluidMap` to a React component, we need to ensure that it is
 // Add below the previous useEffect
 
 if (fluidMap !== undefined) {
-    return <FluidContent fluidMap={fluidMap} />;
+	return <FluidContent fluidMap={fluidMap} />;
 }
 
 return <div>Loading FluidContent...</div>;
@@ -342,7 +342,7 @@ We can now define the props this React component will take. Since we are only pa
 // Add below the imports
 
 export type FluidContentProps = Readonly<{
-    fluidMap: SharedMap;
+	fluidMap: SharedMap;
 }>;
 ```
 
@@ -364,12 +364,12 @@ The Fluid application we are using is a dice roller, so let's first define what 
 // Add inside FluidContent constant
 
 const generateState = (): { color: string; content: string } => {
-    const diceValue = props.fluidMap.get(diceValueKey);
-    // Unicode 0x2680-0x2685 are the sides of a dice (⚀⚁⚂⚃⚄⚅)
-    return {
-        content: String.fromCodePoint(0x267f + diceValue),
-        color: `hsl(${diceValue * 60}, 70%, 30%)`,
-    };
+	const diceValue = props.fluidMap.get(diceValueKey);
+	// Unicode 0x2680-0x2685 are the sides of a dice (⚀⚁⚂⚃⚄⚅)
+	return {
+		content: String.fromCodePoint(0x267f + diceValue),
+		color: `hsl(${diceValue * 60}, 70%, 30%)`,
+	};
 };
 ```
 
@@ -382,21 +382,21 @@ To sync the data we're going to create a `updateDice` function and then continue
 // Add below generateState
 
 const [diceView, setDiceView] = useState<{ color: string; content: string } | undefined>(
-    generateState(),
+	generateState(),
 );
 
 useEffect(() => {
-    // sync Fluid data into view state
-    const updateDice = () => {
-        setDiceView(generateState());
-    };
-    // Use the changed event to trigger the rerender whenever the value changes.
-    props.fluidMap.on("valueChanged", updateDice);
+	// sync Fluid data into view state
+	const updateDice = () => {
+		setDiceView(generateState());
+	};
+	// Use the changed event to trigger the rerender whenever the value changes.
+	props.fluidMap.on("valueChanged", updateDice);
 
-    // turn off listener when component is unmounted
-    return () => {
-        props.fluidMap.off("valueChanged", updateDice);
-    };
+	// turn off listener when component is unmounted
+	return () => {
+		props.fluidMap.off("valueChanged", updateDice);
+	};
 });
 ```
 
@@ -412,22 +412,22 @@ Each time this button is pressed, every user will see the latest dice value stor
 
 // Set the value at our diceValueKey with a random number between 1 and 6.
 const onClick = () => {
-    props.fluidMap.set(diceValueKey, Math.floor(Math.random() * 6) + 1);
+	props.fluidMap.set(diceValueKey, Math.floor(Math.random() * 6) + 1);
 };
 
 return (
-    <div>
-        <h2>Hello World!</h2>
-        <div className="wrapper" style={{ alignItems: "center" }}>
-            <div className="dice" style={{ color: diceView!.color, fontSize: "200px" }}>
-                {diceView!.content}
-            </div>
-            <Button className="roll" style={{ fontSize: "50px" }} onClick={onClick}>
-                {" "}
-                Roll{" "}
-            </Button>
-        </div>
-    </div>
+	<div>
+		<h2>Hello World!</h2>
+		<div className="wrapper" style={{ alignItems: "center" }}>
+			<div className="dice" style={{ color: diceView!.color, fontSize: "200px" }}>
+				{diceView!.content}
+			</div>
+			<Button className="roll" style={{ fontSize: "50px" }} onClick={onClick}>
+				{" "}
+				Roll{" "}
+			</Button>
+		</div>
+	</div>
 );
 ```
 
@@ -496,8 +496,8 @@ And now if you restart your Teams application, other users on their own computer
 
 ```js
 {
-    performance: {
-        hints: false;
-    }
+	performance: {
+		hints: false;
+	}
 }
 ```

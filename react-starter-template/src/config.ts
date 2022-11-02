@@ -6,9 +6,9 @@ import { TinyliciousClientProps } from "@fluidframework/tinylicious-client";
 ////
 
 export const containerSchema: ContainerSchema = {
-    initialObjects: {
-        myMap: SharedMap,
-    },
+	initialObjects: {
+		myMap: SharedMap,
+	},
 };
 
 // changes URL path to your fluid pages
@@ -20,18 +20,18 @@ export const clientProps: TinyliciousClientProps = {};
 
 // Setup default data on initialObjects
 export const setDefaultData = (fluidContainer: IFluidContainer) => {
-    const defaultData: any[] = [
-        {
-            id: "1",
-            value: 1,
-        },
-        {
-            id: "2",
-            value: 2,
-        },
-    ];
-    const map = fluidContainer.initialObjects.myMap as ISharedMap;
-    for (const data of defaultData) {
-        map.set(data.id, { value: data.value });
-    }
+	const defaultData: any[] = [
+		{
+			id: "1",
+			value: 1,
+		},
+		{
+			id: "2",
+			value: 2,
+		},
+	];
+	const map = fluidContainer.initialObjects.myMap as ISharedMap;
+	for (const data of defaultData) {
+		map.set(data.id, { value: data.value });
+	}
 };
