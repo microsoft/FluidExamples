@@ -7,9 +7,10 @@
 	"author": "Microsoft and contributors",
 	"scripts": {
 		"start": "react-scripts start",
+		"start:server": "npx tinylicious@latest",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"test:report": "echo No test for this example",
+		"test:report": "start-server-and-test start:server 7070 jest",
 		"eject": "react-scripts eject",
 		"format": "npm run prettier:fix",
 		"lint": "npm run prettier",
@@ -43,7 +44,11 @@
 	"devDependencies": {
 		"@fluidframework/build-common": "^1.1.0",
 		"@types/react-router-dom": "^5.1.7",
-		"prettier": "^2.7.1"
+		"jest": "^29.2.2",
+		"jest-puppeteer": "^6.1.1",
+		"prettier": "^2.7.1",
+		"puppeteer": "^19.2.1",
+		"start-server-and-test": "^1.14.0"
 	},
 	"eslintConfig": {
 		"extends": [
