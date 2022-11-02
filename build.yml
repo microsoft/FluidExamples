@@ -31,9 +31,9 @@ parameters:
   - name: react-starter-template
     type: string
     default: react-starter-template
-  - name: teams-fluid-hello-world
-    type: string
-    default: teams-fluid-hello-world
+  # - name: teams-fluid-hello-world
+  #   type: string
+  #   default: teams-fluid-hello-world
 
 trigger:
   - main
