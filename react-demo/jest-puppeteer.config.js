@@ -4,16 +4,16 @@
  */
 
 module.exports = {
-    launch: {
-        slowMo: 300,
-        headless: true,
-        devtools: false,
-        args: ["--disable-setuid-sandbox", "--no-sandbox"],
-    },
-    server: {
-        command: "npm run start",
-        port: 3000,
-        launchTimeout: 70000,
-        debug: true,
-    },
+	launch: {
+		slowMo: 300,
+		headless: true,
+		devtools: false,
+		args: ["--disable-setuid-sandbox", "--no-sandbox"],
+	},
+	// server: {
+	//     command: "npm run start",
+	//     port: 3000,
+	//     launchTimeout: 70000,
+	//     debug: true,
+	// },
 };

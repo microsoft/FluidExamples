@@ -56,6 +56,12 @@ steps:
     inputs:
       version: 14.x
 
+  - task: Npm@1
+    displayName: Spin server
+    inputs:
+      command: "custom",
+      customCommand: "npx tinylicious@latest"
+
   - ${{ each parameter in parameters }}:
       - task: Npm@1
         displayName: Install - ${{ parameter.Value }}
@@ -75,6 +81,12 @@ steps:
           command: "custom"
           workingDir: ${{ parameter.Value }}
           customCommand: "run lint"
+      - task: Npm@1
+        displayName: Spin client
+        inputs:
+          command: "custom",
+          workingDir: ${{ parameter.Value }}
+          customCommand: "start"
       - task: Npm@1
         displayName: Test - ${{ parameter.Value }}
         inputs:
