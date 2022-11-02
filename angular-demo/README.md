@@ -52,9 +52,9 @@ To add another DDS to this list, make sure that the DDS is imported from `fluid-
 import { SharedMap, SharedCounter } from "fluid-framework";
 
 export const containerSchema = {
-    initialObjects: {
-        myMap: SharedMap,
-        myCounter: SharedCounter,
-    },
+	initialObjects: {
+		myMap: SharedMap,
+		myCounter: SharedCounter,
+	},
 };
 ```

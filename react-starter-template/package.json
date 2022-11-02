@@ -1,66 +1,66 @@
 {
-  "name": "@fluid-example/react-starter-template",
-  "version": "0.1.0",
-  "homepage": "https://fluidframework.com",
-  "repository": "microsoft/FluidExamples",
-  "license": "MIT",
-  "author": "Microsoft and contributors",
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:report": "echo No test for this example",
-    "eject": "react-scripts eject",
-    "format": "npm run prettier:fix",
-    "lint": "npm run prettier",
-    "lint:fix": "npm run prettier:fix",
-    "prettier": "prettier --check . --ignore-path ./.prettierignore",
-    "prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
-  },
-  "dependencies": {
-    "@fluentui/react": "^8.17.1",
-    "@fluidframework/tinylicious-client": "^1.0.1",
-    "@testing-library/jest-dom": "^5.13.0",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "@types/jest": "^26.0.23",
-    "@types/node": "^12.20.14",
-    "@types/react": "^17.0.9",
-    "@types/react-dom": "^17.0.6",
-    "@types/uuid": "^8.3.0",
-    "axios": "^0.21.2",
-    "fluid-framework": "^1.0.1",
-    "immer": "^9.0.5",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "typescript": "^4.3.2",
-    "use-immer": "^0.6.0",
-    "uuid": "^8.3.2",
-    "web-vitals": "^1.1.2"
-  },
-  "devDependencies": {
-    "@fluidframework/build-common": "^1.0.0",
-    "@types/react-router-dom": "^5.1.7",
-    "prettier": "^2.7.1"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+	"name": "@fluid-example/react-starter-template",
+	"version": "0.1.0",
+	"homepage": "https://fluidframework.com",
+	"repository": "microsoft/FluidExamples",
+	"license": "MIT",
+	"author": "Microsoft and contributors",
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"test:report": "echo No test for this example",
+		"eject": "react-scripts eject",
+		"format": "npm run prettier:fix",
+		"lint": "npm run prettier",
+		"lint:fix": "npm run prettier:fix",
+		"prettier": "prettier --check . --ignore-path ./.prettierignore",
+		"prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
+	},
+	"dependencies": {
+		"@fluentui/react": "^8.17.1",
+		"@fluidframework/tinylicious-client": "^1.3.0",
+		"@testing-library/jest-dom": "^5.13.0",
+		"@testing-library/react": "^11.2.7",
+		"@testing-library/user-event": "^12.8.3",
+		"@types/jest": "^26.0.23",
+		"@types/node": "^14.18.0",
+		"@types/react": "^17.0.9",
+		"@types/react-dom": "^17.0.6",
+		"@types/uuid": "^8.3.0",
+		"axios": "^0.21.2",
+		"fluid-framework": "^1.0.1",
+		"immer": "^9.0.5",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-router-dom": "^5.2.0",
+		"react-scripts": "4.0.3",
+		"typescript": "^4.5.5",
+		"use-immer": "^0.6.0",
+		"uuid": "^8.3.2",
+		"web-vitals": "^1.1.2"
+	},
+	"devDependencies": {
+		"@fluidframework/build-common": "^1.1.0",
+		"@types/react-router-dom": "^5.1.7",
+		"prettier": "^2.7.1"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
 }

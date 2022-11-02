@@ -65,10 +65,10 @@ To add another DDS to this list, make sure that the DDS is imported from `fluid-
 import { SharedMap, SharedCounter } from "fluid-framework";
 
 export const containerSchema = {
-    initialObjects: {
-        myMap: SharedMap,
-        myCounter: SharedCounter,
-    },
+	initialObjects: {
+		myMap: SharedMap,
+		myCounter: SharedCounter,
+	},
 };
 ```
 
@@ -78,8 +78,8 @@ Inside of `src/config.ts` you can modify the `setDefaultData` function to change
 
 ```ts
 export const setDefaultData = (fluidContainer: IFluidContainer) => {
-    const { myMap, myCounter } = fluidContainer.intitialObjects;
-    myCounter.increment(1); // start at 1
+	const { myMap, myCounter } = fluidContainer.intitialObjects;
+	myCounter.increment(1); // start at 1
 };
 ```
 
@@ -108,11 +108,11 @@ This template is written to funnel all model events through the `modelChanged` e
 ```ts
 // inside of the constructor
 this.counter.on("incremented", (incrementAmount, newValue) => {
-    const counterIncrementedPayload = {
-        type: "counterIncremented",
-        data: { incrementAmount, newValue },
-    };
-    this.emit("modelChanged", counterIncrementedPayload);
+	const counterIncrementedPayload = {
+		type: "counterIncremented",
+		data: { incrementAmount, newValue },
+	};
+	this.emit("modelChanged", counterIncrementedPayload);
 });
 ```
 
@@ -133,30 +133,30 @@ This means that local state is never modified directly by the UI, and both local
 
 ```ts
 export const useGetCounterStore = () =>
-    useGetStore({
-        initialState: (model) => model.getCounterValue(),
-        queries: {
-            getCounter: (state) => state,
-            isMoreThan100: (state) => state > 100,
-        },
-        actions: {
-            increment: (model, payload: { double: boolean }) => {
-                if (double) {
-                    model.jumpCounterFive();
-                    model.jumpCounterFive();
-                } else {
-                    model.jumpCounterFive();
-                }
-            },
-        },
-        reducer: (model, draft, { type, data }) => {
-            switch (type) {
-                case "counterIncremented":
-                    draft = data.newValue;
-                    break;
-            }
-        },
-    });
+	useGetStore({
+		initialState: (model) => model.getCounterValue(),
+		queries: {
+			getCounter: (state) => state,
+			isMoreThan100: (state) => state > 100,
+		},
+		actions: {
+			increment: (model, payload: { double: boolean }) => {
+				if (double) {
+					model.jumpCounterFive();
+					model.jumpCounterFive();
+				} else {
+					model.jumpCounterFive();
+				}
+			},
+		},
+		reducer: (model, draft, { type, data }) => {
+			switch (type) {
+				case "counterIncremented":
+					draft = data.newValue;
+					break;
+			}
+		},
+	});
 ```
 
 ### Import and use the store

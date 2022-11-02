@@ -1,24 +1,24 @@
 .App {
-    text-align: center;
+	text-align: center;
 }
 h1 {
-    color: gray;
+	color: gray;
 }
 h2 {
-    font-size: 0.8em;
+	font-size: 0.8em;
 }
 .PropName {
-    font-weight: bold;
-    color: #6264a7;
+	font-weight: bold;
+	color: #6264a7;
 }
 .Logo {
-    font-size: 45pt;
-    color: #6264a7;
+	font-size: 45pt;
+	color: #6264a7;
 }
 .Error {
-    color: red;
+	color: red;
 }
 
 #NoteSpace {
-    height: 100vh;
+	height: 100vh;
 }
