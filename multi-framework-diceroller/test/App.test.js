@@ -23,5 +23,6 @@ describe("multi-framework-diceroller", () => {
 
     it("Load the container", async () => {
         console.log("Container URL---", url);
+        await page.goto(url, { waitUntil: "domcontentloaded" });
     });
 });
