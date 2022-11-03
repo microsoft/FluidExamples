@@ -132,6 +132,7 @@ export const CollaborativeTextArea = (props: ICollaborativeTextAreaProps) => {
 		// the correct selection before we modify the shared string we need to make sure
 		// this.updateSelection is being called for multiple cases.
 		<textarea
+			className="text-area"
 			rows={20}
 			cols={50}
 			ref={textareaRef}
