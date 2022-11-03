@@ -54,13 +54,17 @@ export const DiceRollerList = () => {
 
 	return (
 		<div style={{ textAlign: "center" }}>
-			<div>Audience Size: {getAudienceSize()}</div>
+			<div className="size">Audience Size: {getAudienceSize()}</div>
 
-			<button style={{ margin: "5vh", fontSize: 20 }} onClick={handleClick}>
+			<button className="dice" style={{ margin: "5vh", fontSize: 20 }} onClick={handleClick}>
 				Create Dice Roller
 			</button>
 
-			<button style={{ margin: "5vh", fontSize: 20 }} onClick={handleRollAll}>
+			<button
+				className="roll"
+				style={{ margin: "5vh", fontSize: 20 }}
+				onClick={handleRollAll}
+			>
 				Roll All
 			</button>
 

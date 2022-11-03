@@ -12,6 +12,7 @@
 		"test": "react-scripts test",
 		"test:report": "start-server-and-test start:server 7070 jest",
 		"eject": "react-scripts eject",
+		"jest": "jest",
 		"format": "npm run prettier:fix",
 		"lint": "npm run prettier",
 		"lint:fix": "npm run prettier:fix",
