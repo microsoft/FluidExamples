@@ -4,6 +4,7 @@
  */
 
 const config = require("../jest.config");
+const assert = require("console").assert;
 
 let url;
 
@@ -19,9 +20,11 @@ describe("brainstorm", () => {
 		await load();
 		expect(await page.title()).toBe("Lets Brainstorm");
 		url = await page.url();
+		assert(url.includes("/#"), true, "No container id found");
 	});
 
-	it("Load the container", async () => {
+	it("Reload the page", async () => {
 		console.log("Container URL---", url);
+		await page.goto(url, { waitUnitl: "load" });
 	});
 });
