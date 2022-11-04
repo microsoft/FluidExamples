@@ -4,6 +4,7 @@
  */
 
 const config = require("../jest.config");
+const assert = require("console").assert;
 
 let url;
 
@@ -18,10 +19,25 @@ describe("audience-demo", () => {
 	beforeEach(async () => {
 		await load();
 		expect(await page.title()).toBe("Fluid Audience Example");
+		await page.click(".user1");
 		url = await page.url();
 	});
 
-	it("Load the container", async () => {
+	it("Add three users", async () => {
 		console.log("Container URL---", url);
+		await page.goto(url, { waitUntil: "load" });
+		const containerId = url.split("#")[1];
+		console.log("container id: ", containerId);
+		assert(url.includes("/#"), true, "No container id found");
+
+		await page.click(".user1");
+
+		await page.goto(url, { waitUntil: "load" });
+		await page.$eval("#containerIdInput", (el, id) => (el.value = id), containerId);
+		await page.click(".user2");
+
+		await page.goto(url, { waitUntil: "load" });
+		await page.$eval("#containerIdInput", (el, id) => (el.value = id), containerId);
+		await page.click(".randomUser");
 	});
 });
