@@ -12,5 +12,11 @@
   "bugs": {
     "url": "https://github.com/microsoft/FluidFramework/issues"
   },
-  "homepage": "https://github.com/microsoft/FluidExamples#readme"
+  "homepage": "https://github.com/microsoft/FluidExamples#readme",
+  "dependencies": {
+    "syncpack": "^8.3.9"
+  },
+  "scripts": {
+    "fix-mismatches": "syncpack fix-mismatches --source */package.json"
+  }
 }
