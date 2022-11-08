@@ -1,5 +1,10 @@
 # @fluid-example/teams-fluid-hello-world
 
+<br />
+
+**_THIS EXAMPLE IS NOT TESTED_**
+<br />
+
 This is a tutorial for integrating Fluid-powered real-time collaboration features into a [Microsoft Teams tab application](https://docs.microsoft.com/en-us/microsoftteams/platform/tabs/what-are-tabs). In it, we will add a simple dice roller application that allows all members that have the tab open to roll a dice together and see the updates in real-time.
 
 Concepts you will learn:
@@ -15,14 +20,27 @@ Concepts you will learn:
 
 In this recipe, you will do the following:
 
--   [Use Microsoft Teams App template](#use-microsoft-teams-app-template)
--   [Install Fluid package dependencies](#install-fluid-package-dependencies)
--   [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
--   [Create the Fluid container](#create-the-fluid-container)
--   [Get the Fluid SharedMap](#get-the-fluid-sharedmap)
--   [Update the view](#update-the-view)
--   [Next steps](#next-steps)
--   [Common issues](#common-issues)
+- [@fluid-example/teams-fluid-hello-world](#fluid-exampleteams-fluid-hello-world)
+	- [Demo introduction](#demo-introduction)
+	- [Use Microsoft Teams App template](#use-microsoft-teams-app-template)
+		- [Using NPM](#using-npm)
+		- [Start the app](#start-the-app)
+	- [Install Fluid package dependencies](#install-fluid-package-dependencies)
+		- [Using NPM](#using-npm-1)
+	- [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
+		- [Create a `Util.ts`](#create-a-utilts)
+		- [Configure the service client](#configure-the-service-client)
+		- [Create the Fluid container](#create-the-fluid-container)
+	- [Get the Fluid `SharedMap`](#get-the-fluid-sharedmap)
+		- [Get the Fluid container](#get-the-fluid-container)
+		- [Get the SharedMap on load](#get-the-sharedmap-on-load)
+		- [Sync Fluid and view data](#sync-fluid-and-view-data)
+	- [Update the view](#update-the-view)
+		- [Running the application](#running-the-application)
+	- [Next steps](#next-steps)
+		- [Using AzureClient with Azure Fluid Relay](#using-azureclient-with-azure-fluid-relay)
+		- [Setting and getting environment variable](#setting-and-getting-environment-variable)
+	- [Common issues](#common-issues)
 
 ## Use Microsoft Teams App template
 
