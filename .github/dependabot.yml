@@ -3,16 +3,89 @@ updates:
   # Enable version updates for npm
   - package-ecosystem: "npm"
     # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/brainstorm"
+    directory: "/angular-demo"
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-  # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/draft-js"
-    schedule:
-      interval: "weekly"
+      interval: "daily"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
+
+  # Enable version updates for npm
   - package-ecosystem: "npm"
     # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/sudoku"
+    directory: "/audience-demo"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
+
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/brainstorm"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
+
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/collaborative-text-area"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
+
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/multi-framework-diceroller"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
+
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/node-demo"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
+
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/react-demo"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
+
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/react-starter-template"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
+
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/teams-fluid-hello-world"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
