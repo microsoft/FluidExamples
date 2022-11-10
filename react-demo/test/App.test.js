@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-const config = require("../jest.config");
+import * as config from "../jest.config";
 
 let url;
 

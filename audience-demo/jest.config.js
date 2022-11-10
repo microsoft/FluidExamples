@@ -10,4 +10,7 @@ module.exports = {
 	},
 	verbose: true,
 	testTimeout: 30000,
+	transform: {
+		"^.+\\.jsx?$": "babel-jest",
+	},
 };

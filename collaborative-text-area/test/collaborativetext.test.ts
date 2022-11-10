@@ -3,8 +3,8 @@
  * Licensed under the MIT License.
  */
 
-const assert = require("console").assert;
-const config = require("../jest.config");
+import { assert } from "console";
+import * as config from "../jest.config";
 
 let url;
 

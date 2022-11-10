@@ -5,6 +5,8 @@
 
 import * as config from "../jest.config";
 
+let url;
+
 describe("angular-demo", () => {
 	const load = async () => {
 		await page.goto(config.globals.URL, {

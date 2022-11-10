@@ -38,6 +38,7 @@
 		]
 	},
 	"devDependencies": {
+		"@fluidframework/azure-local-service": "",
 		"@fluidframework/build-common": "^1.1.0",
 		"buffer": "^6.0.3",
 		"jest": "^29.2.2",

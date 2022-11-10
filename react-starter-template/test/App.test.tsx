@@ -3,8 +3,10 @@
  * Licensed under the MIT License.
  */
 
-const assert = require("console").assert;
-const config = require("../jest.config");
+import * as config from "../jest.config";
+import { assert } from "console";
+
+let url;
 
 describe("react-starter-template", () => {
 	const load = async () => {

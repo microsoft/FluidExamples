@@ -10,4 +10,7 @@ module.exports = {
 	},
 	verbose: true,
 	testTimeout: 100000,
+	transform: {
+		"^.+\\.tsx?$": "babel-jest",
+	},
 };
