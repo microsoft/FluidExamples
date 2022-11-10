@@ -7,8 +7,8 @@
 		"build": "npm build",
 		"start:client": "node ./src/index.js",
 		"start:server": "npx tinylicious@latest",
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"test:report": "echo No test for this example",
+		"test": "mocha --timeout 20000 ./test/*.test.js",
+		"test:report": "start-server-and-test start:server 7070 test",
 		"format": "npm run prettier:fix",
 		"lint": "npm run prettier",
 		"lint:fix": "npm run prettier:fix",
@@ -23,7 +23,12 @@
 		"prettier": "^2.7.1"
 	},
 	"devDependencies": {
-		"@fluidframework/build-common": "^1.1.0"
+		"@fluidframework/build-common": "^1.1.0",
+		"chai": "^4.3.7",
+		"mocha": "^10.1.0",
+		"sinon": "^14.0.2",
+		"sinon-chai": "^3.7.0",
+		"start-server-and-test": "^1.14.0"
 	},
 	"type": "module"
 }
