@@ -4,7 +4,7 @@
  */
 
 import * as config from "../jest.config";
-import { assert } from "console";
+import { strict as assert } from "assert";
 
 let url;
 

@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { assert } from "console";
+import { strict as assert } from "assert";
 import * as config from "../jest.config";
 
 let url;
