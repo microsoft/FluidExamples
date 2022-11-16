@@ -24,10 +24,10 @@ export const DiceRoller = (props: IDiceRollerProps) => {
 			>
 				{diceCharacter}
 			</div>
-			<button style={{ fontSize: 20 }} onClick={rollDice}>
+			<button className="rollBtn" style={{ fontSize: 20 }} onClick={rollDice}>
 				Roll
 			</button>
-			<button style={{ fontSize: 20 }} onClick={deleteDice}>
+			<button className="deleteBtn" style={{ fontSize: 20 }} onClick={deleteDice}>
 				Delete
 			</button>
 			<div style={{ fontSize: 12 }}>id: {id.split("-")[0]}</div>

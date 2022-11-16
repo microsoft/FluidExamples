@@ -12,7 +12,9 @@ export const Home = () => {
 	return (
 		<div>
 			<h1>Home Page</h1>
-			<button onClick={handleClick}>Create</button>
+			<button className="create" onClick={handleClick}>
+				Create
+			</button>
 		</div>
 	);
 };

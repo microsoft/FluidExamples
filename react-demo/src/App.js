@@ -58,8 +58,11 @@ function App() {
 
 	return (
 		<div>
-			<button onClick={setTime}> click </button>
-			<span>{viewData.time}</span>
+			<button onClick={setTime} class="click">
+				{" "}
+				click{" "}
+			</button>
+			<span class="time">{viewData.time}</span>
 		</div>
 	);
 }

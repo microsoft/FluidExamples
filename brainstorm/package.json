@@ -14,10 +14,10 @@
 		"build": "react-scripts build",
 		"eject": "react-scripts eject",
 		"start": "react-scripts start",
-		"start:server": "npx @fluidframework/azure-local-service@latest",
+		"start:server": "npx @fluidframework/azure-local-service",
 		"start:azure": "cross-env REACT_APP_FLUID_CLIENT='\"azure\"' npm run start",
 		"test": "react-scripts test",
-		"test:report": "echo No test for this example",
+		"test:report": "start-server-and-test start:server 7070 jest",
 		"format": "npm run prettier:fix",
 		"lint": "npm run prettier",
 		"lint:fix": "npm run prettier:fix",
@@ -61,6 +61,7 @@
 		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
+		"@fluidframework/azure-local-service": "^1.1.0",
 		"@fluidframework/build-common": "^1.1.0",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
@@ -70,8 +71,12 @@
 		"@types/react": "^16.9.15",
 		"@types/react-dom": "^16.9.4",
 		"@types/uuid": "^8.3.0",
+		"jest": "26.6.0",
+		"jest-puppeteer": "^6.1.1",
+		"prettier": "^2.7.1",
+		"puppeteer": "^19.2.1",
 		"react-scripts": "4.0.2",
-		"typescript": "~4.5.5",
-		"prettier": "^2.7.1"
+		"start-server-and-test": "^1.14.0",
+		"typescript": "~4.5.5"
 	}
 }

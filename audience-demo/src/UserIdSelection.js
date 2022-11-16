@@ -29,6 +29,7 @@ export const UserIdSelection = (props) => {
 				Enter Container Id:
 				<input
 					type="text"
+					name="containerInput"
 					id="containerIdInput"
 					value={containerId}
 					onChange={() => handleChange()}
@@ -43,13 +44,28 @@ export const UserIdSelection = (props) => {
 				</div>
 			)}
 			<nav>
-				<button type="submit" style={selectionStyle} onClick={() => handleSubmit("user1")}>
+				<button
+					class="user1"
+					type="submit"
+					style={selectionStyle}
+					onClick={() => handleSubmit("user1")}
+				>
 					User 1
 				</button>
-				<button type="submit" style={selectionStyle} onClick={() => handleSubmit("user2")}>
+				<button
+					class="user2"
+					type="submit"
+					style={selectionStyle}
+					onClick={() => handleSubmit("user2")}
+				>
 					User 2
 				</button>
-				<button type="submit" style={selectionStyle} onClick={() => handleSubmit("random")}>
+				<button
+					class="randomUser"
+					type="submit"
+					style={selectionStyle}
+					onClick={() => handleSubmit("random")}
+				>
 					Random User
 				</button>
 			</nav>
