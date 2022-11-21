@@ -18,6 +18,6 @@
   },
   "scripts": {
     "fix-mismatches": "syncpack fix-mismatches --source */package.json",
-    "test-versions": "syncpack list-mismatches --source */package.json"
+    "list-mismatches": "syncpack list-mismatches --source */package.json"
   }
 }
