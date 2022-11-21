@@ -15,12 +15,24 @@ Concepts you will learn:
 
 In this example you will do the following:
 
--   [Use Create React App](#use-create-react-app)
--   [Install Fluid package dependencies](#install-fluid-package-dependencies)
--   [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
--   [Get the Fluid SharedMap](#get-the-fluid-sharedmap)
--   [Update the view](#update-the-view)
--   [Next steps](#next-steps)
+-   [@fluid-example/react-demo](#fluid-examplereact-demo)
+    -   [Demo introduction](#demo-introduction)
+    -   [Use Create React App](#use-create-react-app)
+        -   [Using NPM](#using-npm)
+        -   [Using Yarn](#using-yarn)
+        -   [Start the app](#start-the-app)
+    -   [Using this repo](#using-this-repo)
+        -   [Run the app locally](#run-the-app-locally)
+    -   [Install Fluid package dependencies](#install-fluid-package-dependencies)
+        -   [Using NPM](#using-npm-1)
+        -   [Using Yarn](#using-yarn-1)
+    -   [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
+        -   [Configure the service client](#configure-the-service-client)
+    -   [Get the Fluid `SharedMap`](#get-the-fluid-sharedmap)
+        -   [Get the SharedMap on load](#get-the-sharedmap-on-load)
+        -   [Sync Fluid and view data](#sync-fluid-and-view-data)
+    -   [Update the view](#update-the-view)
+    -   [Next steps](#next-steps)
 
 ## Use Create React App
 
@@ -40,15 +52,20 @@ cd my-app-name
 
 ### Start the app
 
-The `tinylicious` server will be needed to run this demo locally.
+## Using this repo
 
-```bash
-npx tinylicious
+### Run the app locally
+
+To run our local server, Tinylicious, on the default URL of `localhost:7070`, enter the following into a terminal window:
+
+```
+npm run start:server
 ```
 
-Open up a new terminal tab and start up our React app
+With the local service running in the background, we need to connect the application to it. Run the following commands in a new terminal window to start the app. Navigate to `localhost:3000` in the browser to view the app.
 
 ```bash
+npm i
 npm run start
 ```
 

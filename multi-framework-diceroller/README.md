@@ -8,8 +8,20 @@ Node 12.17+
 
 ## Getting started
 
+## Using this repo
+
+### Run the app locally
+
+To run our local server, Tinylicious, on the default URL of `localhost:7070`, enter the following into a terminal window:
+
+```
+npm run start:server
+```
+
+With the local service running in the background, we need to connect the application to it. Run the following commands in a new terminal window to start the app. Navigate to `localhost:3000` in the browser to view the app.
+
 ```bash
-npm install
+npm i
 npm start
 ```
 

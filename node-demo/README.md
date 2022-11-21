@@ -4,15 +4,20 @@ This repository contains a simple NodeJS application connected with the Fluid Fr
 
 ## Getting started
 
-Run Tinylicious server in the backgroud:
+## Using this repo
 
-```sh
+### Run the app locally
+
+To run our local server, Tinylicious, on the default URL of `localhost:7070`, enter the following into a terminal window:
+
+```
 npm run start:server
 ```
 
-Open a new terminal and run the client:
+With the local service running in the background, we need to connect the application to it. Run the following commands in a new terminal window to start the app. Navigate to `localhost:3000` in the browser to view the app.
 
-```sh
+```bash
+npm i
 npm run start:client
 ```
 
