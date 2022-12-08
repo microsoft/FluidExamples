@@ -1,0 +1,64 @@
+{
+	"name": "@fluid-example/task-manager-diceroller",
+	"version": "0.1.0",
+	"description": "An example app using TaskManager to roll a dice",
+	"homepage": "https://fluidframework.com",
+	"repository": "microsoft/FluidExamples",
+	"license": "MIT",
+	"author": "Microsoft and contributors",
+	"private": true,
+	"dependencies": {
+		"@fluid-experimental/task-manager": "2.0.0-internal.2.1.1",
+		"@fluidframework/tinylicious-client": "2.0.0-internal.2.1.1",
+		"@testing-library/react": "^11.2.7",
+		"@testing-library/user-event": "^12.8.3",
+		"@types/node": "^14.18.0",
+		"@types/react": "^17.0.34",
+		"@types/react-dom": "^17.0.11",
+		"fluid-framework": "2.0.0-internal.2.1.1",
+		"prettier": "^2.7.1",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-scripts": "^5.0.1",
+		"typescript": "^4.5.5",
+		"web-vitals": "^1.1.2"
+	},
+	"devDependencies": {
+		"jest": "^29.2.2",
+		"jest-puppeteer": "^6.1.1",
+		"puppeteer": "^19.2.1",
+		"start-server-and-test": "^1.14.0",
+		"tinylicious": "^0.4.94771"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"start:server": "npx tinylicious@latest",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"test:report": "start-server-and-test start:server 7070 jest",
+		"eject": "react-scripts eject",
+		"format": "npm run prettier:fix",
+		"lint": "npm run prettier",
+		"lint:fix": "npm run prettier:fix",
+		"prettier": "prettier --check . --ignore-path ./.prettierignore",
+		"prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
+}

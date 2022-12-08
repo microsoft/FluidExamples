@@ -31,6 +31,9 @@ parameters:
   - name: react-starter-template
     type: string
     default: react-starter-template
+  - name: task-manager-diceroller
+    type: string
+    default: task-manager-diceroller
   # - name: teams-fluid-hello-world
   #   type: string
   #   default: teams-fluid-hello-world
