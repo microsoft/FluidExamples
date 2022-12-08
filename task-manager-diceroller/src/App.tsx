@@ -48,7 +48,7 @@ function App() {
 	React.useEffect(() => {
 		getInitialObjects().then((initialObjects) => {
 			setSharedMap(initialObjects.sharedMap);
-			setTaskManager(initialObjects.taskManager);	
+			setTaskManager(initialObjects.taskManager);
 		});
 	}, []);
 
@@ -82,7 +82,7 @@ function App() {
 				// Once we are assigned the task we can start rolling the dice.
 				rollDice();
 				rollInterval = setInterval(rollDice, 1500);
-				
+
 				updateState();
 			};
 
@@ -131,21 +131,33 @@ function App() {
 				<div style={{ fontSize: 300, color: `hsl(${diceValue * 60}, 70%, 50%)` }}>
 					{String.fromCodePoint(0x267f + diceValue)}
 				</div>
-				<div>{assigned ? "This Client is currently: Task Assignee" : "This Client is currently: Not Task Assignee"}</div>
+				<div>
+					{assigned
+						? "This Client is currently: Task Assignee"
+						: "This Client is currently: Not Task Assignee"}
+				</div>
 			</div>
 
 			{/* Debug Info */}
 			<div>
 				<strong>Debug Info</strong>
-				<div>Queued: { taskManager.queued(diceRollTaskId).toString()}</div>
-				<div>Assigned: { taskManager.assigned(diceRollTaskId).toString()}</div>
-				<div>Subscribed: { taskManager.subscribed(diceRollTaskId).toString()}</div>
+				<div>Queued: {taskManager.queued(diceRollTaskId).toString()}</div>
+				<div>Assigned: {taskManager.assigned(diceRollTaskId).toString()}</div>
+				<div>Subscribed: {taskManager.subscribed(diceRollTaskId).toString()}</div>
 
 				<div className="buttons">
-					<button disabled={!queued} onClick={abandon} className="click">Abandon</button>
-					<button disabled={queued} onClick={volunteer} className="click">Volunteer</button>
-					<button disabled={queued && subscribed} onClick={subscribe} className="click">Subscribe</button>
-					<button disabled={!assigned} onClick={complete} className="click">Complete</button>
+					<button disabled={!queued} onClick={abandon} className="click">
+						Abandon
+					</button>
+					<button disabled={queued} onClick={volunteer} className="click">
+						Volunteer
+					</button>
+					<button disabled={queued && subscribed} onClick={subscribe} className="click">
+						Subscribe
+					</button>
+					<button disabled={!assigned} onClick={complete} className="click">
+						Complete
+					</button>
 				</div>
 			</div>
 		</div>
