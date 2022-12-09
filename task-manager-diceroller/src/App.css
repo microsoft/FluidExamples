@@ -1,13 +1,12 @@
-.app {
+.dice-roller {
 	text-align: center;
-	margin: 3em;
-	font-size: 18px;
+	font-size: 20px;
 }
 
-.click {
-	margin-right: 0.5em;
-}
-
-.buttons {
+.debug-controls {
 	margin-top: 0.5em;
+}
+
+.debug-controls button {
+	margin-right: 0.5em;
 }

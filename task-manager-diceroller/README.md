@@ -2,10 +2,7 @@
 
 ## About this repo
 
-This is an example to demonstrate a basic use of the TaskManager DDS in React. To use this example, we make the following assumptions:
-
-1. You want to use React.js for your view
-1. You already have Node installed on your local machine. If not, follow the instructions [here](https://nodejs.org/en/download/).
+This is an example to demonstrate a basic use of the TaskManager DDS in React. Here we use React.js for the view, but you can use any framework you'd like.
 
 For a more detailed explanation of this example please click [here](TODO_RECIPE_LINK_HERE).
 

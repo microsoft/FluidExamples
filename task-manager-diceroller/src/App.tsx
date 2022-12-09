@@ -60,7 +60,7 @@ function App() {
 			sharedMap.on("valueChanged", syncView);
 
 			// TaskManager Setup
-			let rollInterval: NodeJS.Timeout | undefined;
+			let rollInterval: ReturnType<typeof setInterval> | undefined;
 
 			const rollDice = () => {
 				const roll = Math.floor(Math.random() * 6) + 1;
@@ -126,8 +126,7 @@ function App() {
 
 	return (
 		<div>
-			{/* Dice Roller */}
-			<div style={{ textAlign: "center", fontSize: 20 }}>
+			<div className="dice-roller">
 				<div style={{ fontSize: 300, color: `hsl(${diceValue * 60}, 70%, 50%)` }}>
 					{String.fromCodePoint(0x267f + diceValue)}
 				</div>
@@ -138,24 +137,31 @@ function App() {
 				</div>
 			</div>
 
-			{/* Debug Info */}
-			<div>
+			<div className="debug-info">
 				<strong>Debug Info</strong>
 				<div>Queued: {taskManager.queued(diceRollTaskId).toString()}</div>
 				<div>Assigned: {taskManager.assigned(diceRollTaskId).toString()}</div>
 				<div>Subscribed: {taskManager.subscribed(diceRollTaskId).toString()}</div>
 
-				<div className="buttons">
-					<button disabled={!queued} onClick={abandon} className="click">
+				<div className="debug-controls">
+					<button disabled={!queued} onClick={abandon} className="debug-controls button">
 						Abandon
 					</button>
-					<button disabled={queued} onClick={volunteer} className="click">
+					<button disabled={queued} onClick={volunteer} className="debug-controls button">
 						Volunteer
 					</button>
-					<button disabled={queued && subscribed} onClick={subscribe} className="click">
+					<button
+						disabled={queued && subscribed}
+						onClick={subscribe}
+						className="debug-controls button"
+					>
 						Subscribe
 					</button>
-					<button disabled={!assigned} onClick={complete} className="click">
+					<button
+						disabled={!assigned}
+						onClick={complete}
+						className="debug-controls button"
+					>
 						Complete
 					</button>
 				</div>
