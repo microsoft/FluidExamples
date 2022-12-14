@@ -9,19 +9,14 @@ import { TinyliciousClient } from "@fluidframework/tinylicious-client";
 import { ContainerSchema, IFluidContainer, ISharedMap, SharedMap } from "fluid-framework";
 import { ITaskManager, TaskManager } from "@fluid-experimental/task-manager";
 
-const client = new TinyliciousClient();
-
-const diceKey = "dice-key";
-const diceRollTaskId = "diceRollTaskId";
-
-const containerSchema: ContainerSchema = {
-	initialObjects: {
-		sharedMap: SharedMap,
-		taskManager: TaskManager,
-	},
-};
-
 const getInitialObjects = async () => {
+	const client = new TinyliciousClient();
+	const containerSchema: ContainerSchema = {
+		initialObjects: {
+			sharedMap: SharedMap,
+			taskManager: TaskManager,
+		},
+	};
 	let container: IFluidContainer;
 	const containerId = window.location.hash.substring(1);
 	if (!containerId) {
@@ -38,6 +33,9 @@ const getInitialObjects = async () => {
 };
 
 function App() {
+	const diceKey = "dice-key";
+	const diceRollTaskId = "diceRollTaskId";
+
 	const [sharedMap, setSharedMap] = React.useState<ISharedMap>();
 	const [taskManager, setTaskManager] = React.useState<ITaskManager>();
 	const [diceValue, setDiceValue] = React.useState<number>();
