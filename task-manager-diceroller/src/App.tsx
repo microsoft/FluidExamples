@@ -10,7 +10,7 @@ import { ContainerSchema, IFluidContainer, ISharedMap, SharedMap } from "fluid-f
 import { ITaskManager, TaskManager } from "@fluid-experimental/task-manager";
 
 const getInitialObjects = async () => {
-	const client = new TinyliciousClient();
+	const client = new TinyliciousClient( {connection: {port: 65156}});
 	const containerSchema: ContainerSchema = {
 		initialObjects: {
 			sharedMap: SharedMap,
@@ -52,10 +52,15 @@ function App() {
 
 	React.useEffect(() => {
 		if (sharedMap !== undefined && taskManager !== undefined) {
+			const updateState = () => {
+				setDiceValue(sharedMap.get(diceKey) ?? 1);
+				setAssigned(taskManager.assigned(diceRollTaskId));
+				setQueued(taskManager.queued(diceRollTaskId));
+				setSubscribed(taskManager.subscribed(diceRollTaskId));
+			};
+
 			// Update dice value from SharedMap
-			const syncView = () => setDiceValue(sharedMap.get(diceKey) ?? 1);
-			syncView();
-			sharedMap.on("valueChanged", syncView);
+			sharedMap.on("valueChanged", updateState);
 
 			// TaskManager Setup
 			let rollInterval: ReturnType<typeof setInterval> | undefined;
@@ -64,12 +69,6 @@ function App() {
 				const roll = Math.floor(Math.random() * 6) + 1;
 				sharedMap.set(diceKey, roll);
 				console.log(`New dice roll: ${roll}`);
-			};
-
-			const updateState = () => {
-				setAssigned(taskManager.assigned(diceRollTaskId));
-				setQueued(taskManager.queued(diceRollTaskId));
-				setSubscribed(taskManager.subscribed(diceRollTaskId));
 			};
 
 			const startRollingDice = (taskId: string) => {
@@ -105,7 +104,7 @@ function App() {
 
 			// Turn off listeners when component is unmounted
 			return () => {
-				sharedMap.off("valueChanged", syncView);
+				sharedMap.off("valueChanged", updateState);
 				taskManager.off("assigned", startRollingDice);
 				taskManager.off("lost", stopRollingDice);
 				if (rollInterval !== undefined) {
@@ -137,9 +136,9 @@ function App() {
 
 			<div className="debug-info">
 				<strong>Debug Info</strong>
-				<div>Queued: {taskManager.queued(diceRollTaskId).toString()}</div>
-				<div>Assigned: {taskManager.assigned(diceRollTaskId).toString()}</div>
-				<div>Subscribed: {taskManager.subscribed(diceRollTaskId).toString()}</div>
+				<div>Queued: {queued.toString()}</div>
+				<div>Assigned: {assigned.toString()}</div>
+				<div>Subscribed: {subscribed.toString()}</div>
 
 				<div className="debug-controls">
 					<button disabled={!queued} onClick={abandon} className="debug-controls button">
