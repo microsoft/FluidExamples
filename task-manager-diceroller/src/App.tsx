@@ -10,7 +10,7 @@ import { ContainerSchema, IFluidContainer, ISharedMap, SharedMap } from "fluid-f
 import { ITaskManager, TaskManager } from "@fluid-experimental/task-manager";
 
 const getInitialObjects = async () => {
-	const client = new TinyliciousClient( {connection: {port: 65156}});
+	const client = new TinyliciousClient();
 	const containerSchema: ContainerSchema = {
 		initialObjects: {
 			sharedMap: SharedMap,
