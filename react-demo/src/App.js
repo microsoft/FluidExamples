@@ -51,6 +51,20 @@ function App() {
 		}
 	}, [fluidMap]);
 
+	React.useEffect(() => {
+		let container;
+		(async () => {
+		  container = await getContainer();
+		  const myMap = container?.initialObjects?.myMap;
+		  setFluidMap(myMap)
+		})();
+	  
+		// Return a de-registration function that disconnects the old container whenever the hook re-runs
+		return () => {
+		  if (container != null) container?.disconnect();
+		};
+	  }, []);
+
 	if (!viewData) return <div />;
 
 	// business logic could be passed into the view via context
