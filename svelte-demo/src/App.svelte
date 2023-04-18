@@ -61,6 +61,9 @@
   };
 </script>
 
+/*! * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+* Licensed under the MIT License. */
+
 {#if localTimestamp}
   <div class="app">
     <button class="getTime" on:click={onButtonClick}>Get Time</button>
