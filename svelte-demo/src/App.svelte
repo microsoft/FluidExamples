@@ -3,6 +3,7 @@
    * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
    * Licensed under the MIT License.
    */
+
   import { SharedMap } from "fluid-framework";
   import { TinyliciousClient } from "@fluidframework/tinylicious-client";
   import { onMount, onDestroy } from "svelte";
@@ -57,6 +58,7 @@
     // TODO 5: Register handlers.
     sharedTimestamp!.on("valueChanged", updateLocalTimestamp!);
   };
+
   const onButtonClick = () => {
     sharedTimestamp?.set("time", Date.now().toString());
   };

@@ -18,12 +18,6 @@ In this readme we'll walk you through the following topics:
 
 - Run the app locally
 
-### Modifying the model
-
-- Modify the schema to include additional DDSes
-
----
-
 ## Using this repo
 
 ### Run the app locally
