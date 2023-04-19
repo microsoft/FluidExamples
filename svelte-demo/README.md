@@ -1,18 +1,46 @@
 # @fluid-example/svelte-demo
 
-This repository contains a simple Svelte application connected with the Fluid Framework. Connected clients generate random numbers and display the result of any changes to the shared state.
+## About this repo
 
-## Getting started
+This Fluid starter template should help get you started developing with Svelte and TypeScript in Vite. This repo makes the following assumptions:
 
-Run Tinylicious server in the backgroud:
+1. You want to use Svelte for your view
+1. You want Hot Module Replacement(HMR)
+1. You want to keep clear separation between your model and view
+1. You want a light state management framework to remove the boilerplate needed to store, access and modify app state
+1. You already have Node installed on your local machine. If not, follow the instructions [here](https://nodejs.org/en/download/).
 
-```sh
+## Overview
+
+In this readme we'll walk you through the following topics:
+
+### Using this repo locally
+
+- Run the app locally
+
+### Modifying the model
+
+- Modify the schema to include additional DDSes
+
+---
+
+## Using this repo
+
+### Run the app locally
+
+To run our local server, Tinylicious, on the default values of `localhost:7070`, enter the following into a terminal window:
+
+```bash
 npx tinylicious
 ```
 
-Open a new terminal in this directory, then install and run the client:
+Now, with our local service running in the background, we need to connect the application to it. The app has already been configured to this so now we just need to run the following in a new terminal window to start the app.
 
-```sh
+```bash
 pnpm i
 pnpm run dev
 ```
+
+## Recommended IDE Setup
+
+[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
