@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+		"format": "npm run prettier:fix",
+		"lint": "npm run prettier",
+		"lint:fix": "npm run prettier:fix",
+		"prettier": "prettier --check . --ignore-path ./.prettierignore",
+		"prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.3",
