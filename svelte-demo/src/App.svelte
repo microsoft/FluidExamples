@@ -1,4 +1,8 @@
 <script lang="ts">
+  /*!
+   * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+   * Licensed under the MIT License.
+   */
   import { SharedMap } from "fluid-framework";
   import { TinyliciousClient } from "@fluidframework/tinylicious-client";
   import { onMount, onDestroy } from "svelte";
@@ -60,9 +64,6 @@
     sharedTimestamp?.set("time", Date.now().toString());
   };
 </script>
-
-/*! * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
-* Licensed under the MIT License. */
 
 {#if localTimestamp}
   <div class="app">
