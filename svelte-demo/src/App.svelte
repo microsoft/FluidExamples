@@ -48,17 +48,14 @@
   };
 
   const syncData = () => {
-    // Only sync if the Fluid SharedMap object is defined.
-    if (sharedTimestamp) {
-      // TODO 4: Set the value of the localTimestamp state object that will appear in the UI.
-      updateLocalTimestamp = () => {
-        localTimestamp = { time: sharedTimestamp!.get("time") };
-      };
-      updateLocalTimestamp();
+    // TODO 4: Set the value of the localTimestamp state object that will appear in the UI.
+    updateLocalTimestamp = () => {
+      localTimestamp = { time: sharedTimestamp!.get("time") };
+    };
+    updateLocalTimestamp();
 
-      // TODO 5: Register handlers.
-      sharedTimestamp!.on("valueChanged", updateLocalTimestamp!);
-    }
+    // TODO 5: Register handlers.
+    sharedTimestamp!.on("valueChanged", updateLocalTimestamp!);
   };
   const onButtonClick = () => {
     sharedTimestamp?.set("time", Date.now().toString());
