@@ -64,9 +64,7 @@
   };
 </script>
 
-{#if localTimestamp}
   <div class="app">
     <button class="getTime" on:click={onButtonClick}>Get Time</button>
-    <span class="time">{localTimestamp.time}</span>
+    <span class="time">{localTimestamp?.time}</span>
   </div>
-{/if}

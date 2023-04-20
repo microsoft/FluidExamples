@@ -16,7 +16,7 @@ In this readme we'll walk you through the following topics:
 
 ### Using this repo locally
 
-- Run the app locally
+-   Run the app locally
 
 ## Using this repo
 
