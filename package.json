@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/microsoft/FluidExamples#readme",
   "dependencies": {
-    "syncpack": "^8.3.9"
+    "syncpack": "^8.5.14"
   },
   "scripts": {
     "fix-mismatches": "syncpack fix-mismatches --source */package.json",
