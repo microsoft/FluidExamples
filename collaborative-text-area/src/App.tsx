@@ -10,11 +10,38 @@ import { ConnectionState, ContainerSchema, IFluidContainer, SharedString } from 
 import { CollaborativeTextArea } from "./CollaborativeTextArea";
 import { SharedStringHelper } from "@fluid-experimental/react-inputs";
 
+import {
+	AzureClient,
+	AzureClientProps,
+	AzureLocalConnectionConfig,
+} from "@fluidframework/azure-client";
+import { getRandomName } from "@fluidframework/server-services-client";
+import { v4 as uuid } from "uuid";
+import { InsecureTokenProvider } from "@fluidframework/test-client-utils";
+
+const useAzure = process.env.FLUID_CLIENT === "azure";
+
 const useSharedString = (): SharedString => {
 	const [sharedString, setSharedString] = useState<SharedString>();
 	const getFluidData = async () => {
 		// Configure the container.
-		const client: TinyliciousClient = new TinyliciousClient();
+		const userConfig = {
+			id: uuid(),
+			name: getRandomName(),
+		};
+
+		const localConnectionConfig: AzureLocalConnectionConfig = {
+			type: "local",
+			tokenProvider: new InsecureTokenProvider("", userConfig),
+			endpoint: "http://localhost:7070",
+		};
+
+		const connectionConfig: AzureClientProps = {
+			connection: localConnectionConfig,
+		};
+
+		const client = useAzure ? new AzureClient(connectionConfig) : new TinyliciousClient();
+
 		const containerSchema: ContainerSchema = {
 			initialObjects: { sharedString: SharedString },
 		};

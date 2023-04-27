@@ -42,3 +42,16 @@ Now, with our local service running in the background, we need to connect the ap
 npm i
 npm run start
 ```
+
+### Running `AzureClient` against local service instance
+
+To run against our local service instance, we make use of `InsecureTokenProvider`.
+The `InsecureTokenProvider` requires we pass in two values to its constructor, a key string, which can be anything since we are running it locally, and an `IUser` type object identifying the current user.
+For running the instance locally, the orderer and storage URLs would point to the local service instance on the default values of `http://localhost:7070`.
+To run our local service and application, enter the following into a terminal window:
+
+```bash
+npm i
+npm run start:azure:server
+npm run start:azure:client
+```
