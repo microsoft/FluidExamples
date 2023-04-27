@@ -50,7 +50,7 @@
 	},
 	"dependencies": {
 		"@fluentui/react": "^8.71.0",
-		"@fluidframework/azure-client": "^2.0.0-dev.4.1.0.148229",
+		"@fluidframework/azure-client": "^2.0.0-internal.4.1.0",
 		"@fluidframework/routerlicious-driver": "^2.0.0-internal.4.1.0",
 		"@fluidframework/test-client-utils": "^2.0.0-internal.4.1.0",
 		"axios": "^1.3.6",

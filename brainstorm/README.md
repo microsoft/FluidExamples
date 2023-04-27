@@ -106,6 +106,19 @@ Since `start()` is an async function, we'll need to await for the initialObjects
     The `InsecureTokenProvider` requires we pass in two values to its constructor, a key string, which can be anything since we are running it locally, and an `IUser` type object identifying the current user.
     For running the instance locally, the orderer and storage URLs would point to the local service instance on the default values of `http://localhost:7070`.
 
+    ```typescript
+    import { AzureClient, AzureConnectionConfig } from "@fluidframework/azure-client";
+    import { InsecureTokenProvider } from "@fluidframework/test-client-utils";
+    const clientProps = {
+    	connection: {
+    		type: "local",
+    		tokenProvider: new InsecureTokenProvider("fooBar", { id: "123", name: "Test User" }),
+    		endpoint: "http://localhost:7070",
+    	},
+    };
+    const azureClient = new AzureClient(clientProps);
+    ```
+
 ### Running `AzureClient` against live Azure Fluid Relay service instance
 
 -   To run against live Azure Instance, we make use of `AzureFunctionTokenProvider` which takes in the Azure function URL and an optional `"userId" | "userName" | "additionalDetails"` type object identifying the current user, thereby making an axios `GET` request call to the Azure Function.
