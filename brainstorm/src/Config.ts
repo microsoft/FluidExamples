@@ -7,6 +7,7 @@ import { SharedMap } from "fluid-framework";
 import { getRandomName } from "@fluidframework/server-services-client";
 import { v4 as uuid } from "uuid";
 import { InsecureTokenProvider } from "@fluidframework/test-client-utils";
+import { AzureFunctionTokenProvider } from "./AzureFunctionTokenProvider";
 
 export const useAzure = process.env.REACT_APP_FLUID_CLIENT === "azure";
 
@@ -21,12 +22,18 @@ const userConfig = {
 	name: getRandomName(),
 };
 
+const azureUserConfig = {
+	userId: uuid(),
+	userName: getRandomName(),
+};
+
 const remoteConnectionConfig: AzureRemoteConnectionConfig = {
 	type: "remote",
 	tenantId: "", // REPLACE WITH YOUR TENANT ID
-	tokenProvider: new InsecureTokenProvider("" /* REPLACE WITH YOUR PRIMARY KEY */, {
-		id: "userId",
-	}),
+	tokenProvider: new AzureFunctionTokenProvider(
+		"" /* REPLACE WITH YOUR FUNCTION APP ENDPOINT */,
+		azureUserConfig,
+	),
 	endpoint: "", // REPLACE WITH YOUR AZURE ENDPOINT
 };
 

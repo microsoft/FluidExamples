@@ -14,7 +14,9 @@ const useSharedString = (): SharedString => {
 	const [sharedString, setSharedString] = useState<SharedString>();
 	const getFluidData = async () => {
 		// Configure the container.
-		const client: TinyliciousClient = new TinyliciousClient();
+
+		const client = new TinyliciousClient();
+
 		const containerSchema: ContainerSchema = {
 			initialObjects: { sharedString: SharedString },
 		};
