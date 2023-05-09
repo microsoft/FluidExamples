@@ -1,6 +1,7 @@
 # Let's Brainstorm
 
-Brainstorm is an example of using the Fluid Framework to build a collaborative line of business application. In this example each user can create their own sticky notes that are managed on a board.
+Brainstorm is an example of using the Fluid Framework to build a collaborative line of business application.
+In this example each user can create their own sticky notes that are managed on a board.
 
 This application was shown during a [Microsoft Build session](https://aka.ms/OD522).
 
@@ -10,7 +11,7 @@ Follow the steps below to run this in local mode (Azure local service):
 
 1. Run `npm install` from the brainstorm folder root
 2. Run `npm run start:server` to start the Azure local service for testing and development
-3. Run `npm run start` to start the client
+3. Run `npm start` to start the client
 4. Navigate to `http://localhost:3000` in a browser tab
 
 <br />
@@ -42,12 +43,9 @@ This package is based on the [Create React App](https://reactjs.org/docs/create-
 ## Using the Brainstorm App
 
 1. Navigate to `http://localhost:3000`
-
-You'll be taken to a url similar to `http://localhost:3000/**#1621961220840**` the path `#1621961220840` specifies one brainstorm document.
-
-2. Navigate to the same url in another window or tab
-
-Now you can create notes, write text, change colors and more!
+    - You'll be taken to a URL similar to `http://localhost:3000/**#1621961220840**` the path `#1621961220840` specifies one brainstorm document.
+2. Navigate to the same URL in another window or tab
+    - Now you can create notes, write text, change colors and more!
 
 ## Connecting to the Service
 
