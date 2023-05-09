@@ -31,6 +31,6 @@ npx tinylicious
 With the local service running in the background, we need to connect the application to it. Run the following commands in a new terminal window to start the app. Navigate to `localhost:3000` in the browser to view the app.
 
 ```bash
-npm i
-npm run start
+npm install
+npm start
 ```
