@@ -4,7 +4,7 @@ This repository contains a simple NodeJS application connected with the Fluid Fr
 
 ## Getting started
 
-Run Tinylicious server in the backgroud:
+Run Tinylicious server in the background:
 
 ```sh
 npm run start:server
