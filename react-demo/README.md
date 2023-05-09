@@ -15,22 +15,22 @@ Concepts you will learn:
 
 In this example you will do the following:
 
-- [@fluid-example/react-demo](#fluid-examplereact-demo)
-	- [Demo introduction](#demo-introduction)
-	- [Use Create React App](#use-create-react-app)
-		- [Using NPM](#using-npm)
-		- [Using Yarn](#using-yarn)
-		- [Start the app](#start-the-app)
-	- [Install Fluid package dependencies](#install-fluid-package-dependencies)
-		- [Using NPM](#using-npm-1)
-		- [Using Yarn](#using-yarn-1)
-	- [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
-		- [Configure the service client](#configure-the-service-client)
-	- [Get the Fluid `SharedMap`](#get-the-fluid-sharedmap)
-		- [Get the SharedMap on load](#get-the-sharedmap-on-load)
-		- [Sync Fluid and view data](#sync-fluid-and-view-data)
-	- [Update the view](#update-the-view)
-	- [Next steps](#next-steps)
+-   [@fluid-example/react-demo](#fluid-examplereact-demo)
+    -   [Demo introduction](#demo-introduction)
+    -   [Use Create React App](#use-create-react-app)
+        -   [Using NPM](#using-npm)
+        -   [Using Yarn](#using-yarn)
+        -   [Start the app](#start-the-app)
+    -   [Install Fluid package dependencies](#install-fluid-package-dependencies)
+        -   [Using NPM](#using-npm-1)
+        -   [Using Yarn](#using-yarn-1)
+    -   [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
+        -   [Configure the service client](#configure-the-service-client)
+    -   [Get the Fluid `SharedMap`](#get-the-fluid-sharedmap)
+        -   [Get the SharedMap on load](#get-the-sharedmap-on-load)
+        -   [Sync Fluid and view data](#sync-fluid-and-view-data)
+    -   [Update the view](#update-the-view)
+    -   [Next steps](#next-steps)
 
 ## Use Create React App
 
