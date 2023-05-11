@@ -8,15 +8,14 @@
     "scripts": {
         "build": "webpack --env prod --env clean",
         "build:dev": "webpack --env clean",
-        "start": "concurrently \"npm:start:server\" \"npm:start:client\"",
-        "start:client": "webpack serve",
-        "start:server": "npx tinylicious",
-        "test:report": "start-server-and-test start:server 7070 jest",
         "format": "npm run prettier:fix",
         "lint": "npm run prettier",
         "lint:fix": "npm run prettier:fix",
         "prettier": "prettier --check . --ignore-path ./.prettierignore",
-        "prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
+        "prettier:fix": "prettier --write . --ignore-path ./.prettierignore",
+        "start": "webpack serve",
+        "start:server": "npx tinylicious",
+        "test:report": "start-server-and-test start:server 7070 jest"
     },
     "dependencies": {
         "@babel/preset-react": "^7.14.5",
@@ -32,7 +31,6 @@
         "@fluidframework/build-common": "^1.1.0",
         "babel-loader": "^8.2.2",
         "clean-webpack-plugin": "^3.0.0",
-        "concurrently": "^5.3.0",
         "html-webpack-plugin": "^4.3.0",
         "jest": "^29.2.2",
         "jest-puppeteer": "^6.1.1",
