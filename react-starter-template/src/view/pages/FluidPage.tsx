@@ -4,10 +4,10 @@ import { FluidContext } from "../../utils";
 import { DiceRollerList } from "../components/DiceRollerList";
 
 export const FluidPage = () => {
-    let { id } = useParams<{ id: string }>();
-    return (
-        <FluidContext id={id}>
-            <DiceRollerList />
-        </FluidContext>
-    );
+	let { id } = useParams<{ id: string }>();
+	return (
+		<FluidContext id={id}>
+			<DiceRollerList />
+		</FluidContext>
+	);
 };

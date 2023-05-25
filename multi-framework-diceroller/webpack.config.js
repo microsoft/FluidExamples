@@ -46,7 +46,7 @@ module.exports = (env) => {
             },
         },
         devServer: {
-            open: true,
+            open: false,
         },
     };
 };
