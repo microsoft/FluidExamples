@@ -20,5 +20,5 @@ Now, with our local service running in the background, we need to connect the ap
 
 ```bash
 npm i
-npm run start
+npm start
 ```
