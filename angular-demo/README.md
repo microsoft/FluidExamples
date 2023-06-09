@@ -41,6 +41,8 @@ npm install
 npm start
 ```
 
+Finally, navigate to `http://localhost:4200/` in your browser.
+
 ## Modifying the model
 
 ### Specify additional DDSes
