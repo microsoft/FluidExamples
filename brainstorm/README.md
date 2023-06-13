@@ -1,26 +1,33 @@
 # Let's Brainstorm
 
-Brainstorm is an example of using the Fluid Framework to build a collaborative line of business application. In this example each user can create their own sticky notes that are managed on a board.
+Brainstorm is an example of using the Fluid Framework to build a collaborative line of business application.
+In this example each user can create their own sticky notes that are managed on a board.
 
 This application was shown during a [Microsoft Build session](https://aka.ms/OD522).
 
 ## Getting Started
 
+This package is based on the [Create React App](https://reactjs.org/docs/create-a-new-react-app.html), so much of the Create React App documentation applies.
+
+### Local Mode
+
+Azure local service is a local, self-contained test service.
+Running `npx @fluidframework/azure-local-service@latest` from your terminal window will launch the Azure local server.
+The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.
+
 Follow the steps below to run this in local mode (Azure local service):
 
 1. Run `npm install` from the brainstorm folder root
 2. Run `npm run start:server` to start the Azure local service for testing and development
-3. Run `npm run start` to start the client
+3. Run `npm start` to start the client
 4. Navigate to `http://localhost:3000` in a browser tab
 
-<br />
+### Remote Mode
 
-| :memo: NOTE |
-| :---------- |
-
-| Azure local service is a local, self-contained test service. Running `npx @fluidframework/azure-local-service@latest` from your terminal window will launch the Azure local server. The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.
-
-<br />
+Azure Fluid Relay service is a deployed service implementation that pulls together multiple micro-services that provide the ordering and storage requirement of Fluid runtime.
+By running `npm run start:azure` from your terminal window, the environment variable `REACT_APP_FLUID_CLIENT` will be set first, which will be picked up by the `useAzure` flag, and `AzureConnectionConfig` will use the remote mode config format.
+Please use the values provided as part of the service onboarding process to fill in this configuration.
+Then, the command will connect to your service instance.
 
 Follow the steps below to run this in remote mode (Routerlicious):
 
@@ -28,30 +35,17 @@ Follow the steps below to run this in remote mode (Routerlicious):
 2. Run `npm run start:azure` to connect to the Azure Fluid Relay service
 3. Navigate to `http://localhost:3000` in a browser tab
 
-<br />
-
-| :memo: NOTE |
-| :---------- |
-
-| Azure Fluid Relay service is a deployed service implementation that pulls together multiple micro-services that provide the ordering and storage requirement of Fluid runtime. By running `npm run start:azure` from your terminal window, the environment variable `REACT_APP_FLUID_CLIENT` will be set first, which will be picked up by the `useAzure` flag, and `AzureConnectionConfig` will use the remote mode config format. Please use the values provided as part of the service onboarding process to fill in this configuration. Then, the command will connect to your service instance.
-
-<br />
-
-This package is based on the [Create React App](https://reactjs.org/docs/create-a-new-react-app.html), so much of the Create React App documentation applies.
-
 ## Using the Brainstorm App
 
 1. Navigate to `http://localhost:3000`
-
-You'll be taken to a url similar to `http://localhost:3000/**#1621961220840**` the path `#1621961220840` specifies one brainstorm document.
-
-2. Navigate to the same url in another window or tab
-
-Now you can create notes, write text, change colors and more!
+    - You'll be taken to a URL similar to `http://localhost:3000/**#1621961220840**` the path `#1621961220840` specifies one brainstorm document.
+2. Navigate to the same URL in another window or tab
+    - Now you can create notes, write text, change colors and more!
 
 ## Connecting to the Service
 
-By configuring the `AzureConnectionConfig` that we pass into the `AzureClient` instance, we can connect to both live Azure Fluid Relay and local instances. The `AzureConnectionConfig` is defined by the `connectionConfig` constant in [Config.ts](./src/Config.ts), which specifies the tenant ID, orderer and storage.
+By configuring the `AzureConnectionConfig` that we pass into the `AzureClient` instance, we can connect to both live Azure Fluid Relay and local instances.
+The `AzureConnectionConfig` is defined by the `connectionConfig` constant in [Config.ts](./src/Config.ts), which specifies the tenant ID, orderer and storage.
 
 Now, before you can access any Fluid data, you need to define your container schema after creating a configured `AzureClient` using `AzureConnectionConfig`.
 
@@ -65,7 +59,8 @@ export const containerSchema = {
 };
 ```
 
-Inside [index.tsx](./src/index.tsx), we defined a `start()` function that uses `getContainerId()` to check for the container ID in the URL and determine if this is an existing document (`getContainer()`) or if we need to create a new one (`createContainer()`). When creating a new container, we get its ID from the `container.attach()` call.
+Inside [index.tsx](./src/index.tsx), we defined a `start()` function that uses `getContainerId()` to check for the container ID in the URL and determine if this is an existing document (`getContainer()`) or if we need to create a new one (`createContainer()`).
+When creating a new container, we get its ID from the `container.attach()` call.
 
 ```ts
 export async function start() {
@@ -98,7 +93,8 @@ export async function start() {
 }
 ```
 
-Since `start()` is an async function, we'll need to await for the initialObjects to be returned. Once returned, each `initialObjects` key will point to a connected data structure as defined in the schema.
+Since `start()` is an async function, we'll need to await for the initialObjects to be returned.
+Once returned, each `initialObjects` key will point to a connected data structure as defined in the schema.
 
 ### Running `AzureClient` against local service instance
 
@@ -141,7 +137,10 @@ To keep track of changes made to individual notes, the LetsBrainstorm app makes 
 
 ### Syncing `SharedMap` and View data
 
-The [BrainstormModel](./src/BrainstormModel.ts) defines various functions that are available to a note, including creating and deleting a note, getting likes, moving the note in the note space, changing the note text, and etc. These functions achieve their tasks by making changes to the properties associated with the note. All note properties, such as `noteId`s, `author`, `color`, `postition`, etc, are stored in a `SharedMap` as key-value pairs for easy retrieval. Now, syncing our Fluid and View data requires that we set up an event listener, which mean we need a `useEffect()` hook, defined in [NoteSpace.tsx](./src/view/NoteSpace.tsx).
+The [BrainstormModel](./src/BrainstormModel.ts) defines various functions that are available to a note, including creating and deleting a note, getting likes, moving the note in the note space, changing the note text, and etc.
+These functions achieve their tasks by making changes to the properties associated with the note.
+All note properties, such as `noteId`s, `author`, `color`, `postition`, etc, are stored in a `SharedMap` as key-value pairs for easy retrieval.
+Now, syncing our Fluid and View data requires that we set up an event listener, which mean we need a `useEffect()` hook, defined in [NoteSpace.tsx](./src/view/NoteSpace.tsx).
 
 ```ts
 const [notes, setNotes] = React.useState<readonly NoteData[]>([]);
@@ -234,7 +233,8 @@ React.useEffect(() => {
 
 To sync the data, we created a `setMembersCallback()` function, which retrieves a list of all the active members and convert it to an array, then have a listener keep listening for the "membersChanged" event, and fire the function each time. Now React will handle updating the view each time the new `members` state is modified.
 
-The audience object also has a `getMyself()` function that returns the current client as a member. This is passed in as a view prop so that the user information can be displayed or processed when the user performs different note operations (creating a note, liking a note, and editing a note).
+The audience object also has a `getMyself()` function that returns the current client as a member.
+This is passed in as a view prop so that the user information can be displayed or processed when the user performs different note operations (creating a note, liking a note, and editing a note).
 
 ```ts
 const authorInfo = audience.getMyself();

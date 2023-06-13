@@ -2,11 +2,16 @@
 
 This repository contains a simple app that enables all connected clients to roll a dice and view the result, and demonstrates how that dice can be rendered in multiple UI frameworks.
 
-## Requirements
-
-Node 12.17+
-
 ## Getting started
+
+To run an Azure Client service locally, on the default values of `localhost:7070`, enter the following into a terminal window:
+
+```bash
+npx tinylicious
+```
+
+With the local service running in the background, we need to connect the application to it.
+Run the following commands in a new terminal window to start the app. Navigate to `localhost:3000` in the browser to view the app.
 
 ```bash
 npm install

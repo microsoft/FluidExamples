@@ -34,9 +34,6 @@ parameters:
   - name: svelte-demo
     type: string
     default: svelte-demo
-  # - name: teams-fluid-hello-world
-  #   type: string
-  #   default: teams-fluid-hello-world
 
 trigger:
   - main

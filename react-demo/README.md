@@ -15,12 +15,22 @@ Concepts you will learn:
 
 In this example you will do the following:
 
--   [Use Create React App](#use-create-react-app)
--   [Install Fluid package dependencies](#install-fluid-package-dependencies)
--   [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
--   [Get the Fluid SharedMap](#get-the-fluid-sharedmap)
--   [Update the view](#update-the-view)
--   [Next steps](#next-steps)
+-   [@fluid-example/react-demo](#fluid-examplereact-demo)
+    -   [Demo introduction](#demo-introduction)
+    -   [Use Create React App](#use-create-react-app)
+        -   [Using NPM](#using-npm)
+        -   [Using Yarn](#using-yarn)
+        -   [Start the app](#start-the-app)
+    -   [Install Fluid package dependencies](#install-fluid-package-dependencies)
+        -   [Using NPM](#using-npm-1)
+        -   [Using Yarn](#using-yarn-1)
+    -   [Import and initialize Fluid dependencies](#import-and-initialize-fluid-dependencies)
+        -   [Configure the service client](#configure-the-service-client)
+    -   [Get the Fluid `SharedMap`](#get-the-fluid-sharedmap)
+        -   [Get the SharedMap on load](#get-the-sharedmap-on-load)
+        -   [Sync Fluid and view data](#sync-fluid-and-view-data)
+    -   [Update the view](#update-the-view)
+    -   [Next steps](#next-steps)
 
 ## Use Create React App
 
@@ -49,7 +59,8 @@ npx tinylicious
 Open up a new terminal tab and start up our React app
 
 ```bash
-npm run start
+npm install
+npm start
 ```
 
 ## Install Fluid package dependencies
@@ -76,7 +87,8 @@ Lastly, open up the `App.js` file, as that will be the only file edited.
 
 ## Import and initialize Fluid dependencies
 
-`TinyliciousClient` is a client for `Tinylicious`, a local Fluid server used for testing our application. The client will include a method for creating a [Fluid container]({{< relref "containers.md" >}}) with a set of initial [DDSes]({{< relref "dds.md" >}}) or [shared objects]({{< relref "glossary.md#shared-objects" >}}) that are defined in the `containerSchema`.
+`TinyliciousClient` is a client for `Tinylicious`, a local Fluid server used for testing our application.
+The client will include a method for creating a [Fluid Container](https://fluidframework.com/docs/build/containers) with a set of initial [DDSes](https://fluidframework.com/docs/build/dds) or [shared objects](https://fluidframework.com/docs/glossary/#shared-object) that are defined in the `containerSchema`.
 
 > The Fluid container interacts with the processes and distributes operations, manages the lifecycle of Fluid objects, and provides a request API for accessing Fluid objects.
 
@@ -116,7 +128,9 @@ const timeKey = "time-key";
 
 ## Get the Fluid `SharedMap`
 
-Fluid applications can be loaded in one of two states, creating or loading. This demo differentiates these states by the presence, or absence of a hash string (`localhost:3000/#abc`), which will also serves as the container `id`. The function below will return the `myMap` SharedMap, defined above, from either a new container, or an existing container, based on the presence of a hash long enough to include an `id` value.
+Fluid applications can be loaded in one of two states, creating or loading.
+This demo differentiates these states by the presence, or absence of a hash string (`localhost:3000/#abc`), which will also serves as the container `id`.
+The function below will return the `myMap` SharedMap, defined above, from either a new container, or an existing container, based on the presence of a hash long enough to include an `id` value.
 
 ```js
 const getMyMap = async () => {
@@ -152,7 +166,8 @@ React.useEffect(() => {
 
 ### Sync Fluid and view data
 
-Syncing our Fluid and view data requires that the app create an event listener, which is another opportunity for `useEffect`. This second `useEffect` function will return early if `fluidMap` is not defined and run again once `fluidMap` has been set thanks to the added dependency.
+Syncing our Fluid and view data requires that the app create an event listener, which is another opportunity for `useEffect`.
+This second `useEffect` function will return early if `fluidMap` is not defined and run again once `fluidMap` has been set thanks to the added dependency.
 
 To sync the data we're going to create a `syncView` function, call that function once to initialize the view, and then continue calling that function each time the map's "valueChanged" event is raised.
 
@@ -178,9 +193,12 @@ React.useEffect(() => {
 
 ## Update the view
 
-In this simple multi-user app, you are going to build a button that, when pressed, shows the current timestamp. We will store that timestamp in Fluid so that each co-authors will automatically see the most recent timestamp at which any author pressed the button.
+In this simple multi-user app, you are going to build a button that, when pressed, shows the current timestamp.
+We will store that timestamp in Fluid so that each co-authors will automatically see the most recent timestamp at which any author pressed the button.
 
-To make sure the app does not render too soon, it returns a blank `<div />` until the `viewData` is defined. Once that's done, it renders a button that sets the `timeKey` key in `myMap` to the current timestamp. Each time this button is pressed, every user will see the latest value stored in the `time` state variable.
+To make sure the app does not render too soon, it returns a blank `<div />` until the `viewData` is defined.
+Once that's done, it renders a button that sets the `timeKey` key in `myMap` to the current timestamp.
+Each time this button is pressed, every user will see the latest value stored in the `time` state variable.
 
 ```jsx
 // update the App return
@@ -198,7 +216,8 @@ return (
 );
 ```
 
-When the app loads it will update the URL. Copy that new URL into a second browser and note that if you click the button in one browser, the other browser updates as well.
+When the app loads it will update the URL.
+Copy that new URL into a second browser and note that if you click the button in one browser, the other browser updates as well.
 
 ![react-demo](https://user-images.githubusercontent.com/1434956/111496992-faf2dc00-86fd-11eb-815d-5cc539d8f3c8.gif)
 

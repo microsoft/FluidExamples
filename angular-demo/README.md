@@ -29,15 +29,16 @@ In this readme we'll walk you through the following topics:
 
 To run our local server, Tinylicious, on the default values of `localhost:7070`, enter the following into a terminal window:
 
-```
+```bash
 npx tinylicious
 ```
 
-Now, with our local service running in the background, we need to connect the application to it. The app has already been configured to this so now we just need to run the following in a new terminal window to start the app.
+Now, with our local service running in the background, we need to connect the application to it.
+The app has already been configured to this so now we just need to run the following in a new terminal window to start the app:
 
 ```bash
-npm i
-npm run start
+npm install
+npm start
 ```
 
 ## Modifying the model
