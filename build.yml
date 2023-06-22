@@ -32,6 +32,14 @@ parameters:
     type: string
     default: react-starter-template
 
+schedules:
+  - cron: "0 16 * * 1-5" # Runs daily builds at 9AM PST Mon-Fri
+    displayName: Daily builds
+    branches:
+      include:
+        - main
+    always: true
+
 trigger:
   - main
 
