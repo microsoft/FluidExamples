@@ -20,4 +20,4 @@ npm start
 
 To create a new Fluid container press Enter.
 The container ID will be printed in the terminal.
-Copy the container ID, launch a new terminal window, and type/paste the initial container ID to have multiple collaborative NodeJS clients.
+To have multiple collaborative NodeJS clients, copy the container ID, launch a new terminal window, and type/paste the initial container ID.
