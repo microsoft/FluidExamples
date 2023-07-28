@@ -11,16 +11,20 @@ npx tinylicious
 ```
 
 With the local service running in the background, we need to connect the application to it.
-Run the following commands in a new terminal window to start the app. Navigate to `localhost:3000` in the browser to view the app.
+Run the following commands in a new terminal window to start the app.
 
 ```bash
 npm install
 npm start
 ```
 
+Navigate to `localhost:8080` in the browser to view the app.
+
 ## Changing view frameworks
 
-This repo demonstrates rendering the dice roller using JavaScript, Web Components, React and Vue. The default view is JavaScipt. To switch to another view framework, change the `diceRoller` import in `src/app.js` line 8 as follows.
+This repo demonstrates rendering the dice roller using JavaScript, Web Components, React and Vue.
+The default view is JavaScipt.
+To switch to another view framework, change the `diceRoller` import in `src/app.js` line 8 as follows.
 
 ```js
 // Default JS view
