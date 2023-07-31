@@ -63,6 +63,8 @@ npm install
 npm start
 ```
 
+Navigate to `localhost:3000` in the browser to view the app.
+
 ## Install Fluid package dependencies
 
 There are two packages to install to get started with Fluid:

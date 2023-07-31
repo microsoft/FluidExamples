@@ -54,6 +54,8 @@ npm install
 npm start
 ```
 
+Navigate to `localhost:3000` in the browser to view the app.
+
 ## Modifying the model
 
 ### Specify additional DDSes

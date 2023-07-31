@@ -28,9 +28,12 @@ To run an Azure Client service locally, on the default values of `localhost:7070
 npx tinylicious
 ```
 
-With the local service running in the background, we need to connect the application to it. Run the following commands in a new terminal window to start the app. Navigate to `localhost:3000` in the browser to view the app.
+With the local service running in the background, we need to connect the application to it.
+Run the following commands in a new terminal window to start the app:
 
 ```bash
 npm install
 npm start
 ```
+
+Navigate to `localhost:3000` in the browser to view the app.
