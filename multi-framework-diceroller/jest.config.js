@@ -13,4 +13,5 @@ module.exports = {
     transform: {
         "^.+\\.jsx?$": "babel-jest",
     },
+    reporters: ["jest-junit"],
 };
