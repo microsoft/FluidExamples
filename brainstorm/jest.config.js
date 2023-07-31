@@ -13,4 +13,5 @@ module.exports = {
 	transform: {
 		"^.+\\.tsx?$": "babel-jest",
 	},
+	reporters: ["jest-junit"],
 };
