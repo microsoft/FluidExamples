@@ -12,6 +12,8 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "react-scripts build",
+		"ci:test": "start-server-and-test start:server 7070 ci:test:jest",
+		"ci:test:jest": "jest --ci --reporters=default --reporters=jest-junit",
 		"eject": "react-scripts eject",
 		"format": "npm run prettier:fix",
 		"lint": "npm run prettier",
@@ -20,8 +22,8 @@
 		"prettier:fix": "prettier --write . --ignore-path ./.prettierignore",
 		"start": "react-scripts start",
 		"start:server": "npx tinylicious",
-		"test": "react-scripts test",
-		"test:report": "start-server-and-test start:server 7070 jest"
+		"test": "start-server-and-test start:server 7070 test:jest",
+		"test:jest": "jest"
 	},
 	"browserslist": {
 		"production": [
@@ -47,11 +49,16 @@
 		"@testing-library/react": "^11.1.0",
 		"@testing-library/user-event": "^12.1.10",
 		"jest": "^29.2.2",
+		"jest-junit": "^10.0.0",
 		"jest-puppeteer": "^6.1.1",
 		"prettier": "^2.7.1",
 		"puppeteer": "^19.2.1",
 		"react-scripts": "4.0.2",
 		"start-server-and-test": "^1.14.0",
 		"tinylicious": "^0.4.94771"
+	},
+	"jest-junit": {
+		"outputDirectory": "nyc",
+		"outputName": "jest-junit-report.xml"
 	}
 }
