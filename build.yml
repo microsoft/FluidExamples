@@ -61,6 +61,7 @@ steps:
     inputs:
       version: 14.x
 
+  # Install, build, lint, and test each package
   - ${{ each parameter in parameters }}:
       - task: Npm@1
         displayName: Install - ${{ parameter.Value }}
