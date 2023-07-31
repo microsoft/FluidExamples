@@ -13,12 +13,14 @@
 		"react-scripts": "5.0.1"
 	},
 	"scripts": {
+		"ci:test": "start-server-and-test start:server 7070 ci:test:jest",
+		"ci:test:jest": "jest --ci --reporters=default --reporters=jest-junit",
 		"start": "react-scripts start",
 		"start:server": "npx @fluidframework/azure-local-service",
 		"build": "react-scripts build",
-		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"test:report": "start-server-and-test start:server 7070 jest",
+		"test": "start-server-and-test start:server 7070 test:jest",
+		"test:jest": "jest",
 		"format": "npm run prettier:fix",
 		"lint": "npm run prettier",
 		"lint:fix": "npm run prettier:fix",
@@ -42,10 +44,15 @@
 		"@fluidframework/build-common": "^1.1.0",
 		"buffer": "^6.0.3",
 		"jest": "^29.2.2",
+		"jest-junit": "^10.0.0",
 		"jest-puppeteer": "^6.1.1",
 		"prettier": "^2.7.1",
 		"puppeteer": "^19.2.1",
 		"start-server-and-test": "^1.14.0",
 		"url": "^0.11.0"
+	},
+	"jest-junit": {
+		"outputDirectory": "nyc",
+		"outputName": "jest-junit-report.xml"
 	}
 }
