@@ -86,7 +86,7 @@ steps:
         inputs:
           command: "custom"
           workingDir: ${{ parameter.Value }}
-          customCommand: "run test:report"
+          customCommand: "run ci:test"
       - task: PublishTestResults@2
         displayName: Publish Test Results - ${{ parameter.Value }}
         inputs:
