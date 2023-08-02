@@ -3,12 +3,14 @@
 	"version": "0.1.0",
 	"repository": "microsoft/FluidExamples",
 	"main": "./src/index.js",
+	"type": "module",
 	"scripts": {
-		"build": "npm build",
+		"build": "echo 'Javascript package does not require build'",
+		"ci:test": "npm run test",
 		"start": "node ./src/index.js",
 		"start:server": "npx tinylicious@latest",
-		"test": "mocha --timeout 20000 ./test/*.test.js",
-		"test:report": "start-server-and-test start:server 7070 test",
+		"test": "start-server-and-test start:server 7070 test:mocha",
+		"test:mocha": "mocha ./test/*.test.js --config .mocharc.cjs",
 		"format": "npm run prettier:fix",
 		"lint": "npm run prettier",
 		"lint:fix": "npm run prettier:fix",
@@ -26,9 +28,9 @@
 		"@fluidframework/build-common": "^1.1.0",
 		"chai": "^4.3.7",
 		"mocha": "^10.1.0",
+		"mocha-junit-reporter": "^2.2.1",
 		"sinon": "^14.0.2",
 		"sinon-chai": "^3.7.0",
 		"start-server-and-test": "^1.14.0"
-	},
-	"type": "module"
+	}
 }
