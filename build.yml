@@ -61,6 +61,7 @@ steps:
     inputs:
       version: 14.x
 
+  # Install, build, lint, and test each package
   - ${{ each parameter in parameters }}:
       - task: Npm@1
         displayName: Install - ${{ parameter.Value }}
@@ -85,7 +86,7 @@ steps:
         inputs:
           command: "custom"
           workingDir: ${{ parameter.Value }}
-          customCommand: "run test:report"
+          customCommand: "run ci:test"
       - task: PublishTestResults@2
         displayName: Publish Test Results - ${{ parameter.Value }}
         inputs:
