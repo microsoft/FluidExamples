@@ -6,13 +6,14 @@
 import * as config from "../jest.config";
 import { strict as assert } from "assert";
 
+const timeout = 100000;
 let url;
 
 describe("react-starter-template", () => {
 	const load = async () => {
 		await page.goto(config.globals.URL, {
 			waitUntil: ["networkidle2", "load"],
-			timeout: 100000,
+			timeout,
 		});
 	};
 
@@ -22,7 +23,7 @@ describe("react-starter-template", () => {
 		await page.click(".create");
 		url = await page.url();
 		assert(url.includes("fluid/"), true, "No container id found");
-	});
+	}, timeout);
 
 	it("Load the page", async () => {
 		console.log("Container URL---", url);
