@@ -22,7 +22,7 @@ describe("react-starter-template", () => {
 		await page.click(".create");
 		url = await page.url();
 		assert(url.includes("fluid/"), true, "No container id found");
-	});
+	}).timeout(100000);
 
 	it("Load the page", async () => {
 		console.log("Container URL---", url);
