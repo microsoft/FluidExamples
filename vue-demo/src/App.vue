@@ -1,4 +1,8 @@
 <script setup lang="ts">
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
 import { TinyliciousClient } from "@fluidframework/tinylicious-client";
 import { SharedMap, type ISharedMap } from "fluid-framework";
 import { onMounted, ref } from "vue";
