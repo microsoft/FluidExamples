@@ -30,8 +30,8 @@
 		"@angular/platform-browser": "~13.3.11",
 		"@angular/platform-browser-dynamic": "~13.3.11",
 		"@angular/router": "~13.3.11",
-		"@fluidframework/tinylicious-client": "^2.0.0-internal.4.1.0",
-		"fluid-framework": "^2.0.0-internal.4.0.5",
+		"@fluidframework/tinylicious-client": "^2.0.0-internal.6.3.2",
+		"fluid-framework": "^2.0.0-internal.6.3.2",
 		"tslib": "^2.3.0",
 		"zone.js": "~0.11.4"
 	},
