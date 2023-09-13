@@ -45,8 +45,8 @@ onMounted(async () => {
 <template>
 	<!-- Only display content once time is defined -->
 	<div class="app" v-if="time !== undefined">
-		<button @click="setTime">Get Time</button>
-		<span>{{ time }}</span>
+		<button class="getTime" @click="setTime">Get Time</button>
+		<span class="time">{{ time }}</span>
 	</div>
 </template>
 
