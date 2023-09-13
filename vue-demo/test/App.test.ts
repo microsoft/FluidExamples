@@ -19,7 +19,7 @@ describe("vue-demo", () => {
 		await load();
 		expect(await page.title()).toBe("Vue + Fluid App");
 		await page.click(".getTime");
-		url = await page.url(); rt45
+		url = await page.url();
 	});
 
 	it("Load the page", async () => {
