@@ -7,7 +7,7 @@ import * as config from "../jest.config";
 
 let url;
 
-describe("angular-demo", () => {
+describe("vue-demo", () => {
 	const load = async () => {
 		await page.goto(config.globals.URL, {
 			waitUntil: ["networkidle2", "load"],
@@ -19,7 +19,7 @@ describe("angular-demo", () => {
 		await load();
 		expect(await page.title()).toBe("Vue + Fluid App");
 		await page.click(".getTime");
-		url = await page.url();
+		url = await page.url(); rt45
 	});
 
 	it("Load the page", async () => {
