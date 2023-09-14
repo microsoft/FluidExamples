@@ -22,12 +22,12 @@ parameters:
   - name: multi-framework-diceroller
     type: string
     default: multi-framework-diceroller
-  - name: react-demo
-    type: string
-    default: react-demo
   - name: node-demo
     type: string
     default: node-demo
+  - name: react-demo
+    type: string
+    default: react-demo
   - name: react-starter-template
     type: string
     default: react-starter-template
@@ -68,25 +68,22 @@ steps:
         inputs:
           command: "custom"
           workingDir: "${{ parameter.Value }}"
-          customCommand: "install"
-      - task: Npm@1
+          customCommand: "ci"
+      - task: CmdLine@2
         displayName: Build - ${{ parameter.Value }}
         inputs:
-          command: "custom"
-          workingDir: ${{ parameter.Value }}
-          customCommand: "run build"
-      - task: Npm@1
+          script: "npm run build"
+          workingDirectory: ${{ parameter.Value }}
+      - task: CmdLine@2
         displayName: Lint - ${{ parameter.Value }}
         inputs:
-          command: "custom"
-          workingDir: ${{ parameter.Value }}
-          customCommand: "run lint"
-      - task: Npm@1
+          script: "npm run lint"
+          workingDirectory: ${{ parameter.Value }}
+      - task: CmdLine@2
         displayName: Test - ${{ parameter.Value }}
         inputs:
-          command: "custom"
-          workingDir: ${{ parameter.Value }}
-          customCommand: "run ci:test"
+          command: "npm run ci:test"
+          workingDirectory: ${{ parameter.Value }}
       - task: PublishTestResults@2
         displayName: Publish Test Results - ${{ parameter.Value }}
         inputs:
@@ -94,4 +91,6 @@ steps:
           testResultsFiles: "**/*junit-report.xml"
           searchFolder: ${{ parameter.Value }}/nyc
           mergeTestResults: true
+        # Note while this runs if anything prior fails, the prior test steps won't
+        # run after first failure. Could be split into jobs to avoid interference.
         condition: succeededOrFailed()
