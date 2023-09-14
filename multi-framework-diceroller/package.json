@@ -6,9 +6,9 @@
     "repository": "microsoft/FluidExamples",
     "license": "MIT",
     "author": "Microsoft",
-	"engines": {
-		"node": ">=16.18.38"
-	},
+    "engines": {
+        "node": ">=16.18.38"
+    },
     "scripts": {
         "build": "webpack --env prod --env clean",
         "build:dev": "webpack --env clean",
