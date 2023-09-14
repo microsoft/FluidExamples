@@ -13,9 +13,6 @@
     "url": "https://github.com/microsoft/FluidFramework/issues"
   },
   "homepage": "https://github.com/microsoft/FluidExamples#readme",
-  "engines": {
-    "node": ">=16.18.38"
-  },
   "devDependencies": {
     "syncpack": "^11.2.1"
   },
