@@ -14,7 +14,7 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"ci:test": "start-server-and-test start:server 7070 ci:test:vitest",
-		"ci:test:vitest": "vitest --ci",
+		"ci:test:vitest": "vitest watch",
 		"start:server": "npx tinylicious",
 		"dev": "vite",
 		"build": "vite build",
