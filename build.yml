@@ -31,6 +31,9 @@ parameters:
   - name: react-starter-template
     type: string
     default: react-starter-template
+  - name: svelte-demo
+    type: string
+    default: svelte-demo
 
 schedules:
   - cron: "0 16 * * 1-5" # Runs daily builds at 9AM PST Mon-Fri
