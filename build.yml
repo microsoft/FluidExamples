@@ -7,6 +7,30 @@ pool:
   vmImage: ubuntu-latest
 
 parameters:
+  - name: angular-demo
+    type: string
+    default: angular-demo
+  - name: audience-demo
+    type: string
+    default: audience-demo
+  - name: brainstorm
+    type: string
+    default: brainstorm
+  - name: collaborative-text-area
+    type: string
+    default: collaborative-text-area
+  - name: multi-framework-diceroller
+    type: string
+    default: multi-framework-diceroller
+  - name: react-demo
+    type: string
+    default: react-demo
+  - name: node-demo
+    type: string
+    default: node-demo
+  - name: react-starter-template
+    type: string
+    default: react-starter-template
   - name: svelte-demo
     type: string
     default: svelte-demo
