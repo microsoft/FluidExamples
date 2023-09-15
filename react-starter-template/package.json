@@ -23,7 +23,7 @@
 		"prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
 	},
 	"engines": {
-		"node": ">=16.18.38"
+		"node": ">=18.0.0"
 	},
 	"dependencies": {
 		"@fluentui/react": "^8.17.1",
@@ -42,7 +42,7 @@
 		"@testing-library/react": "^11.2.7",
 		"@testing-library/user-event": "^12.8.3",
 		"@types/jest": "^26.0.23",
-		"@types/node": "^16.18.38",
+		"@types/node": "^18.0.0",
 		"@types/react": "^17.0.9",
 		"@types/react-dom": "^17.0.6",
 		"@types/react-router-dom": "^5.1.7",
