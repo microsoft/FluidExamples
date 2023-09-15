@@ -82,7 +82,7 @@ steps:
       - task: CmdLine@2
         displayName: Test - ${{ parameter.Value }}
         inputs:
-          command: "npm run ci:test"
+          script: "npm run ci:test"
           workingDirectory: ${{ parameter.Value }}
       - task: PublishTestResults@2
         displayName: Publish Test Results - ${{ parameter.Value }}
