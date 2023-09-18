@@ -31,9 +31,8 @@ npx tinylicious
 Now, with our local service running in the background, we need to connect the application to it. The app has already been configured to this so now we just need to run the following in a new terminal window to start the app.
 
 ```bash
-npm i -g pnpm@^7
-pnpm i
-pnpm run dev
+npm i
+npm run dev
 ```
 
 ## Recommended IDE Setup
