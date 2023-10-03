@@ -6,12 +6,12 @@
 module.exports = {
     launch: {
         slowMo: 300,
-        headless: true,
+        headless: "new",
         devtools: false,
         args: ["--disable-setuid-sandbox", "--no-sandbox"],
     },
     server: {
-        command: "npm run start:client",
+        command: "npm run start",
         port: 8080,
         launchTimeout: 100000,
         debug: true,

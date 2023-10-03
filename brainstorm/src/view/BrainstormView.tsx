@@ -13,7 +13,10 @@ export const BrainstormView = (props: {
 	services: AzureContainerServices;
 }) => {
 	const { container, services } = props;
-	const [model] = React.useState<BrainstormModel>(createBrainstormModel(container));
+	const model: BrainstormModel = React.useMemo(
+		() => createBrainstormModel(container),
+		[container],
+	);
 
 	const audience = services.audience;
 	// retrieve all the members currently in the session

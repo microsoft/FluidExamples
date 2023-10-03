@@ -30,10 +30,7 @@ const azureUserConfig = {
 const remoteConnectionConfig: AzureRemoteConnectionConfig = {
 	type: "remote",
 	tenantId: "", // REPLACE WITH YOUR TENANT ID
-	tokenProvider: new AzureFunctionTokenProvider(
-		"" /* REPLACE WITH YOUR FUNCTION APP ENDPOINT */,
-		azureUserConfig,
-	),
+	tokenProvider: new InsecureTokenProvider("" /* REPLACE WITH YOUR PRIMARY KEY */, userConfig),
 	endpoint: "", // REPLACE WITH YOUR AZURE ENDPOINT
 };
 
