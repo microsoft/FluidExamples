@@ -1,27 +1,33 @@
 {
     "name": "@fluid-example/multi-framework-diceroller",
     "version": "0.1.0",
+    "private": true,
     "description": "Minimal Fluid Container & Data Object sample to implement a collaborative dice roller as a standalone app.",
     "repository": "microsoft/FluidExamples",
     "license": "MIT",
     "author": "Microsoft",
+    "engines": {
+        "node": ">=18.0.0"
+    },
     "scripts": {
         "build": "webpack --env prod --env clean",
         "build:dev": "webpack --env clean",
-        "start": "concurrently \"npm:start:server\" \"npm:start:client\"",
-        "start:client": "webpack serve",
-        "start:server": "npx tinylicious",
-        "test:report": "start-server-and-test start:server 7070 jest",
+        "ci:test": "start-server-and-test start:server 7070 ci:test:jest",
+        "ci:test:jest": "jest --ci --reporters=default --reporters=jest-junit",
         "format": "npm run prettier:fix",
         "lint": "npm run prettier",
         "lint:fix": "npm run prettier:fix",
         "prettier": "prettier --check . --ignore-path ./.prettierignore",
-        "prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
+        "prettier:fix": "prettier --write . --ignore-path ./.prettierignore",
+        "start": "webpack serve",
+        "start:server": "npx tinylicious",
+        "test": "start-server-and-test start:server 7070 test:jest",
+        "test:jest": "jest"
     },
     "dependencies": {
         "@babel/preset-react": "^7.14.5",
-        "@fluidframework/tinylicious-client": "^2.0.0-internal.6.3.2",
-        "fluid-framework": "^2.0.0-internal.6.3.2",
+        "@fluidframework/tinylicious-client": "^2.0.0-internal.7.0.0",
+        "fluid-framework": "^2.0.0-internal.7.0.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "vue": "^3.2.11"
@@ -32,17 +38,17 @@
         "@fluidframework/build-common": "^2.0.0-151899",
         "babel-loader": "^8.2.2",
         "clean-webpack-plugin": "^3.0.0",
-        "concurrently": "^5.3.0",
         "html-webpack-plugin": "^4.3.0",
         "jest": "^29.2.2",
-        "jest-puppeteer": "^6.1.1",
+        "jest-junit": "^16.0.0",
+        "jest-puppeteer": "^9.0.0",
         "prettier": "^2.7.1",
-        "puppeteer": "^19.2.1",
-        "start-server-and-test": "^1.14.0",
-        "tinylicious": "^0.4.94771",
-        "webpack": "^4.46.0",
-        "webpack-cli": "^4.2.0",
-        "webpack-dev-server": "^3.11.0"
+        "puppeteer": "^21.0.0",
+        "start-server-and-test": "^2.0.0",
+        "tinylicious": "^1.0.0",
+        "webpack": "^5.88.2",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^4.15.1"
     },
     "prettier": {
         "trailingComma": "es5",
@@ -50,5 +56,9 @@
         "semi": true,
         "singleQuote": false,
         "printWidth": 100
+    },
+    "jest-junit": {
+        "outputDirectory": "nyc",
+        "outputName": "jest-junit-report.xml"
     }
 }

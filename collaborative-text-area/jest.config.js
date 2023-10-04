@@ -9,8 +9,9 @@ module.exports = {
 		URL: "http://localhost:3000",
 	},
 	verbose: true,
-	testTimeout: 20000,
+	testTimeout: 60000,
 	transform: {
 		"^.+\\.tsx?$": "babel-jest",
 	},
+	reporters: ["jest-junit"],
 };

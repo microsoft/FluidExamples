@@ -36,9 +36,12 @@ To run our local server, Tinylicious, on the default URL of `localhost:7070`, en
 npx tinylicious
 ```
 
-Now, with our local service running in the background, we need to connect the application to it. The app has already been configured to this so now we just need to run the following in a new terminal window to start the app.
+Now, with our local service running in the background, we need to connect the application to it.
+The app has already been configured to this so now we just need to run the following in a new terminal window to start the app.
 
 ```bash
-npm i
-npm run start
+npm install
+npm start
 ```
+
+Navigate to `localhost:3000` in the browser to view the app.
