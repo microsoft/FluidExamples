@@ -38,13 +38,16 @@ schedules:
     branches:
       include:
         - main
+        - v2.0_internal
     always: true
 
 trigger:
   - main
+  - v2.0_internal
 
 pr:
   - main
+  - v2.0_internal
 
 variables:
   skipComponentGovernanceDetection: true
