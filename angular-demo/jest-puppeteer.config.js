@@ -11,7 +11,7 @@ module.exports = {
 		args: ["--disable-setuid-sandbox", "--no-sandbox"],
 	},
 	server: {
-		command: "npm run start",
+		command: "npm start",
 		port: 4200,
 		launchTimeout: 300000,
 		debug: true,
