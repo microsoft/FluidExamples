@@ -82,11 +82,11 @@ steps:
         inputs:
           script: "npm run lint"
           workingDirectory: ${{ parameter.Value }}
-      # - task: CmdLine@2
-      #   displayName: Test - ${{ parameter.Value }}
-      #   inputs:
-      #     script: "npm run ci:test"
-      #     workingDirectory: ${{ parameter.Value }}
+      - task: CmdLine@2
+        displayName: Test - ${{ parameter.Value }}
+        inputs:
+          script: "npm run ci:test"
+          workingDirectory: ${{ parameter.Value }}
       - task: PublishTestResults@2
         displayName: Publish Test Results - ${{ parameter.Value }}
         inputs:

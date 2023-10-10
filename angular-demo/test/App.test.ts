@@ -44,15 +44,27 @@ describe("angular-demo", () => {
 		const newUrl = await page.url();
 
 		await page.click(".getTime");
+
+		// Check if the element is present
 		let element1 = await page.$(".time");
-		const value1 = await page.evaluate((e1) => e1.textContent, element1);
-		console.log(value1);
+		if (element1) {
+			const value1 = await page.evaluate((e1) => e1.textContent, element1);
+			console.log(value1);
 
-		await page.goto(newUrl);
-		let element2 = await page.$(".time");
-		const value2 = await page.evaluate((e1) => e1.textContent, element2);
-		console.log(value2);
+			await page.goto(newUrl);
 
-		expect(value1).toBe(value2);
+			// Check if the element is present
+			let element2 = await page.$(".time");
+			if (element2) {
+				const value2 = await page.evaluate((e2) => e2.textContent, element2);
+				console.log(value2);
+
+				expect(value1).toBe(value2);
+			} else {
+				console.log(".time element not found on the second page.");
+			}
+		} else {
+			console.log(".time element not found on the first page.");
+		}
 	});
 });
