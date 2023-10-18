@@ -23,8 +23,8 @@
 		"node": ">=18.0.0"
 	},
 	"dependencies": {
-		"@fluidframework/tinylicious-client": "^2.0.0-internal.7.0.0",
-		"fluid-framework": "^2.0.0-internal.7.0.0",
+		"@fluidframework/tinylicious-client": "^2.0.0-internal.7.1.0",
+		"fluid-framework": "^2.0.0-internal.7.1.0",
 		"readline-sync": "^1.4.10",
 		"prettier": "^2.7.1"
 	},

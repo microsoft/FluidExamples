@@ -104,7 +104,7 @@ Once returned, each `initialObjects` key will point to a connected data structur
 
     ```typescript
     import { AzureClient, AzureConnectionConfig } from "@fluidframework/azure-client";
-    import { InsecureTokenProvider } from "@fluidframework/test-client-utils";
+    import { InsecureTokenProvider } from "@fluidframework/test-runtime-utils";
     const clientProps = {
     	connection: {
     		type: "local",
