@@ -70,7 +70,7 @@
 	},
 	"devDependencies": {
 		"@fluidframework/azure-local-service": "^2.0.0-internal.7.1.0",
-		"@fluidframework/build-common": "^2.0.0-151899",
+		"@fluidframework/build-common": "^2.0.2",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
 		"@testing-library/user-event": "^12.1.10",

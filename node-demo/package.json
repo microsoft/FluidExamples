@@ -29,7 +29,7 @@
 		"prettier": "^2.7.1"
 	},
 	"devDependencies": {
-		"@fluidframework/build-common": "^2.0.0-151899",
+		"@fluidframework/build-common": "^2.0.2",
 		"chai": "^4.3.7",
 		"mocha": "^10.1.0",
 		"mocha-junit-reporter": "^2.2.1",

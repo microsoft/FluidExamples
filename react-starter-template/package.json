@@ -37,7 +37,7 @@
 		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
-		"@fluidframework/build-common": "^2.0.0-151899",
+		"@fluidframework/build-common": "^2.0.2",
 		"@testing-library/jest-dom": "^5.13.0",
 		"@testing-library/react": "^11.2.7",
 		"@testing-library/user-event": "^12.8.3",
