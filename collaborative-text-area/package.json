@@ -11,15 +11,15 @@
 		"node": ">=18.0.0"
 	},
 	"dependencies": {
-		"@fluid-experimental/react-inputs": "^2.0.0-internal.7.0.0",
-		"@fluidframework/tinylicious-client": "^2.0.0-internal.7.0.0",
-		"fluid-framework": "^2.0.0-internal.7.0.0",
+		"@fluid-experimental/react-inputs": "^2.0.0-internal.7.1.0",
+		"@fluidframework/tinylicious-client": "^2.0.0-internal.7.1.0",
+		"fluid-framework": "^2.0.0-internal.7.1.0",
 		"prettier": "^2.7.1",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2"
 	},
 	"devDependencies": {
-		"@fluidframework/build-common": "^2.0.0-151899",
+		"@fluidframework/build-common": "^2.0.2",
 		"@testing-library/react": "^11.2.7",
 		"@testing-library/user-event": "^12.8.3",
 		"@types/node": "^18.0.0",
