@@ -10,7 +10,7 @@
 		"ci:test": "start-server-and-test start:server 7070 ci:test:jest",
 		"ci:test:jest": "jest --ci --reporters=default --reporters=jest-junit",
 		"start": "react-scripts start",
-		"start:server": "npx tinylicious@latest",
+		"start:server": "npx tinylicious",
 		"build": "react-scripts build",
 		"test": "start-server-and-test start:server 7070 test:jest",
 		"test:jest": "jest",

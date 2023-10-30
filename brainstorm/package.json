@@ -17,7 +17,7 @@
 		"ci:test:jest": "jest --ci --reporters=default --reporters=jest-junit",
 		"eject": "react-scripts eject",
 		"start": "react-scripts start",
-		"start:server": "npx @fluidframework/azure-local-service",
+		"start:server": "npx tinylicious",
 		"start:azure": "cross-env REACT_APP_FLUID_CLIENT='\"azure\"' npm run start",
 		"test": "start-server-and-test start:server 7070 test:jest",
 		"test:jest": "jest",
@@ -67,7 +67,6 @@
 		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
-		"@fluidframework/azure-local-service": "^1.1.0",
 		"@fluidframework/build-common": "^2.0.0",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
@@ -83,6 +82,7 @@
 		"puppeteer": "^21.0.0",
 		"react-scripts": "^5.0.1",
 		"start-server-and-test": "^2.0.0",
+		"tinylicious": "^1.0.0",
 		"typescript": "~4.5.5"
 	},
 	"jest-junit": {
