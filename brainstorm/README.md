@@ -11,8 +11,8 @@ This package is based on the [Create React App](https://reactjs.org/docs/create-
 
 ### Local Mode
 
-Azure local service is a local, self-contained test service.
-Running `npx @fluidframework/azure-local-service@latest` from your terminal window will launch the Azure local server.
+`@fluidframework/azure-local-service` is a local, self-contained test service.
+Running `npx @fluidframework/azure-local-service` from your terminal window will launch the Azure local server.
 The server will need to be started first in order to provide the ordering and storage requirement of Fluid runtime.
 
 Follow the steps below to run this in local mode (Azure local service):

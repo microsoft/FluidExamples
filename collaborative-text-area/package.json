@@ -31,14 +31,13 @@
 		"puppeteer": "^21.0.0",
 		"react-scripts": "^5.0.1",
 		"start-server-and-test": "^2.0.0",
-		"tinylicious": "^1.0.0",
 		"typescript": "^4.5.5"
 	},
 	"scripts": {
 		"ci:test": "start-server-and-test start:server 7070 ci:test:jest",
 		"ci:test:jest": "jest --ci --reporters=default --reporters=jest-junit",
 		"start": "react-scripts start",
-		"start:server": "npx tinylicious@latest",
+		"start:server": "npx @fluidframework/azure-local-service",
 		"build": "react-scripts build",
 		"test": "start-server-and-test start:server 7070 test:jest",
 		"test:jest": "jest",

@@ -5,7 +5,7 @@ This is an experimental learning tutorial demonstrating the integration of Fluid
 Concepts you will learn:
 
 1. How to integrate Fluid into a React application
-2. How to run and connect your application to a local Fluid service (Tinylicious)
+2. How to run and connect your application to a local Fluid service (`@fluidframework/azure-local-service`)
 3. How to create and get Fluid Containers and collaborative objects
 4. How to use a [SharedMap distributed data structure (DDS)](https://fluidframework.com/docs/data-structures/map/) to sync data between connected clients
 
@@ -50,10 +50,10 @@ cd my-app-name
 
 ### Start the app
 
-The `tinylicious` server will be needed to run this demo locally.
+The `@fluidframework/azure-local-service` server will be needed to run this demo locally.
 
 ```bash
-npx tinylicious
+npx @fluidframework/azure-local-service
 ```
 
 Open up a new terminal tab and start up our React app

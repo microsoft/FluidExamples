@@ -40,10 +40,10 @@ In this readme we'll walk you through the following topics:
 
 ### Run the app locally
 
-To run our local server, Tinylicious, on the default values of `localhost:7070`, enter the following into a terminal window:
+To run our local server, `@fluidframework/azure-local-service`, on the default values of `localhost:7070`, enter the following into a terminal window:
 
 ```bash
-npx tinylicious
+npx @fluidframework/azure-local-service
 ```
 
 Now, with our local service running in the background, we need to connect the application to it.

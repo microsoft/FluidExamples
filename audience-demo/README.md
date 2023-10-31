@@ -8,7 +8,7 @@ The React client will display all users connected to a Fluid Container.
 To run an Azure Client service locally, on the default values of `localhost:7070`, enter the following into a terminal window:
 
 ```bash
-npx tinylicious
+npx @fluidframework/azure-local-service
 ```
 
 With the local service running in the background, we need to connect the application to it.
