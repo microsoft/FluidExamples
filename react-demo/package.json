@@ -48,7 +48,6 @@
 		"react-dom": "^16.10.2"
 	},
 	"devDependencies": {
-		"@fluidframework/azure-local-service": "^1.1.0",
 		"@fluidframework/build-common": "^2.0.0",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",

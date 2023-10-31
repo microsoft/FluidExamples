@@ -35,7 +35,6 @@
     "devDependencies": {
         "@babel/core": "^7.15.5",
         "@babel/preset-env": "^7.15.0",
-        "@fluidframework/azure-local-service": "^1.1.0",
         "@fluidframework/build-common": "^2.0.0",
         "babel-loader": "^8.2.2",
         "clean-webpack-plugin": "^3.0.0",
