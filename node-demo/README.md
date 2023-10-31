@@ -5,10 +5,10 @@ Connected clients generate random numbers and display the result of any changes 
 
 ## Getting started
 
-Run Tinylicious server in the background:
+Run `@fluidframework/azure-local-service` server in the background:
 
 ```bash
-npx tinylicious
+npx @fluidframework/azure-local-service
 ```
 
 Open a new terminal and run the client:

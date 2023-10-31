@@ -11,7 +11,7 @@
 		"ci:test:jest": "jest --ci --reporters=default --reporters=jest-junit",
 		"ng": "ng",
 		"start": "ng serve",
-		"start:server": "npx tinylicious",
+		"start:server": "npx @fluidframework/azure-local-service",
 		"build": "ng build",
 		"watch": "ng build --watch --configuration development",
 		"test": "start-server-and-test start:server 7070 test:jest",
@@ -40,6 +40,7 @@
 		"@angular-devkit/build-angular": "~13.3.9",
 		"@angular/cli": "~13.3.9",
 		"@angular/compiler-cli": "~13.3.11",
+		"@fluidframework/azure-local-service": "^1.1.0",
 		"@fluidframework/build-common": "^1.1.0",
 		"@types/debug": "^4.1.7",
 		"@types/node": "^18.0.0",
@@ -49,7 +50,6 @@
 		"prettier": "^2.7.1",
 		"puppeteer": "^19.2.2",
 		"start-server-and-test": "^1.14.0",
-		"tinylicious": "^1.0.0",
 		"typescript": "~4.5.5"
 	},
 	"jest-junit": {

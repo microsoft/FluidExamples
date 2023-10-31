@@ -22,7 +22,7 @@
 		"prettier": "prettier --check . --ignore-path ./.prettierignore",
 		"prettier:fix": "prettier --write . --ignore-path ./.prettierignore",
 		"start": "react-scripts start",
-		"start:server": "npx tinylicious",
+		"start:server": "npx @fluidframework/azure-local-service",
 		"test": "start-server-and-test start:server 7070 test:jest",
 		"test:jest": "jest"
 	},
@@ -48,6 +48,7 @@
 		"react-dom": "^16.10.2"
 	},
 	"devDependencies": {
+		"@fluidframework/azure-local-service": "^1.1.0",
 		"@fluidframework/build-common": "^2.0.0",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
@@ -58,8 +59,7 @@
 		"prettier": "^2.7.1",
 		"puppeteer": "^21.0.0",
 		"react-scripts": "^5.0.1",
-		"start-server-and-test": "^2.0.0",
-		"tinylicious": "^1.0.0"
+		"start-server-and-test": "^2.0.0"
 	},
 	"jest-junit": {
 		"outputDirectory": "nyc",
