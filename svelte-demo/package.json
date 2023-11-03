@@ -1,0 +1,52 @@
+{
+	"name": "@fluid-example/svelte-demo",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"description": "An example app built using Vite plus Svelte plus Fluid",
+	"homepage": "https://fluidframework.com",
+	"repository": "microsoft/FluidExamples",
+	"license": "MIT",
+	"author": "Microsoft and contributors",
+	"sideEffects": false,
+	"main": "dist/index.js",
+	"module": "lib/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"ci:test": "start-server-and-test start:server 7070 ci:test:vitest",
+		"ci:test:vitest": "vitest run --coverage",
+		"start:server": "npx tinylicious",
+		"dev": "vite",
+		"build": "vite build",
+		"test": "start-server-and-test start:server 7070 test:vitest",
+		"test:vitest": "vitest",
+		"test:report": "vitest run --coverage",
+		"preview": "vite preview",
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"format": "npm run prettier:fix",
+		"lint": "npm run prettier",
+		"lint:fix": "npm run prettier:fix",
+		"prettier": "prettier --check . --ignore-path ./.prettierignore",
+		"prettier:fix": "prettier --write . --ignore-path ./.prettierignore"
+	},
+	"devDependencies": {
+		"@fluidframework/build-common": "^1.1.0",
+		"@sveltejs/vite-plugin-svelte": "^2.0.4",
+		"@testing-library/svelte": "^4.0.3",
+		"@tsconfig/svelte": "^3.0.0",
+		"@vitest/coverage-c8": "^0.30.1",
+		"jsdom": "^21.1.1",
+		"prettier": "^2.7.1",
+		"start-server-and-test": "^1.14.0",
+		"svelte": "^3.55.1",
+		"svelte-check": "^2.10.3",
+		"tslib": "^2.5.0",
+		"typescript": "^4.9.3",
+		"vite": "^4.2.0",
+		"vitest": "^0.30.1"
+	},
+	"dependencies": {
+		"@fluidframework/tinylicious-client": "^1.3.6",
+		"fluid-framework": "^1.3.6"
+	}
+}
