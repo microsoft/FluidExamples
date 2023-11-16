@@ -42,8 +42,8 @@
 		"node": ">=18.0.0"
 	},
 	"dependencies": {
-		"@fluidframework/tinylicious-client": "^2.0.0-internal.7.2.0",
-		"fluid-framework": "^2.0.0-internal.7.2.0",
+		"@fluidframework/tinylicious-client": "^2.0.0-internal.7.2.2",
+		"fluid-framework": "^2.0.0-internal.7.2.2",
 		"react": "^16.10.2",
 		"react-dom": "^16.10.2"
 	},
