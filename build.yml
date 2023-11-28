@@ -33,7 +33,7 @@ schedules:
     displayName: Daily builds
     branches:
       include:
-      - main
+        - main
     always: true
 trigger:
   - main
