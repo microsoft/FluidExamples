@@ -4,49 +4,49 @@
 # FluidExamples build for CI and PR
 
 parameters:
-- name: angular-demo
-  type: string
-  default: angular-demo
-- name: audience-demo
-  type: string
-  default: audience-demo
-- name: brainstorm
-  type: string
-  default: brainstorm
-- name: collaborative-text-area
-  type: string
-  default: collaborative-text-area
-- name: multi-framework-diceroller
-  type: string
-  default: multi-framework-diceroller
-- name: node-demo
-  type: string
-  default: node-demo
-- name: react-demo
-  type: string
-  default: react-demo
-- name: react-starter-template
-  type: string
-  default: react-starter-template
+  - name: angular-demo
+    type: string
+    default: angular-demo
+  - name: audience-demo
+    type: string
+    default: audience-demo
+  - name: brainstorm
+    type: string
+    default: brainstorm
+  - name: collaborative-text-area
+    type: string
+    default: collaborative-text-area
+  - name: multi-framework-diceroller
+    type: string
+    default: multi-framework-diceroller
+  - name: node-demo
+    type: string
+    default: node-demo
+  - name: react-demo
+    type: string
+    default: react-demo
+  - name: react-starter-template
+    type: string
+    default: react-starter-template
 schedules:
-- cron: "0 16 * * 1-5"
-  displayName: Daily builds
-  branches:
-    include:
-    - main
-  always: true
+  - cron: "0 16 * * 1-5" # Runs daily builds at 9AM PST Mon-Fri
+    displayName: Daily builds
+    branches:
+      include:
+      - main
+    always: true
 trigger:
-- main
+  - main
 pr:
-- main
+  - main
 variables:
   skipComponentGovernanceDetection: true
 resources:
   repositories:
-  - repository: m365Pipelines
-    type: git
-    name: 1ESPipelineTemplates/M365GPT
-    ref: refs/tags/release
+    - repository: m365Pipelines
+      type: git
+      name: 1ESPipelineTemplates/M365GPT
+      ref: refs/tags/release
 extends:
   template: v1/M365.Official.PipelineTemplate.yml@m365Pipelines
   parameters:
@@ -66,48 +66,51 @@ extends:
         image: windows-2022
         os: windows
     customBuildTags:
-    - ES365AIMigrationTooling
+      - ES365AIMigrationTooling
     stages:
-    - stage: stage
-      jobs:
-      - job: job
-        steps:
-        - task: ComponentGovernanceComponentDetection@0
-          inputs:
-            scanType: "Register"
-            verbosity: "Verbose"
-            alertWarningLevel: "High"
-        - task: UseNode@1
-          displayName: Use Node 20.x
-          inputs:
-            version: 20.x
-        - ${{ each parameter in parameters }}:
-          - task: Npm@1
-            displayName: Install - ${{ parameter.Value }}
-            inputs:
-              command: "custom"
-              workingDir: "${{ parameter.Value }}"
-              customCommand: "ci"
-          - task: CmdLine@2
-            displayName: Build - ${{ parameter.Value }}
-            inputs:
-              script: "npm run build"
-              workingDirectory: ${{ parameter.Value }}
-          - task: CmdLine@2
-            displayName: Lint - ${{ parameter.Value }}
-            inputs:
-              script: "npm run lint"
-              workingDirectory: ${{ parameter.Value }}
-          - task: CmdLine@2
-            displayName: Test - ${{ parameter.Value }}
-            inputs:
-              script: "npm run ci:test"
-              workingDirectory: ${{ parameter.Value }}
-          - task: PublishTestResults@2
-            displayName: Publish Test Results - ${{ parameter.Value }}
-            inputs:
-              testResultsFormat: "JUnit"
-              testResultsFiles: "**/*junit-report.xml"
-              searchFolder: ${{ parameter.Value }}/nyc
-              mergeTestResults: true
-            condition: succeededOrFailed()
+      - stage: stage
+        jobs:
+          - job: job
+            steps:
+              - task: ComponentGovernanceComponentDetection@0
+                inputs:
+                  scanType: "Register"
+                  verbosity: "Verbose"
+                  alertWarningLevel: "High"
+              - task: UseNode@1
+                displayName: Use Node 20.x
+                inputs:
+                  version: 20.x
+              # Install, build, lint, and test each package
+              - ${{ each parameter in parameters }}:
+                  - task: Npm@1
+                    displayName: Install - ${{ parameter.Value }}
+                    inputs:
+                      command: "custom"
+                      workingDir: "${{ parameter.Value }}"
+                      customCommand: "ci"
+                  - task: CmdLine@2
+                    displayName: Build - ${{ parameter.Value }}
+                    inputs:
+                      script: "npm run build"
+                      workingDirectory: ${{ parameter.Value }}
+                  - task: CmdLine@2
+                    displayName: Lint - ${{ parameter.Value }}
+                    inputs:
+                      script: "npm run lint"
+                      workingDirectory: ${{ parameter.Value }}
+                  - task: CmdLine@2
+                    displayName: Test - ${{ parameter.Value }}
+                    inputs:
+                      script: "npm run ci:test"
+                      workingDirectory: ${{ parameter.Value }}
+                  - task: PublishTestResults@2
+                    displayName: Publish Test Results - ${{ parameter.Value }}
+                    inputs:
+                      testResultsFormat: "JUnit"
+                      testResultsFiles: "**/*junit-report.xml"
+                      searchFolder: ${{ parameter.Value }}/nyc
+                      mergeTestResults: true
+                    # Note while this runs if anything prior fails, the prior test steps won't
+                    # run after first failure. Could be split into jobs to avoid interference.
+                    condition: succeededOrFailed()
