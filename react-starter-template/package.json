@@ -27,8 +27,8 @@
 	},
 	"dependencies": {
 		"@fluentui/react": "^8.17.1",
-		"@fluidframework/tinylicious-client": "^2.0.0-internal.7.3.0",
-		"fluid-framework": "^2.0.0-internal.7.3.0",
+		"@fluidframework/tinylicious-client": "^2.0.0-internal.8.0.0",
+		"fluid-framework": "^2.0.0-internal.8.0.0",
 		"immer": "^9.0.5",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
