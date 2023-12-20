@@ -71,6 +71,9 @@ extends:
         name: Azure-Pipelines-1ESPT-ExDShared
         image: windows-2022
         os: windows
+    # Skip tagging if Github PR coming from a fork
+    settings:
+      skipBuildTagsForGitHubPullRequests: true
     customBuildTags:
       - ES365AIMigrationTooling
     stages:
