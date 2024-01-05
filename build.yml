@@ -7,30 +7,12 @@ pool:
   vmImage: ubuntu-latest
 
 parameters:
-  - name: angular-demo
-    type: string
-    default: angular-demo
-  - name: audience-demo
-    type: string
-    default: audience-demo
   - name: brainstorm
     type: string
     default: brainstorm
-  - name: collaborative-text-area
+  - name: item-counter
     type: string
-    default: collaborative-text-area
-  - name: multi-framework-diceroller
-    type: string
-    default: multi-framework-diceroller
-  - name: node-demo
-    type: string
-    default: node-demo
-  - name: react-demo
-    type: string
-    default: react-demo
-  - name: react-starter-template
-    type: string
-    default: react-starter-template
+    default: item-counter
 
 schedules:
   - cron: "0 16 * * 1-5" # Runs daily builds at 9AM PST Mon-Fri
