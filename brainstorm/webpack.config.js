@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const Dotenv = require('dotenv-webpack');

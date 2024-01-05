@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { Tree, TreeStatus } from "fluid-framework";
 import { App, Note, Group, Notes, Items } from "../schema/app_schema";
 import { Guid } from "guid-typescript";

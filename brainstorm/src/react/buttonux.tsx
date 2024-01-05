@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import React from "react";
 import { App, Note } from "../schema/app_schema";
 import { deleteNote, moveItem, findNote } from "../utils/app_helpers";

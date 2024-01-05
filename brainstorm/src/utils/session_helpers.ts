@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { Note } from "../schema/app_schema";
 import { Session, Client } from "../schema/session_schema";
 import { selectAction, undefinedUserId } from "./utils";

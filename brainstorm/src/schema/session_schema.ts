@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { TreeConfiguration, SchemaFactory } from "fluid-framework";
 
 // Include a UUID to guarantee that this schema will be uniquely identifiable

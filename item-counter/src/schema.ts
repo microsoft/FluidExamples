@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { TreeConfiguration, SchemaFactory } from "fluid-framework";
 
 // Define a schema factory that is used to generate classes for the schema

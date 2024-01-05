@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import React, { useEffect, useState } from "react";
 import { App, Note, Group } from "../schema/app_schema";
 import { Session } from "../schema/session_schema";

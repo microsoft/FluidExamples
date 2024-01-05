@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { AzureMember, ITokenProvider, ITokenResponse } from "@fluidframework/azure-client";
 
 import axios from "axios";

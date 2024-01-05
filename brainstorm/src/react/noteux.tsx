@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import React, { useEffect, useRef, useState } from "react";
 import { Note, Group, Notes, Items } from "../schema/app_schema";
 import { deleteNote, moveItem } from "../utils/app_helpers";

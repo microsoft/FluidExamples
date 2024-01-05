@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 import { TreeConfiguration, SchemaFactory } from "fluid-framework";
 import { addNote } from "../utils/app_helpers";
 import { Guid } from "guid-typescript";
