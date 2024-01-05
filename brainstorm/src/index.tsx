@@ -1,62 +1,70 @@
-/*!
- * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
- * Licensed under the MIT License.
- */
+/* eslint-disable react/jsx-key */
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { loadFluidData } from './infra/fluid';
+import { notesContainerSchema } from './infra/containerSchema';
+import { ReactApp } from './react/ux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { initializeDevtools } from '@fluidframework/devtools';
+import { devtoolsLogger } from './infra/clientProps';
+import { ITree } from 'fluid-framework';
+import { appTreeConfiguration } from './schema/app_schema';
+import { sessionTreeConfiguration } from './schema/session_schema';
 
-import { initializeIcons, ThemeProvider } from "@fluentui/react";
-import { AzureClient, AzureContainerServices } from "@fluidframework/azure-client";
-import { ConnectionState, IFluidContainer } from "fluid-framework";
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrainstormView } from "./view/BrainstormView";
-import "./view/index.css";
-import "./view/App.css";
-import { themeNameToTheme } from "./view/Themes";
-import { connectionConfig, containerSchema } from "./Config";
+async function start() {
+    
+    // create the root element for React
+    const app = document.createElement('div');
+    app.id = 'app';
+    document.body.appendChild(app);
+    const root = createRoot(app);
 
-export async function start() {
-	initializeIcons();
+    // Get the root container id from the URL
+    // If there is no container id, then the app will make
+    // a new container.
+    let containerId = location.hash.substring(1);
 
-	const getContainerId = (): { containerId: string; isNew: boolean } => {
-		let isNew = false;
-		if (location.hash.length === 0) {
-			isNew = true;
-		}
-		const containerId = location.hash.substring(1);
-		return { containerId, isNew };
-	};
+    // Initialize Fluid Container
+    const { services, container } = await loadFluidData(containerId, notesContainerSchema);    
 
-	const { containerId, isNew } = getContainerId();
+    // Initialize the SharedTree DDSes
+    const sessionTree = (container.initialObjects.sessionData as ITree).schematize(sessionTreeConfiguration); 
+    const appTree = (container.initialObjects.appData as ITree).schematize(appTreeConfiguration);
+    
+    // Initialize debugging tools
+    initializeDevtools({
+        logger: devtoolsLogger,
+        initialContainers: [
+            {
+                container,
+                containerKey: "My Container",
+            },
+        ],
+    });
+    
+    // Render the app - note we attach new containers after render so
+    // the app renders instantly on create new flow. The app will be 
+    // interactive immediately.    
+    root.render(
+        <DndProvider backend={HTML5Backend}>
+            <ReactApp 
+                appTree={appTree} 
+                sessionTree={sessionTree} 
+                audience={services.audience} 
+                container={container} 
+                />
+        </DndProvider>
+    );
 
-	const client = new AzureClient(connectionConfig);
+    // If the app is in a `createNew` state - no containerId, and the container is detached, we attach the container.
+    // This uploads the container to the service and connects to the collaboration session.
+    if (containerId.length == 0) {
+        containerId = await container.attach();
 
-	let container: IFluidContainer;
-	let services: AzureContainerServices;
-
-	if (isNew) {
-		({ container, services } = await client.createContainer(containerSchema));
-		const containerId = await container.attach();
-		location.hash = containerId;
-	} else {
-		({ container, services } = await client.getContainer(containerId, containerSchema));
-	}
-
-	if (container.connectionState !== ConnectionState.Connected) {
-		await new Promise<void>((resolve) => {
-			container.once("connected", () => {
-				resolve();
-			});
-		});
-	}
-
-	ReactDOM.render(
-		<React.StrictMode>
-			<ThemeProvider theme={themeNameToTheme("default")}>
-				<BrainstormView container={container} services={services} />
-			</ThemeProvider>
-		</React.StrictMode>,
-		document.getElementById("root"),
-	);
+        // The newly attached container is given a unique ID that can be used to access the container in another session
+        history.replaceState(undefined, "", "#" + containerId);
+    }
 }
 
 start().catch((error) => console.error(error));

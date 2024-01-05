@@ -1,7 +1,8 @@
+/*!
+ * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
 module.exports = {
-    printWidth: 85,
-    trailingComma: "es5",
-    tabWidth: 4,
-    semi: true,
-    singleQuote: true,
+    ...require("@fluidframework/build-common/prettier.config.cjs"),
 };
