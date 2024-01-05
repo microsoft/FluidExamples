@@ -1,6 +1,7 @@
 {
     "name": "brainstorm",
     "version": "0.0.1",
+    "private": "true",
     "description": "",
     "license": "MIT",
     "scripts": {
@@ -15,6 +16,9 @@
         "webpack": "cross-env FLUID_CLIENT='azure' webpack",
         "start": "npm run dev",
         "start:server": "npx @fluidframework/azure-local-service"
+    },
+    "engines": {
+        "node": ">=18.0.0"
     },
     "dependencies": {
         "@fluentui/react-icons": "^2.0.221",        

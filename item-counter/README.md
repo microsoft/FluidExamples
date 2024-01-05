@@ -7,7 +7,17 @@ This app demonstrates how to create a simple tree data structure and build a Rea
 This app is designed to use
 [Azure Fluid Relay](https://aka.ms/azurefluidrelay) a Fluid relay service offered by Microsoft. You can also run a local service for development purposes. Instructions on how to set up a Fluid relay are on the [Fluid Framework website](aka.ms/fluid).
 
-To use AzureClient's local mode, you first need to start a local server. Running npx @fluidframework/azure-local-service@latest from your terminal window will launch the Azure Fluid Relay local server. Once the server is started, you can run your application against the local service.
+To use AzureClient's local mode, you first need to start a local server.
+
+```bash
+npm run start:server
+```
+
+Running this command from your terminal window will launch the Azure Fluid Relay local server. Once the server is started, you can run your application against the local service.
+
+```bash
+npm run start
+```
 
 One important note is that you will need to use a token provider or, purely for testing and development, use the insecure token provider. There are instructions on how to set this up on the [Fluid Framework website](aka.ms/fluid).
 
