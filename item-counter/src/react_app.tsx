@@ -14,21 +14,19 @@ export function ReactApp(props: { data: TreeView<App> }): JSX.Element {
             setInvalidations(invalidations + Math.random());
         });
         return unsubscribe;
-    }, []);    
+    }, []);
 
     return (
         <div className="flex flex-col gap-3 items-center justify-center content-center m-6">
             <div className="flex flex-row gap-3 justify-center flex-wrap w-full h-full">
-                <ListGroup list={app.stringArray} />                
+                <ListGroup list={app.stringArray} />
             </div>
             <Explanation />
         </div>
     );
 }
 
-export function ListGroup(props: {
-    list: StringArray;        
-}): JSX.Element {
+export function ListGroup(props: { list: StringArray }): JSX.Element {
     return (
         <div className="flex flex-col gap-3 justify-center content-center m-6">
             <div className="flex flex-row gap-3 justify-center content-center ">
@@ -36,15 +34,13 @@ export function ListGroup(props: {
             </div>
             <div className="flex flex-row gap-3 justify-center content-center ">
                 <InsertButton target={props.list} />
-                <RemoveButton target={props.list} />                
+                <RemoveButton target={props.list} />
             </div>
         </div>
     );
 }
 
-export function ItemCount(props: {
-    target: StringArray;    
-}): JSX.Element {
+export function ItemCount(props: { target: StringArray }): JSX.Element {
     // Show the length of the list
     return (
         <div className="flex flex-col justify-center bg-black w-24 h-24 rounded-full shadow-md">
@@ -55,9 +51,7 @@ export function ItemCount(props: {
     );
 }
 
-export function InsertButton(props: {
-    target: StringArray;    
-}): JSX.Element {
+export function InsertButton(props: { target: StringArray }): JSX.Element {
     const handleClick = () => {
         // Add an item to the beginning of the list
         props.target.insertNew();
@@ -66,9 +60,7 @@ export function InsertButton(props: {
     return <Button handleClick={handleClick}>Insert</Button>;
 }
 
-export function RemoveButton(props: {
-    target: StringArray;    
-}): JSX.Element {
+export function RemoveButton(props: { target: StringArray }): JSX.Element {
     const handleClick = () => {
         // Remove the first item in the list if the list is not empty
         props.target.removeFirst();
@@ -105,11 +97,11 @@ export function Explanation(): JSX.Element {
             <div className="text-base">
                 Clicking the insert and remove buttons inserts or removes an item
                 from the array.
-            </div>            
+            </div>
             <div className="text-base">
                 In this case, the items in the array are just empty strings, but they
                 could be complex objects, maps, or other arrays.
-            </div>            
+            </div>
         </div>
     );
 }

@@ -19,7 +19,7 @@ export class StringArray extends sf.array('StringArray', sf.string) {
 
 // Define a class to be the root of the app
 export class App extends sf.object('App', {
-    stringArray: StringArray,    
+    stringArray: StringArray,
 }) {}
 
 // Specify the root type - App.
@@ -30,6 +30,6 @@ export const treeConfiguration = new TreeConfiguration(
     App,
     () =>
         new App({
-            stringArray: []
+            stringArray: [],
         })
 );
