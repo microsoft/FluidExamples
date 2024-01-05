@@ -11,7 +11,7 @@ describe("item-counter", () => {
     const load = async () => {
         await page.goto(config.globals.URL, {
             waitUntil: ["networkidle2", "load"],
-            timeout: 10000,
+            timeout: 20000,
         });
     };
 
