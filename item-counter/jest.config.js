@@ -11,7 +11,7 @@ module.exports = {
 	verbose: true,
 	testTimeout: 100000,
 	transform: {
-		"^.+\\.jsx?$": "babel-jest",
+		"^.+\\.tsx?$": "babel-jest",
 	},
-	reporters: ["default", "jest-junit"],
+	reporters: ["jest-junit"],
 };
