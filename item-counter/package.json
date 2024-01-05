@@ -1,5 +1,5 @@
 {
-    "name": "shared-tree-demo",
+    "name": "item-counter",
     "version": "0.0.1",
     "description": "",
     "license": "MIT",
@@ -29,6 +29,7 @@
         "react-dom": "^18.2.0"
     },
     "devDependencies": {
+        "@fluidframework/build-common": "^2.0.0",
         "@fluidframework/devtools": "2.0.0-dev-rc.1.0.0.225277",
         "@types/debug": "^4.1.7",
         "@typescript-eslint/eslint-plugin": "^5.38.0",
