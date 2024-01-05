@@ -74,9 +74,9 @@ extends:
     customBuildTags:
       - ES365AIMigrationTooling
     stages:
-      - stage: stage
+      - stage: run_build
         jobs:
-          - job: job
+          - job: run_build
             steps:
               - task: ComponentGovernanceComponentDetection@0
                 inputs:
