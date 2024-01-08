@@ -6,16 +6,13 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { loadFluidData } from "./infra/fluid";
-import { notesContainerSchema } from "./infra/containerSchema";
-import { ReactApp } from "./react/ux";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { loadFluidData, containerSchema } from "./infra/fluid";
 import { initializeDevtools } from "@fluidframework/devtools";
 import { devtoolsLogger } from "./infra/clientProps";
 import { ITree } from "fluid-framework";
-import { appTreeConfiguration } from "./schema/app_schema";
-import { sessionTreeConfiguration } from "./schema/session_schema";
+import { treeConfiguration } from "./schema";
+import "./output.css";
+import { ReactApp } from "./react_app";
 
 async function start() {
 	// create the root element for React
@@ -29,14 +26,13 @@ async function start() {
 	// a new container.
 	let containerId = location.hash.substring(1);
 
-	// Initialize Fluid Container
-	const { services, container } = await loadFluidData(containerId, notesContainerSchema);
+	// Initialize Fluid Container - this will either make a new container or load an existing one
+	const { container } = await loadFluidData(containerId, containerSchema);
 
-	// Initialize the SharedTree DDSes
-	const sessionTree = (container.initialObjects.sessionData as ITree).schematize(
-		sessionTreeConfiguration,
+	// Initialize the SharedTree Data Structure
+	const appData = (container.initialObjects.appData as ITree).schematize(
+		treeConfiguration, // This is defined in schema.ts
 	);
-	const appTree = (container.initialObjects.appData as ITree).schematize(appTreeConfiguration);
 
 	// Initialize debugging tools
 	initializeDevtools({
@@ -52,23 +48,15 @@ async function start() {
 	// Render the app - note we attach new containers after render so
 	// the app renders instantly on create new flow. The app will be
 	// interactive immediately.
-	root.render(
-		<DndProvider backend={HTML5Backend}>
-			<ReactApp
-				appTree={appTree}
-				sessionTree={sessionTree}
-				audience={services.audience}
-				container={container}
-			/>
-		</DndProvider>,
-	);
+	root.render(<ReactApp data={appData} />);
 
 	// If the app is in a `createNew` state - no containerId, and the container is detached, we attach the container.
 	// This uploads the container to the service and connects to the collaboration session.
 	if (containerId.length == 0) {
 		containerId = await container.attach();
 
-		// The newly attached container is given a unique ID that can be used to access the container in another session
+		// The newly attached container is given a unique ID that can be used to access the container in another session.
+		// This adds that id to the url.
 		history.replaceState(undefined, "", "#" + containerId);
 	}
 }

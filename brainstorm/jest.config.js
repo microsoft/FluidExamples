@@ -4,14 +4,14 @@
  */
 
 module.exports = {
-	preset: "jest-puppeteer",
-	globals: {
-		URL: "http://localhost:3000",
-	},
-	verbose: true,
-	testTimeout: 100000,
-	transform: {
-		"^.+\\.tsx?$": "babel-jest",
-	},
-	reporters: ["jest-junit"],
+    preset: "jest-puppeteer",
+    globals: {
+        URL: "http://localhost:8080",
+    },
+    verbose: true,
+    testTimeout: 20000,
+    transform: {
+        "^.+\\.jsx?$": "babel-jest",
+    },
+    reporters: ["jest-junit"],
 };

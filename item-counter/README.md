@@ -25,18 +25,15 @@ All the code required to set up the Fluid Framework and SharedTree data structur
 
 ## Schema Definition
 
-The SharedTree schema is defined in the \_schema.ts source files. This schema is passed into the SharedTree when it is initialized in index.tsx. For more details, see the schema.ts comments.
+The SharedTree schema is defined in the schema.ts source file. This schema is passed into the SharedTree when it is initialized in index.tsx. For more details, see the schema.ts comments.
 
 ## Working with Data
 
-Working with data in the SharedTree is very simple; however, working with distributed data is always a little more complicated than working with local data. To isolate this complexity, this app uses a set of helper functions in the \_helpers.ts source files and in the schema itself that take types defined in the schema as input and modify the data in some way. Each function includes a brief description of how it works.
-
-One important note about managing local state and events: ideally, in any app you write, it is best to not
-special case local changes. Treat the SharedTree as your local data and rely on tree events to update your view. This makes the code reliable and easy to maintain. Also, never mutate tree nodes within events listeners.
+Working with data in the SharedTree is very simple; however, working with distributed data is always a little more complicated than working with local data. One important note about managing local state and events: ideally, in any app you write, it is best to not special case local changes. Treat the SharedTree as your local data and rely on tree events to update your view. This makes the code reliable and easy to maintain. Also, never mutate tree nodes within events listeners.
 
 ## User Interface
 
-This app is built using React. Changes to the data are handled using the helper functions mentioned above. If you look at the code in \*ux.tsx files, you'll find very little code that is unique to an app built with the Fluid Framework. If you want to change the css you must run 'npx tailwindcss -i ./src/index.css -o ./src/output.css --watch' in the root folder of your project so that tailwind can update the output.css file.
+This app is built using React. If you want to change the css you must run 'npx tailwindcss -i ./src/index.css -o ./src/output.css --watch' in the root folder of your project so that tailwind can update the output.css file.
 
 ## Building and Running
 
@@ -50,6 +47,7 @@ You can use the following npm scripts (`npm run SCRIPT-NAME`) to build and run t
 | `compile`   | Compile the TypeScript source code to JavaScript.                                     |
 | `dev`       | Runs the app in webpack-dev-server. Expects local-azure-service running on port 7070. |
 | `dev:azure` | Runs the app in webpack-dev-server using the Azure Fluid Relay config.                |
+| `docs`      | Update documentation.                                                                 |
 | `format`    | Format source code using Prettier.                                                    |
 | `lint`      | Lint source code using ESLint                                                         |
 | `webpack`   | `webpack`                                                                             |
