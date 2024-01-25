@@ -15,7 +15,7 @@
 		"lint": "eslint src",
 		"webpack": "cross-env FLUID_CLIENT='azure' webpack",
 		"start": "npm run dev",
-		"start:server": "npx @fluidframework/azure-local-service"
+		"start:server": "npx @fluidframework/azure-local-service@2.0.0-rc.1.0.1"
 	},
 	"engines": {
 		"node": ">=18.0.0"
