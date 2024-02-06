@@ -33,12 +33,10 @@ function hashCode(str: string): number {
 }
 
 export const generateTestUser = (): IInsecureUser => {
-	const userId = localStorage.getItem("testUserId");
 	const user = {
-		id: userId ? userId : Guid.create().toString(),
+		id: Guid.create().toString(),
 		name: "[TEST USER NAME]",
 	};
-	localStorage.setItem("testUserId", user.id);
 	return user;
 };
 
