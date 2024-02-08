@@ -23,8 +23,8 @@ export class GraphHelper {
 
 		const options: AuthCodeMSALBrowserAuthenticationProviderOptions = {
 			account: this.accountInfo, // the AccountInfo instance to acquire the token for.
-			interactionType: InteractionType.Popup, // msal-browser InteractionType
-			scopes: ["user.read", "mail.send"], // example of the scopes to be passed
+			interactionType: InteractionType.Redirect, // msal-browser InteractionType
+			scopes: ["user.read"], // scopes to be passed
 		};
 
 		const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(

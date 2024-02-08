@@ -8,13 +8,48 @@ import "./output.css";
 import { ReactApp } from "./react_app";
 import { OdspTestTokenProvider } from "./infra/tokenProvider";
 import { GraphHelper } from "./infra/graphHelper";
-import { authHelper as initializeAuth } from "./infra/authHelper";
+import { authHelper } from "./infra/authHelper";
 import { OdspClient } from "@fluid-experimental/odsp-client";
 import { ITree } from "@fluidframework/tree";
 import { initializeDevtools } from "@fluidframework/devtools";
+import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 
 async function start() {
-	const { msalInstance, account } = await initializeAuth();
+	const msalInstance = await authHelper();
+
+	// Handle the redirect flows
+	msalInstance
+		.handleRedirectPromise()
+		.then((tokenResponse) => {
+			if (tokenResponse !== null) {
+				const account = msalInstance.getAllAccounts()[0];
+				signedInStart(msalInstance, account);
+			} else {
+				const currentAccounts = msalInstance.getAllAccounts();
+				if (currentAccounts.length === 0) {
+					// no accounts signed-in, attempt to sign a user in
+					msalInstance.loginRedirect({
+						scopes: ["FileStorageContainer.Selected"],
+					});
+				} else if (currentAccounts.length > 1) {
+					// more than one account signed in, need to handle that
+					// just use the first account for now
+					const account = msalInstance.getAllAccounts()[0];
+					signedInStart(msalInstance, account);
+				} else if (currentAccounts.length === 1) {
+					// one account signed in, proceed with that account
+					const account = msalInstance.getAllAccounts()[0];
+					signedInStart(msalInstance, account);
+				}
+			}
+		})
+		.catch((error) => {
+			console.log("Error in handleRedirectPromise: " + error.message);
+		});
+}
+
+async function signedInStart(msalInstance: PublicClientApplication, account: AccountInfo) {
+	msalInstance.setActiveAccount(account);
 
 	const graphHelper = new GraphHelper(msalInstance, account);
 
