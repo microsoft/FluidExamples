@@ -29,7 +29,7 @@ async function start() {
 				if (currentAccounts.length === 0) {
 					// no accounts signed-in, attempt to sign a user in
 					msalInstance.loginRedirect({
-						scopes: ["FileStorageContainer.Selected"],
+						scopes: ["FileStorageContainer.Selected", "Files.ReadWrite"],
 					});
 				} else if (currentAccounts.length > 1) {
 					// more than one account signed in, need to handle that
@@ -48,14 +48,73 @@ async function start() {
 		});
 }
 
+function showErrorMessage(message?: string, ...optionalParams: string[]) {
+	// create the root element for React
+	const error = document.createElement("div");
+	error.id = "app";
+	document.body.appendChild(error);
+	const root = createRoot(error);
+
+	// Render the error message
+	root.render(
+		<div className="container mx-auto p-2 m-4 border-2 border-black rounded">
+			<p>{message}</p>
+			<p>{optionalParams.join(" ")}</p>
+		</div>,
+	);
+}
+
 async function signedInStart(msalInstance: PublicClientApplication, account: AccountInfo) {
 	msalInstance.setActiveAccount(account);
 
 	const graphHelper = new GraphHelper(msalInstance, account);
 
+	// Get the root container id from the URL
+	// If there is no container id, then the app will make
+	// a new container.
+	const getContainerInfo = async () => {
+		const shareId = location.hash.substring(1);
+		if (shareId.length > 0) {
+			try {
+				return await graphHelper.getSharedItem(shareId);
+			} catch (error) {
+				showErrorMessage("Error while fetching shared item: ", error as string);
+				return undefined;
+			}
+		} else {
+			return undefined;
+		}
+	};
+
+	const containerInfo = await getContainerInfo();
+
+	// Get the file storage container id
+	const getFileStorageContainerId = async () => {
+		try {
+			return await graphHelper.getFileStorageContainerId();
+		} catch (error) {
+			showErrorMessage("Error while fetching file storage container ID: ", error as string);
+			return "";
+		}
+	};
+
+	let fileStorageContainerId = "";
+	let containerId = "";
+
+	if (containerInfo === undefined) {
+		fileStorageContainerId = await getFileStorageContainerId();
+	} else {
+		fileStorageContainerId = containerInfo.driveId;
+		containerId = containerInfo.itemId;
+	}
+
+	if (fileStorageContainerId.length == 0) {
+		return;
+	}
+
 	const clientProps = getClientProps(
 		await graphHelper.getSiteUrl(),
-		await graphHelper.getFileStorageContainerId(),
+		fileStorageContainerId,
 		new OdspTestTokenProvider(msalInstance),
 	);
 
@@ -66,11 +125,6 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	app.id = "app";
 	document.body.appendChild(app);
 	const root = createRoot(app);
-
-	// Get the root container id from the URL
-	// If there is no container id, then the app will make
-	// a new container.
-	let containerId = location.hash.substring(1);
 
 	// Initialize Fluid Container - this will either make a new container or load an existing one
 	const { container } = await loadFluidData(containerId, containerSchema, client);
@@ -99,11 +153,18 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	// If the app is in a `createNew` state - no containerId, and the container is detached, we attach the container.
 	// This uploads the container to the service and connects to the collaboration session.
 	if (containerId.length == 0) {
-		containerId = await container.attach();
+		const itemId = await container.attach();
+
+		const shareId = await graphHelper.createSharingLink(
+			clientProps.connection.driveId,
+			itemId,
+			"edit",
+		);
+		console.log("Link to the container: " + shareId);
 
 		// The newly attached container is given a unique ID that can be used to access the container in another session.
 		// This adds that id to the url.
-		history.replaceState(undefined, "", "#" + containerId);
+		history.replaceState(undefined, "", "#" + shareId);
 	}
 }
 

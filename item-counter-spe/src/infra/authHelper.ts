@@ -1,6 +1,6 @@
 import { PublicClientApplication } from "@azure/msal-browser";
 
-export async function authHelper() {
+export async function authHelper(): Promise<PublicClientApplication> {
 	const clientId = process.env.SPE_CLIENT_ID;
 
 	if (!clientId) {

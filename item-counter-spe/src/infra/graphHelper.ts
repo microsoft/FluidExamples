@@ -24,7 +24,7 @@ export class GraphHelper {
 		const options: AuthCodeMSALBrowserAuthenticationProviderOptions = {
 			account: this.accountInfo, // the AccountInfo instance to acquire the token for.
 			interactionType: InteractionType.Redirect, // msal-browser InteractionType
-			scopes: ["user.read"], // scopes to be passed
+			scopes: ["FileStorageContainer.Selected", "Files.ReadWrite"], // scopes to be passed
 		};
 
 		const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
@@ -45,19 +45,24 @@ export class GraphHelper {
 			throw new Error("SPE_CONTAINER_TYPE_ID is not defined");
 		}
 
-		const response = await this.graphClient
-			.api("/storage/fileStorage/containers")
-			.filter("containerTypeId eq " + containerTypeId)
-			.version("beta")
-			.get();
+		try {
+			const response = await this.graphClient
+				.api("/storage/fileStorage/containers")
+				.filter("containerTypeId eq " + containerTypeId)
+				.version("beta")
+				.get();
 
-		const fileStorageContainers: FileStorageContainer[] = response.value;
+			const fileStorageContainers: FileStorageContainer[] = response.value;
 
-		if (fileStorageContainers.length == 0) {
-			console.log("TEST: no fileStorageContainers");
+			if (fileStorageContainers.length == 0) {
+				throw new Error("TEST: no fileStorageContainers");
+			}
+
+			return fileStorageContainers[0].id;
+		} catch (error) {
+			console.error("Error while fetching file storage container ID: ", error);
+			throw error; // re-throw the error if you want it to propagate
 		}
-
-		return fileStorageContainers[0].id;
 	}
 
 	public async getSiteUrl(): Promise<string> {
@@ -71,5 +76,31 @@ export class GraphHelper {
 		const sites: Site[] = response.value;
 
 		return sites[0].webUrl as string;
+	}
+
+	public async createSharingLink(driveId: string, id: string, permType: string): Promise<string> {
+		const permission = {
+			type: permType,
+			scope: "organization",
+		};
+		const response = await this.graphClient
+			.api(`/drives/${driveId}/items/${id}/createLink`)
+			.post(permission);
+
+		console.log("createSharingLink response: ", response.link);
+
+		return response.shareId as string;
+	}
+
+	public async getSharedItem(shareId: string): Promise<{ itemId: string; driveId: string }> {
+		const response = await this.graphClient
+			.api(`/shares/${shareId}/driveItem`)
+			.header("Prefer", "redeemSharingLink")
+			.get();
+
+		return {
+			itemId: response.id as string,
+			driveId: response.parentReference.driveId as string,
+		};
 	}
 }
