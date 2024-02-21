@@ -12,8 +12,10 @@ To use SPE you need to create an M365 developer account and configure SharePoint
 
 This sample app requires that you have a Microsoft Entra client Id, have created a File Storage Container Type, and that the tenant you plan to use has a File Storage Container with that File Storage Container Type ID. Once you have done that, create a .env file in the item-counter-spe folder with the following content:
 
-SPE_CLIENT_ID='your client id'  
+```
+SPE_CLIENT_ID='your client id'
 SPE_CONTAINER_TYPE_ID='your container type id'
+```
 
 With that in place, you can run this sample (`npm run dev`). Log in with the admin credentials for the tenant.
 
