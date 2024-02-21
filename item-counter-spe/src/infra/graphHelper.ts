@@ -13,6 +13,9 @@ export interface FileStorageContainer {
 	id: string;
 }
 
+// Helper class to interact with the Microsoft Graph API
+// This allows us to interact with the Graph API to get the file storage container ID,
+// the Fluid container ID, and the site URL. As well as create a sharing link and get the shared item.
 export class GraphHelper {
 	private readonly intializedPublicClientApplication: PublicClientApplication;
 	private readonly accountInfo: AccountInfo;
@@ -21,6 +24,7 @@ export class GraphHelper {
 		this.intializedPublicClientApplication = publicClientApplication;
 		this.accountInfo = accountInfo;
 
+		// Create the auth provider including the required scopes for the app
 		const options: AuthCodeMSALBrowserAuthenticationProviderOptions = {
 			account: this.accountInfo, // the AccountInfo instance to acquire the token for.
 			interactionType: InteractionType.Redirect, // msal-browser InteractionType
@@ -38,13 +42,16 @@ export class GraphHelper {
 		});
 	}
 
+	// Function to get the file storage container ID
 	public async getFileStorageContainerId(): Promise<string> {
+		// Get the container type id from the environment variables
 		const containerTypeId = process.env.SPE_CONTAINER_TYPE_ID;
 
 		if (!containerTypeId) {
 			throw new Error("SPE_CONTAINER_TYPE_ID is not defined");
 		}
 
+		// Fetch the file storage container ID using the Graph API
 		try {
 			const response = await this.graphClient
 				.api("/storage/fileStorage/containers")
@@ -65,6 +72,7 @@ export class GraphHelper {
 		}
 	}
 
+	// Function to get the site URL
 	public async getSiteUrl(): Promise<string> {
 		const response = await this.graphClient
 			.api("/sites")
@@ -78,6 +86,7 @@ export class GraphHelper {
 		return sites[0].webUrl as string;
 	}
 
+	// Function to create a sharing link which will be used to get the shared item
 	public async createSharingLink(driveId: string, id: string, permType: string): Promise<string> {
 		const permission = {
 			type: permType,
@@ -92,6 +101,7 @@ export class GraphHelper {
 		return response.shareId as string;
 	}
 
+	// Function to get the shared item using the sharing link
 	public async getSharedItem(shareId: string): Promise<{ itemId: string; driveId: string }> {
 		const response = await this.graphClient
 			.api(`/shares/${shareId}/driveItem`)

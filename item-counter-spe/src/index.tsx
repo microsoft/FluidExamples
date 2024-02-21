@@ -6,7 +6,7 @@ import { devtoolsLogger, getClientProps } from "./infra/clientProps";
 import { treeConfiguration } from "./schema";
 import "./output.css";
 import { ReactApp } from "./react_app";
-import { OdspTestTokenProvider } from "./infra/tokenProvider";
+import { SampleOdspTokenProvider } from "./infra/tokenProvider";
 import { GraphHelper } from "./infra/graphHelper";
 import { authHelper } from "./infra/authHelper";
 import { OdspClient } from "@fluid-experimental/odsp-client";
@@ -17,10 +17,12 @@ import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 async function start() {
 	const msalInstance = await authHelper();
 
-	// Handle the redirect flows
+	// Handle the login redirect flows
 	msalInstance
 		.handleRedirectPromise()
 		.then((tokenResponse) => {
+			// If the tokenResponse is not null, then the user is signed in
+			// and the tokenResponse is the result of the redirect.
 			if (tokenResponse !== null) {
 				const account = msalInstance.getAllAccounts()[0];
 				signedInStart(msalInstance, account);
@@ -31,13 +33,11 @@ async function start() {
 					msalInstance.loginRedirect({
 						scopes: ["FileStorageContainer.Selected", "Files.ReadWrite"],
 					});
-				} else if (currentAccounts.length > 1) {
-					// more than one account signed in, need to handle that
-					// just use the first account for now
-					const account = msalInstance.getAllAccounts()[0];
-					signedInStart(msalInstance, account);
-				} else if (currentAccounts.length === 1) {
-					// one account signed in, proceed with that account
+				} else if (currentAccounts.length > 1 || currentAccounts.length === 1) {
+					// The user is singed in.
+					// Treat more than one account signed in and a single account the same as
+					// this is just a sample. But a real app would need to handle the multiple accounts case.
+					// For now, just use the first account.
 					const account = msalInstance.getAllAccounts()[0];
 					signedInStart(msalInstance, account);
 				}
@@ -65,13 +65,19 @@ function showErrorMessage(message?: string, ...optionalParams: string[]) {
 }
 
 async function signedInStart(msalInstance: PublicClientApplication, account: AccountInfo) {
+	// Set the active account
 	msalInstance.setActiveAccount(account);
 
+	// Create the GraphHelper instance
+	// This is used to interact with the Graph API
+	// Which allows the app to get the file storage container id, the Fluid container id,
+	// and the site URL.
 	const graphHelper = new GraphHelper(msalInstance, account);
 
-	// Get the root container id from the URL
-	// If there is no container id, then the app will make
-	// a new container.
+	// Define a function to get the container info based on the URL hash
+	// The URL hash is the shared item id and will be used to get the file storage container id
+	// and the Fluid container id. If there is no hash, then the app will create a new Fluid container
+	// in a later step.
 	const getContainerInfo = async () => {
 		const shareId = location.hash.substring(1);
 		if (shareId.length > 0) {
@@ -86,9 +92,11 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 		}
 	};
 
+	// Get the file storage container id (driveId) and the Fluid container id (itemId).
 	const containerInfo = await getContainerInfo();
 
-	// Get the file storage container id
+	// Define a function to get the file storage container id using the Graph API
+	// If the user doesn't have access to the file storage container, then the app will fail here.
 	const getFileStorageContainerId = async () => {
 		try {
 			return await graphHelper.getFileStorageContainerId();
@@ -101,6 +109,10 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	let fileStorageContainerId = "";
 	let containerId = "";
 
+	// If containerInfo is undefined, then get the file storage container id using the function
+	// defined above.
+	// If the containerInfo is not undefined, then use the file storage container id and Fluid container id
+	// from containerInfo.
 	if (containerInfo === undefined) {
 		fileStorageContainerId = await getFileStorageContainerId();
 	} else {
@@ -108,19 +120,24 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 		containerId = containerInfo.itemId;
 	}
 
+	// If the file storage container id is empty, then the app will fail here.
 	if (fileStorageContainerId.length == 0) {
 		return;
 	}
 
+	// Create the client properties required to initialize
+	// the Fluid client instance. The Fluid client instance is used to
+	// interact with the Fluid service.
 	const clientProps = getClientProps(
 		await graphHelper.getSiteUrl(),
 		fileStorageContainerId,
-		new OdspTestTokenProvider(msalInstance),
+		new SampleOdspTokenProvider(msalInstance),
 	);
 
+	// Create the Fluid client instance
 	const client = new OdspClient(clientProps);
 
-	// create the root element for React
+	// Create the root element for React
 	const app = document.createElement("div");
 	app.id = "app";
 	document.body.appendChild(app);
@@ -153,17 +170,21 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	// If the app is in a `createNew` state - no containerId, and the container is detached, we attach the container.
 	// This uploads the container to the service and connects to the collaboration session.
 	if (containerId.length == 0) {
+		// Attach the container to the Fluid service which
+		// uploads the container to the service and connects to the collaboration session.
+		// This returns the Fluid container id.
 		const itemId = await container.attach();
 
+		// Create a sharing id to the container.
+		// This allows the user to collaborate on the same Fluid container
+		// with other users just by sharing the link.
 		const shareId = await graphHelper.createSharingLink(
 			clientProps.connection.driveId,
 			itemId,
 			"edit",
 		);
-		console.log("Link to the container: " + shareId);
 
-		// The newly attached container is given a unique ID that can be used to access the container in another session.
-		// This adds that id to the url.
+		// Set the URL hash to the sharing id.
 		history.replaceState(undefined, "", "#" + shareId);
 	}
 }
