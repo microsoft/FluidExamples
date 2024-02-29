@@ -29,7 +29,7 @@
 		"@types/react-dom": "^18.2.0",
 		"axios": "^1.6.2",
 		"dotenv": "^16.0.2",
-		"fluid-framework": "2.0.0-rc.1.0.1",
+		"fluid-framework": "2.0.0-rc.1.0.4",
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
 		"react": "^18.2.0",
