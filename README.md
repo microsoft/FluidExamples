@@ -8,17 +8,11 @@ Each example in this repository is a standalone application that defines a Fluid
 
 ## Getting Started
 
-To get started, clone the repository and navigate to one of the example folders.
-From the example root, you can install and start the example.
-
-1. Run `npm install` from the example root
-2. Run `npm run start` to start both the client and server
-
-> For more details see the individual example README.md.
+To get started, clone the repository and read the individual example README.md.
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 
