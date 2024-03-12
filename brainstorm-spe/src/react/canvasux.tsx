@@ -79,7 +79,10 @@ export function Canvas(props: {
 				props.setCurrentUser(user);
 			}
 		}
-		props.setFluidMembers(Array.from(props.audience.getMembers().keys()));
+
+		props.setFluidMembers(
+			Array.from(props.audience.getMembers().values()).map((member) => member.userId),
+		);
 	};
 
 	useEffect(() => {
