@@ -5,7 +5,7 @@ This app demonstrates how to create a simple tree data structure and build a Rea
 ## Setting up the Fluid Framework
 
 This app is designed to use
-[Azure Fluid Relay](https://aka.ms/azurefluidrelay) a Fluid relay service offered by Microsoft. You can also run a local service for development purposes. Instructions on how to set up a Fluid relay are on the [Fluid Framework website](aka.ms/fluid).
+[Azure Fluid Relay](https://aka.ms/azurefluidrelay) a Fluid relay service offered by Microsoft. You can also run a local service for development purposes. Instructions on how to set up a Fluid relay are on the [Fluid Framework website](https://aka.ms/fluid).
 
 To use AzureClient's local mode, you first need to start a local server.
 
@@ -19,7 +19,7 @@ Running this command from your terminal window will launch the Azure Fluid Relay
 npm run start
 ```
 
-One important note is that you will need to use a token provider or, purely for testing and development, use the insecure token provider. There are instructions on how to set this up on the [Fluid Framework website](aka.ms/fluid).
+One important note is that you will need to use a token provider or, purely for testing and development, use the insecure token provider. There are instructions on how to set this up on the [Fluid Framework website](https://aka.ms/fluid).
 
 All the code required to set up the Fluid Framework and SharedTree data structure is in the infra folder. Most of this code will be the same for any app.
 
