@@ -3,7 +3,12 @@
  * Licensed under the MIT License.
  */
 
-import { TreeConfiguration, SchemaFactoryRecursive, Tree } from "fluid-framework";
+import {
+	TreeConfiguration,
+	SchemaFactoryRecursive,
+	Tree,
+	ValidateRecursiveSchema,
+} from "fluid-framework";
 import { Guid } from "guid-typescript";
 
 // Schema is defined using a factory object that generates classes for objects as well
@@ -99,6 +104,14 @@ export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
 		this.insertAtEnd(group);
 		return group;
 	}
+}
+
+{
+	// Due to limitations of TypeScript, recursive schema may not produce type errors when declared incorrectly.
+	// Using ValidateRecursiveSchema helps ensure that mistakes made in the definition of a recursive schema (like `Items`)
+	// will introduce a compile error.
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type _check = ValidateRecursiveSchema<typeof Items>;
 }
 
 // Define the schema for the container of notes.
