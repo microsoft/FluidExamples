@@ -5,7 +5,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
-import { App } from "../schema/app_schema";
+import { Items } from "../schema/app_schema";
 import { Session } from "../schema/session_schema";
 import "../output.css";
 import { IFluidContainer, IMember, IServiceAudience, TreeView } from "fluid-framework";
@@ -13,7 +13,7 @@ import { undefinedUserId } from "../utils/utils";
 import { Canvas } from "./canvasux";
 
 export function ReactApp(props: {
-	appTree: TreeView<App>;
+	items: TreeView<Items>;
 	sessionTree: TreeView<Session>;
 	audience: IServiceAudience<IMember>;
 	container: IFluidContainer;
@@ -36,7 +36,7 @@ export function ReactApp(props: {
 			/>
 			<div className="flex h-[calc(100vh-48px)] flex-row ">
 				<Canvas
-					appTree={props.appTree}
+					items={props.items.root}
 					sessionTree={props.sessionTree}
 					audience={props.audience}
 					container={props.container}
