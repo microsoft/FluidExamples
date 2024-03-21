@@ -9,7 +9,6 @@ import { createRoot } from "react-dom/client";
 import { loadFluidData, containerSchema } from "./infra/fluid";
 import { initializeDevtools } from "@fluidframework/devtools";
 import { devtoolsLogger } from "./infra/clientProps";
-import { ITree } from "fluid-framework";
 import { treeConfiguration } from "./schema";
 import "./output.css";
 import { ReactApp } from "./react_app";
@@ -30,7 +29,7 @@ async function start() {
 	const { container } = await loadFluidData(containerId, containerSchema);
 
 	// Initialize the SharedTree Data Structure
-	const appData = (container.initialObjects.appData as ITree).schematize(
+	const appData = container.initialObjects.appData.schematize(
 		treeConfiguration, // This is defined in schema.ts
 	);
 
