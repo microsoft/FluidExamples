@@ -15,14 +15,14 @@ const client = new AzureClient(clientProps);
  *
  * @returns The loaded container and container services.
  */
-export const loadFluidData = async (
+export async function loadFluidData<T extends ContainerSchema>(
 	containerId: string,
-	containerSchema: ContainerSchema,
+	containerSchema: T,
 ): Promise<{
 	services: AzureContainerServices;
-	container: IFluidContainer;
-}> => {
-	let container: IFluidContainer;
+	container: IFluidContainer<T>;
+}> {
+	let container: IFluidContainer<T>;
 	let services: AzureContainerServices;
 
 	// Get or create the document depending if we are running through the create new flow
@@ -36,10 +36,10 @@ export const loadFluidData = async (
 		({ container, services } = await client.getContainer(containerId, containerSchema));
 	}
 	return { services, container };
-};
+}
 
-export const containerSchema: ContainerSchema = {
+export const containerSchema = {
 	initialObjects: {
 		appData: SharedTree,
 	},
-};
+} satisfies ContainerSchema;

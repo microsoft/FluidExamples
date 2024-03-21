@@ -5,17 +5,17 @@
 
 import React, { ReactNode, useEffect, useState } from "react";
 import { TreeView, Tree } from "fluid-framework";
-import { App, StringArray } from "./schema";
+import { StringArray } from "./schema";
 
-export function ReactApp(props: { data: TreeView<App> }): JSX.Element {
+export function ReactApp(props: { data: TreeView<StringArray> }): JSX.Element {
 	const [invalidations, setInvalidations] = useState(0);
 
-	const app = props.data.root;
+	const strings = props.data.root;
 
 	// Register for tree deltas when the component mounts.
 	// Any time the tree changes, the app will update
 	useEffect(() => {
-		const unsubscribe = Tree.on(app, "afterChange", () => {
+		const unsubscribe = Tree.on(strings, "afterChange", () => {
 			setInvalidations(invalidations + Math.random());
 		});
 		return unsubscribe;
@@ -24,7 +24,7 @@ export function ReactApp(props: { data: TreeView<App> }): JSX.Element {
 	return (
 		<div className="flex flex-col gap-3 items-center justify-center content-center m-6">
 			<div className="flex flex-row gap-3 justify-center flex-wrap w-full h-full">
-				<ListGroup list={app.stringArray} />
+				<ListGroup list={strings} />
 			</div>
 			<Explanation />
 		</div>
