@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { App, Note, Group } from "../schema/app_schema";
+import { Note, Group, Items } from "../schema/app_schema";
 import { Session } from "../schema/session_schema";
 import {
 	ConnectionState,
@@ -15,12 +15,12 @@ import {
 	TreeView,
 } from "fluid-framework";
 import { GroupView } from "./groupux";
-import { RootNoteWrapper } from "./noteux";
+import { AddNoteButton, NoteView, RootNoteWrapper } from "./noteux";
 import { Floater, NewGroupButton, NewNoteButton, DeleteNotesButton, ButtonGroup } from "./buttonux";
 import { undefinedUserId } from "../utils/utils";
 
 export function Canvas(props: {
-	appTree: TreeView<App>;
+	items: Items;
 	sessionTree: TreeView<Session>;
 	audience: IServiceAudience<IMember>;
 	container: IFluidContainer;
@@ -33,7 +33,6 @@ export function Canvas(props: {
 }): JSX.Element {
 	const [invalidations, setInvalidations] = useState(0);
 
-	const appRoot = props.appTree.root;
 	const sessionRoot = props.sessionTree.root;
 
 	// Register for tree deltas when the component mounts.
@@ -41,7 +40,7 @@ export function Canvas(props: {
 	// For more complex apps, this code can be included
 	// on lower level components.
 	useEffect(() => {
-		const unsubscribe = Tree.on(appRoot, "afterChange", () => {
+		const unsubscribe = Tree.on(props.items, "afterChange", () => {
 			setInvalidations(invalidations + Math.random());
 		});
 		return unsubscribe;
@@ -91,23 +90,24 @@ export function Canvas(props: {
 
 	return (
 		<div className="relative flex grow-0 h-full w-full bg-transparent">
-			<RootItems
-				app={appRoot}
+			<ItemsView
+				items={props.items}
 				clientId={props.currentUser}
 				session={sessionRoot}
 				fluidMembers={props.fluidMembers}
+				isRoot={true}
 			/>
 			<Floater>
 				<ButtonGroup>
 					<NewGroupButton
-						root={appRoot}
+						items={props.items}
 						session={sessionRoot}
 						clientId={props.currentUser}
 					/>
-					<NewNoteButton root={appRoot} clientId={props.currentUser} />
+					<NewNoteButton items={props.items} clientId={props.currentUser} />
 					<DeleteNotesButton
 						session={sessionRoot}
-						app={appRoot}
+						items={props.items}
 						clientId={props.currentUser}
 					/>
 				</ButtonGroup>
@@ -116,43 +116,64 @@ export function Canvas(props: {
 	);
 }
 
-function RootItems(props: {
-	app: App;
+export function ItemsView(props: {
+	items: Items;
 	clientId: string;
 	session: Session;
 	fluidMembers: string[];
+	isRoot: boolean;
 }): JSX.Element {
 	const pilesArray = [];
-	for (const i of props.app.items) {
+	for (const i of props.items) {
 		if (i instanceof Group) {
 			pilesArray.push(
 				<GroupView
 					key={i.id}
 					group={i}
 					clientId={props.clientId}
-					app={props.app}
+					parent={props.items}
 					session={props.session}
 					fluidMembers={props.fluidMembers}
 				/>,
 			);
 		} else if (i instanceof Note) {
-			pilesArray.push(
-				<RootNoteWrapper
-					key={i.id}
-					note={i}
-					clientId={props.clientId}
-					notes={props.app.items}
-					session={props.session}
-					fluidMembers={props.fluidMembers}
-				/>,
-			);
+			if (props.isRoot) {
+				pilesArray.push(
+					<RootNoteWrapper
+						key={i.id}
+						note={i}
+						clientId={props.clientId}
+						parent={props.items}
+						session={props.session}
+						fluidMembers={props.fluidMembers}
+					/>,
+				);
+			} else {
+				pilesArray.push(
+					<NoteView
+						key={i.id}
+						note={i}
+						clientId={props.clientId}
+						parent={props.items}
+						session={props.session}
+						fluidMembers={props.fluidMembers}
+					/>,
+				);
+			}
 		}
 	}
 
-	return (
-		<div className="flex grow-0 flex-row h-full w-full flex-wrap gap-4 p-4 content-start overflow-y-scroll">
-			{pilesArray}
-			<div className="flex w-full h-24"></div>
-		</div>
-	);
+	if (props.isRoot) {
+		return (
+			<div className="flex grow-0 flex-row h-full w-full flex-wrap gap-4 p-4 content-start overflow-y-scroll">
+				{pilesArray}
+				<div className="flex w-full h-24"></div>
+			</div>
+		);
+	} else {
+		pilesArray.push(
+			<AddNoteButton key="newNote" parent={props.items} clientId={props.clientId} />,
+		);
+		return <div className="flex flex-row flex-wrap gap-8 p-2">{pilesArray}</div>;
+	}
 }

@@ -4,8 +4,8 @@
  */
 
 import React from "react";
-import { App, Note } from "../schema/app_schema";
-import { deleteNote, moveItem, findNote } from "../utils/app_helpers";
+import { Items, Note } from "../schema/app_schema";
+import { moveItem, findNote } from "../utils/app_helpers";
 import {
 	ThumbLikeFilled,
 	DismissFilled,
@@ -19,20 +19,20 @@ import { Session } from "../schema/session_schema";
 import { getSelectedNotes } from "../utils/session_helpers";
 
 export function NewGroupButton(props: {
-	root: App;
+	items: Items;
 	session: Session;
 	clientId: string;
 }): JSX.Element {
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		const group = props.root.items.newGroup("[new group]");
+		const group = props.items.addGroup("[new group]");
 
 		const ids = getSelectedNotes(props.session, props.clientId);
 
 		for (const id of ids) {
-			const n = findNote(props.root.items, id);
+			const n = findNote(props.items, id);
 			if (n instanceof Note) {
-				moveItem(n, Infinity, group.notes);
+				moveItem(n, Infinity, group.items);
 			}
 		}
 	};
@@ -48,10 +48,10 @@ export function NewGroupButton(props: {
 	);
 }
 
-export function NewNoteButton(props: { root: App; clientId: string }): JSX.Element {
+export function NewNoteButton(props: { items: Items; clientId: string }): JSX.Element {
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		props.root.items.newNote(props.clientId);
+		props.items.addNode(props.clientId);
 	};
 
 	return (
@@ -68,16 +68,14 @@ export function NewNoteButton(props: { root: App; clientId: string }): JSX.Eleme
 
 export function DeleteNotesButton(props: {
 	session: Session;
-	app: App;
+	items: Items;
 	clientId: string;
 }): JSX.Element {
 	const handleClick = () => {
 		const ids = getSelectedNotes(props.session, props.clientId);
 		for (const i of ids) {
-			const n = findNote(props.app.items, i);
-			if (n instanceof Note) {
-				deleteNote(n);
-			}
+			const n = findNote(props.items, i);
+			n?.delete();
 		}
 	};
 	return (

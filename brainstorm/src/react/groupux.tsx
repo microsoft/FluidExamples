@@ -4,18 +4,18 @@
  */
 
 import React from "react";
-import { App, Group, Note } from "../schema/app_schema";
-import { deleteGroup, moveItem } from "../utils/app_helpers";
+import { Group, Items, Note } from "../schema/app_schema";
+import { moveItem } from "../utils/app_helpers";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
-import { NoteContainer } from "./noteux";
 import { DeleteButton } from "./buttonux";
 import { dragType } from "../utils/utils";
 import { Session } from "../schema/session_schema";
+import { ItemsView } from "./canvasux";
 
 export function GroupView(props: {
 	group: Group;
 	clientId: string;
-	app: App;
+	parent: Items;
 	session: Session;
 	fluidMembers: string[];
 }): JSX.Element {
@@ -46,7 +46,7 @@ export function GroupView(props: {
 
 			const droppedItem = item;
 			if (droppedItem instanceof Group || droppedItem instanceof Note) {
-				moveItem(droppedItem, props.app.items.indexOf(props.group), props.app.items);
+				moveItem(droppedItem, props.parent.indexOf(props.group), props.parent);
 			}
 
 			return;
@@ -77,12 +77,13 @@ export function GroupView(props: {
 					(isOver && canDrop ? "translate-x-3" : "")
 				}
 			>
-				<GroupToolbar pile={props.group} app={props.app} />
-				<NoteContainer
-					group={props.group}
+				<GroupToolbar pile={props.group} parent={props.parent} />
+				<ItemsView
+					items={props.group.items}
 					clientId={props.clientId}
 					session={props.session}
 					fluidMembers={props.fluidMembers}
+					isRoot={false}
 				/>
 			</div>
 		</div>
@@ -100,15 +101,15 @@ function GroupName(props: { pile: Group }): JSX.Element {
 	);
 }
 
-function GroupToolbar(props: { pile: Group; app: App }): JSX.Element {
+function GroupToolbar(props: { pile: Group; parent: Items }): JSX.Element {
 	return (
 		<div className="flex flex-row justify-between">
 			<GroupName pile={props.pile} />
-			<DeletePileButton pile={props.pile} app={props.app} />
+			<DeletePileButton pile={props.pile} items={props.parent} />
 		</div>
 	);
 }
 
-export function DeletePileButton(props: { pile: Group; app: App }): JSX.Element {
-	return <DeleteButton handleClick={() => deleteGroup(props.pile, props.app)}></DeleteButton>;
+export function DeletePileButton(props: { pile: Group; items: Items }): JSX.Element {
+	return <DeleteButton handleClick={() => props.pile.delete()}></DeleteButton>;
 }

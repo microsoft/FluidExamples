@@ -4,8 +4,8 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
-import { Note, Group, Notes, Items } from "../schema/app_schema";
-import { deleteNote, moveItem } from "../utils/app_helpers";
+import { Note, Group, Items } from "../schema/app_schema";
+import { moveItem } from "../utils/app_helpers";
 import { dragType, getRotation, selectAction } from "../utils/utils";
 import { testRemoteNoteSelection, updateRemoteNoteSelection } from "../utils/session_helpers";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
@@ -14,35 +14,10 @@ import { Tree } from "fluid-framework";
 import { IconButton, MiniThumb, DeleteButton } from "./buttonux";
 import { Session } from "../schema/session_schema";
 
-export function NoteContainer(props: {
-	group: Group;
-	clientId: string;
-	session: Session;
-	fluidMembers: string[];
-}): JSX.Element {
-	const notesArray = [];
-	for (const n of props.group.notes) {
-		notesArray.push(
-			<NoteView
-				key={n.id}
-				note={n}
-				clientId={props.clientId}
-				notes={props.group.notes}
-				session={props.session}
-				fluidMembers={props.fluidMembers}
-			/>,
-		);
-	}
-
-	notesArray.push(<AddNoteButton key="newNote" group={props.group} clientId={props.clientId} />);
-
-	return <div className="flex flex-row flex-wrap gap-8 p-2">{notesArray}</div>;
-}
-
 export function RootNoteWrapper(props: {
 	note: Note;
 	clientId: string;
-	notes: Notes | Items;
+	parent: Items;
 	session: Session;
 	fluidMembers: string[];
 }): JSX.Element {
@@ -53,10 +28,10 @@ export function RootNoteWrapper(props: {
 	);
 }
 
-function NoteView(props: {
+export function NoteView(props: {
 	note: Note;
 	clientId: string;
-	notes: Notes | Items;
+	parent: Items;
 	session: Session;
 	fluidMembers: string[];
 }): JSX.Element {
@@ -156,7 +131,7 @@ function NoteView(props: {
 		}),
 		canDrop: (item) => {
 			if (item instanceof Note) return true;
-			if (Tree.is(props.notes, Items)) {
+			if (Tree.is(props.parent, Items)) {
 				return true;
 			}
 			return false;
@@ -164,7 +139,7 @@ function NoteView(props: {
 		drop: (item) => {
 			const droppedItem = item;
 			if (droppedItem instanceof Group || droppedItem instanceof Note) {
-				moveItem(droppedItem, props.notes.indexOf(props.note), props.notes);
+				moveItem(droppedItem, props.parent.indexOf(props.note), props.parent);
 			}
 			return;
 		},
@@ -212,7 +187,7 @@ function NoteView(props: {
 						(isOver && canDrop ? "translate-x-3" : "")
 					}
 				>
-					<NoteToolbar note={props.note} clientId={props.clientId} notes={props.notes} />
+					<NoteToolbar note={props.note} clientId={props.clientId} notes={props.parent} />
 					<NoteTextArea note={props.note} update={update} />
 					<NoteSelection show={remoteSelected} />
 				</div>
@@ -256,7 +231,7 @@ function NoteTextArea(props: { note: Note; update: (value: selectAction) => void
 	);
 }
 
-function NoteToolbar(props: { note: Note; clientId: string; notes: Notes | Items }): JSX.Element {
+function NoteToolbar(props: { note: Note; clientId: string; notes: Items }): JSX.Element {
 	return (
 		<div className="flex justify-between z-50">
 			<LikeButton note={props.note} clientId={props.clientId} />
@@ -265,7 +240,7 @@ function NoteToolbar(props: { note: Note; clientId: string; notes: Notes | Items
 	);
 }
 
-function AddNoteButton(props: { group: Group; clientId: string }): JSX.Element {
+export function AddNoteButton(props: { parent: Items; clientId: string }): JSX.Element {
 	const [{ isActive }, drop] = useDrop(() => ({
 		accept: dragType.NOTE,
 		collect: (monitor) => ({
@@ -275,9 +250,9 @@ function AddNoteButton(props: { group: Group; clientId: string }): JSX.Element {
 			const droppedItem = item;
 			if (droppedItem instanceof Note) {
 				const parent = Tree.parent(droppedItem);
-				if (Tree.is(parent, Notes) || Tree.is(parent, Items)) {
+				if (Tree.is(parent, Items)) {
 					const index = parent.indexOf(droppedItem);
-					props.group.notes.moveToEnd(index, parent);
+					props.parent.moveToEnd(index, parent);
 				}
 			}
 			return;
@@ -286,14 +261,14 @@ function AddNoteButton(props: { group: Group; clientId: string }): JSX.Element {
 
 	let size = "h-48 w-48";
 	let buttonText = "Add Note";
-	if (props.group.notes.length > 0) {
+	if (props.parent.length > 0) {
 		buttonText = "+";
 		size = "h-48";
 	}
 
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		props.group.notes.newNote(props.clientId);
+		props.parent.addNode(props.clientId);
 	};
 
 	const hoverEffectStyle = "absolute top-0 left-0 border-l-4 border-dashed h-48 ";
@@ -355,6 +330,6 @@ function LikeButton(props: { note: Note; clientId: string }): JSX.Element {
 	);
 }
 
-function DeleteNoteButton(props: { note: Note; notes: Notes | Items }): JSX.Element {
-	return <DeleteButton handleClick={() => deleteNote(props.note)}></DeleteButton>;
+function DeleteNoteButton(props: { note: Note; notes: Items }): JSX.Element {
+	return <DeleteButton handleClick={() => props.note.delete()}></DeleteButton>;
 }
