@@ -8,7 +8,7 @@ import { Group, Items, Note } from "../schema/app_schema";
 import { moveItem } from "../utils/app_helpers";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
 import { DeleteButton } from "./buttonux";
-import { dragType, isCircular } from "../utils/utils";
+import { dragType, isUnder } from "../utils/utils";
 import { Session } from "../schema/session_schema";
 import { ItemsView } from "./canvasux";
 
@@ -35,7 +35,7 @@ export function GroupView(props: {
 		}),
 		canDrop: (item) => {
 			if (item instanceof Note) return true;
-			if (item instanceof Group && !isCircular(item, props.parent)) return true;
+			if (item instanceof Group && !isUnder(item, props.parent)) return true;
 			return false;
 		},
 		drop: (item, monitor) => {

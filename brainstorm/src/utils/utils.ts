@@ -6,6 +6,7 @@
 import { Group, Items, Note } from "../schema/app_schema";
 import { Guid } from "guid-typescript";
 import { IInsecureUser } from "@fluidframework/test-runtime-utils";
+import { Tree } from "fluid-framework";
 
 export const undefinedUserId = "[UNDEFINED]";
 
@@ -51,19 +52,17 @@ export enum selectAction {
 	SINGLE,
 }
 
-// function that tests to see if a target
-// is anywhere within a parent's subtree
-export function isCircular(group: Group, target: Items): boolean {
+export function isUnder(group: Group, target: Items): boolean {
+	// If the target is the group we are trying to move
 	if (group.items === target) {
 		return true;
 	}
 
-	for (const child of group.items) {
-		if (child instanceof Group) {
-			if (isCircular(child, target)) {
-				return true;
-			}
-		}
+	// If the parent is a group, recursively check its parent items
+	const parent = Tree.parent(target);
+	if (Tree.is(parent, Group)) {
+		const parentItems = Tree.parent(parent);
+		if (Tree.is(parentItems, Items)) return isUnder(group, parentItems);
 	}
 
 	return false;
