@@ -6,7 +6,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Note, Group, Items } from "../schema/app_schema";
 import { moveItem } from "../utils/app_helpers";
-import { dragType, getRotation, selectAction } from "../utils/utils";
+import { dragType, getRotation, isCircular, selectAction } from "../utils/utils";
 import { testRemoteNoteSelection, updateRemoteNoteSelection } from "../utils/session_helpers";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
 import { useTransition } from "react-transition-state";
@@ -131,7 +131,7 @@ export function NoteView(props: {
 		}),
 		canDrop: (item) => {
 			if (item instanceof Note) return true;
-			if (item instanceof Group && item.items !== props.parent) return true;
+			if (item instanceof Group && !isCircular(item, props.parent)) return true;
 			return false;
 		},
 		drop: (item) => {
@@ -246,7 +246,7 @@ export function AddNoteButton(props: { parent: Items; clientId: string }): JSX.E
 		}),
 		canDrop: (item) => {
 			if (item instanceof Note) return true;
-			if (item instanceof Group && item.items !== props.parent) return true;
+			if (item instanceof Group && !isCircular(item, props.parent)) return true;
 			return false;
 		},
 		drop: (item) => {

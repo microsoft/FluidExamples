@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { Note } from "../schema/app_schema";
+import { Group, Items, Note } from "../schema/app_schema";
 import { Guid } from "guid-typescript";
 import { IInsecureUser } from "@fluidframework/test-runtime-utils";
 
@@ -49,4 +49,22 @@ export enum selectAction {
 	MULTI,
 	REMOVE,
 	SINGLE,
+}
+
+// function that tests to see if a target
+// is anywhere within a parent's subtree
+export function isCircular(group: Group, target: Items): boolean {
+	if (group.items === target) {
+		return true;
+	}
+
+	for (const child of group.items) {
+		if (child instanceof Group) {
+			if (isCircular(child, target)) {
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
