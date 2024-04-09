@@ -39,7 +39,6 @@ async function start() {
 		initialContainers: [
 			{
 				container,
-				containerKey: "My Container",
 			},
 		],
 	});

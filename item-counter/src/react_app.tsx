@@ -15,7 +15,7 @@ export function ReactApp(props: { data: TreeView<StringArray> }): JSX.Element {
 	// Register for tree deltas when the component mounts.
 	// Any time the tree changes, the app will update
 	useEffect(() => {
-		const unsubscribe = Tree.on(strings, "afterChange", () => {
+		const unsubscribe = Tree.on(strings, "treeChanged", () => {
 			setInvalidations(invalidations + Math.random());
 		});
 		return unsubscribe;

@@ -15,6 +15,7 @@ import { initializeDevtools } from "@fluidframework/devtools";
 import { devtoolsLogger } from "./infra/clientProps";
 import { appTreeConfiguration } from "./schema/app_schema";
 import { sessionTreeConfiguration } from "./schema/session_schema";
+import { createUndoRedoStacks } from "./utils/undo";
 
 async function start() {
 	// create the root element for React
@@ -41,10 +42,11 @@ async function start() {
 		initialContainers: [
 			{
 				container,
-				containerKey: "My Container",
 			},
 		],
 	});
+
+	// const { undoStack, redoStack, unsubscribe } = createUndoRedoStacks(appTree.events);
 
 	// Render the app - note we attach new containers after render so
 	// the app renders instantly on create new flow. The app will be

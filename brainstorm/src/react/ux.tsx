@@ -4,7 +4,7 @@
  */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Items } from "../schema/app_schema";
 import { Session } from "../schema/session_schema";
 import "../output.css";
@@ -23,6 +23,12 @@ export function ReactApp(props: {
 	const [saved, setSaved] = useState(false);
 	const [fluidMembers, setFluidMembers] = useState<string[]>([]);
 
+	useEffect(() => {
+		return () => {
+			// unsubscribe();
+		};
+	}, []);
+
 	return (
 		<div
 			id="main"
@@ -36,7 +42,7 @@ export function ReactApp(props: {
 			/>
 			<div className="flex h-[calc(100vh-48px)] flex-row ">
 				<Canvas
-					items={props.items.root}
+					items={props.items}
 					sessionTree={props.sessionTree}
 					audience={props.audience}
 					container={props.container}
