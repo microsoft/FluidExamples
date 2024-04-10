@@ -19,28 +19,10 @@ export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): {
 		}
 	});
 
-	const unsubscribeFromDisposed = events.on("revertibleDisposed", (revertible) => {
-		const redoIndex = redoStack.indexOf(revertible);
-		if (redoIndex !== -1) {
-			redoStack.splice(redoIndex, 1);
-		} else {
-			const undoIndex = undoStack.indexOf(revertible);
-			if (undoIndex !== -1) {
-				undoStack.splice(undoIndex, 1);
-			}
-		}
-	});
-
 	const unsubscribe = () => {
 		unsubscribeFromNew();
-		unsubscribeFromDisposed();
-		for (const revertible of undoStack) {
-			revertible.release();
-		}
-		for (const revertible of redoStack) {
-			revertible.release();
-		}
 	};
+
 	return { undoStack, redoStack, unsubscribe };
 }
 

@@ -27,7 +27,7 @@ import {
 	RedoButton,
 } from "./buttonux";
 import { undefinedUserId } from "../utils/utils";
-import { createUndoRedoStacks, revertFromStack } from "../utils/undo";
+import { revertFromStack } from "../utils/undo";
 
 export function Canvas(props: {
 	items: TreeView<Items>;
@@ -36,6 +36,7 @@ export function Canvas(props: {
 	container: IFluidContainer;
 	fluidMembers: string[];
 	currentUser: string;
+	undoRedoStacks: { undoStack: Revertible[]; redoStack: Revertible[]; unsubscribe: () => void };
 	setCurrentUser: (arg: string) => void;
 	setConnectionState: (arg: string) => void;
 	setSaved: (arg: boolean) => void;
@@ -118,6 +119,10 @@ export function Canvas(props: {
 						items={props.items.root}
 						clientId={props.currentUser}
 					/>
+				</ButtonGroup>
+				<ButtonGroup>
+					<UndoButton undo={() => revertFromStack(props.undoRedoStacks.undoStack)} />
+					<RedoButton redo={() => revertFromStack(props.undoRedoStacks.redoStack)} />
 				</ButtonGroup>
 			</Floater>
 		</div>

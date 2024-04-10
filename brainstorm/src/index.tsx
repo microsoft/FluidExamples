@@ -46,7 +46,7 @@ async function start() {
 		],
 	});
 
-	// const { undoStack, redoStack, unsubscribe } = createUndoRedoStacks(appTree.events);
+	const undoRedoStacks = createUndoRedoStacks(appTree.events);
 
 	// Render the app - note we attach new containers after render so
 	// the app renders instantly on create new flow. The app will be
@@ -58,6 +58,7 @@ async function start() {
 				sessionTree={sessionTree}
 				audience={services.audience}
 				container={container}
+				undoRedoStacks={undoRedoStacks}
 			/>
 		</DndProvider>,
 	);

@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import { Items } from "../schema/app_schema";
 import { Session } from "../schema/session_schema";
 import "../output.css";
-import { IFluidContainer, IMember, IServiceAudience, TreeView } from "fluid-framework";
+import { IFluidContainer, IMember, IServiceAudience, Revertible, TreeView } from "fluid-framework";
 import { undefinedUserId } from "../utils/utils";
 import { Canvas } from "./canvasux";
 
@@ -17,16 +17,16 @@ export function ReactApp(props: {
 	sessionTree: TreeView<Session>;
 	audience: IServiceAudience<IMember>;
 	container: IFluidContainer;
+	undoRedoStacks: { undoStack: Revertible[]; redoStack: Revertible[]; unsubscribe: () => void };
 }): JSX.Element {
 	const [currentUser, setCurrentUser] = useState(undefinedUserId);
 	const [connectionState, setConnectionState] = useState("");
 	const [saved, setSaved] = useState(false);
 	const [fluidMembers, setFluidMembers] = useState<string[]>([]);
 
+	/** Unsubscribe to undo-redo events when the component unmounts */
 	useEffect(() => {
-		return () => {
-			// unsubscribe();
-		};
+		return props.undoRedoStacks.unsubscribe;
 	}, []);
 
 	return (
@@ -48,6 +48,7 @@ export function ReactApp(props: {
 					container={props.container}
 					fluidMembers={fluidMembers}
 					currentUser={currentUser}
+					undoRedoStacks={props.undoRedoStacks}
 					setCurrentUser={setCurrentUser}
 					setConnectionState={setConnectionState}
 					setSaved={setSaved}
