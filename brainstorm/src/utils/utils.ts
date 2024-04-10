@@ -3,9 +3,9 @@
  * Licensed under the MIT License.
  */
 
-import { Note } from "../schema/app_schema";
+import { Note } from "../schema/app_schema.js";
 import { Guid } from "guid-typescript";
-import { IInsecureUser } from "@fluidframework/test-runtime-utils";
+import { IInsecureUser } from "@fluidframework/test-runtime-utils/internal";
 
 export const undefinedUserId = "[UNDEFINED]";
 

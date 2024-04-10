@@ -6,16 +6,16 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { loadFluidData } from "./infra/fluid";
-import { notesContainerSchema } from "./infra/containerSchema";
-import { ReactApp } from "./react/ux";
+import { loadFluidData } from "./infra/fluid.js";
+import { notesContainerSchema } from "./infra/containerSchema.js";
+import { ReactApp } from "./react/ux.js";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { initializeDevtools } from "@fluidframework/devtools";
-import { devtoolsLogger } from "./infra/clientProps";
-import { appTreeConfiguration } from "./schema/app_schema";
-import { sessionTreeConfiguration } from "./schema/session_schema";
-import { createUndoRedoStacks } from "./utils/undo";
+import { initializeDevtools } from "@fluidframework/devtools/internal";
+import { devtoolsLogger } from "./infra/clientProps.js";
+import { appTreeConfiguration } from "./schema/app_schema.js";
+import { sessionTreeConfiguration } from "./schema/session_schema.js";
+import { createUndoRedoStacks } from "./utils/undo.js";
 
 async function start() {
 	// create the root element for React
@@ -42,6 +42,7 @@ async function start() {
 		initialContainers: [
 			{
 				container,
+				containerKey: "main",
 			},
 		],
 	});

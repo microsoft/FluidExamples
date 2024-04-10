@@ -4,15 +4,15 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
-import { Note, Group, Items } from "../schema/app_schema";
-import { moveItem } from "../utils/app_helpers";
-import { dragType, getRotation, selectAction } from "../utils/utils";
-import { testRemoteNoteSelection, updateRemoteNoteSelection } from "../utils/session_helpers";
+import { Note, Group, Items } from "../schema/app_schema.js";
+import { moveItem } from "../utils/app_helpers.js";
+import { dragType, getRotation, selectAction } from "../utils/utils.js";
+import { testRemoteNoteSelection, updateRemoteNoteSelection } from "../utils/session_helpers.js";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
 import { useTransition } from "react-transition-state";
 import { Tree } from "fluid-framework";
-import { IconButton, MiniThumb, DeleteButton } from "./buttonux";
-import { Session } from "../schema/session_schema";
+import { IconButton, MiniThumb, DeleteButton } from "./buttonux.js";
+import { Session } from "../schema/session_schema.js";
 
 export function RootNoteWrapper(props: {
 	note: Note;

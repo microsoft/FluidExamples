@@ -4,8 +4,8 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { Note, Group, Items } from "../schema/app_schema";
-import { Session } from "../schema/session_schema";
+import { Note, Group, Items } from "../schema/app_schema.js";
+import { Session } from "../schema/session_schema.js";
 import {
 	ConnectionState,
 	IFluidContainer,
@@ -15,8 +15,8 @@ import {
 	Tree,
 	TreeView,
 } from "fluid-framework";
-import { GroupView } from "./groupux";
-import { AddNoteButton, NoteView, RootNoteWrapper } from "./noteux";
+import { GroupView } from "./groupux.js";
+import { AddNoteButton, NoteView, RootNoteWrapper } from "./noteux.js";
 import {
 	Floater,
 	NewGroupButton,
@@ -25,13 +25,13 @@ import {
 	ButtonGroup,
 	UndoButton,
 	RedoButton,
-} from "./buttonux";
-import { undefinedUserId } from "../utils/utils";
-import { revertFromStack } from "../utils/undo";
+} from "./buttonux.js";
+import { undefinedUserId } from "../utils/utils.js";
+import { revertFromStack } from "../utils/undo.js";
 
 export function Canvas(props: {
-	items: TreeView<Items>;
-	sessionTree: TreeView<Session>;
+	items: TreeView<typeof Items>;
+	sessionTree: TreeView<typeof Session>;
 	audience: IServiceAudience<IMember>;
 	container: IFluidContainer;
 	fluidMembers: string[];

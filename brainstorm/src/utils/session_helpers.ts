@@ -3,9 +3,9 @@
  * Licensed under the MIT License.
  */
 
-import { Note } from "../schema/app_schema";
-import { Session, Client } from "../schema/session_schema";
-import { selectAction, undefinedUserId } from "./utils";
+import { Note } from "../schema/app_schema.js";
+import { Session, Client } from "../schema/session_schema.js";
+import { selectAction, undefinedUserId } from "./utils.js";
 
 export const testRemoteNoteSelection = (
 	item: Note,

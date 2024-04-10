@@ -4,13 +4,13 @@
  */
 
 import React from "react";
-import { Group, Items, Note } from "../schema/app_schema";
-import { moveItem } from "../utils/app_helpers";
+import { Group, Items, Note } from "../schema/app_schema.js";
+import { moveItem } from "../utils/app_helpers.js";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
-import { DeleteButton } from "./buttonux";
-import { dragType } from "../utils/utils";
-import { Session } from "../schema/session_schema";
-import { ItemsView } from "./canvasux";
+import { DeleteButton } from "./buttonux.js";
+import { dragType } from "../utils/utils.js";
+import { Session } from "../schema/session_schema.js";
+import { ItemsView } from "./canvasux.js";
 
 export function GroupView(props: {
 	group: Group;

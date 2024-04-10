@@ -5,16 +5,16 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
-import { Items } from "../schema/app_schema";
-import { Session } from "../schema/session_schema";
+import { Items } from "../schema/app_schema.js";
+import { Session } from "../schema/session_schema.js";
 import "../output.css";
 import { IFluidContainer, IMember, IServiceAudience, Revertible, TreeView } from "fluid-framework";
-import { undefinedUserId } from "../utils/utils";
-import { Canvas } from "./canvasux";
+import { undefinedUserId } from "../utils/utils.js";
+import { Canvas } from "./canvasux.js";
 
 export function ReactApp(props: {
-	items: TreeView<Items>;
-	sessionTree: TreeView<Session>;
+	items: TreeView<typeof Items>;
+	sessionTree: TreeView<typeof Session>;
 	audience: IServiceAudience<IMember>;
 	container: IFluidContainer;
 	undoRedoStacks: { undoStack: Revertible[]; redoStack: Revertible[]; unsubscribe: () => void };

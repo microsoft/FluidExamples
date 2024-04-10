@@ -9,9 +9,9 @@ import {
 	AzureClientProps,
 	AzureLocalConnectionConfig,
 } from "@fluidframework/azure-client";
-import { InsecureTokenProvider } from "@fluidframework/test-runtime-utils";
-import { AzureFunctionTokenProvider, azureUser, user } from "./tokenProvider";
-import { createDevtoolsLogger } from "@fluidframework/devtools";
+import { InsecureTokenProvider } from "@fluidframework/test-runtime-utils/internal";
+import { AzureFunctionTokenProvider, azureUser, user } from "./tokenProvider.js";
+import { createDevtoolsLogger } from "@fluidframework/devtools/internal";
 
 // Instantiate the logger
 export const devtoolsLogger = createDevtoolsLogger();

@@ -8,7 +8,7 @@ import {
 	SchemaFactoryRecursive,
 	Tree,
 	ValidateRecursiveSchema,
-} from "fluid-framework";
+} from "@fluidframework/tree/internal";
 import { Guid } from "guid-typescript";
 
 // Schema is defined using a factory object that generates classes for objects as well

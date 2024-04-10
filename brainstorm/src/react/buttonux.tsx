@@ -4,8 +4,8 @@
  */
 
 import React from "react";
-import { Items, Note } from "../schema/app_schema";
-import { moveItem, findNote } from "../utils/app_helpers";
+import { Items, Note } from "../schema/app_schema.js";
+import { moveItem, findNote } from "../utils/app_helpers.js";
 import {
 	ThumbLikeFilled,
 	DismissFilled,
@@ -15,8 +15,8 @@ import {
 	ArrowUndoFilled,
 	ArrowRedoFilled,
 } from "@fluentui/react-icons";
-import { Session } from "../schema/session_schema";
-import { getSelectedNotes } from "../utils/session_helpers";
+import { Session } from "../schema/session_schema.js";
+import { getSelectedNotes } from "../utils/session_helpers.js";
 
 export function NewGroupButton(props: {
 	items: Items;
