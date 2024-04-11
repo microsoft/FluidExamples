@@ -1,4 +1,12 @@
-import { CommitKind, ISubscribable, Revertible, TreeViewEvents } from "fluid-framework";
+import {
+	CommitKind,
+	CommitMetadata,
+	ISubscribable,
+	Revertible,
+	RevertibleFactory,
+	TreeViewEvents,
+	disposeSymbol,
+} from "fluid-framework";
 
 export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): {
 	undoStack: Revertible[];
@@ -8,26 +16,44 @@ export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): {
 	const undoStack: Revertible[] = [];
 	const redoStack: Revertible[] = [];
 
-	const unsubscribeFromNew = events.on("commitApplied", ({ kind }, getRevertible) => {
+	function onDispose(disposed: Revertible): void {
+		const redoIndex = redoStack.indexOf(disposed);
+		if (redoIndex !== -1) {
+			redoStack.splice(redoIndex, 1);
+		} else {
+			const undoIndex = undoStack.indexOf(disposed);
+			if (undoIndex !== -1) {
+				undoStack.splice(undoIndex, 1);
+			}
+		}
+	}
+
+	function onNewCommit(commit: CommitMetadata, getRevertible?: RevertibleFactory): void {
 		if (getRevertible !== undefined) {
-			const revertible = getRevertible();
-			if (kind === CommitKind.Undo) {
+			const revertible = getRevertible(onDispose);
+			if (commit.kind === CommitKind.Undo) {
 				redoStack.push(revertible);
 			} else {
 				undoStack.push(revertible);
 			}
 		}
-	});
+	}
 
+	const unsubscribeFromCommitApplied = events.on("commitApplied", onNewCommit);
 	const unsubscribe = () => {
-		unsubscribeFromNew();
+		unsubscribeFromCommitApplied();
+		for (const revertible of undoStack) {
+			revertible[disposeSymbol]();
+		}
+		for (const revertible of redoStack) {
+			revertible[disposeSymbol]();
+		}
 	};
-
 	return { undoStack, redoStack, unsubscribe };
 }
 
-export function revertFromStack(undoStack: Revertible[]) {
-	const revertible = undoStack.pop();
+export function revertFromStack(stack: Revertible[]): void {
+	const revertible = stack.pop();
 	if (revertible !== undefined) {
 		revertible.revert();
 	}
