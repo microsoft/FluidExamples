@@ -17,6 +17,7 @@ import {
 } from "@fluentui/react-icons";
 import { Session } from "../schema/session_schema.js";
 import { getSelectedNotes } from "../utils/session_helpers.js";
+import { Tree } from "fluid-framework";
 
 export function NewGroupButton(props: {
 	items: Items;
@@ -26,9 +27,7 @@ export function NewGroupButton(props: {
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		const group = props.items.addGroup("[new group]");
-
 		const ids = getSelectedNotes(props.session, props.clientId);
-
 		for (const id of ids) {
 			const n = findNote(props.items, id);
 			if (n instanceof Note) {
@@ -40,7 +39,9 @@ export function NewGroupButton(props: {
 		<IconButton
 			color="white"
 			background="black"
-			handleClick={(e: React.MouseEvent) => handleClick(e)}
+			handleClick={(e: React.MouseEvent) =>
+				Tree.runTransaction(props.items, () => handleClick(e))
+			}
 			icon={<RectangleLandscapeRegular />}
 		>
 			Add Group
@@ -82,7 +83,7 @@ export function DeleteNotesButton(props: {
 		<IconButton
 			color="white"
 			background="black"
-			handleClick={() => handleClick()}
+			handleClick={() => Tree.runTransaction(props.items, () => handleClick())}
 			icon={<DeleteRegular />}
 		>
 			Delete Note
