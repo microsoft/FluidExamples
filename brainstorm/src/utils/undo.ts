@@ -34,6 +34,13 @@ export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): {
 			if (commit.kind === CommitKind.Undo) {
 				redoStack.push(revertible);
 			} else {
+				if (commit.kind === CommitKind.Default) {
+					// clear redo stack
+					for (const redo of redoStack) {
+						redo[disposeSymbol]();
+					}
+					redoStack.length = 0;
+				}
 				undoStack.push(revertible);
 			}
 		}
