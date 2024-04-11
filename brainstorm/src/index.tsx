@@ -11,7 +11,7 @@ import { notesContainerSchema } from "./infra/containerSchema.js";
 import { ReactApp } from "./react/ux.js";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { initializeDevtools } from "@fluidframework/devtools/internal";
+import { initializeDevtools } from "@fluidframework/devtools/beta";
 import { devtoolsLogger } from "./infra/clientProps.js";
 import { appTreeConfiguration } from "./schema/app_schema.js";
 import { sessionTreeConfiguration } from "./schema/session_schema.js";

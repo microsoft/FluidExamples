@@ -3,12 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import {
-	TreeConfiguration,
-	SchemaFactoryRecursive,
-	Tree,
-	ValidateRecursiveSchema,
-} from "@fluidframework/tree/internal";
+import { TreeConfiguration, SchemaFactory, Tree, ValidateRecursiveSchema } from "fluid-framework";
 import { Guid } from "guid-typescript";
 
 // Schema is defined using a factory object that generates classes for objects as well
@@ -16,7 +11,7 @@ import { Guid } from "guid-typescript";
 
 // Include a UUID to guarantee that this schema will be uniquely identifiable.
 // As this schema uses a recursive type, the beta SchemaFactoryRecursive is used instead of just SchemaFactory.
-const sf = new SchemaFactoryRecursive("fc1db2e8-0a00-11ee-be56-0242ac120002");
+const sf = new SchemaFactory("fc1db2e8-0a00-11ee-be56-0242ac120002");
 
 // Define the schema for the note object.
 // Helper functions for working with the data contained in this object
