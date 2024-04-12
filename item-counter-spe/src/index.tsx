@@ -1,18 +1,16 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { loadFluidData, containerSchema } from "./infra/fluid";
-import { devtoolsLogger, getClientProps } from "./infra/clientProps";
-import { treeConfiguration } from "./schema";
+import { loadFluidData, containerSchema } from "./infra/fluid.js";
+import { getClientProps } from "./infra/clientProps.js";
+import { treeConfiguration } from "./schema.js";
 import "./output.css";
-import { ReactApp } from "./react_app";
-import { SampleOdspTokenProvider } from "./infra/tokenProvider";
-import { GraphHelper } from "./infra/graphHelper";
-import { authHelper } from "./infra/authHelper";
+import { ReactApp } from "./react_app.js";
+import { SampleOdspTokenProvider } from "./infra/tokenProvider.js";
+import { GraphHelper } from "./infra/graphHelper.js";
+import { authHelper } from "./infra/authHelper.js";
 import { OdspClient } from "@fluid-experimental/odsp-client";
-import { ITree } from "@fluidframework/tree";
-import { initializeDevtools } from "@fluidframework/devtools";
-import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
+import { AccountInfo, AuthenticationResult, PublicClientApplication } from "@azure/msal-browser";
 
 async function start() {
 	const msalInstance = await authHelper();
@@ -20,7 +18,7 @@ async function start() {
 	// Handle the login redirect flows
 	msalInstance
 		.handleRedirectPromise()
-		.then((tokenResponse) => {
+		.then((tokenResponse: AuthenticationResult | null) => {
 			// If the tokenResponse is not null, then the user is signed in
 			// and the tokenResponse is the result of the redirect.
 			if (tokenResponse !== null) {
@@ -43,7 +41,7 @@ async function start() {
 				}
 			}
 		})
-		.catch((error) => {
+		.catch((error: Error) => {
 			console.log("Error in handleRedirectPromise: " + error.message);
 		});
 }
@@ -147,20 +145,9 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	const { container } = await loadFluidData(containerId, containerSchema, client);
 
 	// Initialize the SharedTree Data Structure
-	const appData = (container.initialObjects.appData as ITree).schematize(
+	const appData = container.initialObjects.appData.schematize(
 		treeConfiguration, // This is defined in schema.ts
 	);
-
-	// Initialize debugging tools
-	initializeDevtools({
-		logger: devtoolsLogger,
-		initialContainers: [
-			{
-				container,
-				containerKey: "My Container",
-			},
-		],
-	});
 
 	// Render the app - note we attach new containers after render so
 	// the app renders instantly on create new flow. The app will be
