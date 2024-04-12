@@ -25,23 +25,26 @@ export function NewGroupButton(props: {
 	clientId: string;
 }): JSX.Element {
 	const handleClick = (e: React.MouseEvent) => {
-		e.stopPropagation();
-		const group = props.items.addGroup("[new group]");
-		const ids = getSelectedNotes(props.session, props.clientId);
-		for (const id of ids) {
-			const n = findNote(props.items, id);
-			if (n instanceof Note) {
-				moveItem(n, Infinity, group.items);
+		// Wrap the add group operation in a transaction as it adds a group and potentially moves
+		// multiple notes into the group and we want to ensure that the operation is atomic.
+		// This ensures that the revertible of the operation will undo all the changes made by the operation.
+		Tree.runTransaction(props.items, () => {
+			e.stopPropagation();
+			const group = props.items.addGroup("[new group]");
+			const ids = getSelectedNotes(props.session, props.clientId);
+			for (const id of ids) {
+				const n = findNote(props.items, id);
+				if (n instanceof Note) {
+					moveItem(n, Infinity, group.items);
+				}
 			}
-		}
+		});
 	};
 	return (
 		<IconButton
 			color="white"
 			background="black"
-			handleClick={(e: React.MouseEvent) =>
-				Tree.runTransaction(props.items, () => handleClick(e))
-			}
+			handleClick={(e: React.MouseEvent) => handleClick(e)}
 			icon={<RectangleLandscapeRegular />}
 		>
 			Add Group
@@ -73,17 +76,22 @@ export function DeleteNotesButton(props: {
 	clientId: string;
 }): JSX.Element {
 	const handleClick = () => {
-		const ids = getSelectedNotes(props.session, props.clientId);
-		for (const i of ids) {
-			const n = findNote(props.items, i);
-			n?.delete();
-		}
+		// Wrap the delete operation in a transaction as it potentially modifies multiple notes
+		// and we want to ensure that the operation is atomic. This ensures that the revertible of
+		// the operation will undo all the changes made by the operation.
+		Tree.runTransaction(props.items, () => {
+			const ids = getSelectedNotes(props.session, props.clientId);
+			for (const i of ids) {
+				const n = findNote(props.items, i);
+				n?.delete();
+			}
+		});
 	};
 	return (
 		<IconButton
 			color="white"
 			background="black"
-			handleClick={() => Tree.runTransaction(props.items, () => handleClick())}
+			handleClick={() => handleClick()}
 			icon={<DeleteRegular />}
 		>
 			Delete Note
