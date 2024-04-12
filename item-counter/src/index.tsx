@@ -6,12 +6,10 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { loadFluidData, containerSchema } from "./infra/fluid";
-import { initializeDevtools } from "@fluidframework/devtools";
-import { devtoolsLogger } from "./infra/clientProps";
-import { treeConfiguration } from "./schema";
+import { loadFluidData, containerSchema } from "./infra/fluid.js";
+import { treeConfiguration } from "./schema.js";
 import "./output.css";
-import { ReactApp } from "./react_app";
+import { ReactApp } from "./react_app.js";
 
 async function start() {
 	// create the root element for React
@@ -32,16 +30,6 @@ async function start() {
 	const appData = container.initialObjects.appData.schematize(
 		treeConfiguration, // This is defined in schema.ts
 	);
-
-	// Initialize debugging tools
-	initializeDevtools({
-		logger: devtoolsLogger,
-		initialContainers: [
-			{
-				container,
-			},
-		],
-	});
 
 	// Render the app - note we attach new containers after render so
 	// the app renders instantly on create new flow. The app will be
