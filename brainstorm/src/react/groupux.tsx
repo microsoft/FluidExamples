@@ -11,6 +11,7 @@ import { DeleteButton } from "./buttonux.js";
 import { dragType } from "../utils/utils.js";
 import { Session } from "../schema/session_schema.js";
 import { ItemsView } from "./canvasux.js";
+import { Tree } from "fluid-framework";
 
 export function GroupView(props: {
 	group: Group;
@@ -33,6 +34,11 @@ export function GroupView(props: {
 			isOver: !!monitor.isOver({ shallow: true }),
 			canDrop: !!monitor.canDrop(),
 		}),
+		canDrop: (item) => {
+			if (item instanceof Note) return true;
+			if (item instanceof Group && !Tree.contains(item, props.parent)) return true;
+			return false;
+		},
 		drop: (item, monitor) => {
 			const didDrop = monitor.didDrop();
 			if (didDrop) {

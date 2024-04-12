@@ -131,9 +131,7 @@ export function NoteView(props: {
 		}),
 		canDrop: (item) => {
 			if (item instanceof Note) return true;
-			if (Tree.is(props.parent, Items)) {
-				return true;
-			}
+			if (item instanceof Group && !Tree.contains(item, props.parent)) return true;
 			return false;
 		},
 		drop: (item) => {
@@ -242,13 +240,18 @@ function NoteToolbar(props: { note: Note; clientId: string; notes: Items }): JSX
 
 export function AddNoteButton(props: { parent: Items; clientId: string }): JSX.Element {
 	const [{ isActive }, drop] = useDrop(() => ({
-		accept: dragType.NOTE,
+		accept: [dragType.NOTE, dragType.GROUP],
 		collect: (monitor) => ({
 			isActive: monitor.canDrop() && monitor.isOver(),
 		}),
+		canDrop: (item) => {
+			if (item instanceof Note) return true;
+			if (item instanceof Group && !Tree.contains(item, props.parent)) return true;
+			return false;
+		},
 		drop: (item) => {
 			const droppedItem = item;
-			if (droppedItem instanceof Note) {
+			if (droppedItem instanceof Note || droppedItem instanceof Group) {
 				const parent = Tree.parent(droppedItem);
 				if (Tree.is(parent, Items)) {
 					const index = parent.indexOf(droppedItem);

@@ -4,7 +4,6 @@
  */
 
 import { Note } from "../schema/app_schema.js";
-import { Guid } from "guid-typescript";
 
 export const undefinedUserId = "[UNDEFINED]";
 
