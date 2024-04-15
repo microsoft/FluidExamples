@@ -61,7 +61,5 @@ export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): {
 
 export function revertFromStack(stack: Revertible[]): void {
 	const revertible = stack.pop();
-	if (revertible !== undefined) {
-		revertible.revert();
-	}
+	revertible?.revert();
 }
