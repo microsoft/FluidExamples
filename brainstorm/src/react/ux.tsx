@@ -17,7 +17,7 @@ export function ReactApp(props: {
 	sessionTree: TreeView<typeof Session>;
 	audience: IServiceAudience<IMember>;
 	container: IFluidContainer;
-	undoRedoStacks: { undoStack: Revertible[]; redoStack: Revertible[]; unsubscribe: () => void };
+	undoRedo: { undo: () => void; redo: () => void; dispose: () => void };
 }): JSX.Element {
 	const [currentUser, setCurrentUser] = useState(undefinedUserId);
 	const [connectionState, setConnectionState] = useState("");
@@ -26,7 +26,7 @@ export function ReactApp(props: {
 
 	/** Unsubscribe to undo-redo events when the component unmounts */
 	useEffect(() => {
-		return props.undoRedoStacks.unsubscribe;
+		return props.undoRedo.dispose;
 	}, []);
 
 	return (
@@ -48,7 +48,7 @@ export function ReactApp(props: {
 					container={props.container}
 					fluidMembers={fluidMembers}
 					currentUser={currentUser}
-					undoRedoStacks={props.undoRedoStacks}
+					undoRedo={props.undoRedo}
 					setCurrentUser={setCurrentUser}
 					setConnectionState={setConnectionState}
 					setSaved={setSaved}

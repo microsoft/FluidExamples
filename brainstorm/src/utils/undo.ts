@@ -8,29 +8,24 @@ import {
 	disposeSymbol,
 } from "fluid-framework";
 
+/**
+ * Create undo and redo stacks for a tree view. The stacks are populated with revertible objects.
+ * You can manage the stacks by calling `undo` and `redo`. The redo stack is cleared when a new commit is made.
+ * The dispose function should be called when the stacks are no longer needed.
+ */
 export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): {
-	undoStack: Revertible[];
-	redoStack: Revertible[];
-	unsubscribe: () => void;
+	undo: () => void;
+	redo: () => void;
+	dispose: () => void;
 } {
+	// Create arrays to store revertible objects
 	const undoStack: Revertible[] = [];
 	const redoStack: Revertible[] = [];
 
-	function onDispose(disposed: Revertible): void {
-		const redoIndex = redoStack.indexOf(disposed);
-		if (redoIndex !== -1) {
-			redoStack.splice(redoIndex, 1);
-		} else {
-			const undoIndex = undoStack.indexOf(disposed);
-			if (undoIndex !== -1) {
-				undoStack.splice(undoIndex, 1);
-			}
-		}
-	}
-
+	// Manage the stacks when a new commit is made
 	function onNewCommit(commit: CommitMetadata, getRevertible?: RevertibleFactory): void {
 		if (getRevertible !== undefined) {
-			const revertible = getRevertible(onDispose);
+			const revertible = getRevertible();
 			if (commit.kind === CommitKind.Undo) {
 				redoStack.push(revertible);
 			} else {
@@ -46,8 +41,11 @@ export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): {
 		}
 	}
 
+	// Subscribe to the commitApplied event
 	const unsubscribeFromCommitApplied = events.on("commitApplied", onNewCommit);
-	const unsubscribe = () => {
+
+	// Dispose function to clean up the stacks
+	const dispose = () => {
 		unsubscribeFromCommitApplied();
 		for (const revertible of undoStack) {
 			revertible[disposeSymbol]();
@@ -55,13 +53,25 @@ export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): {
 		for (const revertible of redoStack) {
 			revertible[disposeSymbol]();
 		}
+		redoStack.length = 0;
+		undoStack.length = 0;
 	};
-	return { undoStack, redoStack, unsubscribe };
-}
 
-export function revertFromStack(stack: Revertible[]): void {
-	const revertible = stack.pop();
-	if (revertible !== undefined) {
-		revertible.revert();
+	// Function to revert from a stack
+	function revertFromStack(stack: Revertible[]): void {
+		const revertible = stack.pop();
+		if (revertible !== undefined) {
+			revertible.revert();
+		}
 	}
+
+	function undo(): void {
+		revertFromStack(undoStack);
+	}
+
+	function redo(): void {
+		revertFromStack(redoStack);
+	}
+
+	return { undo, redo, dispose };
 }
