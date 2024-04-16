@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import * as config from "../jest.config.cjs";
+import config from "../jest.config.cjs";
 
 let url;
 
