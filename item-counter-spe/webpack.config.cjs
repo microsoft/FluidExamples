@@ -41,9 +41,10 @@ module.exports = {
 		],
 	},
 	resolve: {
-		// Alway keep '.js' even though you don't use it.
-		// https://github.com/webpack/webpack-dev-server/issues/720#issuecomment-268470989
-		extensions: [".tsx", ".ts", ".js"],
+		extensionAlias: {
+			".js": [".ts", ".tsx", ".js", ".cjs", ".mjs"],
+		},
+		extensions: [".ts", ".tsx", ".js", ".cjs", ".mjs"],
 	},
 	output: {
 		filename: "bundle.js",

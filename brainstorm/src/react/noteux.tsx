@@ -4,15 +4,15 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
-import { Note, Group, Items } from "../schema/app_schema";
-import { moveItem } from "../utils/app_helpers";
-import { dragType, getRotation, selectAction } from "../utils/utils";
-import { testRemoteNoteSelection, updateRemoteNoteSelection } from "../utils/session_helpers";
+import { Note, Group, Items } from "../schema/app_schema.js";
+import { moveItem } from "../utils/app_helpers.js";
+import { dragType, getRotation, selectAction } from "../utils/utils.js";
+import { testRemoteNoteSelection, updateRemoteNoteSelection } from "../utils/session_helpers.js";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
 import { useTransition } from "react-transition-state";
 import { Tree } from "fluid-framework";
-import { IconButton, MiniThumb, DeleteButton } from "./buttonux";
-import { Session } from "../schema/session_schema";
+import { IconButton, MiniThumb, DeleteButton } from "./buttonux.js";
+import { Session } from "../schema/session_schema.js";
 
 export function RootNoteWrapper(props: {
 	note: Note;
@@ -72,7 +72,7 @@ export function NoteView(props: {
 	// on lower level components.
 	useEffect(() => {
 		// Returns the cleanup function to be invoked when the component unmounts.
-		const unsubscribe = Tree.on(props.session, "afterChange", () => {
+		const unsubscribe = Tree.on(props.session, "treeChanged", () => {
 			setInvalidations(invalidations + Math.random());
 		});
 		return unsubscribe;
@@ -130,15 +130,13 @@ export function NoteView(props: {
 			canDrop: !!monitor.canDrop(),
 		}),
 		canDrop: (item) => {
-			if (item instanceof Note) return true;
-			if (Tree.is(props.parent, Items)) {
-				return true;
-			}
+			if (Tree.is(item, Note)) return true;
+			if (Tree.is(item, Group) && !Tree.contains(item, props.parent)) return true;
 			return false;
 		},
 		drop: (item) => {
 			const droppedItem = item;
-			if (droppedItem instanceof Group || droppedItem instanceof Note) {
+			if (Tree.is(droppedItem, Group) || Tree.is(droppedItem, Note)) {
 				moveItem(droppedItem, props.parent.indexOf(props.note), props.parent);
 			}
 			return;
@@ -242,13 +240,18 @@ function NoteToolbar(props: { note: Note; clientId: string; notes: Items }): JSX
 
 export function AddNoteButton(props: { parent: Items; clientId: string }): JSX.Element {
 	const [{ isActive }, drop] = useDrop(() => ({
-		accept: dragType.NOTE,
+		accept: [dragType.NOTE, dragType.GROUP],
 		collect: (monitor) => ({
 			isActive: monitor.canDrop() && monitor.isOver(),
 		}),
+		canDrop: (item) => {
+			if (Tree.is(item, Note)) return true;
+			if (Tree.is(item, Group) && !Tree.contains(item, props.parent)) return true;
+			return false;
+		},
 		drop: (item) => {
 			const droppedItem = item;
-			if (droppedItem instanceof Note) {
+			if (Tree.is(droppedItem, Note) || Tree.is(droppedItem, Group)) {
 				const parent = Tree.parent(droppedItem);
 				if (Tree.is(parent, Items)) {
 					const index = parent.indexOf(droppedItem);

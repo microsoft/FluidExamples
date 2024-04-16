@@ -5,9 +5,9 @@
 
 import React, { ReactNode, useEffect, useState } from "react";
 import { TreeView, Tree } from "fluid-framework";
-import { StringArray } from "./schema";
+import { StringArray } from "./schema.js";
 
-export function ReactApp(props: { data: TreeView<StringArray> }): JSX.Element {
+export function ReactApp(props: { data: TreeView<typeof StringArray> }): JSX.Element {
 	const [invalidations, setInvalidations] = useState(0);
 
 	const strings = props.data.root;
@@ -15,7 +15,7 @@ export function ReactApp(props: { data: TreeView<StringArray> }): JSX.Element {
 	// Register for tree deltas when the component mounts.
 	// Any time the tree changes, the app will update
 	useEffect(() => {
-		const unsubscribe = Tree.on(strings, "afterChange", () => {
+		const unsubscribe = Tree.on(strings, "treeChanged", () => {
 			setInvalidations(invalidations + Math.random());
 		});
 		return unsubscribe;

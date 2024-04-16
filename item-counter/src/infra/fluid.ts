@@ -5,7 +5,7 @@
 
 import { AzureClient, AzureContainerServices } from "@fluidframework/azure-client";
 import { ContainerSchema, IFluidContainer, SharedTree } from "fluid-framework";
-import { clientProps } from "./clientProps";
+import { clientProps } from "./clientProps.js";
 
 const client = new AzureClient(clientProps);
 

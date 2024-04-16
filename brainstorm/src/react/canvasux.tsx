@@ -4,28 +4,39 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { Note, Group, Items } from "../schema/app_schema";
-import { Session } from "../schema/session_schema";
+import { Note, Group, Items } from "../schema/app_schema.js";
+import { Session } from "../schema/session_schema.js";
 import {
 	ConnectionState,
 	IFluidContainer,
 	IMember,
 	IServiceAudience,
+	Revertible,
 	Tree,
 	TreeView,
 } from "fluid-framework";
-import { GroupView } from "./groupux";
-import { AddNoteButton, NoteView, RootNoteWrapper } from "./noteux";
-import { Floater, NewGroupButton, NewNoteButton, DeleteNotesButton, ButtonGroup } from "./buttonux";
-import { undefinedUserId } from "../utils/utils";
+import { GroupView } from "./groupux.js";
+import { AddNoteButton, NoteView, RootNoteWrapper } from "./noteux.js";
+import {
+	Floater,
+	NewGroupButton,
+	NewNoteButton,
+	DeleteNotesButton,
+	ButtonGroup,
+	UndoButton,
+	RedoButton,
+} from "./buttonux.js";
+import { undefinedUserId } from "../utils/utils.js";
+import { undoRedo } from "../utils/undo.js";
 
 export function Canvas(props: {
-	items: Items;
-	sessionTree: TreeView<Session>;
+	items: TreeView<typeof Items>;
+	sessionTree: TreeView<typeof Session>;
 	audience: IServiceAudience<IMember>;
 	container: IFluidContainer;
 	fluidMembers: string[];
 	currentUser: string;
+	undoRedo: undoRedo;
 	setCurrentUser: (arg: string) => void;
 	setConnectionState: (arg: string) => void;
 	setSaved: (arg: boolean) => void;
@@ -33,14 +44,12 @@ export function Canvas(props: {
 }): JSX.Element {
 	const [invalidations, setInvalidations] = useState(0);
 
-	const sessionRoot = props.sessionTree.root;
-
 	// Register for tree deltas when the component mounts.
 	// Any time the tree changes, the app will update
 	// For more complex apps, this code can be included
 	// on lower level components.
 	useEffect(() => {
-		const unsubscribe = Tree.on(props.items, "afterChange", () => {
+		const unsubscribe = Tree.on(props.items.root, "treeChanged", () => {
 			setInvalidations(invalidations + Math.random());
 		});
 		return unsubscribe;
@@ -91,25 +100,29 @@ export function Canvas(props: {
 	return (
 		<div className="relative flex grow-0 h-full w-full bg-transparent">
 			<ItemsView
-				items={props.items}
+				items={props.items.root}
 				clientId={props.currentUser}
-				session={sessionRoot}
+				session={props.sessionTree.root}
 				fluidMembers={props.fluidMembers}
 				isRoot={true}
 			/>
 			<Floater>
 				<ButtonGroup>
 					<NewGroupButton
-						items={props.items}
-						session={sessionRoot}
+						items={props.items.root}
+						session={props.sessionTree.root}
 						clientId={props.currentUser}
 					/>
-					<NewNoteButton items={props.items} clientId={props.currentUser} />
+					<NewNoteButton items={props.items.root} clientId={props.currentUser} />
 					<DeleteNotesButton
-						session={sessionRoot}
-						items={props.items}
+						session={props.sessionTree.root}
+						items={props.items.root}
 						clientId={props.currentUser}
 					/>
+				</ButtonGroup>
+				<ButtonGroup>
+					<UndoButton undo={() => props.undoRedo.undo()} />
+					<RedoButton redo={() => props.undoRedo.redo()} />
 				</ButtonGroup>
 			</Floater>
 		</div>
@@ -125,7 +138,7 @@ export function ItemsView(props: {
 }): JSX.Element {
 	const pilesArray = [];
 	for (const i of props.items) {
-		if (i instanceof Group) {
+		if (Tree.is(i, Group)) {
 			pilesArray.push(
 				<GroupView
 					key={i.id}
@@ -136,7 +149,7 @@ export function ItemsView(props: {
 					fluidMembers={props.fluidMembers}
 				/>,
 			);
-		} else if (i instanceof Note) {
+		} else if (Tree.is(i, Note)) {
 			if (props.isRoot) {
 				pilesArray.push(
 					<RootNoteWrapper

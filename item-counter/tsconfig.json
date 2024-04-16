@@ -3,12 +3,12 @@
 		// DO NOT EDIT
 		"outDir": "./dist",
 		"target": "es6",
-		"module": "es6",
+		"module": "Node16",
 		"sourceMap": true,
 		// Set your preferences here for TypeScript
 		"strict": true,
 		"jsx": "react",
-		"moduleResolution": "node",
+		"moduleResolution": "Node16",
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 	},

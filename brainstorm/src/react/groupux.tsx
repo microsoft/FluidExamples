@@ -4,13 +4,14 @@
  */
 
 import React from "react";
-import { Group, Items, Note } from "../schema/app_schema";
-import { moveItem } from "../utils/app_helpers";
+import { Group, Items, Note } from "../schema/app_schema.js";
+import { moveItem } from "../utils/app_helpers.js";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
-import { DeleteButton } from "./buttonux";
-import { dragType } from "../utils/utils";
-import { Session } from "../schema/session_schema";
-import { ItemsView } from "./canvasux";
+import { DeleteButton } from "./buttonux.js";
+import { dragType } from "../utils/utils.js";
+import { Session } from "../schema/session_schema.js";
+import { ItemsView } from "./canvasux.js";
+import { Tree } from "fluid-framework";
 
 export function GroupView(props: {
 	group: Group;
@@ -33,6 +34,11 @@ export function GroupView(props: {
 			isOver: !!monitor.isOver({ shallow: true }),
 			canDrop: !!monitor.canDrop(),
 		}),
+		canDrop: (item) => {
+			if (Tree.is(item, Note)) return true;
+			if (Tree.is(item, Group) && !Tree.contains(item, props.parent)) return true;
+			return false;
+		},
 		drop: (item, monitor) => {
 			const didDrop = monitor.didDrop();
 			if (didDrop) {
@@ -45,7 +51,7 @@ export function GroupView(props: {
 			}
 
 			const droppedItem = item;
-			if (droppedItem instanceof Group || droppedItem instanceof Note) {
+			if (Tree.is(droppedItem, Group) || Tree.is(droppedItem, Note)) {
 				moveItem(droppedItem, props.parent.indexOf(props.group), props.parent);
 			}
 

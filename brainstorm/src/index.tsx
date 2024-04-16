@@ -6,15 +6,16 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { loadFluidData } from "./infra/fluid";
-import { notesContainerSchema } from "./infra/containerSchema";
-import { ReactApp } from "./react/ux";
+import { loadFluidData } from "./infra/fluid.js";
+import { notesContainerSchema } from "./infra/containerSchema.js";
+import { ReactApp } from "./react/ux.js";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { initializeDevtools } from "@fluidframework/devtools";
-import { devtoolsLogger } from "./infra/clientProps";
-import { appTreeConfiguration } from "./schema/app_schema";
-import { sessionTreeConfiguration } from "./schema/session_schema";
+import { initializeDevtools } from "@fluidframework/devtools/beta";
+import { devtoolsLogger } from "./infra/clientProps.js";
+import { appTreeConfiguration } from "./schema/app_schema.js";
+import { sessionTreeConfiguration } from "./schema/session_schema.js";
+import { createUndoRedoStacks } from "./utils/undo.js";
 
 async function start() {
 	// create the root element for React
@@ -41,10 +42,12 @@ async function start() {
 		initialContainers: [
 			{
 				container,
-				containerKey: "My Container",
+				containerKey: "main",
 			},
 		],
 	});
+
+	const undoRedo = createUndoRedoStacks(appTree.events);
 
 	// Render the app - note we attach new containers after render so
 	// the app renders instantly on create new flow. The app will be
@@ -56,6 +59,7 @@ async function start() {
 				sessionTree={sessionTree}
 				audience={services.audience}
 				container={container}
+				undoRedo={undoRedo}
 			/>
 		</DndProvider>,
 	);

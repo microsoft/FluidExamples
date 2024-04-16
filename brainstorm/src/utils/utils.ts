@@ -3,9 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { Note } from "../schema/app_schema";
-import { Guid } from "guid-typescript";
-import { IInsecureUser } from "@fluidframework/test-runtime-utils";
+import { Note } from "../schema/app_schema.js";
 
 export const undefinedUserId = "[UNDEFINED]";
 
@@ -31,14 +29,6 @@ function hashCode(str: string): number {
 	}
 	return h;
 }
-
-export const generateTestUser = (): IInsecureUser => {
-	const user = {
-		id: Guid.create().toString(),
-		name: "[TEST USER NAME]",
-	};
-	return user;
-};
 
 export enum dragType {
 	NOTE = "Note",

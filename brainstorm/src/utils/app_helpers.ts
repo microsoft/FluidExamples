@@ -4,7 +4,7 @@
  */
 
 import { Tree, TreeStatus } from "fluid-framework";
-import { Note, Group, Items } from "../schema/app_schema";
+import { Note, Group, Items } from "../schema/app_schema.js";
 
 // Move a note from one position in a sequence to another position in the same sequence or
 // in a different sequence. The index being passed here is the desired index after the move.
