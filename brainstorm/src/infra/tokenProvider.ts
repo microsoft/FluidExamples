@@ -16,7 +16,7 @@ import { KJUR as jsrsasign } from "jsrsasign";
 import { v4 as uuid } from "uuid";
 
 /**
- * Insecure user definition. *
+ * Insecure user definition.
  */
 export interface IInsecureUser extends IUser {
 	/**

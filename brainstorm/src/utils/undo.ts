@@ -13,11 +13,7 @@ import {
  * You can manage the stacks by calling `undo` and `redo`. The redo stack is cleared when a new commit is made.
  * The dispose function should be called when the stacks are no longer needed.
  */
-export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): {
-	undo: () => void;
-	redo: () => void;
-	dispose: () => void;
-} {
+export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): undoRedo {
 	// Create arrays to store revertible objects
 	const undoStack: Revertible[] = [];
 	const redoStack: Revertible[] = [];
@@ -75,3 +71,5 @@ export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): {
 
 	return { undo, redo, dispose };
 }
+
+export type undoRedo = { undo: () => void; redo: () => void; dispose: () => void };

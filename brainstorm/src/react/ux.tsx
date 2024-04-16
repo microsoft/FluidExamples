@@ -11,13 +11,14 @@ import "../output.css";
 import { IFluidContainer, IMember, IServiceAudience, Revertible, TreeView } from "fluid-framework";
 import { undefinedUserId } from "../utils/utils.js";
 import { Canvas } from "./canvasux.js";
+import { undoRedo } from "../utils/undo.js";
 
 export function ReactApp(props: {
 	items: TreeView<typeof Items>;
 	sessionTree: TreeView<typeof Session>;
 	audience: IServiceAudience<IMember>;
 	container: IFluidContainer;
-	undoRedo: { undo: () => void; redo: () => void; dispose: () => void };
+	undoRedo: undoRedo;
 }): JSX.Element {
 	const [currentUser, setCurrentUser] = useState(undefinedUserId);
 	const [connectionState, setConnectionState] = useState("");

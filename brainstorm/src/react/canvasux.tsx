@@ -27,6 +27,7 @@ import {
 	RedoButton,
 } from "./buttonux.js";
 import { undefinedUserId } from "../utils/utils.js";
+import { undoRedo } from "../utils/undo.js";
 
 export function Canvas(props: {
 	items: TreeView<typeof Items>;
@@ -35,7 +36,7 @@ export function Canvas(props: {
 	container: IFluidContainer;
 	fluidMembers: string[];
 	currentUser: string;
-	undoRedo: { undo: () => void; redo: () => void };
+	undoRedo: undoRedo;
 	setCurrentUser: (arg: string) => void;
 	setConnectionState: (arg: string) => void;
 	setSaved: (arg: boolean) => void;
@@ -137,7 +138,7 @@ export function ItemsView(props: {
 }): JSX.Element {
 	const pilesArray = [];
 	for (const i of props.items) {
-		if (i instanceof Group) {
+		if (Tree.is(i, Group)) {
 			pilesArray.push(
 				<GroupView
 					key={i.id}
@@ -148,7 +149,7 @@ export function ItemsView(props: {
 					fluidMembers={props.fluidMembers}
 				/>,
 			);
-		} else if (i instanceof Note) {
+		} else if (Tree.is(i, Note)) {
 			if (props.isRoot) {
 				pilesArray.push(
 					<RootNoteWrapper

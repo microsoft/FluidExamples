@@ -35,8 +35,8 @@ export function GroupView(props: {
 			canDrop: !!monitor.canDrop(),
 		}),
 		canDrop: (item) => {
-			if (item instanceof Note) return true;
-			if (item instanceof Group && !Tree.contains(item, props.parent)) return true;
+			if (Tree.is(item, Note)) return true;
+			if (Tree.is(item, Group) && !Tree.contains(item, props.parent)) return true;
 			return false;
 		},
 		drop: (item, monitor) => {
@@ -51,7 +51,7 @@ export function GroupView(props: {
 			}
 
 			const droppedItem = item;
-			if (droppedItem instanceof Group || droppedItem instanceof Note) {
+			if (Tree.is(droppedItem, Group) || Tree.is(droppedItem, Note)) {
 				moveItem(droppedItem, props.parent.indexOf(props.group), props.parent);
 			}
 

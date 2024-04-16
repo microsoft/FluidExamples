@@ -130,13 +130,13 @@ export function NoteView(props: {
 			canDrop: !!monitor.canDrop(),
 		}),
 		canDrop: (item) => {
-			if (item instanceof Note) return true;
-			if (item instanceof Group && !Tree.contains(item, props.parent)) return true;
+			if (Tree.is(item, Note)) return true;
+			if (Tree.is(item, Group) && !Tree.contains(item, props.parent)) return true;
 			return false;
 		},
 		drop: (item) => {
 			const droppedItem = item;
-			if (droppedItem instanceof Group || droppedItem instanceof Note) {
+			if (Tree.is(droppedItem, Group) || Tree.is(droppedItem, Note)) {
 				moveItem(droppedItem, props.parent.indexOf(props.note), props.parent);
 			}
 			return;
@@ -245,13 +245,13 @@ export function AddNoteButton(props: { parent: Items; clientId: string }): JSX.E
 			isActive: monitor.canDrop() && monitor.isOver(),
 		}),
 		canDrop: (item) => {
-			if (item instanceof Note) return true;
-			if (item instanceof Group && !Tree.contains(item, props.parent)) return true;
+			if (Tree.is(item, Note)) return true;
+			if (Tree.is(item, Group) && !Tree.contains(item, props.parent)) return true;
 			return false;
 		},
 		drop: (item) => {
 			const droppedItem = item;
-			if (droppedItem instanceof Note || droppedItem instanceof Group) {
+			if (Tree.is(droppedItem, Note) || Tree.is(droppedItem, Group)) {
 				const parent = Tree.parent(droppedItem);
 				if (Tree.is(parent, Items)) {
 					const index = parent.indexOf(droppedItem);
