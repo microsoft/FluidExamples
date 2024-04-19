@@ -42,7 +42,7 @@
 		"uuid": "^9.0.1"
 	},
 	"devDependencies": {
-		"@fluidframework/azure-local-service": "2.0.0-rc.3.0.0",
+		"@fluidframework/azure-local-service": "2.0.0-rc.3.0.1",
 		"@fluidframework/build-common": "^2.0.0",
 		"@fluidframework/devtools": "2.0.0-rc.3.0.0",
 		"@types/debug": "^4.1.7",
