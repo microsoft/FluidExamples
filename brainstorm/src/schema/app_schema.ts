@@ -4,7 +4,7 @@
  */
 
 import { TreeConfiguration, SchemaFactory, Tree, ValidateRecursiveSchema } from "fluid-framework";
-import { Guid } from "guid-typescript";
+import { v4 as uuid } from "uuid";
 
 // Schema is defined using a factory object that generates classes for objects as well
 // as list and map nodes.
@@ -74,7 +74,7 @@ export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
 		// Define the note to add to the SharedTree - this must conform to
 		// the schema definition of a note
 		const newNote = new Note({
-			id: Guid.create().toString(),
+			id: uuid(),
 			text: "",
 			author,
 			votes: [],
@@ -91,7 +91,7 @@ export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
 	 */
 	public addGroup(name: string): Group {
 		const group = new Group({
-			id: Guid.create().toString(),
+			id: uuid(),
 			name,
 			items: new Items([]),
 		});
