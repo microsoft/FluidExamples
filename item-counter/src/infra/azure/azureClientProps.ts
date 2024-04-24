@@ -3,20 +3,18 @@
  * Licensed under the MIT License.
  */
 
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
 	AzureRemoteConnectionConfig,
 	AzureClientProps,
 	AzureLocalConnectionConfig,
 } from "@fluidframework/azure-client";
-import {
-	AzureFunctionTokenProvider,
-	azureUser,
-	InsecureTokenProvider,
-	user,
-} from "./tokenProvider.js";
+import { InsecureTokenProvider } from "./azureTokenProvider.js";
+import { AzureFunctionTokenProvider, azureUser, user } from "./azureTokenProvider.js";
 
-const useAzure = process.env.FLUID_CLIENT === "azure";
-if (!useAzure) {
+const client = process.env.FLUID_CLIENT;
+const local = client === undefined || client === "local";
+if (local) {
 	console.warn(`Configured to use local tinylicious.`);
 }
 
@@ -36,7 +34,7 @@ const localConnectionConfig: AzureLocalConnectionConfig = {
 	endpoint: "http://localhost:7070",
 };
 
-const connectionConfig: AzureRemoteConnectionConfig | AzureLocalConnectionConfig = useAzure
+const connectionConfig: AzureRemoteConnectionConfig | AzureLocalConnectionConfig = !local
 	? remoteConnectionConfig
 	: localConnectionConfig;
 export const clientProps: AzureClientProps = {

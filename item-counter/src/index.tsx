@@ -4,46 +4,21 @@
  */
 
 /* eslint-disable react/jsx-key */
-import React from "react";
-import { createRoot } from "react-dom/client";
-import { loadFluidData, containerSchema } from "./infra/fluid.js";
-import { treeConfiguration } from "./schema.js";
-import "./output.css";
-import { ReactApp } from "./react_app.js";
+import { speStart } from "./start/spe_start.js";
+import { anonymousAzureStart } from "./start/azure_start.js";
 
 async function start() {
-	// create the root element for React
-	const app = document.createElement("div");
-	app.id = "app";
-	document.body.appendChild(app);
-	const root = createRoot(app);
+	const client = process.env.FLUID_CLIENT;
 
-	// Get the root container id from the URL
-	// If there is no container id, then the app will make
-	// a new container.
-	let containerId = location.hash.substring(1);
-
-	// Initialize Fluid Container - this will either make a new container or load an existing one
-	const { container } = await loadFluidData(containerId, containerSchema);
-
-	// Initialize the SharedTree Data Structure
-	const appData = container.initialObjects.appData.schematize(
-		treeConfiguration, // This is defined in schema.ts
-	);
-
-	// Render the app - note we attach new containers after render so
-	// the app renders instantly on create new flow. The app will be
-	// interactive immediately.
-	root.render(<ReactApp data={appData} />);
-
-	// If the app is in a `createNew` state - no containerId, and the container is detached, we attach the container.
-	// This uploads the container to the service and connects to the collaboration session.
-	if (containerId.length == 0) {
-		containerId = await container.attach();
-
-		// The newly attached container is given a unique ID that can be used to access the container in another session.
-		// This adds that id to the url.
-		history.replaceState(undefined, "", "#" + containerId);
+	switch (client) {
+		case "spe":
+			// Start the app in SPE mode
+			await speStart();
+			break;
+		default:
+			// Start the app in Azure mode
+			await anonymousAzureStart();
+			break;
 	}
 }
 

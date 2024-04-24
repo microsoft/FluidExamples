@@ -46,7 +46,6 @@
 		"react-dnd-html5-backend": "^16.0.1",
 		"react-dom": "^18.2.0",
 		"react-transition-state": "^2.1.0",
-		"typechat": "^0.1.0",
 		"unique-names-generator": "^4.7.1",
 		"uuid": "^9.0.1"
 	},

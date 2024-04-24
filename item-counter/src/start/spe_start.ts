@@ -1,18 +1,13 @@
-/* eslint-disable react/jsx-key */
-import React from "react";
-import { createRoot } from "react-dom/client";
-import { loadFluidData, containerSchema } from "./infra/fluid.js";
-import { getClientProps } from "./infra/clientProps.js";
-import { treeConfiguration } from "./schema.js";
-import "./output.css";
-import { ReactApp } from "./react_app.js";
-import { SampleOdspTokenProvider } from "./infra/tokenProvider.js";
-import { GraphHelper } from "./infra/graphHelper.js";
-import { authHelper } from "./infra/authHelper.js";
-import { OdspClient } from "@fluid-experimental/odsp-client";
 import { AccountInfo, AuthenticationResult, PublicClientApplication } from "@azure/msal-browser";
+import { authHelper } from "../infra/spe/authHelper.js";
+import { showErrorMessage } from "./error_ux.js";
+import { OdspClient } from "@fluid-experimental/odsp-client";
+import { GraphHelper } from "../infra/spe/graphHelper.js";
+import { getClientProps } from "../infra/spe/speClientProps.js";
+import { SampleOdspTokenProvider } from "../infra/spe/speTokenProvider.js";
+import { loadApp } from "../app_load.js";
 
-async function start() {
+export async function speStart() {
 	const msalInstance = await authHelper();
 
 	// Handle the login redirect flows
@@ -23,7 +18,7 @@ async function start() {
 			// and the tokenResponse is the result of the redirect.
 			if (tokenResponse !== null) {
 				const account = msalInstance.getAllAccounts()[0];
-				signedInStart(msalInstance, account);
+				signedInSpeStart(msalInstance, account);
 			} else {
 				const currentAccounts = msalInstance.getAllAccounts();
 				if (currentAccounts.length === 0) {
@@ -37,7 +32,7 @@ async function start() {
 					// this is just a sample. But a real app would need to handle the multiple accounts case.
 					// For now, just use the first account.
 					const account = msalInstance.getAllAccounts()[0];
-					signedInStart(msalInstance, account);
+					signedInSpeStart(msalInstance, account);
 				}
 			}
 		})
@@ -46,23 +41,7 @@ async function start() {
 		});
 }
 
-function showErrorMessage(message?: string, ...optionalParams: string[]) {
-	// create the root element for React
-	const error = document.createElement("div");
-	error.id = "app";
-	document.body.appendChild(error);
-	const root = createRoot(error);
-
-	// Render the error message
-	root.render(
-		<div className="container mx-auto p-2 m-4 border-2 border-black rounded">
-			<p>{message}</p>
-			<p>{optionalParams.join(" ")}</p>
-		</div>,
-	);
-}
-
-async function signedInStart(msalInstance: PublicClientApplication, account: AccountInfo) {
+async function signedInSpeStart(msalInstance: PublicClientApplication, account: AccountInfo) {
 	// Set the active account
 	msalInstance.setActiveAccount(account);
 
@@ -135,24 +114,8 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	// Create the Fluid client instance
 	const client = new OdspClient(clientProps);
 
-	// Create the root element for React
-	const app = document.createElement("div");
-	app.id = "app";
-	document.body.appendChild(app);
-	const root = createRoot(app);
-
-	// Initialize Fluid Container - this will either make a new container or load an existing one
-	const { container } = await loadFluidData(containerId, containerSchema, client);
-
-	// Initialize the SharedTree Data Structure
-	const appData = container.initialObjects.appData.schematize(
-		treeConfiguration, // This is defined in schema.ts
-	);
-
-	// Render the app - note we attach new containers after render so
-	// the app renders instantly on create new flow. The app will be
-	// interactive immediately.
-	root.render(<ReactApp data={appData} />);
+	// Load the app
+	const container = await loadApp(client, containerId);
 
 	// If the app is in a `createNew` state - no containerId, and the container is detached, we attach the container.
 	// This uploads the container to the service and connects to the collaboration session.
@@ -175,5 +138,3 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 		history.replaceState(undefined, "", "#" + shareId);
 	}
 }
-
-start().catch((error) => console.error(error));

@@ -6,6 +6,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { TreeView, Tree } from "fluid-framework";
 import { StringArray } from "./schema.js";
+import "./output.css";
 
 export function ReactApp(props: { data: TreeView<typeof StringArray> }): JSX.Element {
 	const [invalidations, setInvalidations] = useState(0);

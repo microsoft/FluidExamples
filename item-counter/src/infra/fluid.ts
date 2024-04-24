@@ -4,13 +4,11 @@
  */
 
 import { AzureClient, AzureContainerServices } from "@fluidframework/azure-client";
-import { ContainerSchema, IFluidContainer, SharedTree } from "fluid-framework";
-import { clientProps } from "./clientProps.js";
-
-const client = new AzureClient(clientProps);
+import { ContainerSchema, IFluidContainer } from "fluid-framework";
+import { OdspClient, OdspContainerServices } from "@fluid-experimental/odsp-client";
 
 /**
- * This function will create a container if no container ID is passed on the hash portion of the URL.
+ * This function will create a container if no container ID is passed.
  * If a container ID is provided, it will load the container.
  *
  * @returns The loaded container and container services.
@@ -18,12 +16,13 @@ const client = new AzureClient(clientProps);
 export async function loadFluidData<T extends ContainerSchema>(
 	containerId: string,
 	containerSchema: T,
+	client: AzureClient | OdspClient,
 ): Promise<{
-	services: AzureContainerServices;
+	services: AzureContainerServices | OdspContainerServices;
 	container: IFluidContainer<T>;
 }> {
 	let container: IFluidContainer<T>;
-	let services: AzureContainerServices;
+	let services: AzureContainerServices | OdspContainerServices;
 
 	// Get or create the document depending if we are running through the create new flow
 	if (containerId.length === 0) {
@@ -37,9 +36,3 @@ export async function loadFluidData<T extends ContainerSchema>(
 	}
 	return { services, container };
 }
-
-export const containerSchema = {
-	initialObjects: {
-		appData: SharedTree,
-	},
-} satisfies ContainerSchema;

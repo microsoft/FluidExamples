@@ -14,6 +14,7 @@ import { ScopeType } from "@fluidframework/protocol-definitions";
 import axios from "axios";
 import { KJUR as jsrsasign } from "jsrsasign";
 import { v4 as uuid } from "uuid";
+import { uniqueNamesGenerator, names } from "unique-names-generator";
 
 /**
  * Insecure user definition.
@@ -195,7 +196,9 @@ export function generateToken(
 export function generateUser(): IInsecureUser {
 	const randomUser = {
 		id: uuid(),
-		name: uuid(),
+		name: uniqueNamesGenerator({
+			dictionaries: [names],
+		}),
 	};
 
 	return randomUser;
