@@ -27,7 +27,7 @@ export async function speStart() {
 						scopes: ["FileStorageContainer.Selected", "Files.ReadWrite"],
 					});
 				} else if (currentAccounts.length > 1 || currentAccounts.length === 1) {
-					// The user is singed in.
+					// The user is signed in.
 					// Treat more than one account signed in and a single account the same as
 					// this is just a sample. But a real app would need to handle the multiple accounts case.
 					// For now, just use the first account.
