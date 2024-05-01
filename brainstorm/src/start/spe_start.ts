@@ -98,7 +98,7 @@ async function signedInSpeStart(msalInstance: PublicClientApplication, account: 
 	}
 
 	// If the file storage container id is empty, then the app will fail here.
-	if (fileStorageContainerId.length == 0) {
+	if (fileStorageContainerId.length === 0) {
 		return;
 	}
 
