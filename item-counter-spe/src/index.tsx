@@ -10,40 +10,38 @@ import { SampleOdspTokenProvider } from "./infra/tokenProvider.js";
 import { GraphHelper } from "./infra/graphHelper.js";
 import { authHelper } from "./infra/authHelper.js";
 import { OdspClient } from "@fluid-experimental/odsp-client";
-import { AccountInfo, AuthenticationResult, PublicClientApplication } from "@azure/msal-browser";
+import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
+import { AttachState } from "fluid-framework";
 
 async function start() {
 	const msalInstance = await authHelper();
 
 	// Handle the login redirect flows
-	msalInstance
-		.handleRedirectPromise()
-		.then((tokenResponse: AuthenticationResult | null) => {
-			// If the tokenResponse is not null, then the user is signed in
-			// and the tokenResponse is the result of the redirect.
-			if (tokenResponse !== null) {
-				const account = msalInstance.getAllAccounts()[0];
-				signedInStart(msalInstance, account);
-			} else {
-				const currentAccounts = msalInstance.getAllAccounts();
-				if (currentAccounts.length === 0) {
-					// no accounts signed-in, attempt to sign a user in
-					msalInstance.loginRedirect({
-						scopes: ["FileStorageContainer.Selected", "Files.ReadWrite"],
-					});
-				} else if (currentAccounts.length > 1 || currentAccounts.length === 1) {
-					// The user is singed in.
-					// Treat more than one account signed in and a single account the same as
-					// this is just a sample. But a real app would need to handle the multiple accounts case.
-					// For now, just use the first account.
-					const account = msalInstance.getAllAccounts()[0];
-					signedInStart(msalInstance, account);
-				}
-			}
-		})
-		.catch((error: Error) => {
-			console.log("Error in handleRedirectPromise: " + error.message);
-		});
+	const tokenResponse = await msalInstance.handleRedirectPromise().catch((error: Error) => {
+		console.log("Error in handleRedirectPromise: " + error.message);
+	});
+
+	// If the tokenResponse is not null, then the user is signed in
+	// and the tokenResponse is the result of the redirect.
+	if (tokenResponse !== null) {
+		const account = msalInstance.getAllAccounts()[0];
+		signedInStart(msalInstance, account);
+	} else {
+		const currentAccounts = msalInstance.getAllAccounts();
+		if (currentAccounts.length === 0) {
+			// no accounts signed-in, attempt to sign a user in
+			msalInstance.loginRedirect({
+				scopes: ["FileStorageContainer.Selected", "Files.ReadWrite"],
+			});
+		} else if (currentAccounts.length > 1 || currentAccounts.length === 1) {
+			// The user is singed in.
+			// Treat more than one account signed in and a single account the same as
+			// this is just a sample. But a real app would need to handle the multiple accounts case.
+			// For now, just use the first account.
+			const account = msalInstance.getAllAccounts()[0];
+			signedInStart(msalInstance, account);
+		}
+	}
 }
 
 function showErrorMessage(message?: string, ...optionalParams: string[]) {
@@ -156,7 +154,7 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 
 	// If the app is in a `createNew` state - no containerId, and the container is detached, we attach the container.
 	// This uploads the container to the service and connects to the collaboration session.
-	if (containerId.length == 0) {
+	if (container.attachState === AttachState.Detached) {
 		// Attach the container to the Fluid service which
 		// uploads the container to the service and connects to the collaboration session.
 		// This returns the Fluid container id.
