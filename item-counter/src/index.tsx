@@ -10,6 +10,7 @@ import { loadFluidData, containerSchema } from "./infra/fluid.js";
 import { treeConfiguration } from "./schema.js";
 import "./output.css";
 import { ReactApp } from "./react_app.js";
+import { AttachState } from "fluid-framework";
 
 async function start() {
 	// create the root element for React
@@ -38,7 +39,7 @@ async function start() {
 
 	// If the app is in a `createNew` state - no containerId, and the container is detached, we attach the container.
 	// This uploads the container to the service and connects to the collaboration session.
-	if (containerId.length == 0) {
+	if (container.attachState === AttachState.Detached) {
 		containerId = await container.attach();
 
 		// The newly attached container is given a unique ID that can be used to access the container in another session.

@@ -16,21 +16,21 @@
 		"lint": "eslint src",
 		"webpack": "cross-env FLUID_CLIENT='azure' webpack",
 		"start": "npm run dev",
-		"start:server": "npx @fluidframework/azure-local-service@2.0.0-rc.3.0.0"
+		"start:server": "npx @fluidframework/azure-local-service@2.0.0-rc.3.0.3"
 	},
 	"engines": {
 		"node": ">=20.0.0"
 	},
 	"dependencies": {
 		"@fluentui/react-icons": "^2.0.221",
-		"@fluidframework/azure-client": "2.0.0-rc.3.0.0",
-		"@fluidframework/telemetry-utils": "2.0.0-rc.3.0.0",
-		"@fluidframework/test-runtime-utils": "2.0.0-rc.3.0.0",
+		"@fluidframework/azure-client": "2.0.0-rc.3.0.3",
+		"@fluidframework/telemetry-utils": "2.0.0-rc.3.0.3",
+		"@fluidframework/test-runtime-utils": "2.0.0-rc.3.0.3",
 		"@types/react": "^18.2.0",
 		"@types/react-dom": "^18.2.0",
 		"axios": "^1.6.2",
 		"dotenv": "^16.0.2",
-		"fluid-framework": "2.0.0-rc.3.0.0",
+		"fluid-framework": "2.0.0-rc.3.0.3",
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
 		"jsrsasign": "^11.1.0",
@@ -40,7 +40,7 @@
 	},
 	"devDependencies": {
 		"@fluidframework/build-common": "^2.0.0",
-		"@fluidframework/devtools": "2.0.0-rc.3.0.0",
+		"@fluidframework/devtools": "2.0.0-rc.3.0.3",
 		"@types/debug": "^4.1.7",
 		"@types/jsrsasign": "^10.5.13",
 		"@types/uuid": "^9.0.8",

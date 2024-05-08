@@ -4,7 +4,7 @@
  */
 
 import { TreeConfiguration, SchemaFactory, Tree, ValidateRecursiveSchema } from "fluid-framework";
-import { Guid } from "guid-typescript";
+import { v4 as uuid } from "uuid";
 
 // Schema is defined using a factory object that generates classes for objects as well
 // as list and map nodes.
@@ -74,7 +74,7 @@ export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
 		// Define the note to add to the SharedTree - this must conform to
 		// the schema definition of a note
 		const newNote = new Note({
-			id: Guid.create().toString(),
+			id: uuid(),
 			text: "",
 			author,
 			votes: [],
@@ -91,7 +91,7 @@ export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
 	 */
 	public addGroup(name: string): Group {
 		const group = new Group({
-			id: Guid.create().toString(),
+			id: uuid(),
 			name,
 			items: new Items([]),
 		});
@@ -124,17 +124,18 @@ export class Group extends sf.object("Group", {
 	public delete() {
 		const parent = Tree.parent(this);
 		if (Tree.is(parent, Items)) {
-			// Test for the presence of notes and move them to the root
-			// in the same position as the group
-			// TODO: This check for `length !== 0` should be able to be removed once a bug in SharedTree is fixed.
-			if (this.items.length !== 0) {
-				const index = parent.indexOf(this);
-				parent.moveRangeToIndex(index, 0, this.items.length, this.items);
-			}
+			// Run the deletion as a transaction to ensure that the tree is in a consistent state
+			Tree.runTransaction(parent, () => {
+				// Move the children of the group to the parent
+				if (this.items.length !== 0) {
+					const index = parent.indexOf(this);
+					parent.moveRangeToIndex(index, 0, this.items.length, this.items);
+				}
 
-			// Delete the now empty group
-			const i = parent.indexOf(this);
-			parent.removeAt(i);
+				// Delete the now empty group
+				const i = parent.indexOf(this);
+				parent.removeAt(i);
+			});
 		}
 	}
 }
