@@ -124,17 +124,18 @@ export class Group extends sf.object("Group", {
 	public delete() {
 		const parent = Tree.parent(this);
 		if (Tree.is(parent, Items)) {
-			// Test for the presence of notes and move them to the root
-			// in the same position as the group
-			// TODO: This check for `length !== 0` should be able to be removed once a bug in SharedTree is fixed.
-			if (this.items.length !== 0) {
-				const index = parent.indexOf(this);
-				parent.moveRangeToIndex(index, 0, this.items.length, this.items);
-			}
+			// Run the deletion as a transaction to ensure that the tree is in a consistent state
+			Tree.runTransaction(parent, () => {
+				// Move the children of the group to the parent
+				if (this.items.length !== 0) {
+					const index = parent.indexOf(this);
+					parent.moveRangeToIndex(index, 0, this.items.length, this.items);
+				}
 
-			// Delete the now empty group
-			const i = parent.indexOf(this);
-			parent.removeAt(i);
+				// Delete the now empty group
+				const i = parent.indexOf(this);
+				parent.removeAt(i);
+			});
 		}
 	}
 }
