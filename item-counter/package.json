@@ -40,7 +40,7 @@
 	},
 	"devDependencies": {
 		"@fluidframework/build-common": "^2.0.0",
-		"@fluidframework/devtools": "2.0.0-rc.3.0.3",
+		"@fluidframework/devtools": "2.0.0-rc.4.0.0",
 		"@types/debug": "^4.1.7",
 		"@types/jsrsasign": "^10.5.13",
 		"@types/uuid": "^9.0.8",
