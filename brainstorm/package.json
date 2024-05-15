@@ -31,7 +31,7 @@
 		"@fluid-experimental/odsp-client": "2.0.0-rc.3.0.3",
 		"@fluidframework/azure-client": "2.0.0-rc.3.0.3",
 		"@fluidframework/telemetry-utils": "2.0.0-rc.3.0.3",
-		"@fluidframework/test-runtime-utils": "2.0.0-rc.3.0.3",
+		"@fluidframework/test-runtime-utils": "2.0.0-rc.4.0.0",
 		"@headlessui/react": "^1.7.18",
 		"@microsoft/microsoft-graph-client": "^3.0.7",
 		"@types/react": "^18.2.0",
