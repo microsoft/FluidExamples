@@ -37,7 +37,7 @@ export class AzureFunctionTokenProvider implements ITokenProvider {
 	 */
 	constructor(
 		private readonly azFunctionUrl: string,
-		private readonly user?: Pick<AzureMember, "userName" | "userId" | "additionalDetails">,
+		private readonly user?: Pick<AzureMember, "name" | "id" | "additionalDetails">,
 	) {}
 
 	public async fetchOrdererToken(tenantId: string, documentId?: string): Promise<ITokenResponse> {
@@ -57,8 +57,8 @@ export class AzureFunctionTokenProvider implements ITokenProvider {
 			params: {
 				tenantId,
 				documentId,
-				userName: this.user?.userName,
-				userId: this.user?.userId,
+				userName: this.user?.name,
+				userId: this.user?.id,
 				additionalDetails: this.user?.additionalDetails,
 			},
 		});
@@ -122,8 +122,8 @@ export class InsecureTokenProvider implements ITokenProvider {
 export const user = generateUser();
 
 export const azureUser = {
-	userId: user.id,
-	userName: user.name,
+	id: user.id,
+	name: user.name,
 };
 
 /**
