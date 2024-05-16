@@ -78,11 +78,11 @@ export function Canvas(props: {
 
 	const updateMembers = () => {
 		if (props.audience.getMyself() == undefined) return;
-		if (props.audience.getMyself()?.userId == undefined) return;
+		if (props.audience.getMyself()?.id == undefined) return;
 		if (props.audience.getMembers() == undefined) return;
 		if (props.container.connectionState !== ConnectionState.Connected) return;
 		if (props.currentUser == undefinedUserId) {
-			const user = props.audience.getMyself()?.userId;
+			const user = props.audience.getMyself()?.id;
 			if (typeof user === "string") {
 				props.setCurrentUser(user);
 			}
