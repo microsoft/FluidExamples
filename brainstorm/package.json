@@ -29,7 +29,7 @@
 		"@fluentui/react-components": "^9.48.0",
 		"@fluentui/react-icons": "^2.0.221",
 		"@fluid-experimental/odsp-client": "2.0.0-rc.3.0.3",
-		"@fluidframework/azure-client": "2.0.0-rc.3.0.3",
+		"@fluidframework/azure-client": "2.0.0-rc.4.0.1",
 		"@fluidframework/telemetry-utils": "2.0.0-rc.3.0.3",
 		"@fluidframework/test-runtime-utils": "2.0.0-rc.3.0.3",
 		"@headlessui/react": "^1.7.18",
