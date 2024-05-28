@@ -12,6 +12,9 @@ import { authHelper } from "./odsp/authHelper.js";
 import { OdspClient, OdspClientProps } from "@fluid-experimental/odsp-client";
 import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 import { AttachState } from "fluid-framework";
+import { AzureClient } from "@fluidframework/azure-client";
+import { azureClientProps } from "./azure/clientProps.js";
+import { loadAzureClientFluidData } from "./azure/fluid.js";
 
 async function start() {
 	const msalInstance = await authHelper();
@@ -139,17 +142,23 @@ async function renderReactApp(
 	itemId: string,
 	graphHelper: GraphHelper,
 ) {
-	// Create the Fluid client instance
-	const client = new OdspClient(clientProps);
+	let container;
+	const isAzure = process.env.FLUID_CLIENT === "azure";
+	if (isAzure) {
+		const azureClient = new AzureClient(azureClientProps);
+		({ container } = await loadAzureClientFluidData(itemId, containerSchema, azureClient));
+	} else {
+		// Create the Fluid client instance
+		const odspClient = new OdspClient(clientProps);
+		// Initialize Fluid Container - this will either make a new container or load an existing one
+		({ container } = await loadFluidData(itemId, containerSchema, odspClient));
+	}
 
 	// Create the root element for React
 	const app = document.createElement("div");
 	app.id = "app";
 	document.body.appendChild(app);
 	const root = createRoot(app);
-
-	// Initialize Fluid Container - this will either make a new container or load an existing one
-	const { container } = await loadFluidData(itemId, containerSchema, client);
 
 	// Initialize the SharedTree Data Structure
 	const appData = container.initialObjects.appData.schematize(
@@ -212,17 +221,22 @@ async function renderReactApp(
 		// This returns the Fluid container id.
 		const itemId = await container.attach();
 
-		// Create a sharing id to the container.
-		// This allows the user to collaborate on the same Fluid container
-		// with other users just by sharing the link.
-		const shareId = await graphHelper.createSharingLink(
-			clientProps.connection.driveId,
-			itemId,
-			"edit",
-		);
+		if (isAzure) {
+			// The newly attached container is given a unique ID that can be used to access the container in another session
+			history.replaceState(undefined, "", "#" + itemId);
+		} else {
+			// Create a sharing id to the container.
+			// This allows the user to collaborate on the same Fluid container
+			// with other users just by sharing the link.
+			const shareId = await graphHelper.createSharingLink(
+				clientProps.connection.driveId,
+				itemId,
+				"edit",
+			);
 
-		// Set the URL hash to the sharing id.
-		history.replaceState(undefined, "", "#" + shareId);
+			// Set the URL hash to the sharing id.
+			history.replaceState(undefined, "", "#" + shareId);
+		}
 	}
 }
 

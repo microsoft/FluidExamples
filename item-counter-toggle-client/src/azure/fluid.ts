@@ -15,7 +15,7 @@ import { ContainerSchema, IFluidContainer, SharedTree } from "fluid-framework";
  *
  * @returns The loaded container and container services.
  */
-export async function loadFluidData<T extends ContainerSchema>(
+export async function loadAzureClientFluidData<T extends ContainerSchema>(
 	containerId: string,
 	containerSchema: T,
 	client: AzureClient,
