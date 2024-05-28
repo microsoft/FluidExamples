@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { loadFluidData, containerSchema } from "./infra/fluid.js";
-import { getClientProps } from "./infra/clientProps.js";
+import { loadFluidData, containerSchema } from "./odsp/fluid.js";
+import { getClientProps } from "./odsp/clientProps.js";
 import { Letter, treeConfiguration } from "./schema.js";
 import "./output.css";
 import { ReactApp } from "./react_app.js";
-import { SampleOdspTokenProvider } from "./infra/tokenProvider.js";
-import { GraphHelper } from "./infra/graphHelper.js";
-import { authHelper } from "./infra/authHelper.js";
+import { SampleOdspTokenProvider } from "./odsp/tokenProvider.js";
+import { GraphHelper } from "./odsp/graphHelper.js";
+import { authHelper } from "./odsp/authHelper.js";
 import { OdspClient } from "@fluid-experimental/odsp-client";
 import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 import { AttachState } from "fluid-framework";
@@ -103,7 +103,7 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	};
 
 	let fileStorageContainerId = "";
-	let containerId = "";
+	let itemId = "";
 
 	// If containerInfo is undefined, then get the file storage container id using the function
 	// defined above.
@@ -113,7 +113,7 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 		fileStorageContainerId = await getFileStorageContainerId();
 	} else {
 		fileStorageContainerId = containerInfo.driveId;
-		containerId = containerInfo.itemId;
+		itemId = containerInfo.itemId;
 	}
 
 	// If the file storage container id is empty, then the app will fail here.
@@ -140,7 +140,7 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	const root = createRoot(app);
 
 	// Initialize Fluid Container - this will either make a new container or load an existing one
-	const { container } = await loadFluidData(containerId, containerSchema, client);
+	const { container } = await loadFluidData(itemId, containerSchema, client);
 
 	// Initialize the SharedTree Data Structure
 	const appData = container.initialObjects.appData.schematize(
