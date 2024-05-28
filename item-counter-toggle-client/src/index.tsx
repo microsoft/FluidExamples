@@ -9,7 +9,7 @@ import { ReactApp } from "./react_app.js";
 import { SampleOdspTokenProvider } from "./odsp/tokenProvider.js";
 import { GraphHelper } from "./odsp/graphHelper.js";
 import { authHelper } from "./odsp/authHelper.js";
-import { OdspClient } from "@fluid-experimental/odsp-client";
+import { OdspClient, OdspClientProps } from "@fluid-experimental/odsp-client";
 import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 import { AttachState } from "fluid-framework";
 
@@ -130,6 +130,15 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 		new SampleOdspTokenProvider(msalInstance),
 	);
 
+	// return clientProps;
+	await renderReactApp(clientProps, itemId, graphHelper);
+}
+
+async function renderReactApp(
+	clientProps: OdspClientProps,
+	itemId: string,
+	graphHelper: GraphHelper,
+) {
 	// Create the Fluid client instance
 	const client = new OdspClient(clientProps);
 
