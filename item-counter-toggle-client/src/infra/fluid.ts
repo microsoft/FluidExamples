@@ -9,7 +9,7 @@ import { SharedTree } from "fluid-framework";
  * @returns The loaded container and container services.
  */
 export async function loadFluidData<T extends ContainerSchema>(
-	containerId: string,
+	itemId: string,
 	containerSchema: T,
 	client: OdspClient,
 ): Promise<{
@@ -20,14 +20,14 @@ export async function loadFluidData<T extends ContainerSchema>(
 	let services: OdspContainerServices;
 
 	// Get or create the document depending if we are running through the create new flow
-	if (containerId.length === 0) {
+	if (itemId.length === 0) {
 		// The client will create a new detached container using the schema
 		// A detached container will enable the app to modify the container before attaching it to the client
 		({ container, services } = await client.createContainer(containerSchema));
 	} else {
 		// Use the unique container ID to fetch the container created earlier. It will already be connected to the
 		// collaboration session.
-		({ container, services } = await client.getContainer(containerId, containerSchema));
+		({ container, services } = await client.getContainer(itemId, containerSchema));
 	}
 	return { services, container };
 }

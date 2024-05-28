@@ -3,7 +3,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { loadFluidData, containerSchema } from "./infra/fluid.js";
 import { getClientProps } from "./infra/clientProps.js";
-import { treeConfiguration } from "./schema.js";
+import { Letter, treeConfiguration } from "./schema.js";
 import "./output.css";
 import { ReactApp } from "./react_app.js";
 import { SampleOdspTokenProvider } from "./infra/tokenProvider.js";
@@ -147,14 +147,57 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 		treeConfiguration, // This is defined in schema.ts
 	);
 
+	const cellSize = { x: 32, y: 32 };
+	const canvasSize = { x: 10, y: 10 }; // characters across and down
+
 	// Render the app - note we attach new containers after render so
 	// the app renders instantly on create new flow. The app will be
 	// interactive immediately.
-	root.render(<ReactApp data={appData} />);
+	root.render(
+		<ReactApp
+			data={appData}
+			container={container}
+			canvasSize={canvasSize}
+			cellSize={cellSize}
+		/>,
+	);
 
 	// If the app is in a `createNew` state - no containerId, and the container is detached, we attach the container.
 	// This uploads the container to the service and connects to the collaboration session.
 	if (container.attachState === AttachState.Detached) {
+		const used: { x: number; y: number }[] = [];
+		let id = 0;
+		[..."HELLOWORLD".repeat(500)].map((character) => {
+			const x = Math.round(
+				Math.floor((Math.random() * (canvasSize.x * cellSize.x)) / cellSize.x) * cellSize.x,
+			);
+			const y = Math.round(
+				Math.floor((Math.random() * (canvasSize.y * cellSize.y)) / cellSize.y) * cellSize.y,
+			);
+			if (!used.some((element) => element.x === x && element.y === y)) {
+				const pos = { x, y };
+				used.push(pos);
+				appData.root.letters.insertAtEnd(
+					// TODO: error when not adding wrapping [] is inscrutable
+					new Letter({
+						position: pos,
+						character,
+						id: id.toString(),
+					}),
+				);
+				id++;
+			}
+		});
+
+		// Update the application state or components without forcing a full page reload
+		root.render(
+			<ReactApp
+				data={appData}
+				container={container}
+				canvasSize={canvasSize}
+				cellSize={cellSize}
+			/>,
+		);
 		// Attach the container to the Fluid service which
 		// uploads the container to the service and connects to the collaboration session.
 		// This returns the Fluid container id.
