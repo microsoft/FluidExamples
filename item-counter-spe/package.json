@@ -18,7 +18,7 @@
 		"node": ">=20.0.0"
 	},
 	"dependencies": {
-		"@azure/identity": "^4.0.0",
+		"@azure/identity": "^4.2.1",
 		"@azure/msal-browser": "^3.13.0",
 		"@fluentui/react-icons": "^2.0.221",
 		"@fluid-experimental/odsp-client": "2.0.0-rc.4.0.4",
