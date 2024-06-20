@@ -11,7 +11,6 @@ import {
 	IFluidContainer,
 	IMember,
 	IServiceAudience,
-	Revertible,
 	Tree,
 	TreeView,
 } from "fluid-framework";

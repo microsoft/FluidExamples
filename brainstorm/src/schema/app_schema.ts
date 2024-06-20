@@ -3,7 +3,12 @@
  * Licensed under the MIT License.
  */
 
-import { TreeConfiguration, SchemaFactory, Tree, ValidateRecursiveSchema } from "fluid-framework";
+import {
+	TreeViewConfiguration,
+	SchemaFactory,
+	Tree,
+	ValidateRecursiveSchema,
+} from "fluid-framework";
 import { v4 as uuid } from "uuid";
 
 // Schema is defined using a factory object that generates classes for objects as well
@@ -142,9 +147,7 @@ export class Group extends sf.object("Group", {
 
 // Export the tree config appropriate for this schema.
 // This is passed into the SharedTree when it is initialized.
-export const appTreeConfiguration = new TreeConfiguration(
+export const appTreeConfiguration = new TreeViewConfiguration(
 	// Schema for the root
-	Items,
-	// initial tree
-	() => new Items([]),
+	{ schema: Items },
 );

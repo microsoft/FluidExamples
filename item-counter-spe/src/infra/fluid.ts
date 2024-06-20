@@ -1,4 +1,4 @@
-import { OdspClient, OdspContainerServices } from "@fluid-experimental/odsp-client";
+import { OdspClient, OdspContainerServices } from "@fluidframework/odsp-client";
 import { ContainerSchema, IFluidContainer } from "fluid-framework";
 import { SharedTree } from "fluid-framework";
 

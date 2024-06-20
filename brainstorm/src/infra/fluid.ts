@@ -5,7 +5,7 @@
 
 import { AzureClient, AzureContainerServices } from "@fluidframework/azure-client";
 import { ContainerSchema, IFluidContainer } from "fluid-framework";
-import { OdspClient, OdspContainerServices } from "@fluid-experimental/odsp-client";
+import { OdspClient, OdspContainerServices } from "@fluidframework/odsp-client";
 
 /**
  * This function will create a container if no container ID is passed.
@@ -28,11 +28,11 @@ export async function loadFluidData<T extends ContainerSchema>(
 	if (containerId.length === 0) {
 		// The client will create a new detached container using the schema
 		// A detached container will enable the app to modify the container before attaching it to the client
-		({ container, services } = await client.createContainer(containerSchema));
+		({ container, services } = await client.createContainer(containerSchema, "2"));
 	} else {
 		// Use the unique container ID to fetch the container created earlier. It will already be connected to the
 		// collaboration session.
-		({ container, services } = await client.getContainer(containerId, containerSchema));
+		({ container, services } = await client.getContainer(containerId, containerSchema, "2"));
 	}
 	return { services, container };
 }
