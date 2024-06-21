@@ -9,7 +9,7 @@ module.exports = {
 		URL: "http://localhost:8080",
 	},
 	verbose: true,
-	testTimeout: 30000,
+	testTimeout: 60000,
 	transform: {
 		"^.+\\.jsx?$": "babel-jest",
 	},

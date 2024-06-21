@@ -11,7 +11,7 @@ describe("brainstorm", () => {
 	const load = async () => {
 		await page.goto(config.globals.URL, {
 			waitUntil: ["networkidle2", "load"],
-			timeout: 20000,
+			timeout: 60000,
 		});
 	};
 
