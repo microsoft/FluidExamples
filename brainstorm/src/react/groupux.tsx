@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Group, Items, Note } from "../schema/app_schema.js";
 import { moveItem } from "../utils/app_helpers.js";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
@@ -20,6 +20,29 @@ export function GroupView(props: {
 	session: Session;
 	fluidMembers: string[];
 }): JSX.Element {
+	const [invalidations, setInvalidations] = useState(0);
+
+	// Register for tree deltas when the component mounts.
+	// Any time the items array changes, the app will update
+	// Note, we are only listening to changes to the array
+	// not the items within the array. Those changes are
+	// handled by the NoteView component.
+	useEffect(() => {
+		const unsubscribe = Tree.on(props.group.items, "nodeChanged", () => {
+			setInvalidations(invalidations + Math.random());
+		});
+		return unsubscribe;
+	}, []);
+
+	// Register for tree deltas when the component mounts.
+	// Any time the group changes, the app will update
+	useEffect(() => {
+		const unsubscribe = Tree.on(props.group, "nodeChanged", () => {
+			setInvalidations(invalidations + Math.random());
+		});
+		return unsubscribe;
+	}, []);
+
 	const [, drag] = useDrag(() => ({
 		type: dragType.GROUP,
 		item: props.group,

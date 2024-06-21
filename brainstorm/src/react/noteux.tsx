@@ -67,12 +67,22 @@ export function NoteView(props: {
 	};
 
 	// Register for tree deltas when the component mounts.
-	// Any time the tree changes, the app will update
-	// For more complex apps, this code can be included
-	// on lower level components.
+	// Any time the selection changes, the app will update
+	// We are using the treeChanged event because we are listening for all
+	// changes in the session tree.
 	useEffect(() => {
 		// Returns the cleanup function to be invoked when the component unmounts.
 		const unsubscribe = Tree.on(props.session, "treeChanged", () => {
+			setInvalidations(invalidations + Math.random());
+		});
+		return unsubscribe;
+	}, []);
+
+	// Register for tree deltas when the component mounts.
+	// Any time the node changes, the app will update
+	useEffect(() => {
+		// Returns the cleanup function to be invoked when the component unmounts.
+		const unsubscribe = Tree.on(props.note, "nodeChanged", () => {
 			setInvalidations(invalidations + Math.random());
 		});
 		return unsubscribe;
