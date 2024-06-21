@@ -1,11 +1,10 @@
 import {
 	CommitKind,
 	CommitMetadata,
-	ISubscribable,
+	Listenable,
 	Revertible,
 	RevertibleFactory,
 	TreeViewEvents,
-	disposeSymbol,
 } from "fluid-framework";
 
 /**
@@ -13,7 +12,7 @@ import {
  * You can manage the stacks by calling `undo` and `redo`. The redo stack is cleared when a new commit is made.
  * The dispose function should be called when the stacks are no longer needed.
  */
-export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): undoRedo {
+export function createUndoRedoStacks(events: Listenable<TreeViewEvents>): undoRedo {
 	// Create arrays to store revertible objects
 	const undoStack: Revertible[] = [];
 	const redoStack: Revertible[] = [];
@@ -30,7 +29,7 @@ export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): und
 			if (commit.kind === CommitKind.Default) {
 				// clear redo stack
 				for (const redo of redoStack) {
-					redo[disposeSymbol]();
+					redo.dispose();
 				}
 				redoStack.length = 0;
 			}
@@ -45,10 +44,10 @@ export function createUndoRedoStacks(events: ISubscribable<TreeViewEvents>): und
 	const dispose = () => {
 		unsubscribeFromCommitApplied();
 		for (const revertible of undoStack) {
-			revertible[disposeSymbol]();
+			revertible.dispose();
 		}
 		for (const revertible of redoStack) {
-			revertible[disposeSymbol]();
+			revertible.dispose();
 		}
 		redoStack.length = 0;
 		undoStack.length = 0;

@@ -3,13 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import {
-	AzureMember,
-	ITokenClaims,
-	ITokenProvider,
-	ITokenResponse,
-	IUser,
-} from "@fluidframework/azure-client";
+import { AzureMember, ITokenProvider, ITokenResponse, IUser } from "@fluidframework/azure-client";
 import { ScopeType } from "@fluidframework/protocol-definitions";
 import axios from "axios";
 import { KJUR as jsrsasign } from "jsrsasign";
@@ -168,7 +162,7 @@ export function generateToken(
 	const now = Math.round(Date.now() / 1000);
 	const docId = documentId ?? "";
 
-	const claims: ITokenClaims & { jti: string } = {
+	const claims = {
 		documentId: docId,
 		scopes,
 		tenantId,

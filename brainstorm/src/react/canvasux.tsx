@@ -11,7 +11,6 @@ import {
 	IFluidContainer,
 	IMember,
 	IServiceAudience,
-	Revertible,
 	Tree,
 	TreeView,
 } from "fluid-framework";
@@ -45,11 +44,9 @@ export function Canvas(props: {
 	const [invalidations, setInvalidations] = useState(0);
 
 	// Register for tree deltas when the component mounts.
-	// Any time the tree changes, the app will update
-	// For more complex apps, this code can be included
-	// on lower level components.
+	// Any time the node changes, the app will update.
 	useEffect(() => {
-		const unsubscribe = Tree.on(props.items.root, "treeChanged", () => {
+		const unsubscribe = Tree.on(props.items.root, "nodeChanged", () => {
 			setInvalidations(invalidations + Math.random());
 		});
 		return unsubscribe;

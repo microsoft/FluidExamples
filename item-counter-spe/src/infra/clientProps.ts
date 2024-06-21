@@ -1,4 +1,4 @@
-import { IOdspTokenProvider, OdspClientProps } from "@fluid-experimental/odsp-client";
+import { IOdspTokenProvider, OdspClientProps } from "@fluidframework/odsp-client";
 
 // Create the client props for the Fluid client
 export const getClientProps = (

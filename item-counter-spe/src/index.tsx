@@ -9,7 +9,7 @@ import { ReactApp } from "./react_app.js";
 import { SampleOdspTokenProvider } from "./infra/tokenProvider.js";
 import { GraphHelper } from "./infra/graphHelper.js";
 import { authHelper } from "./infra/authHelper.js";
-import { OdspClient } from "@fluid-experimental/odsp-client";
+import { OdspClient } from "@fluidframework/odsp-client";
 import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 import { AttachState } from "fluid-framework";
 
@@ -143,9 +143,12 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	const { container } = await loadFluidData(containerId, containerSchema, client);
 
 	// Initialize the SharedTree Data Structure
-	const appData = container.initialObjects.appData.schematize(
+	const appData = container.initialObjects.appData.viewWith(
 		treeConfiguration, // This is defined in schema.ts
 	);
+	if (appData.compatibility.canInitialize) {
+		appData.initialize([]);
+	}
 
 	// Render the app - note we attach new containers after render so
 	// the app renders instantly on create new flow. The app will be

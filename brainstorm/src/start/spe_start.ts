@@ -1,7 +1,7 @@
 import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 import { authHelper } from "../infra/spe/authHelper.js";
 import { showErrorMessage } from "./error_ux.js";
-import { OdspClient } from "@fluid-experimental/odsp-client";
+import { OdspClient } from "@fluidframework/odsp-client";
 import { GraphHelper } from "../infra/spe/graphHelper.js";
 import { getClientProps } from "../infra/spe/speClientProps.js";
 import { SampleOdspTokenProvider } from "../infra/spe/speTokenProvider.js";

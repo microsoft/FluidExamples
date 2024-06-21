@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { TreeConfiguration, SchemaFactory } from "fluid-framework";
+import { TreeViewConfiguration, SchemaFactory } from "fluid-framework";
 
 // Define a schema factory that is used to generate classes for the schema
 const sf = new SchemaFactory("d302b84c-75f6-4ecd-9663-524f467013e3");
@@ -27,9 +27,7 @@ export class StringArray extends sf.array("StringArray", sf.string) {
 }
 
 // This object is passed into the SharedTree via the schematize method.
-export const treeConfiguration = new TreeConfiguration(
+export const treeConfiguration = new TreeViewConfiguration(
 	// Specify the root type - StringArray.
-	StringArray,
-	// Initial state of the tree which is used for new trees.
-	() => new StringArray([]),
+	{ schema: StringArray },
 );
