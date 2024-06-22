@@ -49,15 +49,15 @@ export function NoteView(props: {
 	const [noteText, setNoteText] = useState(props.note.text);
 	const [noteVoteCount, setNoteVoteCount] = useState(props.note.votes.length);
 
-	const test = () => {
-		testRemoteNoteSelection(
-			props.note,
-			props.session,
-			props.clientId,
-			setRemoteSelected,
-			setSelected,
-			props.fluidMembers,
-		);
+	const testSelection = (
+		note: Note,
+		session: Session,
+		clientId: string,
+		fluidMembers: string[],
+	) => {
+		const result = testRemoteNoteSelection(note, session, clientId, fluidMembers);
+		setSelected(result.selected);
+		setRemoteSelected(result.remoteSelected);
 	};
 
 	const updateSelection = (action: selectAction) => {
@@ -76,6 +76,10 @@ export function NoteView(props: {
 		return unsubscribe;
 	}, []);
 
+	useEffect(() => {
+		testSelection(props.note, props.session, props.clientId, props.fluidMembers);
+	}, [invalSelection]);
+
 	// Register for tree deltas when the component mounts.
 	// Any time the node changes, the app will update
 	useEffect(() => {
@@ -88,16 +92,12 @@ export function NoteView(props: {
 	}, []);
 
 	useEffect(() => {
-		test();
-	}, [invalSelection]);
-
-	useEffect(() => {
-		test();
+		testSelection(props.note, props.session, props.clientId, props.fluidMembers);
 	}, [props.fluidMembers]);
 
 	useEffect(() => {
 		mounted.current = true;
-		test();
+		testSelection(props.note, props.session, props.clientId, props.fluidMembers);
 
 		return () => {
 			mounted.current = false;
