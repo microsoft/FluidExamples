@@ -42,14 +42,12 @@ export function NoteView(props: {
 	});
 
 	const [selected, setSelected] = useState(false);
-
 	const [remoteSelected, setRemoteSelected] = useState(false);
-
 	const [bgColor, setBgColor] = useState("bg-yellow-100");
-
 	const [rotation] = useState(getRotation(props.note));
-
-	const [invalidations, setInvalidations] = useState(0);
+	const [invalSelection, setInvalSelection] = useState(0);
+	const [noteText, setNoteText] = useState(props.note.text);
+	const [noteVoteCount, setNoteVoteCount] = useState(props.note.votes.length);
 
 	const test = () => {
 		testRemoteNoteSelection(
@@ -62,7 +60,7 @@ export function NoteView(props: {
 		);
 	};
 
-	const update = (action: selectAction) => {
+	const updateSelection = (action: selectAction) => {
 		updateRemoteNoteSelection(props.note, action, props.session, props.clientId);
 	};
 
@@ -73,7 +71,7 @@ export function NoteView(props: {
 	useEffect(() => {
 		// Returns the cleanup function to be invoked when the component unmounts.
 		const unsubscribe = Tree.on(props.session, "treeChanged", () => {
-			setInvalidations(invalidations + Math.random());
+			setInvalSelection(invalSelection + Math.random());
 		});
 		return unsubscribe;
 	}, []);
@@ -83,14 +81,15 @@ export function NoteView(props: {
 	useEffect(() => {
 		// Returns the cleanup function to be invoked when the component unmounts.
 		const unsubscribe = Tree.on(props.note, "nodeChanged", () => {
-			setInvalidations(invalidations + Math.random());
+			setNoteText(props.note.text);
+			setNoteVoteCount(props.note.votes.length);
 		});
 		return unsubscribe;
 	}, []);
 
 	useEffect(() => {
 		test();
-	}, [invalidations]);
+	}, [invalSelection]);
 
 	useEffect(() => {
 		test();
@@ -161,11 +160,11 @@ export function NoteView(props: {
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		if (selected) {
-			update(selectAction.REMOVE);
+			updateSelection(selectAction.REMOVE);
 		} else if (e.shiftKey || e.ctrlKey) {
-			update(selectAction.MULTI);
+			updateSelection(selectAction.MULTI);
 		} else {
-			update(selectAction.SINGLE);
+			updateSelection(selectAction.SINGLE);
 		}
 	};
 
@@ -195,8 +194,17 @@ export function NoteView(props: {
 						(isOver && canDrop ? "translate-x-3" : "")
 					}
 				>
-					<NoteToolbar note={props.note} clientId={props.clientId} notes={props.parent} />
-					<NoteTextArea note={props.note} update={update} />
+					<NoteToolbar
+						voted={props.note.votes.indexOf(props.clientId) > -1}
+						toggleVote={() => props.note.toggleVote(props.clientId)}
+						voteCount={noteVoteCount}
+						deleteNote={props.note.delete}
+					/>
+					<NoteTextArea
+						text={noteText}
+						update={props.note.updateText}
+						select={updateSelection}
+					/>
 					<NoteSelection show={remoteSelected} />
 				</div>
 			</div>
@@ -214,7 +222,11 @@ function NoteSelection(props: { show: boolean }): JSX.Element {
 	}
 }
 
-function NoteTextArea(props: { note: Note; update: (value: selectAction) => void }): JSX.Element {
+function NoteTextArea(props: {
+	text: string;
+	update: (text: string) => void;
+	select: (value: selectAction) => void;
+}): JSX.Element {
 	// The text field updates the Fluid data model on every keystroke in this demo.
 	// This works well with small strings but doesn't scale to very large strings.
 	// A Future iteration of SharedTree will include support for collaborative strings
@@ -223,27 +235,32 @@ function NoteTextArea(props: { note: Note; update: (value: selectAction) => void
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		if (e.ctrlKey) {
-			props.update(selectAction.MULTI);
+			props.select(selectAction.MULTI);
 		} else {
-			props.update(selectAction.SINGLE);
+			props.select(selectAction.SINGLE);
 		}
 	};
 
 	return (
 		<textarea
 			className="p-2 bg-transparent h-full w-full resize-none z-50"
-			value={props.note.text}
+			value={props.text}
 			onClick={(e) => handleClick(e)}
-			onChange={(e) => props.note.updateText(e.target.value)}
+			onChange={(e) => props.update(e.target.value)}
 		/>
 	);
 }
 
-function NoteToolbar(props: { note: Note; clientId: string; notes: Items }): JSX.Element {
+function NoteToolbar(props: {
+	voted: boolean;
+	toggleVote: () => void;
+	voteCount: number;
+	deleteNote: () => void;
+}): JSX.Element {
 	return (
 		<div className="flex justify-between z-50">
-			<LikeButton note={props.note} clientId={props.clientId} />
-			<DeleteNoteButton note={props.note} notes={props.notes} />
+			<LikeButton {...props} />
+			<DeleteNoteButton {...props} />
 		</div>
 	);
 }
@@ -312,9 +329,13 @@ export function AddNoteButton(props: { parent: Items; clientId: string }): JSX.E
 	);
 }
 
-function LikeButton(props: { note: Note; clientId: string }): JSX.Element {
+function LikeButton(props: {
+	voted: boolean;
+	toggleVote: () => void;
+	voteCount: number;
+}): JSX.Element {
 	const setColor = () => {
-		if (props.note.votes.indexOf(props.clientId) > -1) {
+		if (props.voted) {
 			return "text-white";
 		} else {
 			return undefined;
@@ -322,7 +343,7 @@ function LikeButton(props: { note: Note; clientId: string }): JSX.Element {
 	};
 
 	const setBackground = () => {
-		if (props.note.votes.indexOf(props.clientId) > -1) {
+		if (props.voted) {
 			return "bg-green-600";
 		} else {
 			return undefined;
@@ -334,15 +355,15 @@ function LikeButton(props: { note: Note; clientId: string }): JSX.Element {
 			<IconButton
 				color={setColor()}
 				background={setBackground()}
-				handleClick={() => props.note.toggleVote(props.clientId)}
+				handleClick={() => props.toggleVote()}
 				icon={MiniThumb()}
 			>
-				{props.note.votes.length}
+				{props.voteCount}
 			</IconButton>
 		</div>
 	);
 }
 
-function DeleteNoteButton(props: { note: Note; notes: Items }): JSX.Element {
-	return <DeleteButton handleClick={() => props.note.delete()}></DeleteButton>;
+function DeleteNoteButton(props: { deleteNote: () => void }): JSX.Element {
+	return <DeleteButton handleClick={() => props.deleteNote()}></DeleteButton>;
 }

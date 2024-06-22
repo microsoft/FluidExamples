@@ -41,13 +41,13 @@ export function Canvas(props: {
 	setSaved: (arg: boolean) => void;
 	setFluidMembers: (arg: string[]) => void;
 }): JSX.Element {
-	const [invalidations, setInvalidations] = useState(0);
+	const [, setItemArray] = useState(props.items.root.map((item) => item));
 
 	// Register for tree deltas when the component mounts.
-	// Any time the node changes, the app will update.
+	// Any time the items array changes, the app will update.
 	useEffect(() => {
 		const unsubscribe = Tree.on(props.items.root, "nodeChanged", () => {
-			setInvalidations(invalidations + Math.random());
+			setItemArray(props.items.root.map((item) => item));
 		});
 		return unsubscribe;
 	}, []);
