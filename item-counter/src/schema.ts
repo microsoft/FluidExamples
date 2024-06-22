@@ -14,16 +14,16 @@ export class StringArray extends sf.array("StringArray", sf.string) {
 	/**
 	 * Remove the first item in the list if the list is not empty
 	 */
-	public removeFirst() {
+	public removeFirst = () => {
 		if (this.length > 0) this.removeAt(0);
-	}
+	};
 
 	/**
 	 * Add an item to the beginning of the list
 	 */
-	public insertNew() {
+	public insertNew = () => {
 		this.insertAtStart("");
-	}
+	};
 }
 
 // This object is passed into the SharedTree via the schematize method.
