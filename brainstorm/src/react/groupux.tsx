@@ -16,11 +16,15 @@ import { Tree } from "fluid-framework";
 export function GroupView(props: {
 	group: Group;
 	clientId: string;
-	parent: Items;
 	session: Session;
 	fluidMembers: string[];
 }): JSX.Element {
-	const [invalidations, setInvalidations] = useState(0);
+	// copy the array of items from the group
+	// to force a re-render when the array changes
+	const [itemsArray, setItemsArray] = useState<(Note | Group)[]>(
+		props.group.items.map((item) => item),
+	);
+	const [name, setName] = useState(props.group.name);
 
 	// Register for tree deltas when the component mounts.
 	// Any time the items array changes, the app will update
@@ -29,7 +33,7 @@ export function GroupView(props: {
 	// handled by the NoteView component.
 	useEffect(() => {
 		const unsubscribe = Tree.on(props.group.items, "nodeChanged", () => {
-			setInvalidations(invalidations + Math.random());
+			setItemsArray(props.group.items.map((item) => item));
 		});
 		return unsubscribe;
 	}, []);
@@ -38,10 +42,15 @@ export function GroupView(props: {
 	// Any time the group changes, the app will update
 	useEffect(() => {
 		const unsubscribe = Tree.on(props.group, "nodeChanged", () => {
-			setInvalidations(invalidations + Math.random());
+			setName(props.group.name);
 		});
 		return unsubscribe;
 	}, []);
+
+	const parent = Tree.parent(props.group);
+	if (!Tree.is(parent, Items)) {
+		return <></>;
+	}
 
 	const [, drag] = useDrag(() => ({
 		type: dragType.GROUP,
@@ -59,7 +68,7 @@ export function GroupView(props: {
 		}),
 		canDrop: (item) => {
 			if (Tree.is(item, Note)) return true;
-			if (Tree.is(item, Group) && !Tree.contains(item, props.parent)) return true;
+			if (Tree.is(item, Group) && !Tree.contains(item, parent)) return true;
 			return false;
 		},
 		drop: (item, monitor) => {
@@ -73,9 +82,8 @@ export function GroupView(props: {
 				return;
 			}
 
-			const droppedItem = item;
-			if (Tree.is(droppedItem, Group) || Tree.is(droppedItem, Note)) {
-				moveItem(droppedItem, props.parent.indexOf(props.group), props.parent);
+			if (Tree.is(item, Group) || Tree.is(item, Note)) {
+				moveItem(item, parent.indexOf(props.group), parent);
 			}
 
 			return;
@@ -106,39 +114,49 @@ export function GroupView(props: {
 					(isOver && canDrop ? "translate-x-3" : "")
 				}
 			>
-				<GroupToolbar pile={props.group} parent={props.parent} />
+				<GroupToolbar
+					name={name}
+					changeName={(name: string) => {
+						props.group.name = name;
+					}}
+					deletePile={props.group.delete}
+				/>
 				<ItemsView
-					items={props.group.items}
+					items={itemsArray}
+					parent={props.group.items}
 					clientId={props.clientId}
 					session={props.session}
 					fluidMembers={props.fluidMembers}
-					isRoot={false}
 				/>
 			</div>
 		</div>
 	);
 }
 
-function GroupName(props: { pile: Group }): JSX.Element {
+function GroupName(props: { name: string; changeName: (name: string) => void }): JSX.Element {
 	return (
 		<input
 			className="flex w-0 grow p-1 mb-2 mr-2 text-lg font-bold text-black bg-transparent"
 			type="text"
-			value={props.pile.name}
-			onChange={(event) => (props.pile.name = event.target.value)}
+			value={props.name}
+			onChange={(event) => props.changeName(event.target.value)}
 		/>
 	);
 }
 
-function GroupToolbar(props: { pile: Group; parent: Items }): JSX.Element {
+function GroupToolbar(props: {
+	name: string;
+	changeName: (name: string) => void;
+	deletePile: () => void;
+}): JSX.Element {
 	return (
 		<div className="flex flex-row justify-between">
-			<GroupName pile={props.pile} />
-			<DeletePileButton pile={props.pile} items={props.parent} />
+			<GroupName {...props} />
+			<DeletePileButton {...props} />
 		</div>
 	);
 }
 
-export function DeletePileButton(props: { pile: Group; items: Items }): JSX.Element {
-	return <DeleteButton handleClick={() => props.pile.delete()}></DeleteButton>;
+export function DeletePileButton(props: { deletePile: () => void }): JSX.Element {
+	return <DeleteButton handleClick={() => props.deletePile()}></DeleteButton>;
 }

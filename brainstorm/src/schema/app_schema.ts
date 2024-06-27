@@ -41,12 +41,12 @@ export class Note extends sf.object(
 	},
 ) {
 	// Update the note text and also update the timestamp in the note
-	public updateText(text: string) {
+	public readonly updateText = (text: string) => {
 		this.lastChanged = new Date().getTime();
 		this.text = text;
-	}
+	};
 
-	public toggleVote(user: string) {
+	public readonly toggleVote = (user: string) => {
 		const index = this.votes.indexOf(user);
 		if (index > -1) {
 			this.votes.removeAt(index);
@@ -55,25 +55,25 @@ export class Note extends sf.object(
 		}
 
 		this.lastChanged = new Date().getTime();
-	}
+	};
 
 	/**
 	 * Removes a node from its parent {@link Items}.
 	 * If the note is not in an {@link Items}, it is left unchanged.
 	 */
-	public delete() {
+	public readonly delete = () => {
 		const parent = Tree.parent(this);
 		// Use type narrowing to ensure that parent is Items as expected for a note.
 		if (Tree.is(parent, Items)) {
 			const index = parent.indexOf(this);
 			parent.removeAt(index);
 		}
-	}
+	};
 }
 
 // Schema for a list of Notes and Groups.
 export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
-	public addNode(author: string) {
+	public readonly addNode = (author: string) => {
 		const timeStamp = new Date().getTime();
 
 		// Define the note to add to the SharedTree - this must conform to
@@ -89,12 +89,12 @@ export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
 
 		// Insert the note into the SharedTree.
 		this.insertAtEnd(newNote);
-	}
+	};
 
 	/**
 	 * Add a new group (container for notes) to the SharedTree.
 	 */
-	public addGroup(name: string): Group {
+	public readonly addGroup = (name: string): Group => {
 		const group = new Group({
 			id: uuid(),
 			name,
@@ -103,7 +103,7 @@ export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
 
 		this.insertAtEnd(group);
 		return group;
-	}
+	};
 }
 
 {
@@ -126,7 +126,7 @@ export class Group extends sf.object("Group", {
 	 *
 	 * Before removing the group, its children are move to the parent.
 	 */
-	public delete() {
+	public readonly delete = () => {
 		const parent = Tree.parent(this);
 		if (Tree.is(parent, Items)) {
 			// Run the deletion as a transaction to ensure that the tree is in a consistent state
@@ -142,7 +142,7 @@ export class Group extends sf.object("Group", {
 				parent.removeAt(i);
 			});
 		}
-	}
+	};
 }
 
 // Export the tree config appropriate for this schema.

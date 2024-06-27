@@ -8,23 +8,10 @@ import { TreeView, Tree } from "fluid-framework";
 import { StringArray } from "./schema.js";
 
 export function ReactApp(props: { data: TreeView<typeof StringArray> }): JSX.Element {
-	const [invalidations, setInvalidations] = useState(0);
-
-	const strings = props.data.root;
-
-	// Register for tree deltas when the component mounts.
-	// Any time the tree changes, the app will update
-	useEffect(() => {
-		const unsubscribe = Tree.on(strings, "treeChanged", () => {
-			setInvalidations(invalidations + Math.random());
-		});
-		return unsubscribe;
-	}, []);
-
 	return (
 		<div className="flex flex-col gap-3 items-center justify-center content-center m-6">
 			<div className="flex flex-row gap-3 justify-center flex-wrap w-full h-full">
-				<ListGroup list={strings} />
+				<ListGroup list={props.data.root} />
 			</div>
 			<Explanation />
 		</div>
@@ -32,43 +19,54 @@ export function ReactApp(props: { data: TreeView<typeof StringArray> }): JSX.Ele
 }
 
 export function ListGroup(props: { list: StringArray }): JSX.Element {
+	const [count, setCount] = useState(props.list.length);
+
+	// Register for change events on the list when the component mounts.
+	// Any time the list changes, the app will update
+	useEffect(() => {
+		const unsubscribe = Tree.on(props.list, "nodeChanged", () => {
+			setCount(props.list.length);
+		});
+		return unsubscribe;
+	}, []);
+
 	return (
 		<div className="flex flex-col gap-3 justify-center content-center m-6">
 			<div className="flex flex-row gap-3 justify-center content-center ">
-				<ItemCount target={props.list} />
+				<ItemCount count={count} />
 			</div>
 			<div className="flex flex-row gap-3 justify-center content-center ">
-				<InsertButton target={props.list} />
-				<RemoveButton target={props.list} />
+				<InsertButton insert={props.list.insertNew} />
+				<RemoveButton remove={props.list.removeFirst} />
 			</div>
 		</div>
 	);
 }
 
-export function ItemCount(props: { target: StringArray }): JSX.Element {
-	// Show the length of the list
+export function ItemCount(props: { count: number }): JSX.Element {
+	// Show the count of items in the list
 	return (
 		<div className="flex flex-col justify-center bg-black w-24 h-24 rounded-full shadow-md">
 			<div className="text-center text-4xl font-extrabold bg-transparent text-white">
-				{props.target.length}
+				{props.count}
 			</div>
 		</div>
 	);
 }
 
-export function InsertButton(props: { target: StringArray }): JSX.Element {
+export function InsertButton(props: { insert: () => void }): JSX.Element {
 	const handleClick = () => {
 		// Add an item to the beginning of the list
-		props.target.insertNew();
+		props.insert();
 	};
 
 	return <Button handleClick={handleClick}>Insert</Button>;
 }
 
-export function RemoveButton(props: { target: StringArray }): JSX.Element {
+export function RemoveButton(props: { remove: () => void }): JSX.Element {
 	const handleClick = () => {
-		// Remove the first item in the list if the list is not empty
-		props.target.removeFirst();
+		// Remove an item from the list
+		props.remove();
 	};
 
 	return <Button handleClick={handleClick}>Remove</Button>;
