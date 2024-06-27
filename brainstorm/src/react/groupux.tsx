@@ -83,7 +83,6 @@ export function GroupView(props: {
 			}
 
 			if (Tree.is(item, Group) || Tree.is(item, Note)) {
-				console.log("drop");
 				moveItem(item, parent.indexOf(props.group), parent);
 			}
 
