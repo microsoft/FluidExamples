@@ -16,13 +16,14 @@ import { Tree } from "fluid-framework";
 export function GroupView(props: {
 	group: Group;
 	clientId: string;
-	parent: Items;
 	session: Session;
 	fluidMembers: string[];
 }): JSX.Element {
 	// copy the array of items from the group
 	// to force a re-render when the array changes
-	const [, setListArray] = useState(props.group.items.map((item) => item));
+	const [itemsArray, setItemsArray] = useState<(Note | Group)[]>(
+		props.group.items.map((item) => item),
+	);
 	const [name, setName] = useState(props.group.name);
 
 	// Register for tree deltas when the component mounts.
@@ -32,7 +33,7 @@ export function GroupView(props: {
 	// handled by the NoteView component.
 	useEffect(() => {
 		const unsubscribe = Tree.on(props.group.items, "nodeChanged", () => {
-			setListArray(props.group.items.map((item) => item));
+			setItemsArray(props.group.items.map((item) => item));
 		});
 		return unsubscribe;
 	}, []);
@@ -45,6 +46,11 @@ export function GroupView(props: {
 		});
 		return unsubscribe;
 	}, []);
+
+	const parent = Tree.parent(props.group);
+	if (!Tree.is(parent, Items)) {
+		return <></>;
+	}
 
 	const [, drag] = useDrag(() => ({
 		type: dragType.GROUP,
@@ -62,7 +68,7 @@ export function GroupView(props: {
 		}),
 		canDrop: (item) => {
 			if (Tree.is(item, Note)) return true;
-			if (Tree.is(item, Group) && !Tree.contains(item, props.parent)) return true;
+			if (Tree.is(item, Group) && !Tree.contains(item, parent)) return true;
 			return false;
 		},
 		drop: (item, monitor) => {
@@ -76,9 +82,9 @@ export function GroupView(props: {
 				return;
 			}
 
-			const droppedItem = item;
-			if (Tree.is(droppedItem, Group) || Tree.is(droppedItem, Note)) {
-				moveItem(droppedItem, props.parent.indexOf(props.group), props.parent);
+			if (Tree.is(item, Group) || Tree.is(item, Note)) {
+				console.log("drop");
+				moveItem(item, parent.indexOf(props.group), parent);
 			}
 
 			return;
@@ -117,11 +123,11 @@ export function GroupView(props: {
 					deletePile={props.group.delete}
 				/>
 				<ItemsView
-					items={props.group.items}
+					items={itemsArray}
+					parent={props.group.items}
 					clientId={props.clientId}
 					session={props.session}
 					fluidMembers={props.fluidMembers}
-					isRoot={false}
 				/>
 			</div>
 		</div>

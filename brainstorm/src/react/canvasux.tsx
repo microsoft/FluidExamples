@@ -41,13 +41,15 @@ export function Canvas(props: {
 	setSaved: (arg: boolean) => void;
 	setFluidMembers: (arg: string[]) => void;
 }): JSX.Element {
-	const [, setItemArray] = useState(props.items.root.map((item) => item));
+	const [itemsArray, setItemsArray] = useState<(Note | Group)[]>(
+		props.items.root.map((item) => item),
+	);
 
 	// Register for tree deltas when the component mounts.
 	// Any time the items array changes, the app will update.
 	useEffect(() => {
 		const unsubscribe = Tree.on(props.items.root, "nodeChanged", () => {
-			setItemArray(props.items.root.map((item) => item));
+			setItemsArray(props.items.root.map((item) => item));
 		});
 		return unsubscribe;
 	}, []);
@@ -97,11 +99,11 @@ export function Canvas(props: {
 	return (
 		<div className="relative flex grow-0 h-full w-full bg-transparent">
 			<ItemsView
-				items={props.items.root}
+				items={itemsArray}
+				parent={props.items.root}
 				clientId={props.currentUser}
 				session={props.sessionTree.root}
 				fluidMembers={props.fluidMembers}
-				isRoot={true}
 			/>
 			<Floater>
 				<ButtonGroup>
@@ -127,12 +129,14 @@ export function Canvas(props: {
 }
 
 export function ItemsView(props: {
-	items: Items;
+	items: (Note | Group)[];
+	parent: Items;
 	clientId: string;
 	session: Session;
 	fluidMembers: string[];
-	isRoot: boolean;
 }): JSX.Element {
+	const isRoot = Tree.parent(props.parent) === undefined;
+
 	const pilesArray = [];
 	for (const i of props.items) {
 		if (Tree.is(i, Group)) {
@@ -141,19 +145,17 @@ export function ItemsView(props: {
 					key={i.id}
 					group={i}
 					clientId={props.clientId}
-					parent={props.items}
 					session={props.session}
 					fluidMembers={props.fluidMembers}
 				/>,
 			);
 		} else if (Tree.is(i, Note)) {
-			if (props.isRoot) {
+			if (isRoot) {
 				pilesArray.push(
 					<RootNoteWrapper
 						key={i.id}
 						note={i}
 						clientId={props.clientId}
-						parent={props.items}
 						session={props.session}
 						fluidMembers={props.fluidMembers}
 					/>,
@@ -164,7 +166,6 @@ export function ItemsView(props: {
 						key={i.id}
 						note={i}
 						clientId={props.clientId}
-						parent={props.items}
 						session={props.session}
 						fluidMembers={props.fluidMembers}
 					/>,
@@ -173,7 +174,7 @@ export function ItemsView(props: {
 		}
 	}
 
-	if (props.isRoot) {
+	if (isRoot) {
 		return (
 			<div className="flex grow-0 flex-row h-full w-full flex-wrap gap-4 p-4 content-start overflow-y-scroll">
 				{pilesArray}
@@ -182,7 +183,7 @@ export function ItemsView(props: {
 		);
 	} else {
 		pilesArray.push(
-			<AddNoteButton key="newNote" parent={props.items} clientId={props.clientId} />,
+			<AddNoteButton key="newNote" target={props.parent} clientId={props.clientId} />,
 		);
 		return <div className="flex flex-row flex-wrap gap-8 p-2">{pilesArray}</div>;
 	}

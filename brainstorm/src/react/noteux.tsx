@@ -17,7 +17,6 @@ import { Session } from "../schema/session_schema.js";
 export function RootNoteWrapper(props: {
 	note: Note;
 	clientId: string;
-	parent: Items;
 	session: Session;
 	fluidMembers: string[];
 }): JSX.Element {
@@ -31,7 +30,6 @@ export function RootNoteWrapper(props: {
 export function NoteView(props: {
 	note: Note;
 	clientId: string;
-	parent: Items;
 	session: Session;
 	fluidMembers: string[];
 }): JSX.Element {
@@ -48,6 +46,11 @@ export function NoteView(props: {
 	const [invalSelection, setInvalSelection] = useState(0);
 	const [noteText, setNoteText] = useState(props.note.text);
 	const [noteVoteCount, setNoteVoteCount] = useState(props.note.votes.length);
+
+	const parent = Tree.parent(props.note);
+	if (parent === undefined || !Tree.is(parent, Items)) {
+		return <></>;
+	}
 
 	const testSelection = (
 		note: Note,
@@ -140,13 +143,12 @@ export function NoteView(props: {
 		}),
 		canDrop: (item) => {
 			if (Tree.is(item, Note)) return true;
-			if (Tree.is(item, Group) && !Tree.contains(item, props.parent)) return true;
+			if (Tree.is(item, Group) && !Tree.contains(item, parent)) return true;
 			return false;
 		},
 		drop: (item) => {
-			const droppedItem = item;
-			if (Tree.is(droppedItem, Group) || Tree.is(droppedItem, Note)) {
-				moveItem(droppedItem, props.parent.indexOf(props.note), props.parent);
+			if (Tree.is(item, Group) || Tree.is(item, Note)) {
+				moveItem(item, parent.indexOf(props.note), parent);
 			}
 			return;
 		},
@@ -265,7 +267,7 @@ function NoteToolbar(props: {
 	);
 }
 
-export function AddNoteButton(props: { parent: Items; clientId: string }): JSX.Element {
+export function AddNoteButton(props: { target: Items; clientId: string }): JSX.Element {
 	const [{ isActive }, drop] = useDrop(() => ({
 		accept: [dragType.NOTE, dragType.GROUP],
 		collect: (monitor) => ({
@@ -273,16 +275,15 @@ export function AddNoteButton(props: { parent: Items; clientId: string }): JSX.E
 		}),
 		canDrop: (item) => {
 			if (Tree.is(item, Note)) return true;
-			if (Tree.is(item, Group) && !Tree.contains(item, props.parent)) return true;
+			if (Tree.is(item, Group) && !Tree.contains(item, props.target)) return true;
 			return false;
 		},
 		drop: (item) => {
-			const droppedItem = item;
-			if (Tree.is(droppedItem, Note) || Tree.is(droppedItem, Group)) {
-				const parent = Tree.parent(droppedItem);
+			if (Tree.is(item, Note) || Tree.is(item, Group)) {
+				const parent = Tree.parent(item);
 				if (Tree.is(parent, Items)) {
-					const index = parent.indexOf(droppedItem);
-					props.parent.moveToEnd(index, parent);
+					const index = parent.indexOf(item);
+					props.target.moveToEnd(index, parent);
 				}
 			}
 			return;
@@ -291,14 +292,14 @@ export function AddNoteButton(props: { parent: Items; clientId: string }): JSX.E
 
 	let size = "h-48 w-48";
 	let buttonText = "Add Note";
-	if (props.parent.length > 0) {
+	if (props.target.length > 0) {
 		buttonText = "+";
 		size = "h-48";
 	}
 
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		props.parent.addNode(props.clientId);
+		props.target.addNode(props.clientId);
 	};
 
 	const hoverEffectStyle = "absolute top-0 left-0 border-l-4 border-dashed h-48 ";

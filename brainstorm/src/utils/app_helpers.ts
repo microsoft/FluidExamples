@@ -20,17 +20,19 @@ export function moveItem(item: Note | Group, destinationIndex: number, destinati
 		return;
 
 	const source = Tree.parent(item);
-
 	// Use Tree.is to narrow the type of source to the items schema
-	// If source uses the items schema, it can receive both a note
-	// and a group
-	if (Tree.is(source, Items)) {
-		const index = source.indexOf(item);
-		if (destinationIndex == Infinity) {
-			destination.moveToEnd(index, source);
-		} else {
-			destination.moveToIndex(destinationIndex, index, source);
+	if (!Tree.is(source, Items)) return;
+
+	const index = source.indexOf(item);
+
+	if (destinationIndex == Infinity) {
+		destination.moveToEnd(index, source);
+	} else {
+		// test that the destination index is valid
+		if (destination.length < destinationIndex) {
+			return;
 		}
+		destination.moveToIndex(destinationIndex, index, source);
 	}
 }
 
