@@ -91,6 +91,7 @@ export function Canvas(props: {
 
 	useEffect(() => {
 		props.audience.on("membersChanged", updateMembers);
+		updateMembers();
 		return () => {
 			props.audience.off("membersChanged", updateMembers);
 		};
