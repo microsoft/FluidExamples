@@ -10,6 +10,9 @@ parameters:
   - name: brainstorm
     type: string
     default: brainstorm
+  - name: item-counter-spe
+    type: string
+    default: item-counter-spe
   - name: item-counter
     type: string
     default: item-counter
