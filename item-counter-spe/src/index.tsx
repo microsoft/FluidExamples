@@ -9,7 +9,7 @@ import { ReactApp } from "./react_app.js";
 import { SampleOdspTokenProvider } from "./infra/tokenProvider.js";
 import { GraphHelper } from "./infra/graphHelper.js";
 import { authHelper } from "./infra/authHelper.js";
-import { OdspClient } from "@fluidframework/odsp-client";
+import { OdspClient } from "@fluidframework/odsp-client/beta";
 import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 import { AttachState } from "fluid-framework";
 

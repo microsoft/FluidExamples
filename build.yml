@@ -13,6 +13,9 @@ parameters:
   - name: item-counter
     type: string
     default: item-counter
+  - name: item-counter-spe
+    type: string
+    default: item-counter-spe
 
 schedules:
   - cron: "0 16 * * 1-5" # Runs daily builds at 9AM PST Mon-Fri
