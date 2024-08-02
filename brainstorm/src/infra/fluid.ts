@@ -5,7 +5,7 @@
 
 import { AzureClient, AzureContainerServices } from "@fluidframework/azure-client";
 import { ContainerSchema, IFluidContainer } from "fluid-framework";
-import { OdspClient, OdspContainerServices } from "@fluidframework/odsp-client";
+import { OdspClient, OdspContainerServices } from "@fluidframework/odsp-client/beta";
 
 /**
  * This function will create a container if no container ID is passed.
