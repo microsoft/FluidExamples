@@ -7,6 +7,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "npm run format && npm run webpack",
+		"ci:test": "echo 'no tests'",
 		"compile": "tsc -b",
 		"dev": "cross-env webpack-dev-server",
 		"format": "prettier src --write",
