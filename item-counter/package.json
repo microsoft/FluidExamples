@@ -23,7 +23,7 @@
 		"node": ">=20.0.0"
 	},
 	"dependencies": {
-		"@fluentui/react-icons": "^2.0.221",
+		"@fluentui/react-icons": "^2.0.253",
 		"@fluidframework/azure-client": "^2.1.0",
 		"@fluidframework/telemetry-utils": "^2.1.0",
 		"@fluidframework/test-runtime-utils": "^2.1.0",
