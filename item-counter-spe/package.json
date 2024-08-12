@@ -12,8 +12,8 @@
 		"dev": "cross-env webpack-dev-server",
 		"format": "prettier src --write",
 		"lint": "eslint src",
-		"webpack": "cross-env FLUID_CLIENT='azure' webpack",
-		"start": "npm run dev"
+		"start": "npm run dev",
+		"webpack": "cross-env FLUID_CLIENT='azure' webpack"
 	},
 	"engines": {
 		"node": ">=20.0.0"
