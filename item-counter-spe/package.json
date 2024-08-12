@@ -55,7 +55,7 @@
 		"jest-junit": "^16.0.0",
 		"jest-puppeteer": "^10.0.1",
 		"mini-css-extract-plugin": "^2.9.0",
-		"prettier": "^2.7.1",
+		"prettier": "^3.3.3",
 		"puppeteer": "^22.11.2",
 		"start-server-and-test": "^2.0.0",
 		"style-loader": "^4.0.0",
