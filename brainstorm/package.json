@@ -16,9 +16,11 @@
 		"dev:spe": "cross-env FLUID_CLIENT='spe' webpack-dev-server",
 		"format": "prettier src --write",
 		"lint": "eslint src",
-		"webpack": "cross-env webpack",
 		"start": "npm run dev",
-		"start:server": "npx @fluidframework/azure-local-service"
+		"start:server": "npx @fluidframework/azure-local-service",
+		"test": "start-server-and-test start:server 7070 test:jest",
+		"test:jest": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --reporters=default --reporters=jest-junit",
+		"webpack": "cross-env webpack"
 	},
 	"engines": {
 		"node": ">=20.0.0"
