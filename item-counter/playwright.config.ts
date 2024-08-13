@@ -26,7 +26,7 @@ export default defineConfig({
 	reporter: [
 		// Console output
 		["line"],
-		// JUnit XML report file output
+		// JUnit XML report file output for CI
 		["junit", { outputFile: "test-results/junit-report.xml" }],
 	],
 
