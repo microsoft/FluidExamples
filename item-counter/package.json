@@ -13,6 +13,7 @@
 		"dev:local": "cross-env FLUID_CLIENT='local' webpack-dev-server",
 		"dev:azure": "cross-env FLUID_CLIENT='azure' webpack-dev-server",
 		"format": "prettier src --write",
+		"postinstall": "npx playwright install --with-deps",
 		"lint": "eslint src",
 		"start": "npm run dev",
 		"start:server": "npx @fluidframework/azure-local-service@^2.0.1",
