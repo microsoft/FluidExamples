@@ -19,9 +19,32 @@ test.describe("item-counter", () => {
 		collaborationUrl = await page.url();
 	});
 
-	test("Load the container", async ({ page }) => {
+	test("Load the container (smoke test)", async ({ page }) => {
 		assert(collaborationUrl !== undefined);
 		await page.goto(collaborationUrl, { waitUntil: "domcontentloaded" });
+		await expect(page).toHaveScreenshot();
+	});
+
+	test("Increment and decrement counter", async ({ page }) => {
+		assert(collaborationUrl !== undefined);
+		await page.goto(collaborationUrl, { waitUntil: "domcontentloaded" });
+
+		// Click the "Insert" button 3 times
+		await page.click("text=Insert", { clickCount: 3 });
+
+		// Verify the counter value
+		let itemCountElement = await page.getByLabel("Item count");
+		let itemCount = Number.parseInt(await itemCountElement.innerText());
+		expect(itemCount).toEqual(3);
+		await expect(page).toHaveScreenshot();
+
+		// Click the "Remove" button 3 times
+		await page.click("text=Remove", { clickCount: 2 });
+
+		// Verify the counter value
+		itemCountElement = await page.getByLabel("Item count");
+		itemCount = Number.parseInt(await itemCountElement.innerText());
+		expect(itemCount).toEqual(1);
 		await expect(page).toHaveScreenshot();
 	});
 });
