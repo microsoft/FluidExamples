@@ -7,7 +7,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "npm run format && npm run webpack",
-		"ci:test": "playwright test --ci",
+		"ci:test": "npm run test",
 		"compile": "tsc -b",
 		"dev": "cross-env webpack-dev-server",
 		"dev:local": "cross-env FLUID_CLIENT='local' webpack-dev-server",
