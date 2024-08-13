@@ -7,8 +7,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "npm run format && npm run webpack",
-		"ci:test": "start-server-and-test start:server 7070 ci:test:playwright",
-		"ci:test:playwright": "playwright --ci",
+		"ci:test": "playwright test --ci",
 		"compile": "tsc -b",
 		"dev": "cross-env webpack-dev-server",
 		"dev:local": "cross-env FLUID_CLIENT='local' webpack-dev-server",
@@ -17,8 +16,7 @@
 		"lint": "eslint src",
 		"start": "npm run dev",
 		"start:server": "npx @fluidframework/azure-local-service@^2.0.1",
-		"test": "start-server-and-test start:server 7070 test:playwright",
-		"test:playwright": "playwright test",
+		"test": "playwright test",
 		"webpack": "cross-env FLUID_CLIENT='azure' webpack"
 	},
 	"engines": {

@@ -1,7 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const devServerPort = 8080;
-const devServerUrl = `http://localhost:${devServerPort}`;
+const frontendPort = 8080;
+const frontEndUrl = `http://localhost:${frontendPort}`;
+
+const backendPort = 7070;
+const backEndUrl = `http://localhost:${backendPort}`;
 
 export default defineConfig({
 	// Look for test files in the "tests" directory, relative to this configuration file.
@@ -20,11 +23,16 @@ export default defineConfig({
 	workers: process.env.CI ? 1 : undefined,
 
 	// Reporter to use
-	reporter: "junit",
+	reporter: [
+		// Console output
+		["line"],
+		// JUnit XML report file output
+		["junit", { outputFile: "test-results/junit-report.xml" }],
+	],
 
 	use: {
 		// Base URL to use in actions like `await page.goto('/')`.
-		baseURL: devServerUrl,
+		baseURL: frontEndUrl,
 
 		// Collect trace when retrying the failed test.
 		trace: "on-first-retry",
@@ -40,9 +48,18 @@ export default defineConfig({
 		},
 	],
 	// Run your local dev server before starting the tests.
-	webServer: {
-		command: "npm run start",
-		url: devServerUrl,
-		reuseExistingServer: !process.env.CI,
-	},
+	webServer: [
+		// Run the local azure service
+		{
+			command: "npm run start:server",
+			url: backEndUrl,
+			reuseExistingServer: !process.env,
+		},
+		// Run front-end dev server
+		{
+			command: "npm run start",
+			url: frontEndUrl,
+			reuseExistingServer: !process.env.CI,
+		},
+	],
 });
