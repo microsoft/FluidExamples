@@ -54,6 +54,9 @@ steps:
           command: "custom"
           workingDir: "${{ parameter.Value }}"
           customCommand: "ci"
+      ${{ if eq(parameter.Value, 'item-counter') }}:
+        - script: npx playwright install --with-deps
+          displayName: 'Install Playwright browsers'
       - task: CmdLine@2
         displayName: Build - ${{ parameter.Value }}
         inputs:
