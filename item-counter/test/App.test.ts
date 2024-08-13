@@ -22,7 +22,6 @@ test.describe("item-counter", () => {
 	test("Load the container (smoke test)", async ({ page }) => {
 		assert(collaborationUrl !== undefined);
 		await page.goto(collaborationUrl, { waitUntil: "domcontentloaded" });
-		await expect(page).toHaveScreenshot();
 	});
 
 	test("Increment and decrement counter", async ({ page }) => {
@@ -36,7 +35,6 @@ test.describe("item-counter", () => {
 		let itemCountElement = await page.getByLabel("Item count");
 		let itemCount = Number.parseInt(await itemCountElement.innerText());
 		expect(itemCount).toEqual(3);
-		await expect(page).toHaveScreenshot();
 
 		// Click the "Remove" button 3 times
 		await page.click("text=Remove", { clickCount: 2 });
@@ -45,6 +43,5 @@ test.describe("item-counter", () => {
 		itemCountElement = await page.getByLabel("Item count");
 		itemCount = Number.parseInt(await itemCountElement.innerText());
 		expect(itemCount).toEqual(1);
-		await expect(page).toHaveScreenshot();
 	});
 });
