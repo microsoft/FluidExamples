@@ -349,5 +349,7 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-# Test reports
+# Test reports and metadata
 nyc
+playwright-report
+test-results
