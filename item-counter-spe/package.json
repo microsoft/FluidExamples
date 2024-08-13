@@ -27,7 +27,7 @@
 		"@fluidframework/telemetry-utils": "^2.1.0",
 		"@fluidframework/test-runtime-utils": "^2.1.0",
 		"@microsoft/microsoft-graph-client": "^3.0.7",
-		"axios": "^1.7.3",
+		"axios": "^1.7.4",
 		"dotenv": "^16.0.2",
 		"fluid-framework": "^2.1.0",
 		"guid-typescript": "^1.0.9",
