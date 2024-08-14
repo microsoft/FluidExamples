@@ -195,6 +195,7 @@ export function NoteView(props: {
 						" " +
 						(isOver && canDrop ? "translate-x-3" : "")
 					}
+					aria-label="Note"
 				>
 					<NoteToolbar
 						voted={props.note.votes.indexOf(props.clientId) > -1}
