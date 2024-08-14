@@ -14,7 +14,7 @@ test.describe("item-counter", () => {
 	let collaborationUrl: string | undefined;
 
 	test.beforeEach(async ({ page }) => {
-		await page.goto("http://localhost:8080", { waitUntil: "domcontentloaded" });
+		await page.goto("/", { waitUntil: "domcontentloaded" });
 		expect(await page.title()).toBe("Fluid Demo");
 		collaborationUrl = await page.url();
 	});

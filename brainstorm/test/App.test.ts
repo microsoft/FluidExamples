@@ -3,11 +3,6 @@
  * Licensed under the MIT License.
  */
 
-/*!
- * Copyright (c) Microsoft Corporation and contributors. All rights reserved.
- * Licensed under the MIT License.
- */
-
 import { test, expect } from "@playwright/test";
 
 test.describe("brainstorm", () => {
@@ -41,16 +36,16 @@ test.describe("brainstorm", () => {
 		let notes = await page.getByLabel("Note");
 		expect(notes).toHaveCount(0);
 
-		// Click the "Add Group" button
+		// Click the "Add Note" button
 		await page.getByText("Add Note").click();
 
-		// Verify that a group was added.
+		// Verify that a note was added.
 		notes = await page.getByLabel("Note");
 		expect(notes).toHaveCount(1);
 	});
 
 	test("Delete note", async ({ page }) => {
-		// Click the "Add Group" button
+		// Click the "Add Note" button
 		await page.getByText("Add Note").click();
 
 		// Select the note.
