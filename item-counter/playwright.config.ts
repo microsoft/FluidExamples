@@ -7,7 +7,7 @@ const backendPort = 7070;
 const backEndUrl = `http://localhost:${backendPort}`;
 
 export default defineConfig({
-	// Look for test files in the "tests" directory, relative to this configuration file.
+	// Look for test files in the "test" directory, relative to this configuration file.
 	testDir: "test",
 
 	// Run all tests in parallel.
