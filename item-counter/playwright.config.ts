@@ -19,9 +19,6 @@ export default defineConfig({
 	// Retry on CI only.
 	retries: process.env.CI ? 2 : 0,
 
-	// Opt out of parallel tests on CI.
-	workers: process.env.CI ? 1 : undefined,
-
 	// Reporter to use
 	reporter: [
 		// Console output
@@ -37,8 +34,8 @@ export default defineConfig({
 		// Collect trace when retrying the failed test.
 		trace: "on-first-retry",
 
-		// Generate screenshots
-		screenshot: "on",
+		// Generate screenshots when a test fails
+		screenshot: "only-on-failure",
 	},
 	// Configure projects for major browsers.
 	projects: [
