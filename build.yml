@@ -73,8 +73,8 @@ steps:
         displayName: Publish Test Results - ${{ parameter.Value }}
         inputs:
           testResultsFormat: "JUnit"
-          testResultsFiles: "**/*junit-report.xml"
-          searchFolder: ${{ parameter.Value }}/nyc
+          testResultsFiles: "junit-report.xml"
+          searchFolder: ${{ parameter.Value }}/test-results
           mergeTestResults: true
         # Note while this runs if anything prior fails, the prior test steps won't
         # run after first failure. Could be split into jobs to avoid interference.
