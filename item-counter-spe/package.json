@@ -7,12 +7,13 @@
 	"type": "module",
 	"scripts": {
 		"build": "npm run format && npm run webpack",
-		"ci:test": "echo 'no tests'",
+		"ci:test": "npm run test",
 		"compile": "tsc -b",
 		"dev": "cross-env webpack-dev-server",
 		"format": "prettier src --write",
 		"lint": "eslint src",
 		"start": "npm run dev",
+		"test": "echo 'TODO: add tests'",
 		"webpack": "cross-env FLUID_CLIENT='azure' webpack"
 	},
 	"engines": {
@@ -51,13 +52,8 @@
 		"eslint": "^8.57.0",
 		"eslint-plugin-react": "^7.35.0",
 		"html-webpack-plugin": "^5.6.0",
-		"jest": "^29.2.2",
-		"jest-junit": "^16.0.0",
-		"jest-puppeteer": "^10.0.1",
 		"mini-css-extract-plugin": "^2.9.0",
 		"prettier": "^3.3.3",
-		"puppeteer": "^22.11.2",
-		"start-server-and-test": "^2.0.0",
 		"style-loader": "^4.0.0",
 		"tailwindcss": "^3.4.9",
 		"ts-loader": "^9.5.1",
@@ -65,9 +61,5 @@
 		"webpack": "^5.93.0",
 		"webpack-cli": "^5.1.4",
 		"webpack-dev-server": "^5.0.4"
-	},
-	"jest-junit": {
-		"outputDirectory": "nyc",
-		"outputName": "jest-junit-report.xml"
 	}
 }
