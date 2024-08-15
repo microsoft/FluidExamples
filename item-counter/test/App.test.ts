@@ -36,7 +36,7 @@ test.describe("item-counter", () => {
 		let itemCount = Number.parseInt(await itemCountElement.innerText());
 		expect(itemCount).toEqual(3);
 
-		// Click the "Remove" button 3 times
+		// Click the "Remove" button 2 times
 		await page.click("text=Remove", { clickCount: 2 });
 
 		// Verify the counter value
