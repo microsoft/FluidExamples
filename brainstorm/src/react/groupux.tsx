@@ -113,6 +113,7 @@ export function GroupView(props: {
 					"p-2 bg-gray-200 min-h-64 transition-all " +
 					(isOver && canDrop ? "translate-x-3" : "")
 				}
+				aria-label="Note Group"
 			>
 				<GroupToolbar
 					name={name}

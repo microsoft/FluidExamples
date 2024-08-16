@@ -47,7 +47,10 @@ export function ItemCount(props: { count: number }): JSX.Element {
 	// Show the count of items in the list
 	return (
 		<div className="flex flex-col justify-center bg-black w-24 h-24 rounded-full shadow-md">
-			<div className="text-center text-4xl font-extrabold bg-transparent text-white">
+			<div
+				className="text-center text-4xl font-extrabold bg-transparent text-white"
+				aria-label="Item count"
+			>
 				{props.count}
 			</div>
 		</div>
