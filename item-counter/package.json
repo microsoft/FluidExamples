@@ -30,7 +30,7 @@
 		"@fluidframework/test-runtime-utils": "^2.1.0",
 		"axios": "^1.7.3",
 		"dotenv": "^16.0.2",
-		"fluid-framework": "^2.1.0",
+		"fluid-framework": "^2.2.0",
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
 		"jsrsasign": "^11.1.0",
