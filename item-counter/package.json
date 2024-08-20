@@ -27,7 +27,7 @@
 		"@fluentui/react-icons": "^2.0.253",
 		"@fluidframework/azure-client": "^2.1.0",
 		"@fluidframework/telemetry-utils": "^2.1.0",
-		"@fluidframework/test-runtime-utils": "^2.1.0",
+		"@fluidframework/test-runtime-utils": "^2.2.0",
 		"axios": "^1.7.3",
 		"dotenv": "^16.0.2",
 		"fluid-framework": "^2.1.0",
