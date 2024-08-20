@@ -31,7 +31,7 @@
 		"@fluentui/react-icons": "^2.0.253",
 		"@fluidframework/azure-client": "^2.1.0",
 		"@fluidframework/odsp-client": "^2.1.0",
-		"@fluidframework/telemetry-utils": "^2.1.0",
+		"@fluidframework/telemetry-utils": "^2.2.0",
 		"@fluidframework/test-runtime-utils": "^2.1.0",
 		"@microsoft/microsoft-graph-client": "^3.0.7",
 		"axios": "^1.7.3",
