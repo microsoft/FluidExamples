@@ -50,7 +50,7 @@
 	"devDependencies": {
 		"@fluidframework/azure-local-service": "^2.1.0",
 		"@fluidframework/build-common": "^2.0.3",
-		"@fluidframework/devtools": "^2.1.0",
+		"@fluidframework/devtools": "^2.2.0",
 		"@microsoft/microsoft-graph-types": "^2.40.0",
 		"@playwright/test": "^1.46.0",
 		"@types/debug": "^4.1.7",
