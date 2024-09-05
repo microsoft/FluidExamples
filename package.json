@@ -14,10 +14,10 @@
   },
   "homepage": "https://github.com/microsoft/FluidExamples#readme",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=18.18.0"
   },
   "devDependencies": {
-    "syncpack": "^12.4.0"
+    "syncpack": "^13.0.0"
   },
   "scripts": {
     "fix-mismatches": "syncpack fix-mismatches --source */package.json",
