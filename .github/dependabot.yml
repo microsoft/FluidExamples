@@ -2,30 +2,16 @@ version: 2
 updates:
   # Enable version updates for npm
   - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/brainstorm"
+    # Look for `package.json` and `package-lock.json` files in these directories
+    directories:
+      - "/"
+      - "/brainstorm"
+      - "/item-counter"
+      - "/item-counter-spe"
     schedule:
       interval: "daily"
-    allow:
-      - dependency-name: "fluid-framework"
-      - dependency-name: "@fluidframework/*"
-
-  # Enable version updates for npm
-  - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/item-counter"
-    schedule:
-      interval: "daily"
-    allow:
-      - dependency-name: "fluid-framework"
-      - dependency-name: "@fluidframework/*"
-
-  # Enable version updates for npm
-  - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
-    directory: "/item-counter-spe"
-    schedule:
-      interval: "daily"
-    allow:
-      - dependency-name: "fluid-framework"
-      - dependency-name: "@fluidframework/*"
+    groups:
+      fluid-framework-dependencies:
+        patterns:
+          - "@fluidframework"
+          - "fluid-framework"
