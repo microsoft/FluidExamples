@@ -19,3 +19,13 @@ updates:
     allow:
       - dependency-name: "fluid-framework"
       - dependency-name: "@fluidframework/*"
+
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/item-counter-spe"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-name: "fluid-framework"
+      - dependency-name: "@fluidframework/*"
