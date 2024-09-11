@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { loadFluidData, containerSchema } from "./infra/fluid.js";
