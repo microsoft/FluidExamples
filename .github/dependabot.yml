@@ -15,3 +15,6 @@ updates:
         patterns:
           - "@fluidframework"
           - "fluid-framework"
+      typescript-eslint:
+        patterns:
+          - "@typescript-eslint"
