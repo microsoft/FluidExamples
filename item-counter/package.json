@@ -43,7 +43,7 @@
 		"@fluidframework/devtools": "^2.2.0",
 		"@playwright/test": "^1.46.0",
 		"@types/debug": "^4.1.7",
-		"@types/jsrsasign": "^10.5.13",
+		"@types/jsrsasign": "^10.5.14",
 		"@types/react": "^18.3.3",
 		"@types/react-dom": "^18.3.0",
 		"@types/uuid": "^9.0.8",
