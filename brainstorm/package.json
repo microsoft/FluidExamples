@@ -35,7 +35,6 @@
 		"@fluidframework/test-runtime-utils": "^2.2.0",
 		"@microsoft/microsoft-graph-client": "^3.0.7",
 		"axios": "^1.7.7",
-		"dotenv": "^16.0.2",
 		"fluid-framework": "^2.2.0",
 		"hashids": "^2.2.10",
 		"jsrsasign": "^11.1.0",
