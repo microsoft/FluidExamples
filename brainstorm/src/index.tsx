@@ -3,7 +3,6 @@
  * Licensed under the MIT License.
  */
 
-/* eslint-disable react/jsx-key */
 import { speStart } from "./start/spe_start.js";
 import { anonymousAzureStart } from "./start/azure_start.js";
 
