@@ -29,7 +29,7 @@
 		"@fluidframework/test-runtime-utils": "^2.2.0",
 		"@microsoft/microsoft-graph-client": "^3.0.7",
 		"axios": "^1.7.7",
-		"fluid-framework": "^2.2.0",
+		"fluid-framework": "^2.3.0",
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
 		"react": "^18.3.1",
