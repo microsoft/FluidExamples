@@ -9,12 +9,17 @@ export async function authHelper(): Promise<PublicClientApplication> {
 		throw new Error("SPE_CLIENT_ID is not defined");
 	}
 
+	const tenantId = process.env.SPE_ENTRA_TENANT_ID;
+	if (!tenantId) {
+		throw new Error("SPE_ENTRA_TENANT_ID is not defined");
+	}
+
 	// Create the MSAL instance
 	const msalConfig = {
 		auth: {
 			clientId,
-			authority: "https://login.microsoftonline.com/common/",
-			tenantId: "common",
+			authority: `https://login.microsoftonline.com/${tenantId}/`,
+			tenantId
 		},
 	};
 
