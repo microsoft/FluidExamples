@@ -21,7 +21,7 @@ Once you have done that, create a `.env` file in the item-counter-spe folder wit
 ```plaintext
 SPE_CLIENT_ID='your client id'
 SPE_CONTAINER_TYPE_ID='your container type id'
-SPE_ENTRA_TENANT_ID='your entra tenant id
+SPE_ENTRA_TENANT_ID='your entra tenant id'
 ```
 
 With that in place, you can run this sample (`npm run dev`).
