@@ -8,16 +8,24 @@ This app is designed to use SharePoint Embedded (SPE). The core application code
 this sample uses odsp-client to connect to Fluid Framework as opposed to azure-client. The differences are primarilly isolated to the
 infra folder, although the initialization flow for this app is different in that it includes auth while the AFR samples are anonymous.
 
-To use SPE you need to create an M365 developer account and configure SharePoint Embedded. The easiest way to get started is to install the SharePoint Embedded Visual Studio Code extension. From there you can create a new M365 developer tenant, create a new client app (with the require Microsoft Entra client ID) create new File Storage Container Types, and create new File Storage Containers.
+To use SPE you need to create an M365 developer account and configure SharePoint Embedded.
+The easiest way to get started is to install the SharePoint Embedded Visual Studio Code extension.
+From there you can create a new M365 developer tenant (which includes creating an Entra tenant), create a new client app
+(with the required Microsoft Entra client ID), create new File Storage Container Types, and create new File Storage Containers.
 
-This sample app requires that you have a Microsoft Entra client Id, have created a File Storage Container Type, and that the tenant you plan to use has a File Storage Container with that File Storage Container Type ID. Once you have done that, create a .env file in the item-counter-spe folder with the following content:
+This sample app requires that you have a Microsoft Entra tenant, a Microsoft Entra client Id for the app, have created
+a File Storage Container Type, and that the tenant you plan to use has a File Storage Container with that File Storage
+Container Type ID.
+Once you have done that, create a `.env` file in the item-counter-spe folder with the following content:
 
-```
+```plaintext
 SPE_CLIENT_ID='your client id'
 SPE_CONTAINER_TYPE_ID='your container type id'
+SPE_ENTRA_TENANT_ID='your entra tenant id'
 ```
 
-With that in place, you can run this sample (`npm run dev`). Log in with the admin credentials for the tenant.
+With that in place, you can run this sample (`npm run dev`).
+Log in with the admin credentials for the tenant.
 
 ## Schema Definition
 

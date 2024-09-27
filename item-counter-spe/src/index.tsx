@@ -23,8 +23,7 @@ async function start() {
 	// If the tokenResponse is not null, then the user is signed in
 	// and the tokenResponse is the result of the redirect.
 	if (tokenResponse !== null) {
-		const account = msalInstance.getAllAccounts()[0];
-		signedInStart(msalInstance, account);
+		await signedInStart(msalInstance, tokenResponse.account);
 	} else {
 		const currentAccounts = msalInstance.getAllAccounts();
 		if (currentAccounts.length === 0) {
@@ -38,7 +37,7 @@ async function start() {
 			// this is just a sample. But a real app would need to handle the multiple accounts case.
 			// For now, just use the first account.
 			const account = msalInstance.getAllAccounts()[0];
-			signedInStart(msalInstance, account);
+			await signedInStart(msalInstance, account);
 		}
 	}
 }
