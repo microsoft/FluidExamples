@@ -2,6 +2,8 @@ version: 2
 updates:
   # Enable version updates for npm
   - package-ecosystem: "npm"
+    reviewers: 
+      - "microsoft/fluid-cr-devx"
     # Look for `package.json` and `package-lock.json` files in these directories
     directories:
       - "/"
@@ -13,7 +15,7 @@ updates:
     groups:
       fluid-framework-dependencies:
         patterns:
-          - "@fluidframework"
+          - "@fluidframework*" 
           - "fluid-framework"
       typescript-eslint:
         patterns:
