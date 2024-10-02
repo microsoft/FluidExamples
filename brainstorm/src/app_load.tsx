@@ -1,3 +1,4 @@
+import type { ITelemetryBaseLogger } from "@fluidframework/core-interfaces";
 import { AzureClient } from "@fluidframework/azure-client";
 import { OdspClient } from "@fluidframework/odsp-client/beta";
 import React from "react";
@@ -15,9 +16,15 @@ import { IFluidContainer } from "fluid-framework";
 export async function loadApp(
 	client: AzureClient | OdspClient,
 	containerId: string,
+	logger?: ITelemetryBaseLogger,
 ): Promise<IFluidContainer> {
 	// Initialize Fluid Container
-	const { services, container } = await loadFluidData(containerId, containerSchema, client);
+	const { services, container } = await loadFluidData(
+		containerId,
+		containerSchema,
+		client,
+		logger,
+	);
 
 	// Initialize the SharedTree DDSes
 	const sessionTree = container.initialObjects.sessionData.viewWith(sessionTreeConfiguration);

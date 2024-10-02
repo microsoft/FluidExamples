@@ -100,6 +100,13 @@ async function signedInSpeStart(msalInstance: PublicClientApplication, account: 
 		return;
 	}
 
+	// Initialize Devtools logger if in development mode
+	let telemetryLogger = undefined;
+	if (process.env.NODE_ENV === "development") {
+		const { createDevtoolsLogger } = await import("@fluidframework/devtools/beta");
+		telemetryLogger = createDevtoolsLogger();
+	}
+
 	// Create the client properties required to initialize
 	// the Fluid client instance. The Fluid client instance is used to
 	// interact with the Fluid service.
@@ -107,13 +114,14 @@ async function signedInSpeStart(msalInstance: PublicClientApplication, account: 
 		await graphHelper.getSiteUrl(),
 		fileStorageContainerId,
 		new SampleOdspTokenProvider(msalInstance),
+		telemetryLogger,
 	);
 
 	// Create the Fluid client instance
 	const client = new OdspClient(clientProps);
 
 	// Load the app
-	const container = await loadApp(client, containerId);
+	const container = await loadApp(client, containerId, telemetryLogger);
 
 	// If the app is in a `createNew` state - no containerId, and the container is detached, we attach the container.
 	// This uploads the container to the service and connects to the collaboration session.

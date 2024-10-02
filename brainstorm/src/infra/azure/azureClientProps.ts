@@ -3,10 +3,11 @@
  * Licensed under the MIT License.
  */
 
-import {
+import type {
 	AzureRemoteConnectionConfig,
 	AzureClientProps,
 	AzureLocalConnectionConfig,
+	ITelemetryBaseLogger,
 } from "@fluidframework/azure-client";
 import { InsecureTokenProvider } from "./azureTokenProvider.js";
 import { AzureFunctionTokenProvider, azureUser, user } from "./azureTokenProvider.js";
@@ -36,6 +37,10 @@ const localConnectionConfig: AzureLocalConnectionConfig = {
 const connectionConfig: AzureRemoteConnectionConfig | AzureLocalConnectionConfig = !local
 	? remoteConnectionConfig
 	: localConnectionConfig;
-export const clientProps: AzureClientProps = {
-	connection: connectionConfig,
-};
+
+export function getClientProps(logger?: ITelemetryBaseLogger): AzureClientProps {
+	return {
+		connection: connectionConfig,
+		logger,
+	};
+}
