@@ -8,6 +8,7 @@ import { ReactApp } from "./react_app.js";
 import { SampleOdspTokenProvider } from "./infra/tokenProvider.js";
 import { GraphHelper } from "./infra/graphHelper.js";
 import { authHelper } from "./infra/authHelper.js";
+import type { ITelemetryBaseLogger } from "@fluidframework/core-interfaces";
 import { OdspClient } from "@fluidframework/odsp-client/beta";
 import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 import { AttachState } from "fluid-framework";
@@ -119,6 +120,13 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 		return;
 	}
 
+	// Initialize Devtools logger if in development mode
+	let telemetryLogger: ITelemetryBaseLogger | undefined;
+	if (process.env.NODE_ENV === "development") {
+		const { createDevtoolsLogger } = await import("@fluidframework/devtools/beta");
+		telemetryLogger = createDevtoolsLogger();
+	}
+
 	// Create the client properties required to initialize
 	// the Fluid client instance. The Fluid client instance is used to
 	// interact with the Fluid service.
@@ -126,6 +134,7 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 		await graphHelper.getSiteUrl(),
 		fileStorageContainerId,
 		new SampleOdspTokenProvider(msalInstance),
+		telemetryLogger,
 	);
 
 	// Create the Fluid client instance
@@ -138,7 +147,12 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	const root = createRoot(app);
 
 	// Initialize Fluid Container - this will either make a new container or load an existing one
-	const { container } = await loadFluidData(containerId, containerSchema, client);
+	const { container } = await loadFluidData(
+		containerId,
+		containerSchema,
+		client,
+		telemetryLogger,
+	);
 
 	// Initialize the SharedTree Data Structure
 	const appData = container.initialObjects.appData.viewWith(

@@ -1,6 +1,6 @@
+import type { ITelemetryBaseLogger } from "@fluidframework/core-interfaces";
 import { OdspClient, OdspContainerServices } from "@fluidframework/odsp-client/beta";
-import { ContainerSchema, IFluidContainer } from "fluid-framework";
-import { SharedTree } from "fluid-framework";
+import { type ContainerSchema, type IFluidContainer, SharedTree } from "fluid-framework";
 
 /**
  * This function will create a container if no container ID is passed.
@@ -12,6 +12,7 @@ export async function loadFluidData<T extends ContainerSchema>(
 	containerId: string,
 	containerSchema: T,
 	client: OdspClient,
+	telemetryLogger?: ITelemetryBaseLogger,
 ): Promise<{
 	services: OdspContainerServices;
 	container: IFluidContainer<T>;
@@ -29,6 +30,16 @@ export async function loadFluidData<T extends ContainerSchema>(
 		// collaboration session.
 		({ container, services } = await client.getContainer(containerId, containerSchema));
 	}
+
+	// Initialize Devtools
+	if (process.env.NODE_ENV === "development") {
+		const { initializeDevtools } = await import("@fluidframework/devtools/beta");
+		initializeDevtools({
+			initialContainers: [{ containerKey: "Item-Counter Container", container }],
+			logger: telemetryLogger,
+		});
+	}
+
 	return { services, container };
 }
 

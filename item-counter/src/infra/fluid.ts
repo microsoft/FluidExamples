@@ -15,7 +15,7 @@ async function initializeClient(): Promise<{
 	client: AzureClient;
 	telemetryLogger: ITelemetryBaseLogger | undefined;
 }> {
-	// Initialize Devtools if in development mode
+	// Initialize Devtools logger if in development mode
 	let telemetryLogger: ITelemetryBaseLogger | undefined;
 	if (process.env.NODE_ENV === "development") {
 		const { createDevtoolsLogger } = await import("@fluidframework/devtools/beta");
