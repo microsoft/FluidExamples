@@ -3,11 +3,29 @@
  * Licensed under the MIT License.
  */
 
-import { AzureClient, AzureContainerServices } from "@fluidframework/azure-client";
+import {
+	AzureClient,
+	AzureContainerServices,
+	type ITelemetryBaseLogger,
+} from "@fluidframework/azure-client";
 import { ContainerSchema, IFluidContainer, SharedTree } from "fluid-framework";
-import { clientProps } from "./clientProps.js";
+import { getClientProps } from "./clientProps.js";
 
-const client = new AzureClient(clientProps);
+async function initializeClient(): Promise<{
+	client: AzureClient;
+	telemetryLogger: ITelemetryBaseLogger | undefined;
+}> {
+	// Initialize Devtools if in development mode
+	let telemetryLogger: ITelemetryBaseLogger | undefined;
+	if (process.env.NODE_ENV === "development") {
+		const { createDevtoolsLogger } = await import("@fluidframework/devtools/beta");
+		telemetryLogger = createDevtoolsLogger();
+	}
+
+	const clientProps = getClientProps(telemetryLogger);
+	const client = new AzureClient(clientProps);
+	return { client, telemetryLogger };
+}
 
 /**
  * This function will create a container if no container ID is passed on the hash portion of the URL.
@@ -22,6 +40,8 @@ export async function loadFluidData<T extends ContainerSchema>(
 	services: AzureContainerServices;
 	container: IFluidContainer<T>;
 }> {
+	const { client, telemetryLogger } = await initializeClient();
+
 	let container: IFluidContainer<T>;
 	let services: AzureContainerServices;
 
@@ -35,6 +55,16 @@ export async function loadFluidData<T extends ContainerSchema>(
 		// collaboration session.
 		({ container, services } = await client.getContainer(containerId, containerSchema, "2"));
 	}
+
+	// Initialize Devtools
+	if (process.env.NODE_ENV === "development") {
+		const { initializeDevtools } = await import("@fluidframework/devtools/beta");
+		initializeDevtools({
+			initialContainers: [{ containerKey: "Item-Counter Container", container }],
+			logger: telemetryLogger,
+		});
+	}
+
 	return { services, container };
 }
 
