@@ -38,6 +38,12 @@ special case local changes. Treat the SharedTree as your local data and rely on 
 
 This app is built using React. Changes to the data are handled using the helper functions mentioned above. If you look at the code in \*ux.tsx files, you'll find very little code that is unique to an app built with the Fluid Framework. If you want to change the css you must run 'npx tailwindcss -i ./src/index.css -o ./src/output.css --watch' in the root folder of your project so that tailwind can update the output.css file.
 
+## Devtools
+
+This sample application is configured to leverage the Fluid Framework's [Developer Tooling](https://fluidframework.com/docs/testing/devtools/).
+
+Refer to the above article for examples and usage instructions.
+
 ## Building and Running
 
 You can use the following npm scripts (`npm run SCRIPT-NAME`) to build and run the app.

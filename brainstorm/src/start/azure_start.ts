@@ -1,6 +1,6 @@
 import { AzureClient } from "@fluidframework/azure-client";
 import { loadApp } from "../app_load.js";
-import { clientProps } from "../infra/azure/azureClientProps.js";
+import { getClientProps } from "../infra/azure/azureClientProps.js";
 import { AttachState } from "fluid-framework";
 
 export async function anonymousAzureStart() {
@@ -9,10 +9,19 @@ export async function anonymousAzureStart() {
 	// a new container.
 	let containerId = location.hash.substring(1);
 
+	// Initialize Devtools logger if in development mode
+	let telemetryLogger = undefined;
+	if (process.env.NODE_ENV === "development") {
+		const { createDevtoolsLogger } = await import("@fluidframework/devtools/beta");
+		telemetryLogger = createDevtoolsLogger();
+	}
+
+	// Initialize the Azure client
+	const clientProps = getClientProps(telemetryLogger);
 	const client = new AzureClient(clientProps);
 
 	// Load the app
-	const container = await loadApp(client, containerId);
+	const container = await loadApp(client, containerId, telemetryLogger);
 
 	// If the app is in a `createNew` state - no containerId, and the container is detached, we attach the container.
 	// This uploads the container to the service and connects to the collaboration session.

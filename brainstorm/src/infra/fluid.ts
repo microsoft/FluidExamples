@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 
+import type { ITelemetryBaseLogger } from "@fluidframework/core-interfaces";
 import { AzureClient, AzureContainerServices } from "@fluidframework/azure-client";
 import { ContainerSchema, IFluidContainer } from "fluid-framework";
 import { OdspClient, OdspContainerServices } from "@fluidframework/odsp-client/beta";
@@ -17,6 +18,7 @@ export async function loadFluidData<T extends ContainerSchema>(
 	containerId: string,
 	containerSchema: T,
 	client: AzureClient | OdspClient,
+	logger?: ITelemetryBaseLogger,
 ): Promise<{
 	services: AzureContainerServices | OdspContainerServices;
 	container: IFluidContainer<T>;
@@ -34,5 +36,15 @@ export async function loadFluidData<T extends ContainerSchema>(
 		// collaboration session.
 		({ container, services } = await client.getContainer(containerId, containerSchema, "2"));
 	}
+
+	// Initialize Devtools
+	if (process.env.NODE_ENV === "development") {
+		const { initializeDevtools } = await import("@fluidframework/devtools/beta");
+		initializeDevtools({
+			initialContainers: [{ containerKey: "Brainstorm Container", container }],
+			logger,
+		});
+	}
+
 	return { services, container };
 }
