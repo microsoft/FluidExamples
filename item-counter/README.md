@@ -35,6 +35,12 @@ Working with data in the SharedTree is very simple; however, working with distri
 
 This app is built using React. If you want to change the css you must run 'npx tailwindcss -i ./src/index.css -o ./src/output.css --watch' in the root folder of your project so that tailwind can update the output.css file.
 
+## Devtools
+
+This sample application is configured to leverage the Fluid Framework's [Developer Tooling](https://fluidframework.com/docs/testing/devtools/).
+
+Refer to the above article for examples and usage instructions.
+
 ## Building and Running
 
 You can use the following npm scripts (`npm run SCRIPT-NAME`) to build and run the app.

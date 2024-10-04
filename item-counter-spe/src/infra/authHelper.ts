@@ -19,7 +19,7 @@ export async function authHelper(): Promise<PublicClientApplication> {
 		auth: {
 			clientId,
 			authority: `https://login.microsoftonline.com/${tenantId}/`,
-			tenantId
+			tenantId,
 		},
 	};
 
