@@ -11,12 +11,14 @@ updates:
       - "/item-counter"
       - "/item-counter-spe"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     groups:
+      # We want to update all Fluid dependencies simultaneously to keep them in sync.
       fluid-framework-dependencies:
         patterns:
           - "@fluidframework*" 
           - "fluid-framework"
-      typescript-eslint:
+      # To reduce noise, let's bundle all the eslint-related dependencies into a single PR.
+      eslint:
         patterns:
-          - "@typescript-eslint"
+          - "*eslint*"
