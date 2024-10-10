@@ -16,8 +16,8 @@
 		"format": "prettier src --write",
 		"lint": "eslint src",
 		"start": "npm run dev",
-		"start:server": "npx @fluidframework/azure-local-service",
-		"pretest": "npx playwright install --with-deps",
+		"start:server": "azure-local-service",
+		"pretest": "playwright install --with-deps",
 		"test": "playwright test",
 		"webpack": "cross-env webpack"
 	},
