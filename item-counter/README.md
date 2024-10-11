@@ -19,6 +19,8 @@ Running this command from your terminal window will launch the Azure Fluid Relay
 npm run start
 ```
 
+This command starts the webpack development server, which will make the application available at [http://localhost:8080/](http://localhost:8080/).
+
 One important note is that you will need to use a token provider or, purely for testing and development, use the insecure token provider. There are instructions on how to set this up on the [Fluid Framework website](https://aka.ms/fluid).
 
 All the code required to set up the Fluid Framework and SharedTree data structure is in the infra folder. Most of this code will be the same for any app.
