@@ -115,7 +115,7 @@ export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
 }
 
 // Define the schema for the container of notes.
-export class Group extends sf.object("Group", {
+export class Group extends sf.objectRecursive("Group", {
 	id: sf.string,
 	name: sf.string,
 	items: Items,
@@ -143,6 +143,11 @@ export class Group extends sf.object("Group", {
 			});
 		}
 	};
+}
+
+{
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type _check = ValidateRecursiveSchema<typeof Group>;
 }
 
 // Export the tree config appropriate for this schema.
