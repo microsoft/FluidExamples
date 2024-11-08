@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"type": "module",
 	"scripts": {
-		"build": "npm run format && npm run compile && npm run webpack",
+		"build": "npm run format && npm run webpack",
 		"ci:test": "npm run test",
 		"compile": "tsc -b",
 		"dev": "cross-env webpack-dev-server",
