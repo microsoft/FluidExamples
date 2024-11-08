@@ -17,9 +17,7 @@ async function start() {
 	const msalInstance = await authHelper();
 
 	// Handle the login redirect flows
-	const tokenResponse = await msalInstance.handleRedirectPromise().catch((error: Error) => {
-		console.log("Error in handleRedirectPromise: " + error.message);
-	});
+	const tokenResponse = await msalInstance.handleRedirectPromise();
 
 	// If the tokenResponse is not null, then the user is signed in
 	// and the tokenResponse is the result of the redirect.
