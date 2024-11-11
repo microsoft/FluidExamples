@@ -56,7 +56,7 @@
 		"@playwright/test": "^1.48.0",
 		"@types/debug": "^4.1.7",
 		"@types/jsrsasign": "^10.5.14",
-		"@types/react": "^18.3.11",
+		"@types/react": "^18.3.12",
 		"@types/react-dom": "^18.3.1",
 		"@types/uuid": "^10.0.0",
 		"@typescript-eslint/eslint-plugin": "^8.13.0",
