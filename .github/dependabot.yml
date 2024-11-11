@@ -18,7 +18,13 @@ updates:
         patterns:
           - "@fluidframework*" 
           - "fluid-framework"
-      # To reduce noise, let's bundle all the eslint-related dependencies into a single PR.
+      # To reduce noise, we bundle related dependencies into a single PR.
       eslint:
         patterns:
           - "*eslint*"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
