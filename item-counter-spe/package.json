@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"type": "module",
 	"scripts": {
-		"build": "npm run format && npm run webpack",
+		"build": "npm run format && npm run compile && npm run webpack",
 		"ci:test": "npm run test",
 		"compile": "tsc -b",
 		"dev": "cross-env webpack-dev-server",
@@ -21,7 +21,7 @@
 	},
 	"dependencies": {
 		"@azure/identity": "^4.5.0",
-		"@azure/msal-browser": "^3.23.0",
+		"@azure/msal-browser": "^3.27.0",
 		"@fluentui/react-icons": "^2.0.260",
 		"@fluidframework/azure-client": "^2.5.0",
 		"@fluidframework/odsp-client": "^2.5.0",

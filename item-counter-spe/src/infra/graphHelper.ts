@@ -32,7 +32,7 @@ export class GraphHelper {
 		};
 
 		const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
-			this.intializedPublicClientApplication,
+			this.intializedPublicClientApplication as any,
 			options,
 		);
 
