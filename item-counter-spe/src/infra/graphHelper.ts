@@ -32,7 +32,8 @@ export class GraphHelper {
 		};
 
 		const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
-			this.intializedPublicClientApplication,
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			this.intializedPublicClientApplication as any,
 			options,
 		);
 
