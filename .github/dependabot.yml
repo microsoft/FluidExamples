@@ -12,12 +12,17 @@ updates:
       - "/item-counter-spe"
     schedule:
       interval: "daily"
+    allow:
+      - dependency-name: "@fluidframework*"
+      - dependency-name: "fluid-framework"
     groups:
+      # We want to update all Fluid dependencies simultaneously to keep them in sync.
       fluid-framework-dependencies:
         patterns:
           - "@fluidframework*"
           - "fluid-framework"
     # This makes it possible to have another config for the same directories
+    # see https://github.com/dependabot/dependabot-core/issues/1778#issuecomment-1988140219
     target-branch: "main"
 
   # Weekly updates for all other dependencies
