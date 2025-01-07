@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { JSX, ReactNode, useEffect, useState } from "react";
 import { TreeView, Tree } from "fluid-framework";
 import { StringArray } from "./schema.js";
 

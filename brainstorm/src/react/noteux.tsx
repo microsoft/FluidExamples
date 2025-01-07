@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { JSX, RefObject, useEffect, useRef, useState } from "react";
 import { Note, Group, Items } from "../schema/app_schema.js";
 import { moveItem } from "../utils/app_helpers.js";
 import { dragType, getRotation, selectAction } from "../utils/utils.js";
@@ -315,7 +315,7 @@ export function AddNoteButton(props: { target: Items; clientId: string }): JSX.E
 				}
 			></div>
 			<div
-				ref={drop}
+				ref={drop as unknown as RefObject<HTMLDivElement>}
 				className={
 					"transition-all text-2xl place-content-center font-bold flex flex-col text-center cursor-pointer bg-transparent border-white border-dashed border-8 " +
 					size +
