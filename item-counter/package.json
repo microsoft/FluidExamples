@@ -33,8 +33,8 @@
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
 		"jsrsasign": "^11.1.0",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
 		"uuid": "^11.0.3"
 	},
 	"devDependencies": {
@@ -46,8 +46,8 @@
 		"@playwright/test": "^1.49.1",
 		"@types/debug": "^4.1.7",
 		"@types/jsrsasign": "^10.5.15",
-		"@types/react": "^18.3.12",
-		"@types/react-dom": "^18.3.1",
+		"@types/react": "^19.0.3",
+		"@types/react-dom": "^19.0.2",
 		"@typescript-eslint/eslint-plugin": "^8.18.0",
 		"@typescript-eslint/parser": "^8.18.0",
 		"copy-webpack-plugin": "^12.0.2",
