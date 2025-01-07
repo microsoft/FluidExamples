@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import React, { useEffect, useState } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import { Group, Items, Note } from "../schema/app_schema.js";
 import { moveItem } from "../utils/app_helpers.js";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";

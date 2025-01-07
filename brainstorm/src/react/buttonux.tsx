@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import React from "react";
+import React, { JSX } from "react";
 import { Items, Note } from "../schema/app_schema.js";
 import { moveItem, findNote } from "../utils/app_helpers.js";
 import {

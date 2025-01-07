@@ -27,7 +27,6 @@
 	"dependencies": {
 		"@azure/identity": "^4.5.0",
 		"@azure/msal-browser": "^3.28.0",
-		"@fluentui/react-components": "^9.56.5",
 		"@fluentui/react-icons": "^2.0.266",
 		"@fluidframework/azure-client": "^2.13.0",
 		"@fluidframework/odsp-client": "^2.13.0",
@@ -78,5 +77,10 @@
 		"webpack": "^5.96.1",
 		"webpack-cli": "^5.1.4",
 		"webpack-dev-server": "^5.1.0"
+	},
+	"overrides": {
+		"@fluentui/react-icons": {
+			"react": "^19.0.0"
+		}
 	}
 }
