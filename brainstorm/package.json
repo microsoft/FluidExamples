@@ -28,7 +28,7 @@
 		"@azure/identity": "^4.5.0",
 		"@azure/msal-browser": "^3.28.0",
 		"@fluentui/react-components": "^9.56.5",
-		"@fluentui/react-icons": "^2.0.266",
+		"@fluentui/react-icons": "^2.0.270",
 		"@fluidframework/azure-client": "^2.13.0",
 		"@fluidframework/odsp-client": "^2.13.0",
 		"@fluidframework/telemetry-utils": "^2.13.0",
