@@ -15,7 +15,7 @@ import { selectAction } from "./utils.js";
 import { createEmitter } from "./emitter.js";
 
 interface SelectionManagerEvents {
-	updated: () => void;
+	selectionChanged: () => void;
 }
 
 export interface SelectionManager {
@@ -89,12 +89,12 @@ const getSelectedNotes = (latestValueManager: BrainstormSelection): readonly str
 export function buildSelectionManager(presence: IPresence): SelectionManager {
 	const valueManager = presence.getStates(statesName, statesSchema).props.selected;
 	const events = createEmitter<SelectionManagerEvents>();
-	valueManager.events.on("updated", () => events.emit("updated"));
+	valueManager.events.on("updated", () => events.emit("selectionChanged"));
 	return {
 		events,
 		testNoteSelection: (note: Note) => testNoteSelection(note, valueManager),
 		updateNoteSelection: (note: Note, action: selectAction) => {
-			events.emit("updated");
+			events.emit("selectionChanged");
 			updateNoteSelection(note, action, valueManager);
 		},
 		getSelectedNotes: () => getSelectedNotes(valueManager),

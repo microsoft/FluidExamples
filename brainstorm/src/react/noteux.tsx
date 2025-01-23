@@ -61,10 +61,10 @@ export function NoteView(props: {
 		props.selection.updateNoteSelection(props.note, action);
 	};
 
-	// Register for updates to the presence states when the component mounts.
+	// Register for updates to the selection when the component mounts.
 	useEffect(() => {
 		// Returns the cleanup function to be invoked when the component unmounts.
-		const unsubscribe = props.selection.events.on("updated", () => {
+		const unsubscribe = props.selection.events.on("selectionChanged", () => {
 			setInvalSelection(invalSelection + Math.random());
 		});
 		return unsubscribe;
