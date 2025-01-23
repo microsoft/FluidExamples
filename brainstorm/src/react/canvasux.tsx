@@ -5,7 +5,6 @@
 
 import React, { JSX, useEffect, useState } from "react";
 import { Note, Group, Items } from "../schema/app_schema.js";
-import { Session } from "../schema/session_schema.js";
 import {
 	ConnectionState,
 	IFluidContainer,
