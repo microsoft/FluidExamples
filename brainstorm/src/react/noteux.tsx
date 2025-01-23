@@ -70,10 +70,17 @@ export function NoteView(props: {
 		updateNoteSelection(props.note, action, props.presence);
 	};
 
-	// Register for tree deltas when the component mounts.
-	// Any time the selection changes, the app will update
-	// We are using the treeChanged event because we are listening for all
-	// changes in the session tree.
+	// Register for updates to the presence states when the component mounts.
+	useEffect(() => {
+		// Returns the cleanup function to be invoked when the component unmounts.
+		const unsubscribe = props.presence
+			.getStates(statesName, statesSchema)
+			.props.selected.events.on("updated", () => {
+				setInvalSelection(invalSelection + Math.random());
+			});
+		return unsubscribe;
+	}, []);
+
 	useEffect(() => {
 		// Returns the cleanup function to be invoked when the component unmounts.
 		const unsubscribe = props.presence
@@ -167,9 +174,7 @@ export function NoteView(props: {
 
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		if (selected) {
-			updateSelection(selectAction.REMOVE);
-		} else if (e.shiftKey || e.ctrlKey) {
+		if (e.shiftKey || e.ctrlKey) {
 			updateSelection(selectAction.MULTI);
 		} else {
 			updateSelection(selectAction.SINGLE);

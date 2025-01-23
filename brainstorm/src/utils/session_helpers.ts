@@ -34,16 +34,15 @@ export const testNoteSelection = (
 	}
 
 	for (const cv of latestValueManager.clientValues()) {
-		if (cv.client.sessionId === id) {
-			if (cv.value.indexOf(note.id) != -1) {
-				selected = true;
-			}
-		}
-		if (cv.client.sessionId != id) {
-			if (cv.value.indexOf(note.id) != -1) {
+		if (cv.client.getConnectionStatus() === "Connected") {
+			if (cv.value.notes.indexOf(note.id) != -1) {
 				remoteSelected = true;
 			}
 		}
+	}
+
+	if (latestValueManager.local.notes.indexOf(note.id) != -1) {
+		selected = true;
 	}
 
 	console.log("selected", selected, "remoteSelected", remoteSelected);
@@ -54,43 +53,38 @@ export const testNoteSelection = (
 export const updateNoteSelection = (note: Note, action: selectAction, presence: IPresence) => {
 	const latestValueManager = presence.getStates(statesName, statesSchema).props.selected;
 
-	// Handle removed items and bail
-	if (action == selectAction.REMOVE) {
-		const arr: string[] = latestValueManager.local.slice();
-		const i = arr.indexOf(note.id);
-		if (i != -1) {
-			arr.splice(i, 1);
-			latestValueManager.local = arr;
-		}
-		return;
-	}
-
 	if (action == selectAction.MULTI) {
-		const arr: string[] = latestValueManager.local.slice();
+		const arr: string[] = latestValueManager.local.notes.slice();
 		const i = arr.indexOf(note.id);
 		if (i == -1) {
 			arr.push(note.id);
-			latestValueManager.local = arr;
+		} else {
+			arr.splice(i, 1);
 		}
-		return;
+		latestValueManager.local = { notes: arr };
 	}
 
 	if (action == selectAction.SINGLE) {
-		console.log("single select", note.id);
-		latestValueManager.local = [note.id];
-		return;
+		let arr: string[] = [];
+		const i = latestValueManager.local.notes.indexOf(note.id);
+		if (i == -1) {
+			arr = [note.id];
+		}
+		latestValueManager.local = { notes: arr };
 	}
+
+	return;
 };
 
 export const getSelectedNotes = (presence: IPresence): readonly string[] => {
-	return presence.getStates(statesName, statesSchema).props.selected.local;
+	return presence.getStates(statesName, statesSchema).props.selected.local.notes;
 };
 
 export const statesName = "name:brainstorm-presence";
 
 export const statesSchema = {
 	// sets selected to an array of strings
-	selected: Latest([] as string[]),
+	selected: Latest({ notes: [] as string[] }),
 } satisfies PresenceStatesSchema;
 
 export type BrainstormPresence = PresenceStates<typeof statesSchema>;

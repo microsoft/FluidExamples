@@ -37,6 +37,5 @@ export enum dragType {
 
 export enum selectAction {
 	MULTI,
-	REMOVE,
 	SINGLE,
 }
