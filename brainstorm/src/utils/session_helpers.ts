@@ -41,9 +41,7 @@ export const testNoteSelection = (
 		}
 	}
 
-	if (latestValueManager.local.notes.indexOf(note.id) != -1) {
-		selected = true;
-	}
+	selected = latestValueManager.local.notes.indexOf(note.id) != -1;
 
 	console.log("selected", selected, "remoteSelected", remoteSelected);
 
