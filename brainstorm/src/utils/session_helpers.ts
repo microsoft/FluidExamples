@@ -20,7 +20,8 @@ interface SelectionManagerEvents {
 
 export interface SelectionManager {
 	readonly events: Listenable<SelectionManagerEvents>;
-	testNoteSelection(note: Note): { selected: boolean; remoteSelected: boolean };
+	testNoteSelection(note: Note): boolean;
+	testNoteRemoteSelection(note: Note): boolean;
 	updateNoteSelection(note: Note, action: selectAction): void;
 	getSelectedNotes(): readonly string[];
 }
@@ -34,10 +35,11 @@ const statesSchema = {
 
 type BrainstormSelection = PresenceStatesEntries<typeof statesSchema>["selected"];
 
-const testNoteSelection = (
-	note: Note,
-	latestValueManager: BrainstormSelection,
-): { selected: boolean; remoteSelected: boolean } => {
+const testNoteSelection = (note: Note, latestValueManager: BrainstormSelection): boolean => {
+	return latestValueManager.local.notes.indexOf(note.id) != -1;
+};
+
+const testNoteRemoteSelection = (note: Note, latestValueManager: BrainstormSelection): boolean => {
 	const remoteSelectedClients: string[] = [];
 
 	for (const cv of latestValueManager.clientValues()) {
@@ -48,10 +50,7 @@ const testNoteSelection = (
 		}
 	}
 
-	const selected = latestValueManager.local.notes.indexOf(note.id) != -1;
-	const remoteSelected = remoteSelectedClients.length > 0;
-
-	return { selected, remoteSelected };
+	return remoteSelectedClients.length > 0;
 };
 
 const updateNoteSelection = (
@@ -93,6 +92,7 @@ export function buildSelectionManager(presence: IPresence): SelectionManager {
 	return {
 		events,
 		testNoteSelection: (note: Note) => testNoteSelection(note, valueManager),
+		testNoteRemoteSelection: (note: Note) => testNoteRemoteSelection(note, valueManager),
 		updateNoteSelection: (note: Note, action: selectAction) => {
 			events.emit("selectionChanged");
 			updateNoteSelection(note, action, valueManager);

@@ -52,9 +52,8 @@ export function NoteView(props: {
 	}
 
 	const testSelection = () => {
-		const result = props.selection.testNoteSelection(props.note);
-		setSelected(result.selected);
-		setRemoteSelected(result.remoteSelected);
+		setSelected(props.selection.testNoteSelection(props.note));
+		setRemoteSelected(props.selection.testNoteRemoteSelection(props.note));
 	};
 
 	const updateSelection = (action: selectAction) => {
