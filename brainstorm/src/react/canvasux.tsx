@@ -27,17 +27,16 @@ import {
 } from "./buttonux.js";
 import { undefinedUserId } from "../utils/utils.js";
 import { undoRedo } from "../utils/undo.js";
-import { IPresence } from "@fluidframework/presence/alpha";
+import type { SelectionManager } from "../utils/session_helpers.js";
 
 export function Canvas(props: {
 	items: TreeView<typeof Items>;
-	sessionTree: TreeView<typeof Session>;
+	selection: SelectionManager;
 	audience: IServiceAudience<IMember>;
 	container: IFluidContainer;
 	fluidMembers: string[];
 	currentUser: string;
 	undoRedo: undoRedo;
-	presence: IPresence;
 	setCurrentUser: (arg: string) => void;
 	setConnectionState: (arg: string) => void;
 	setSaved: (arg: boolean) => void;
@@ -105,24 +104,21 @@ export function Canvas(props: {
 				items={itemsArray}
 				parent={props.items.root}
 				clientId={props.currentUser}
-				session={props.sessionTree.root}
+				selection={props.selection}
 				fluidMembers={props.fluidMembers}
-				presence={props.presence}
 			/>
 			<Floater>
 				<ButtonGroup>
 					<NewGroupButton
 						items={props.items.root}
-						session={props.sessionTree.root}
+						selection={props.selection}
 						clientId={props.currentUser}
-						presence={props.presence}
 					/>
 					<NewNoteButton items={props.items.root} clientId={props.currentUser} />
 					<DeleteNotesButton
-						session={props.sessionTree.root}
+						selection={props.selection}
 						items={props.items.root}
 						clientId={props.currentUser}
-						presence={props.presence}
 					/>
 				</ButtonGroup>
 				<ButtonGroup>
@@ -138,9 +134,8 @@ export function ItemsView(props: {
 	items: (Note | Group)[];
 	parent: Items;
 	clientId: string;
-	session: Session;
+	selection: SelectionManager;
 	fluidMembers: string[];
-	presence: IPresence;
 }): JSX.Element {
 	const isRoot = Tree.parent(props.parent) === undefined;
 
@@ -152,9 +147,8 @@ export function ItemsView(props: {
 					key={i.id}
 					group={i}
 					clientId={props.clientId}
-					session={props.session}
+					selection={props.selection}
 					fluidMembers={props.fluidMembers}
-					presence={props.presence}
 				/>,
 			);
 		} else if (Tree.is(i, Note)) {
@@ -164,9 +158,8 @@ export function ItemsView(props: {
 						key={i.id}
 						note={i}
 						clientId={props.clientId}
-						session={props.session}
+						selection={props.selection}
 						fluidMembers={props.fluidMembers}
-						presence={props.presence}
 					/>,
 				);
 			} else {
@@ -175,9 +168,8 @@ export function ItemsView(props: {
 						key={i.id}
 						note={i}
 						clientId={props.clientId}
-						session={props.session}
+						selection={props.selection}
 						fluidMembers={props.fluidMembers}
-						presence={props.presence}
 					/>,
 				);
 			}

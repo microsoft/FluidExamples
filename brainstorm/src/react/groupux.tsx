@@ -8,18 +8,16 @@ import { Group, Items, Note } from "../schema/app_schema.js";
 import { moveItem } from "../utils/app_helpers.js";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
 import { DeleteButton } from "./buttonux.js";
+import type { SelectionManager } from "../utils/session_helpers.js";
 import { dragType } from "../utils/utils.js";
-import { Session } from "../schema/session_schema.js";
 import { ItemsView } from "./canvasux.js";
 import { Tree } from "fluid-framework";
-import { IPresence } from "@fluidframework/presence/alpha";
 
 export function GroupView(props: {
 	group: Group;
 	clientId: string;
-	session: Session;
+	selection: SelectionManager;
 	fluidMembers: string[];
-	presence: IPresence;
 }): JSX.Element {
 	// copy the array of items from the group
 	// to force a re-render when the array changes
@@ -128,9 +126,8 @@ export function GroupView(props: {
 					items={itemsArray}
 					parent={props.group.items}
 					clientId={props.clientId}
-					session={props.session}
+					selection={props.selection}
 					fluidMembers={props.fluidMembers}
-					presence={props.presence}
 				/>
 			</div>
 		</div>

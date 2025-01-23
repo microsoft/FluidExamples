@@ -15,16 +15,13 @@ import {
 	ArrowUndoFilled,
 	ArrowRedoFilled,
 } from "@fluentui/react-icons";
-import { Session } from "../schema/session_schema.js";
-import { getSelectedNotes } from "../utils/session_helpers.js";
 import { Tree } from "fluid-framework";
-import { IPresence } from "@fluidframework/presence/alpha";
+import type { SelectionManager } from "../utils/session_helpers.js";
 
 export function NewGroupButton(props: {
 	items: Items;
-	session: Session;
+	selection: SelectionManager;
 	clientId: string;
-	presence: IPresence;
 }): JSX.Element {
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
@@ -33,7 +30,7 @@ export function NewGroupButton(props: {
 		// This ensures that the revertible of the operation will undo all the changes made by the operation.
 		Tree.runTransaction(props.items, () => {
 			const group = props.items.addGroup("[new group]");
-			const ids = getSelectedNotes(props.presence);
+			const ids = props.selection.getSelectedNotes();
 			for (const id of ids) {
 				const n = findNote(props.items, id);
 				if (Tree.is(n, Note)) {
@@ -73,17 +70,16 @@ export function NewNoteButton(props: { items: Items; clientId: string }): JSX.El
 }
 
 export function DeleteNotesButton(props: {
-	session: Session;
+	selection: SelectionManager;
 	items: Items;
 	clientId: string;
-	presence: IPresence;
 }): JSX.Element {
 	const handleClick = () => {
 		// Wrap the delete operation in a transaction as it potentially modifies multiple notes
 		// and we want to ensure that the operation is atomic. This ensures that the revertible of
 		// the operation will undo all the changes made by the operation.
 		Tree.runTransaction(props.items, () => {
-			const ids = getSelectedNotes(props.presence);
+			const ids = props.selection.getSelectedNotes();
 			for (const i of ids) {
 				const n = findNote(props.items, i);
 				n?.delete();

@@ -7,25 +7,17 @@ import React, { JSX, RefObject, useEffect, useRef, useState } from "react";
 import { Note, Group, Items } from "../schema/app_schema.js";
 import { moveItem } from "../utils/app_helpers.js";
 import { dragType, getRotation, selectAction } from "../utils/utils.js";
-import {
-	statesName,
-	statesSchema,
-	testNoteSelection,
-	updateNoteSelection,
-} from "../utils/session_helpers.js";
+import type { SelectionManager } from "../utils/session_helpers.js";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
 import { useTransition } from "react-transition-state";
 import { Tree } from "fluid-framework";
 import { IconButton, MiniThumb, DeleteButton } from "./buttonux.js";
-import { Session } from "../schema/session_schema.js";
-import { IPresence } from "@fluidframework/presence/alpha";
 
 export function RootNoteWrapper(props: {
 	note: Note;
 	clientId: string;
-	session: Session;
+	selection: SelectionManager;
 	fluidMembers: string[];
-	presence: IPresence;
 }): JSX.Element {
 	return (
 		<div className="bg-transparent flex flex-col justify-center h-64">
@@ -37,9 +29,8 @@ export function RootNoteWrapper(props: {
 export function NoteView(props: {
 	note: Note;
 	clientId: string;
-	session: Session;
+	selection: SelectionManager;
 	fluidMembers: string[];
-	presence: IPresence;
 }): JSX.Element {
 	const mounted = useRef(false);
 
@@ -61,34 +52,21 @@ export function NoteView(props: {
 	}
 
 	const testSelection = () => {
-		const result = testNoteSelection(props.note, props.presence);
+		const result = props.selection.testNoteSelection(props.note);
 		setSelected(result.selected);
 		setRemoteSelected(result.remoteSelected);
 	};
 
 	const updateSelection = (action: selectAction) => {
-		setInvalSelection(invalSelection + Math.random());
-		updateNoteSelection(props.note, action, props.presence);
+		props.selection.updateNoteSelection(props.note, action);
 	};
 
 	// Register for updates to the presence states when the component mounts.
 	useEffect(() => {
 		// Returns the cleanup function to be invoked when the component unmounts.
-		const unsubscribe = props.presence
-			.getStates(statesName, statesSchema)
-			.props.selected.events.on("updated", () => {
-				setInvalSelection(invalSelection + Math.random());
-			});
-		return unsubscribe;
-	}, []);
-
-	useEffect(() => {
-		// Returns the cleanup function to be invoked when the component unmounts.
-		const unsubscribe = props.presence
-			.getStates(statesName, statesSchema)
-			.props.selected.events.on("updated", () => {
-				setInvalSelection(invalSelection + Math.random());
-			});
+		const unsubscribe = props.selection.events.on("updated", () => {
+			setInvalSelection(invalSelection + Math.random());
+		});
 		return unsubscribe;
 	}, []);
 

@@ -4,25 +4,45 @@
  */
 
 import {
-	IPresence,
+	type IPresence,
 	Latest,
-	PresenceStates,
-	PresenceStatesSchema,
+	type PresenceStatesSchema,
+	type PresenceStatesEntries,
 } from "@fluidframework/presence/alpha";
-import { Note } from "../schema/app_schema.js";
+import type { Listenable } from "fluid-framework";
+import type { Note } from "../schema/app_schema.js";
 import { selectAction } from "./utils.js";
+import { createEmitter } from "./emitter.js";
 
-export const testNoteSelection = (
+interface SelectionManagerEvents {
+	updated: () => void;
+}
+
+export interface SelectionManager {
+	readonly events: Listenable<SelectionManagerEvents>;
+	testNoteSelection(note: Note): { selected: boolean; remoteSelected: boolean };
+	updateNoteSelection(note: Note, action: selectAction): void;
+	getSelectedNotes(): readonly string[];
+}
+
+const statesName = "name:brainstorm-presence";
+
+const statesSchema = {
+	// sets selected to an array of strings
+	selected: Latest({ notes: [] as string[] }),
+} satisfies PresenceStatesSchema;
+
+type BrainstormSelection = PresenceStatesEntries<typeof statesSchema>["selected"];
+
+const testNoteSelection = (
 	note: Note,
-	presence: IPresence,
+	latestValueManager: BrainstormSelection,
 ): { selected: boolean; remoteSelected: boolean } => {
 	const remoteSelectedClients: string[] = [];
 
-	const latestValueManager = presence.getStates(statesName, statesSchema).props.selected;
-
 	for (const cv of latestValueManager.clientValues()) {
 		if (cv.client.getConnectionStatus() === "Connected") {
-			if (cv.value.notes.indexOf(note.id) != -1) {
+			if (cv.value.notes.indexOf(note.id) !== -1) {
 				remoteSelectedClients.push(cv.client.sessionId);
 			}
 		}
@@ -34,9 +54,11 @@ export const testNoteSelection = (
 	return { selected, remoteSelected };
 };
 
-export const updateNoteSelection = (note: Note, action: selectAction, presence: IPresence) => {
-	const latestValueManager = presence.getStates(statesName, statesSchema).props.selected;
-
+const updateNoteSelection = (
+	note: Note,
+	action: selectAction,
+	latestValueManager: BrainstormSelection,
+) => {
 	if (action == selectAction.MULTI) {
 		const arr: string[] = latestValueManager.local.notes.slice();
 		const i = arr.indexOf(note.id);
@@ -60,20 +82,21 @@ export const updateNoteSelection = (note: Note, action: selectAction, presence: 
 	return;
 };
 
-export const getSelectedNotes = (presence: IPresence): readonly string[] => {
-	return presence.getStates(statesName, statesSchema).props.selected.local.notes;
+const getSelectedNotes = (latestValueManager: BrainstormSelection): readonly string[] => {
+	return latestValueManager.local.notes;
 };
 
-export const statesName = "name:brainstorm-presence";
-
-export const statesSchema = {
-	// sets selected to an array of strings
-	selected: Latest({ notes: [] as string[] }),
-} satisfies PresenceStatesSchema;
-
-export type BrainstormPresence = PresenceStates<typeof statesSchema>;
-
-export function buildPresence(presence: IPresence): BrainstormPresence {
-	const states = presence.getStates("name:brainstorm-presence", statesSchema);
-	return states;
+export function buildSelectionManager(presence: IPresence): SelectionManager {
+	const valueManager = presence.getStates(statesName, statesSchema).props.selected;
+	const events = createEmitter<SelectionManagerEvents>();
+	valueManager.events.on("updated", () => events.emit("updated"));
+	return {
+		events,
+		testNoteSelection: (note: Note) => testNoteSelection(note, valueManager),
+		updateNoteSelection: (note: Note, action: selectAction) => {
+			events.emit("updated");
+			updateNoteSelection(note, action, valueManager);
+		},
+		getSelectedNotes: () => getSelectedNotes(valueManager),
+	};
 }

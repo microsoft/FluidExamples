@@ -5,21 +5,19 @@
 
 import React, { JSX, useEffect, useState } from "react";
 import { Items } from "../schema/app_schema.js";
-import { Session } from "../schema/session_schema.js";
 import "../output.css";
 import { IFluidContainer, IMember, IServiceAudience, TreeView } from "fluid-framework";
 import { undefinedUserId } from "../utils/utils.js";
 import { Canvas } from "./canvasux.js";
+import type { SelectionManager } from "../utils/session_helpers.js";
 import { undoRedo } from "../utils/undo.js";
-import { IPresence } from "@fluidframework/presence/alpha";
 
 export function ReactApp(props: {
 	items: TreeView<typeof Items>;
-	sessionTree: TreeView<typeof Session>;
+	selection: SelectionManager;
 	audience: IServiceAudience<IMember>;
 	container: IFluidContainer;
 	undoRedo: undoRedo;
-	presence: IPresence;
 }): JSX.Element {
 	const [currentUser, setCurrentUser] = useState(undefinedUserId);
 	const [connectionState, setConnectionState] = useState("");
@@ -45,13 +43,12 @@ export function ReactApp(props: {
 			<div className="flex h-[calc(100vh-48px)] flex-row ">
 				<Canvas
 					items={props.items}
-					sessionTree={props.sessionTree}
+					selection={props.selection}
 					audience={props.audience}
 					container={props.container}
 					fluidMembers={fluidMembers}
 					currentUser={currentUser}
 					undoRedo={props.undoRedo}
-					presence={props.presence}
 					setCurrentUser={setCurrentUser}
 					setConnectionState={setConnectionState}
 					setSaved={setSaved}

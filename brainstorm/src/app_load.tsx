@@ -14,6 +14,7 @@ import { loadFluidData } from "./infra/fluid.js";
 import { IFluidContainer } from "fluid-framework";
 
 import { acquirePresenceViaDataObject } from "@fluidframework/presence/alpha";
+import { buildSelectionManager } from "./utils/session_helpers.js";
 
 export async function loadApp(
 	client: AzureClient | OdspClient,
@@ -29,17 +30,15 @@ export async function loadApp(
 	);
 
 	// Initialize the SharedTree DDSes
-	const sessionTree = container.initialObjects.sessionData.viewWith(sessionTreeConfiguration);
-	if (sessionTree.compatibility.canInitialize) {
-		sessionTree.initialize({ clients: [] });
-	}
 	const appTree = container.initialObjects.appData.viewWith(appTreeConfiguration);
 	if (appTree.compatibility.canInitialize) {
 		appTree.initialize(new Items([]));
 	}
 
 	// Get the Presence data object from the container
-	const presence = acquirePresenceViaDataObject(container.initialObjects.presence);
+	const selection = buildSelectionManager(
+		acquirePresenceViaDataObject(container.initialObjects.presence),
+	);
 
 	// create the root element for React
 	const app = document.createElement("div");
@@ -57,11 +56,10 @@ export async function loadApp(
 		<DndProvider backend={HTML5Backend}>
 			<ReactApp
 				items={appTree}
-				sessionTree={sessionTree}
+				selection={selection}
 				audience={services.audience}
 				container={container}
 				undoRedo={undoRedo}
-				presence={presence}
 			/>
 		</DndProvider>,
 	);
