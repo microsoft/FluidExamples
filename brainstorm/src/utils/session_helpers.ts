@@ -22,26 +22,20 @@ export const testNoteSelection = (
 		presence.getStates(statesName, statesSchema).props.selected.local,
 	);
 
-	let selected = false;
-	let remoteSelected = false;
+	const remoteSelectedClients: string[] = [];
 
 	const latestValueManager = presence.getStates(statesName, statesSchema).props.selected;
-
-	const id = presence.getMyself().sessionId;
-
-	if (id === undefined) {
-		return { selected, remoteSelected };
-	}
 
 	for (const cv of latestValueManager.clientValues()) {
 		if (cv.client.getConnectionStatus() === "Connected") {
 			if (cv.value.notes.indexOf(note.id) != -1) {
-				remoteSelected = true;
+				remoteSelectedClients.push(cv.client.sessionId);
 			}
 		}
 	}
 
-	selected = latestValueManager.local.notes.indexOf(note.id) != -1;
+	const selected = latestValueManager.local.notes.indexOf(note.id) != -1;
+	const remoteSelected = remoteSelectedClients.length > 0;
 
 	console.log("selected", selected, "remoteSelected", remoteSelected);
 
