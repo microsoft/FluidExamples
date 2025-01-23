@@ -67,6 +67,7 @@ export function NoteView(props: {
 	};
 
 	const updateSelection = (action: selectAction) => {
+		setInvalSelection(invalSelection + Math.random());
 		updateNoteSelection(props.note, action, props.presence);
 	};
 
