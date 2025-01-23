@@ -16,12 +16,6 @@ export const testNoteSelection = (
 	note: Note,
 	presence: IPresence,
 ): { selected: boolean; remoteSelected: boolean } => {
-	console.log(
-		"testNoteSelection",
-		note.id,
-		presence.getStates(statesName, statesSchema).props.selected.local,
-	);
-
 	const remoteSelectedClients: string[] = [];
 
 	const latestValueManager = presence.getStates(statesName, statesSchema).props.selected;
@@ -36,8 +30,6 @@ export const testNoteSelection = (
 
 	const selected = latestValueManager.local.notes.indexOf(note.id) != -1;
 	const remoteSelected = remoteSelectedClients.length > 0;
-
-	console.log("selected", selected, "remoteSelected", remoteSelected);
 
 	return { selected, remoteSelected };
 };
