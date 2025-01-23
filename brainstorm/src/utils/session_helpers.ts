@@ -3,105 +3,99 @@
  * Licensed under the MIT License.
  */
 
+import {
+	IPresence,
+	Latest,
+	PresenceStates,
+	PresenceStatesSchema,
+} from "@fluidframework/presence/alpha";
 import { Note } from "../schema/app_schema.js";
-import { Session, Client } from "../schema/session_schema.js";
-import { selectAction, undefinedUserId } from "./utils.js";
+import { selectAction } from "./utils.js";
 
-export const testRemoteNoteSelection = (
+export const testNoteSelection = (
 	note: Note,
-	session: Session,
-	clientId: string,
-	fluidMembers: string[],
+	presence: IPresence,
 ): { selected: boolean; remoteSelected: boolean } => {
-	if (clientId == undefinedUserId) return { selected: false, remoteSelected: false };
+	console.log(
+		"testNoteSelection",
+		note.id,
+		presence.getStates(statesName, statesSchema).props.selected.local,
+	);
 
 	let selected = false;
 	let remoteSelected = false;
 
-	for (const c of session.clients) {
-		if (c.clientId == clientId) {
-			if (c.selected.indexOf(note.id) != -1) {
+	const latestValueManager = presence.getStates(statesName, statesSchema).props.selected;
+
+	const id = presence.getMyself().sessionId;
+
+	if (id === undefined) {
+		return { selected, remoteSelected };
+	}
+
+	for (const cv of latestValueManager.clientValues()) {
+		if (cv.client.sessionId === id) {
+			if (cv.value.indexOf(note.id) != -1) {
 				selected = true;
 			}
 		}
-
-		if (c.clientId != clientId && fluidMembers.indexOf(c.clientId) != -1) {
-			if (c.selected.indexOf(note.id) != -1) {
+		if (cv.client.sessionId != id) {
+			if (cv.value.indexOf(note.id) != -1) {
 				remoteSelected = true;
 			}
 		}
 	}
 
+	console.log("selected", selected, "remoteSelected", remoteSelected);
+
 	return { selected, remoteSelected };
 };
 
-export const updateRemoteNoteSelection = (
-	note: Note,
-	action: selectAction,
-	session: Session,
-	clientId: string,
-) => {
-	if (clientId == undefinedUserId) return;
+export const updateNoteSelection = (note: Note, action: selectAction, presence: IPresence) => {
+	const latestValueManager = presence.getStates(statesName, statesSchema).props.selected;
 
 	// Handle removed items and bail
 	if (action == selectAction.REMOVE) {
-		for (const c of session.clients) {
-			if (c.clientId === clientId) {
-				const i = c.selected.indexOf(note.id);
-				if (i != -1) c.selected.removeAt(i);
-				return;
-			}
+		const arr: string[] = latestValueManager.local.slice();
+		const i = arr.indexOf(note.id);
+		if (i != -1) {
+			arr.splice(i, 1);
+			latestValueManager.local = arr;
 		}
 		return;
 	}
 
 	if (action == selectAction.MULTI) {
-		for (const c of session.clients) {
-			if (c.clientId === clientId) {
-				const i = c.selected.indexOf(note.id);
-				if (i == -1) c.selected.insertAtEnd(note.id);
-				return;
-			}
+		const arr: string[] = latestValueManager.local.slice();
+		const i = arr.indexOf(note.id);
+		if (i == -1) {
+			arr.push(note.id);
+			latestValueManager.local = arr;
 		}
+		return;
 	}
 
 	if (action == selectAction.SINGLE) {
-		console.log(clientId);
-		for (const c of session.clients) {
-			if (c.clientId === clientId) {
-				if (c.selected.length > 0) c.selected.removeRange(0);
-				c.selected.insertAtStart(note.id);
-				return;
-			}
-		}
-	}
-
-	const s = new Client({
-		clientId: clientId,
-		selected: [note.id],
-	});
-
-	session.clients.insertAtEnd(s);
-};
-
-export const getSelectedNotes = (session: Session, clientId: string): string[] => {
-	for (const c of session.clients) {
-		if (c.clientId == clientId) {
-			return c.selected.concat();
-		}
-	}
-	return [];
-};
-
-export const cleanSessionData = (session: Session, fluidMembers: string[]) => {
-	const deleteMe: Client[] = [];
-	for (const c of session.clients) {
-		if (!fluidMembers.includes(c.clientId)) {
-			deleteMe.push(c);
-		}
-	}
-
-	for (const c of deleteMe) {
-		session.clients.removeAt(session.clients.indexOf(c));
+		console.log("single select", note.id);
+		latestValueManager.local = [note.id];
+		return;
 	}
 };
+
+export const getSelectedNotes = (presence: IPresence): readonly string[] => {
+	return presence.getStates(statesName, statesSchema).props.selected.local;
+};
+
+export const statesName = "name:brainstorm-presence";
+
+export const statesSchema = {
+	// sets selected to an array of strings
+	selected: Latest([] as string[]),
+} satisfies PresenceStatesSchema;
+
+export type BrainstormPresence = PresenceStates<typeof statesSchema>;
+
+export function buildPresence(presence: IPresence): BrainstormPresence {
+	const states = presence.getStates("name:brainstorm-presence", statesSchema);
+	return states;
+}

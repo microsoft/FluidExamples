@@ -11,6 +11,7 @@ import { IFluidContainer, IMember, IServiceAudience, TreeView } from "fluid-fram
 import { undefinedUserId } from "../utils/utils.js";
 import { Canvas } from "./canvasux.js";
 import { undoRedo } from "../utils/undo.js";
+import { IPresence } from "@fluidframework/presence/alpha";
 
 export function ReactApp(props: {
 	items: TreeView<typeof Items>;
@@ -18,6 +19,7 @@ export function ReactApp(props: {
 	audience: IServiceAudience<IMember>;
 	container: IFluidContainer;
 	undoRedo: undoRedo;
+	presence: IPresence;
 }): JSX.Element {
 	const [currentUser, setCurrentUser] = useState(undefinedUserId);
 	const [connectionState, setConnectionState] = useState("");
@@ -49,6 +51,7 @@ export function ReactApp(props: {
 					fluidMembers={fluidMembers}
 					currentUser={currentUser}
 					undoRedo={props.undoRedo}
+					presence={props.presence}
 					setCurrentUser={setCurrentUser}
 					setConnectionState={setConnectionState}
 					setSaved={setSaved}

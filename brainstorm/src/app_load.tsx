@@ -13,6 +13,8 @@ import { containerSchema } from "./schema/container_schema.js";
 import { loadFluidData } from "./infra/fluid.js";
 import { IFluidContainer } from "fluid-framework";
 
+import { acquirePresenceViaDataObject } from "@fluidframework/presence/alpha";
+
 export async function loadApp(
 	client: AzureClient | OdspClient,
 	containerId: string,
@@ -36,6 +38,9 @@ export async function loadApp(
 		appTree.initialize(new Items([]));
 	}
 
+	// Get the Presence data object from the container
+	const presence = acquirePresenceViaDataObject(container.initialObjects.presence);
+
 	// create the root element for React
 	const app = document.createElement("div");
 	app.id = "app";
@@ -56,6 +61,7 @@ export async function loadApp(
 				audience={services.audience}
 				container={container}
 				undoRedo={undoRedo}
+				presence={presence}
 			/>
 		</DndProvider>,
 	);

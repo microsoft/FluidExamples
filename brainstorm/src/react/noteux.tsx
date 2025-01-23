@@ -7,18 +7,25 @@ import React, { JSX, RefObject, useEffect, useRef, useState } from "react";
 import { Note, Group, Items } from "../schema/app_schema.js";
 import { moveItem } from "../utils/app_helpers.js";
 import { dragType, getRotation, selectAction } from "../utils/utils.js";
-import { testRemoteNoteSelection, updateRemoteNoteSelection } from "../utils/session_helpers.js";
+import {
+	statesName,
+	statesSchema,
+	testNoteSelection,
+	updateNoteSelection,
+} from "../utils/session_helpers.js";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
 import { useTransition } from "react-transition-state";
 import { Tree } from "fluid-framework";
 import { IconButton, MiniThumb, DeleteButton } from "./buttonux.js";
 import { Session } from "../schema/session_schema.js";
+import { IPresence } from "@fluidframework/presence/alpha";
 
 export function RootNoteWrapper(props: {
 	note: Note;
 	clientId: string;
 	session: Session;
 	fluidMembers: string[];
+	presence: IPresence;
 }): JSX.Element {
 	return (
 		<div className="bg-transparent flex flex-col justify-center h-64">
@@ -32,6 +39,7 @@ export function NoteView(props: {
 	clientId: string;
 	session: Session;
 	fluidMembers: string[];
+	presence: IPresence;
 }): JSX.Element {
 	const mounted = useRef(false);
 
@@ -52,19 +60,14 @@ export function NoteView(props: {
 		return <></>;
 	}
 
-	const testSelection = (
-		note: Note,
-		session: Session,
-		clientId: string,
-		fluidMembers: string[],
-	) => {
-		const result = testRemoteNoteSelection(note, session, clientId, fluidMembers);
+	const testSelection = () => {
+		const result = testNoteSelection(props.note, props.presence);
 		setSelected(result.selected);
 		setRemoteSelected(result.remoteSelected);
 	};
 
 	const updateSelection = (action: selectAction) => {
-		updateRemoteNoteSelection(props.note, action, props.session, props.clientId);
+		updateNoteSelection(props.note, action, props.presence);
 	};
 
 	// Register for tree deltas when the component mounts.
@@ -73,14 +76,17 @@ export function NoteView(props: {
 	// changes in the session tree.
 	useEffect(() => {
 		// Returns the cleanup function to be invoked when the component unmounts.
-		const unsubscribe = Tree.on(props.session, "treeChanged", () => {
-			setInvalSelection(invalSelection + Math.random());
-		});
+		const unsubscribe = props.presence
+			.getStates(statesName, statesSchema)
+			.props.selected.events.on("updated", () => {
+				setInvalSelection(invalSelection + Math.random());
+			});
 		return unsubscribe;
 	}, []);
 
 	useEffect(() => {
-		testSelection(props.note, props.session, props.clientId, props.fluidMembers);
+		console.log("updated selected state");
+		testSelection();
 	}, [invalSelection]);
 
 	// Register for tree deltas when the component mounts.
@@ -95,12 +101,12 @@ export function NoteView(props: {
 	}, []);
 
 	useEffect(() => {
-		testSelection(props.note, props.session, props.clientId, props.fluidMembers);
+		testSelection();
 	}, [props.fluidMembers]);
 
 	useEffect(() => {
 		mounted.current = true;
-		testSelection(props.note, props.session, props.clientId, props.fluidMembers);
+		testSelection();
 
 		return () => {
 			mounted.current = false;

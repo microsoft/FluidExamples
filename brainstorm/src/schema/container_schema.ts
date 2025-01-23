@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 
+import { ExperimentalPresenceManager } from "@fluidframework/presence/alpha";
 import { ContainerSchema, SharedTree } from "fluid-framework";
 
 // Define the schema of our Container. This includes the DDSes/DataObjects
@@ -12,5 +13,6 @@ export const containerSchema = {
 	initialObjects: {
 		appData: SharedTree,
 		sessionData: SharedTree,
+		presence: ExperimentalPresenceManager,
 	},
 } satisfies ContainerSchema;

@@ -27,6 +27,7 @@ import {
 } from "./buttonux.js";
 import { undefinedUserId } from "../utils/utils.js";
 import { undoRedo } from "../utils/undo.js";
+import { IPresence } from "@fluidframework/presence/alpha";
 
 export function Canvas(props: {
 	items: TreeView<typeof Items>;
@@ -36,6 +37,7 @@ export function Canvas(props: {
 	fluidMembers: string[];
 	currentUser: string;
 	undoRedo: undoRedo;
+	presence: IPresence;
 	setCurrentUser: (arg: string) => void;
 	setConnectionState: (arg: string) => void;
 	setSaved: (arg: boolean) => void;
@@ -105,6 +107,7 @@ export function Canvas(props: {
 				clientId={props.currentUser}
 				session={props.sessionTree.root}
 				fluidMembers={props.fluidMembers}
+				presence={props.presence}
 			/>
 			<Floater>
 				<ButtonGroup>
@@ -112,12 +115,14 @@ export function Canvas(props: {
 						items={props.items.root}
 						session={props.sessionTree.root}
 						clientId={props.currentUser}
+						presence={props.presence}
 					/>
 					<NewNoteButton items={props.items.root} clientId={props.currentUser} />
 					<DeleteNotesButton
 						session={props.sessionTree.root}
 						items={props.items.root}
 						clientId={props.currentUser}
+						presence={props.presence}
 					/>
 				</ButtonGroup>
 				<ButtonGroup>
@@ -135,6 +140,7 @@ export function ItemsView(props: {
 	clientId: string;
 	session: Session;
 	fluidMembers: string[];
+	presence: IPresence;
 }): JSX.Element {
 	const isRoot = Tree.parent(props.parent) === undefined;
 
@@ -148,6 +154,7 @@ export function ItemsView(props: {
 					clientId={props.clientId}
 					session={props.session}
 					fluidMembers={props.fluidMembers}
+					presence={props.presence}
 				/>,
 			);
 		} else if (Tree.is(i, Note)) {
@@ -159,6 +166,7 @@ export function ItemsView(props: {
 						clientId={props.clientId}
 						session={props.session}
 						fluidMembers={props.fluidMembers}
+						presence={props.presence}
 					/>,
 				);
 			} else {
@@ -169,6 +177,7 @@ export function ItemsView(props: {
 						clientId={props.clientId}
 						session={props.session}
 						fluidMembers={props.fluidMembers}
+						presence={props.presence}
 					/>,
 				);
 			}

@@ -12,12 +12,14 @@ import { dragType } from "../utils/utils.js";
 import { Session } from "../schema/session_schema.js";
 import { ItemsView } from "./canvasux.js";
 import { Tree } from "fluid-framework";
+import { IPresence } from "@fluidframework/presence/alpha";
 
 export function GroupView(props: {
 	group: Group;
 	clientId: string;
 	session: Session;
 	fluidMembers: string[];
+	presence: IPresence;
 }): JSX.Element {
 	// copy the array of items from the group
 	// to force a re-render when the array changes
@@ -128,6 +130,7 @@ export function GroupView(props: {
 					clientId={props.clientId}
 					session={props.session}
 					fluidMembers={props.fluidMembers}
+					presence={props.presence}
 				/>
 			</div>
 		</div>
