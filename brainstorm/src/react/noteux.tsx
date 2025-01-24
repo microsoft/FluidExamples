@@ -69,7 +69,6 @@ export function NoteView(props: {
 			props.selection.removeEventListener("selectionChanged", () => {
 				setInvalSelection(invalSelection + Math.random());
 			});
-			props.selection.dispose();
 		};
 	}, []);
 
