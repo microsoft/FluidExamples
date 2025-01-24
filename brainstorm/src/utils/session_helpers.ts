@@ -9,21 +9,37 @@ import {
 	type PresenceStatesSchema,
 	type PresenceStatesEntries,
 } from "@fluidframework/presence/alpha";
-import type { Listenable } from "fluid-framework";
 import type { Note } from "../schema/app_schema.js";
 import { selectAction } from "./utils.js";
-import { createEmitter } from "./emitter.js";
 
-interface SelectionManagerEvents {
-	selectionChanged: () => void;
-}
+export class SelectionManager extends EventTarget {
+	private valueManager: BrainstormSelection;
 
-export interface SelectionManager {
-	readonly events: Listenable<SelectionManagerEvents>;
-	testNoteSelection(note: Note): boolean;
-	testNoteRemoteSelection(note: Note): boolean;
-	updateNoteSelection(note: Note, action: selectAction): void;
-	getSelectedNotes(): readonly string[];
+	constructor(presence: IPresence) {
+		super();
+		this.valueManager = presence.getStates(statesName, statesSchema).props.selected;
+		this.valueManager.events.on("updated", () =>
+			this.dispatchEvent(new Event("selectionChanged")),
+		);
+	}
+
+	public testNoteSelection(note: Note) {
+		return testNoteSelection(note, this.valueManager);
+	}
+
+	public testNoteRemoteSelection(note: Note) {
+		return testNoteRemoteSelection(note, this.valueManager);
+	}
+
+	public updateNoteSelection(note: Note, action: selectAction) {
+		// emit an event to notify the app that the selection has changed
+		this.dispatchEvent(new Event("selectionChanged"));
+		updateNoteSelection(note, action, this.valueManager);
+	}
+
+	public getSelectedNotes() {
+		return getSelectedNotes(this.valueManager);
+	}
 }
 
 const statesName = "name:brainstorm-presence";
@@ -84,19 +100,3 @@ const updateNoteSelection = (
 const getSelectedNotes = (latestValueManager: BrainstormSelection): readonly string[] => {
 	return latestValueManager.local.notes;
 };
-
-export function buildSelectionManager(presence: IPresence): SelectionManager {
-	const valueManager = presence.getStates(statesName, statesSchema).props.selected;
-	const events = createEmitter<SelectionManagerEvents>();
-	valueManager.events.on("updated", () => events.emit("selectionChanged"));
-	return {
-		events,
-		testNoteSelection: (note: Note) => testNoteSelection(note, valueManager),
-		testNoteRemoteSelection: (note: Note) => testNoteRemoteSelection(note, valueManager),
-		updateNoteSelection: (note: Note, action: selectAction) => {
-			events.emit("selectionChanged");
-			updateNoteSelection(note, action, valueManager);
-		},
-		getSelectedNotes: () => getSelectedNotes(valueManager),
-	};
-}

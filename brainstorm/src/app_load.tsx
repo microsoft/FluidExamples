@@ -13,7 +13,7 @@ import { loadFluidData } from "./infra/fluid.js";
 import { IFluidContainer } from "fluid-framework";
 
 import { acquirePresenceViaDataObject } from "@fluidframework/presence/alpha";
-import { buildSelectionManager } from "./utils/session_helpers.js";
+import { SelectionManager } from "./utils/session_helpers.js";
 
 export async function loadApp(
 	client: AzureClient | OdspClient,
@@ -35,7 +35,7 @@ export async function loadApp(
 	}
 
 	// Get the Presence data object from the container
-	const selection = buildSelectionManager(
+	const selection = new SelectionManager(
 		acquirePresenceViaDataObject(container.initialObjects.presence),
 	);
 
