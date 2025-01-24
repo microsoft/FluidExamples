@@ -62,14 +62,11 @@ export function NoteView(props: {
 
 	// Register for updates to the selection when the component mounts.
 	useEffect(() => {
-		props.selection.addEventListener("selectionChanged", () => {
+		const invalidate = () => {
 			setInvalSelection(invalSelection + Math.random());
-		});
-		return () => {
-			props.selection.removeEventListener("selectionChanged", () => {
-				setInvalSelection(invalSelection + Math.random());
-			});
 		};
+		props.selection.addEventListener("selectionChanged", invalidate);
+		return () => props.selection.removeEventListener("selectionChanged", invalidate);
 	}, []);
 
 	useEffect(() => {
