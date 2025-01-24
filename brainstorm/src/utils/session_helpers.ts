@@ -40,6 +40,12 @@ export class SelectionManager extends EventTarget {
 	public getSelectedNotes() {
 		return getSelectedNotes(this.valueManager);
 	}
+
+	public dispose() {
+		this.valueManager.events.off("updated", () =>
+			this.dispatchEvent(new Event("selectionChanged")),
+		);
+	}
 }
 
 const statesName = "name:brainstorm-presence";

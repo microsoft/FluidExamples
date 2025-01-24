@@ -62,13 +62,15 @@ export function NoteView(props: {
 
 	// Register for updates to the selection when the component mounts.
 	useEffect(() => {
-		// Returns the cleanup function to be invoked when the component unmounts.
 		props.selection.addEventListener("selectionChanged", () => {
 			setInvalSelection(invalSelection + Math.random());
 		});
-		return props.selection.removeEventListener("selectionChanged", () => {
-			setInvalSelection(invalSelection + Math.random());
-		});
+		return () => {
+			props.selection.removeEventListener("selectionChanged", () => {
+				setInvalSelection(invalSelection + Math.random());
+			});
+			props.selection.dispose();
+		};
 	}, []);
 
 	useEffect(() => {
