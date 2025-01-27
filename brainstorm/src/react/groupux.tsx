@@ -8,7 +8,7 @@ import { Group, Items, Note } from "../schema/app_schema.js";
 import { moveItem } from "../utils/app_helpers.js";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
 import { DeleteButton } from "./buttonux.js";
-import type { SelectionManager } from "../utils/session_helpers.js";
+import type { SelectionManager } from "../utils/presence_helpers.js";
 import { dragType } from "../utils/utils.js";
 import { ItemsView } from "./canvasux.js";
 import { Tree } from "fluid-framework";

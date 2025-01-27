@@ -7,7 +7,7 @@ import React, { JSX, RefObject, useEffect, useRef, useState } from "react";
 import { Note, Group, Items } from "../schema/app_schema.js";
 import { moveItem } from "../utils/app_helpers.js";
 import { dragType, getRotation, selectAction } from "../utils/utils.js";
-import type { SelectionManager } from "../utils/session_helpers.js";
+import type { SelectionManager } from "../utils/presence_helpers.js";
 import { ConnectableElement, useDrag, useDrop } from "react-dnd";
 import { useTransition } from "react-transition-state";
 import { Tree } from "fluid-framework";

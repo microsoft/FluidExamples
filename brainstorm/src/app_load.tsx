@@ -13,7 +13,7 @@ import { loadFluidData } from "./infra/fluid.js";
 import { IFluidContainer } from "fluid-framework";
 
 import { acquirePresenceViaDataObject } from "@fluidframework/presence/alpha";
-import { SelectionManager } from "./utils/session_helpers.js";
+import { SelectionManager } from "./utils/presence_helpers.js";
 
 export async function loadApp(
 	client: AzureClient | OdspClient,

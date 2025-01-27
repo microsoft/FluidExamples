@@ -16,7 +16,7 @@ import {
 	ArrowRedoFilled,
 } from "@fluentui/react-icons";
 import { Tree } from "fluid-framework";
-import type { SelectionManager } from "../utils/session_helpers.js";
+import type { SelectionManager } from "../utils/presence_helpers.js";
 
 export function NewGroupButton(props: {
 	items: Items;

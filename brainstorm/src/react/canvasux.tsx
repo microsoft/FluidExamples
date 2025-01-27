@@ -26,7 +26,7 @@ import {
 } from "./buttonux.js";
 import { undefinedUserId } from "../utils/utils.js";
 import { undoRedo } from "../utils/undo.js";
-import type { SelectionManager } from "../utils/session_helpers.js";
+import type { SelectionManager } from "../utils/presence_helpers.js";
 
 export function Canvas(props: {
 	items: TreeView<typeof Items>;

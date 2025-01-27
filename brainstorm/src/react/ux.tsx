@@ -9,7 +9,7 @@ import "../output.css";
 import { IFluidContainer, IMember, IServiceAudience, TreeView } from "fluid-framework";
 import { undefinedUserId } from "../utils/utils.js";
 import { Canvas } from "./canvasux.js";
-import type { SelectionManager } from "../utils/session_helpers.js";
+import type { SelectionManager } from "../utils/presence_helpers.js";
 import { undoRedo } from "../utils/undo.js";
 
 export function ReactApp(props: {
