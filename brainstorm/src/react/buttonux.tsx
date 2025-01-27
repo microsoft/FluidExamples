@@ -30,7 +30,7 @@ export function NewGroupButton(props: {
 		// This ensures that the revertible of the operation will undo all the changes made by the operation.
 		Tree.runTransaction(props.items, () => {
 			const group = props.items.addGroup("[new group]");
-			const ids = props.selection.getSelectedNotes();
+			const ids = props.selection.getSelected();
 			for (const id of ids) {
 				const n = findNote(props.items, id);
 				if (Tree.is(n, Note)) {
@@ -79,7 +79,7 @@ export function DeleteNotesButton(props: {
 		// and we want to ensure that the operation is atomic. This ensures that the revertible of
 		// the operation will undo all the changes made by the operation.
 		Tree.runTransaction(props.items, () => {
-			const ids = props.selection.getSelectedNotes();
+			const ids = props.selection.getSelected();
 			for (const i of ids) {
 				const n = findNote(props.items, i);
 				n?.delete();

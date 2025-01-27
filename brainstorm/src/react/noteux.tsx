@@ -52,12 +52,16 @@ export function NoteView(props: {
 	}
 
 	const testSelection = () => {
-		setSelected(props.selection.testNoteSelection(props.note));
-		setRemoteSelected(props.selection.testNoteRemoteSelection(props.note));
+		setSelected(props.selection.testSelection(props.note));
+		setRemoteSelected(props.selection.testRemoteSelection(props.note));
 	};
 
 	const updateSelection = (action: selectAction) => {
-		props.selection.updateNoteSelection(props.note, action);
+		if (action == selectAction.SINGLE) {
+			props.selection.updateSelection(props.note);
+		} else {
+			props.selection.appendSelection(props.note);
+		}
 	};
 
 	// Register for updates to the selection when the component mounts.

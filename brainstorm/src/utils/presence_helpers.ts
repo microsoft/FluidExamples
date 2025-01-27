@@ -9,15 +9,13 @@ import {
 	type PresenceStatesSchema,
 	type PresenceStatesEntries,
 } from "@fluidframework/presence/alpha";
-import type { Note } from "../schema/app_schema.js";
-import { selectAction } from "./utils.js";
 
 export class SelectionManager extends EventTarget {
 	statesName: `${string}:${string}` = "name:brainstorm-presence";
 
 	statesSchema = {
 		// sets selected to an array of strings
-		selected: Latest({ notes: [] as string[] }),
+		selected: Latest({ items: [] as string[] }),
 	} satisfies PresenceStatesSchema;
 
 	private valueManager: PresenceStatesEntries<typeof this.statesSchema>["selected"];
@@ -30,16 +28,16 @@ export class SelectionManager extends EventTarget {
 		);
 	}
 
-	public testNoteSelection(note: Note) {
-		return this.valueManager.local.notes.indexOf(note.id) != -1;
+	public testSelection<T extends { id: string }>(item: T) {
+		return this.valueManager.local.items.indexOf(item.id) != -1;
 	}
 
-	public testNoteRemoteSelection(note: Note) {
+	public testRemoteSelection<T extends { id: string }>(item: T) {
 		const remoteSelectedClients: string[] = [];
 
 		for (const cv of this.valueManager.clientValues()) {
 			if (cv.client.getConnectionStatus() === "Connected") {
-				if (cv.value.notes.indexOf(note.id) !== -1) {
+				if (cv.value.items.indexOf(item.id) !== -1) {
 					remoteSelectedClients.push(cv.client.sessionId);
 				}
 			}
@@ -48,34 +46,38 @@ export class SelectionManager extends EventTarget {
 		return remoteSelectedClients.length > 0;
 	}
 
-	public updateNoteSelection(note: Note, action: selectAction) {
+	public updateSelection<T extends { id: string }>(item: T) {
+		let arr: string[] = [];
+		const i = this.valueManager.local.items.indexOf(item.id);
+		if (i == -1) {
+			arr = [item.id];
+		}
+		this.valueManager.local = { items: arr };
+
 		// emit an event to notify the app that the selection has changed
 		this.dispatchEvent(new Event("selectionChanged"));
-		if (action == selectAction.MULTI) {
-			const arr: string[] = this.valueManager.local.notes.slice();
-			const i = arr.indexOf(note.id);
-			if (i == -1) {
-				arr.push(note.id);
-			} else {
-				arr.splice(i, 1);
-			}
-			this.valueManager.local = { notes: arr };
-		}
-
-		if (action == selectAction.SINGLE) {
-			let arr: string[] = [];
-			const i = this.valueManager.local.notes.indexOf(note.id);
-			if (i == -1) {
-				arr = [note.id];
-			}
-			this.valueManager.local = { notes: arr };
-		}
 
 		return;
 	}
 
-	public getSelectedNotes() {
-		return this.valueManager.local.notes;
+	public appendSelection<T extends { id: string }>(item: T) {
+		const arr: string[] = this.valueManager.local.items.slice();
+		const i = arr.indexOf(item.id);
+		if (i == -1) {
+			arr.push(item.id);
+		} else {
+			arr.splice(i, 1);
+		}
+		this.valueManager.local = { items: arr };
+
+		// emit an event to notify the app that the selection has changed
+		this.dispatchEvent(new Event("selectionChanged"));
+
+		return;
+	}
+
+	public getSelected() {
+		return this.valueManager.local.items;
 	}
 
 	public dispose() {
