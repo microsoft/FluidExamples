@@ -12,7 +12,6 @@ import { ContainerSchema, SharedTree } from "fluid-framework";
 export const containerSchema = {
 	initialObjects: {
 		appData: SharedTree,
-		sessionData: SharedTree,
 		presence: ExperimentalPresenceManager,
 	},
 } satisfies ContainerSchema;
