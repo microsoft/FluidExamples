@@ -28,16 +28,16 @@ export class SelectionManager extends EventTarget {
 		);
 	}
 
-	public testSelection<T extends { id: string }>(item: T) {
-		return this.valueManager.local.items.indexOf(item.id) != -1;
+	public testSelection(id: string) {
+		return this.valueManager.local.items.indexOf(id) != -1;
 	}
 
-	public testRemoteSelection<T extends { id: string }>(item: T) {
+	public testRemoteSelection(id: string) {
 		const remoteSelectedClients: string[] = [];
 
 		for (const cv of this.valueManager.clientValues()) {
 			if (cv.client.getConnectionStatus() === "Connected") {
-				if (cv.value.items.indexOf(item.id) !== -1) {
+				if (cv.value.items.indexOf(id) !== -1) {
 					remoteSelectedClients.push(cv.client.sessionId);
 				}
 			}
@@ -46,11 +46,11 @@ export class SelectionManager extends EventTarget {
 		return remoteSelectedClients.length > 0;
 	}
 
-	public updateSelection<T extends { id: string }>(item: T) {
+	public updateSelection(id: string) {
 		let arr: string[] = [];
-		const i = this.valueManager.local.items.indexOf(item.id);
+		const i = this.valueManager.local.items.indexOf(id);
 		if (i == -1) {
-			arr = [item.id];
+			arr = [id];
 		}
 		this.valueManager.local = { items: arr };
 
@@ -60,11 +60,11 @@ export class SelectionManager extends EventTarget {
 		return;
 	}
 
-	public appendSelection<T extends { id: string }>(item: T) {
+	public appendSelection(id: string) {
 		const arr: string[] = this.valueManager.local.items.slice();
-		const i = arr.indexOf(item.id);
+		const i = arr.indexOf(id);
 		if (i == -1) {
-			arr.push(item.id);
+			arr.push(id);
 		} else {
 			arr.splice(i, 1);
 		}

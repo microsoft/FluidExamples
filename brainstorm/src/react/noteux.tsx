@@ -52,15 +52,15 @@ export function NoteView(props: {
 	}
 
 	const testSelection = () => {
-		setSelected(props.selection.testSelection(props.note));
-		setRemoteSelected(props.selection.testRemoteSelection(props.note));
+		setSelected(props.selection.testSelection(props.note.id));
+		setRemoteSelected(props.selection.testRemoteSelection(props.note.id));
 	};
 
 	const updateSelection = (action: selectAction) => {
 		if (action == selectAction.SINGLE) {
-			props.selection.updateSelection(props.note);
+			props.selection.updateSelection(props.note.id);
 		} else {
-			props.selection.appendSelection(props.note);
+			props.selection.appendSelection(props.note.id);
 		}
 	};
 
