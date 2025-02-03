@@ -20,8 +20,8 @@
 		"node": ">=20.0.0"
 	},
 	"dependencies": {
-		"@azure/identity": "^4.5.0",
-		"@azure/msal-browser": "^3.28.0",
+		"@azure/identity": "^4.6.0",
+		"@azure/msal-browser": "^4.0.2",
 		"@fluidframework/azure-client": "^2.20.0",
 		"@fluidframework/odsp-client": "^2.20.0",
 		"@fluidframework/telemetry-utils": "^2.20.0",
@@ -56,7 +56,7 @@
 		"mini-css-extract-plugin": "^2.9.2",
 		"prettier": "^3.4.2",
 		"style-loader": "^4.0.0",
-		"tailwindcss": "^4.0.0",
+		"tailwindcss": "^4.0.3",
 		"ts-loader": "^9.5.2",
 		"typescript": "~5.7",
 		"webpack": "^5.96.1",
