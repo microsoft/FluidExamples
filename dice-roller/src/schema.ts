@@ -3,10 +3,10 @@
  * Licensed under the MIT License.
  */
 
-import { TreeConfiguration, SchemaFactory } from "fluid-framework";
+import { TreeViewConfiguration, SchemaFactory } from "fluid-framework";
 
 // Define a schema factory that is used to generate classes for the schema
-const schemaFactory = new SchemaFactory("d302b84c-75f6-4ecd-9663-524f467013e3");
+const schemaFactory = new SchemaFactory("d302b84c-75f6-4ecd-9663-524f467013e8");
 
 export class DiceRoller extends schemaFactory.object("DiceRoller", {
 	// value: schemaFactory.string
@@ -24,10 +24,7 @@ export class DiceRoller extends schemaFactory.object("DiceRoller", {
 }
 
 // This object is passed into the SharedTree via the schematize method.
-export const treeConfiguration = new TreeConfiguration(
+export const treeConfiguration = new TreeViewConfiguration(
 	// Specify the root type - our class.
-	DiceRoller,
-	// Initial state of the tree which is used for new trees.
-	// () => new DiceRoller({ value: "1" }),
-	() => new DiceRoller({ value: 1 }),
+	{ schema: DiceRoller }
 );

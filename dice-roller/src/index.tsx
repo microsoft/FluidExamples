@@ -30,9 +30,12 @@ async function start() {
 	const { container } = await loadFluidData(containerId, containerSchema);
 
 	// Initialize the SharedTree Data Structure
-	const appData = container.initialObjects.appData.schematize(
+	const appData = container.initialObjects.appData.viewWith(
 		treeConfiguration, // This is defined in schema.ts
 	);
+	if (appData.compatibility.canInitialize) {
+		appData.initialize({ value: 1 });
+	}
 
 	// Render the app - note we attach new containers after render so
 	// the app renders instantly on create new flow. The app will be
