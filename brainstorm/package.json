@@ -41,7 +41,7 @@
 		"react-dnd": "^16.0.1",
 		"react-dnd-html5-backend": "^16.0.1",
 		"react-dom": "^19.0.0",
-		"react-transition-state": "^2.2.0",
+		"react-transition-state": "^2.3.0",
 		"unique-names-generator": "^4.7.1",
 		"uuid": "^11.0.5"
 	},
