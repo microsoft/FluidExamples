@@ -17,7 +17,7 @@
     "node": ">=18.18.0"
   },
   "devDependencies": {
-    "syncpack": "^13.0.1"
+    "syncpack": "^13.0.2"
   },
   "scripts": {
     "fix-mismatches": "syncpack fix-mismatches --source */package.json",
