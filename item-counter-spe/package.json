@@ -56,7 +56,7 @@
 		"mini-css-extract-plugin": "^2.9.2",
 		"prettier": "^3.4.2",
 		"style-loader": "^4.0.0",
-		"tailwindcss": "^4.0.3",
+		"tailwindcss": "^4.0.5",
 		"ts-loader": "^9.5.2",
 		"typescript": "~5.7",
 		"webpack": "^5.96.1",
