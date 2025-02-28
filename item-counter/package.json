@@ -24,11 +24,11 @@
 		"node": ">=20.0.0"
 	},
 	"dependencies": {
-		"@fluidframework/azure-client": "^2.22.0",
+		"@fluidframework/azure-client": "^2.22.1",
 		"@fluidframework/telemetry-utils": "^2.22.0",
-		"@fluidframework/test-runtime-utils": "^2.22.0",
+		"@fluidframework/test-runtime-utils": "^2.22.1",
 		"axios": "^1.7.9",
-		"fluid-framework": "^2.22.0",
+		"fluid-framework": "^2.22.1",
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
 		"jsrsasign": "^11.1.0",
@@ -39,9 +39,9 @@
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.0",
 		"@eslint/js": "^9.21.0",
-		"@fluidframework/azure-local-service": "^2.22.0",
+		"@fluidframework/azure-local-service": "^2.22.1",
 		"@fluidframework/build-common": "^2.0.3",
-		"@fluidframework/devtools": "^2.22.0",
+		"@fluidframework/devtools": "^2.22.1",
 		"@playwright/test": "^1.50.0",
 		"@types/debug": "^4.1.7",
 		"@types/jsrsasign": "^10.5.15",
