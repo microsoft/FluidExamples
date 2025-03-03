@@ -25,7 +25,7 @@
 		"node": ">=20.0.0"
 	},
 	"dependencies": {
-		"@azure/identity": "^4.6.0",
+		"@azure/identity": "^4.7.0",
 		"@azure/msal-browser": "^4.2.1",
 		"@fluentui/react-icons": "^2.0.274",
 		"@fluidframework/azure-client": "^2.22.1",
