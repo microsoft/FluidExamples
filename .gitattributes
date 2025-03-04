@@ -1,0 +1,2 @@
+# Have git autodetect text files and force lf line endings on them
+*     text=auto eol=lf
