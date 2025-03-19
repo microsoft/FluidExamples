@@ -69,7 +69,7 @@
 		"html-webpack-plugin": "^5.6.3",
 		"mini-css-extract-plugin": "^2.9.2",
 		"playwright": "^1.51.0",
-		"prettier": "^3.4.2",
+		"prettier": "^3.5.3",
 		"style-loader": "^4.0.0",
 		"tailwindcss": "^4.0.14",
 		"ts-loader": "^9.5.2",
