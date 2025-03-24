@@ -40,7 +40,7 @@
 		"@fluidframework/devtools": "^2.30.0",
 		"@microsoft/microsoft-graph-types": "^2.40.0",
 		"@types/debug": "^4.1.7",
-		"@types/react": "^19.0.10",
+		"@types/react": "^19.0.12",
 		"@types/react-dom": "^19.0.4",
 		"@typescript-eslint/eslint-plugin": "^8.26.1",
 		"@typescript-eslint/parser": "^8.26.1",
