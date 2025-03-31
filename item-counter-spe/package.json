@@ -20,8 +20,8 @@
 		"node": ">=20.0.0"
 	},
 	"dependencies": {
-		"@azure/identity": "^4.5.0",
-		"@azure/msal-browser": "^3.28.0",
+		"@azure/identity": "^4.8.0",
+		"@azure/msal-browser": "^4.9.1",
 		"@fluidframework/azure-client": "^2.13.0",
 		"@fluidframework/odsp-client": "^2.13.0",
 		"@fluidframework/telemetry-utils": "^2.13.0",
