@@ -32,8 +32,8 @@
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
 		"jsrsasign": "^11.1.0",
-		"react": "^19.0.0",
-		"react-dom": "^19.0.0",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0",
 		"uuid": "^11.1.0"
 	},
 	"devDependencies": {
