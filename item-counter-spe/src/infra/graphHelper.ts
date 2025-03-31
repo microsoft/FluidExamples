@@ -3,7 +3,7 @@ import { Client } from "@microsoft/microsoft-graph-client";
 import {
 	AuthCodeMSALBrowserAuthenticationProvider,
 	AuthCodeMSALBrowserAuthenticationProviderOptions,
-} from "@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser";
+} from "@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser/index.js";
 import { Site } from "@microsoft/microsoft-graph-types";
 
 export interface FileStorageContainer {
