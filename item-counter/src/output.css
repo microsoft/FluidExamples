@@ -46,7 +46,8 @@ html,
 	-o-tab-size: 4;
 	tab-size: 4;
 	/* 3 */
-	font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+	font-family:
+		ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
 		"Segoe UI Symbol", "Noto Color Emoji";
 	/* 4 */
 	font-feature-settings: normal;
@@ -136,8 +137,9 @@ code,
 kbd,
 samp,
 pre {
-	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-		"Courier New", monospace;
+	font-family:
+		ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+		monospace;
 	/* 1 */
 	font-feature-settings: normal;
 	/* 2 */
@@ -737,10 +739,10 @@ video {
 
 .shadow-md {
 	--tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-	--tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color),
-		0 2px 4px -2px var(--tw-shadow-color);
-	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
-		var(--tw-shadow);
+	--tw-shadow-colored:
+		0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+	box-shadow:
+		var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .hover\:bg-blue-700:hover {
