@@ -21,7 +21,7 @@
 	},
 	"dependencies": {
 		"@azure/identity": "^4.8.0",
-		"@azure/msal-browser": "^4.9.1",
+		"@azure/msal-browser": "^4.10.0",
 		"@fluidframework/azure-client": "^2.31.1",
 		"@fluidframework/odsp-client": "^2.31.1",
 		"@fluidframework/telemetry-utils": "^2.31.0",
