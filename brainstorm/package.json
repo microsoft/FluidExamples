@@ -25,7 +25,7 @@
 		"node": ">=20.0.0"
 	},
 	"dependencies": {
-		"@azure/identity": "^4.8.0",
+		"@azure/identity": "^4.9.1",
 		"@azure/msal-browser": "^4.10.0",
 		"@fluentui/react-icons": "^2.0.297",
 		"@fluidframework/azure-client": "^2.32.0",
@@ -52,7 +52,7 @@
 		"@fluidframework/build-common": "^2.0.3",
 		"@fluidframework/devtools": "^2.32.0",
 		"@microsoft/microsoft-graph-types": "^2.40.0",
-		"@playwright/test": "^1.51.1",
+		"@playwright/test": "^1.52.0",
 		"@types/debug": "^4.1.7",
 		"@types/jsrsasign": "^10.5.15",
 		"@types/react": "^19.1.2",
@@ -74,7 +74,7 @@
 		"tailwindcss": "^4.0.17",
 		"ts-loader": "^9.5.2",
 		"typescript": "~5.8",
-		"webpack": "^5.98.0",
+		"webpack": "^5.99.6",
 		"webpack-cli": "^6.0.1",
 		"webpack-dev-server": "^5.2.1"
 	},
