@@ -5,7 +5,7 @@ This app demonstrates how to create a simple tree data structure and build a Rea
 ## Setting up the Fluid Framework
 
 This app is designed to use SharePoint Embedded (SPE). The core application code is the same as samples that use Azure Fluid Relay (AFR); however,
-this sample uses odsp-client to connect to Fluid Framework as opposed to azure-client. The differences are primarilly isolated to the
+this sample uses odsp-client to connect to Fluid Framework as opposed to azure-client. The differences are primarily isolated to the
 infra folder, although the initialization flow for this app is different in that it includes auth while the AFR samples are anonymous.
 
 To use SPE you need to create an M365 developer account and configure SharePoint Embedded.
