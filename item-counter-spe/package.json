@@ -20,7 +20,7 @@
 		"node": ">=20.0.0"
 	},
 	"dependencies": {
-		"@azure/identity": "^4.9.0",
+		"@azure/identity": "^4.10.0",
 		"@azure/msal-browser": "^4.11.1",
 		"@fluidframework/azure-client": "^2.40.0",
 		"@fluidframework/odsp-client": "^2.40.0",
