@@ -16,7 +16,7 @@ From there you can create a new M365 developer tenant (which includes creating a
 This sample app requires that you have a Microsoft Entra tenant, a Microsoft Entra client Id for the app, have created
 a File Storage Container Type, and that the tenant you plan to use has a File Storage Container with that File Storage
 Container Type ID.
-Once you have done that, create a `.env` file in the `item-counter-spe` folder with the following content:
+Once you have done that, create a `.env` file in this folder with the following content:
 
 ```plaintext
 SPE_CLIENT_ID='your client id'
