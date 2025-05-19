@@ -23,22 +23,22 @@ This command starts the webpack development server, which will make the applicat
 
 One important note is that you will need to use a token provider or, purely for testing and development, use the insecure token provider. There are instructions on how to set this up on the [Fluid Framework website](https://aka.ms/fluid).
 
-All the code required to set up the Fluid Framework and SharedTree data structure is in the infra folder. Most of this code will be the same for any app.
+All the code required to set up the Fluid Framework and SharedTree data structure is in the `src/infra` folder. Most of this code will be the same for any app.
 
 ## Schema Definition
 
-The SharedTree schema is defined in the \_schema.ts source files. This schema is passed into the SharedTree when it is initialized in index.tsx. For more details, see the schema.ts comments.
+The SharedTree schema is defined in the `src/schema` folder. This schema is passed into the SharedTree when it is initialized in `src/index.tsx`. For more details, see the `src/schema/app_schema.ts` comments.
 
 ## Working with Data
 
-Working with data in the SharedTree is very simple; however, working with distributed data is always a little more complicated than working with local data. To isolate this complexity, this app uses a set of helper functions in the \_helpers.ts source files and in the schema itself that take types defined in the schema as input and modify the data in some way. Each function includes a brief description of how it works.
+Working with data in the SharedTree is very simple; however, working with distributed data is always a little more complicated than working with local data. To isolate this complexity, this app uses a set of helper functions in the `src/utils` folder and in the schema itself that take types defined in the schema as input and modify the data in some way. Each function includes a brief description of how it works.
 
 One important note about managing local state and events: ideally, in any app you write, it is best to not
 special case local changes. Treat the SharedTree as your local data and rely on tree events to update your view. This makes the code reliable and easy to maintain. Also, never mutate tree nodes within events listeners.
 
 ## User Interface
 
-This app is built using React. Changes to the data are handled using the helper functions mentioned above. If you look at the code in \*ux.tsx files, you'll find very little code that is unique to an app built with the Fluid Framework. If you want to change the css you must run 'npx tailwindcss -i ./src/index.css -o ./src/output.css --watch' in the root folder of your project so that tailwind can update the output.css file.
+This app is built using React. Changes to the data are handled using the helper functions mentioned above. If you look at the code in `src/react/*ux.tsx` files, you'll find very little code that is unique to an app built with the Fluid Framework. If you want to change the css you must run `npx @tailwindcss/cli -i ./src/index.css -o ./src/output.cs` in the root folder of your project so that tailwind can update the `src/output.css` file.
 
 ## Devtools
 
