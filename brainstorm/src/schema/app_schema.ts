@@ -15,7 +15,7 @@ import { v4 as uuid } from "uuid";
 // as list and map nodes.
 
 // Include a UUID to guarantee that this schema will be uniquely identifiable.
-// As this schema uses a recursive type, the beta SchemaFactoryRecursive is used instead of just SchemaFactory.
+// Note that this schema uses recursive types.
 const sf = new SchemaFactory("fc1db2e8-0a00-11ee-be56-0242ac120002");
 
 // Define the schema for the note object.
@@ -47,14 +47,13 @@ export class Note extends sf.object(
 	};
 
 	public readonly toggleVote = (user: string) => {
+		this.lastChanged = new Date().getTime();
 		const index = this.votes.indexOf(user);
 		if (index > -1) {
 			this.votes.removeAt(index);
 		} else {
 			this.votes.insertAtEnd(user);
 		}
-
-		this.lastChanged = new Date().getTime();
 	};
 
 	/**
@@ -124,7 +123,7 @@ export class Group extends sf.objectRecursive("Group", {
 	 * Removes a group from its parent {@link Items}.
 	 * If the note is not in an {@link Items}, it is left unchanged.
 	 *
-	 * Before removing the group, its children are move to the parent.
+	 * Before removing the group, its children are moved to the parent.
 	 */
 	public readonly delete = () => {
 		const parent = Tree.parent(this);
