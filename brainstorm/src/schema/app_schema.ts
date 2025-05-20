@@ -123,7 +123,7 @@ export class Group extends sf.objectRecursive("Group", {
 	 * Removes a group from its parent {@link Items}.
 	 * If the note is not in an {@link Items}, it is left unchanged.
 	 *
-	 * Before removing the group, its children are move to the parent.
+	 * Before removing the group, its children are moved to the parent.
 	 */
 	public readonly delete = () => {
 		const parent = Tree.parent(this);
