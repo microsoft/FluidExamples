@@ -47,14 +47,13 @@ export class Note extends sf.object(
 	};
 
 	public readonly toggleVote = (user: string) => {
+		this.lastChanged = new Date().getTime();
 		const index = this.votes.indexOf(user);
 		if (index > -1) {
 			this.votes.removeAt(index);
 		} else {
 			this.votes.insertAtEnd(user);
 		}
-
-		this.lastChanged = new Date().getTime();
 	};
 
 	/**
