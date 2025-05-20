@@ -23,11 +23,11 @@ This command starts the webpack development server, which will make the applicat
 
 One important note is that you will need to use a token provider or, purely for testing and development, use the insecure token provider. There are instructions on how to set this up on the [Fluid Framework website](https://aka.ms/fluid).
 
-All the code required to set up the Fluid Framework and SharedTree data structure is in the infra folder. Most of this code will be the same for any app.
+All the code required to set up the Fluid Framework and SharedTree data structure is in the `src/infra` folder. Most of this code will be the same for any app.
 
 ## Schema Definition
 
-The SharedTree schema is defined in the schema.ts source file. This schema is passed into the SharedTree when it is initialized in index.tsx. For more details, see the schema.ts comments.
+The SharedTree schema is defined in the `src/schema.ts` source file. This schema is passed into the SharedTree when it is initialized in `src/index.tsx`. For more details, see the `src/schema.ts` comments.
 
 ## Working with Data
 
@@ -35,7 +35,7 @@ Working with data in the SharedTree is very simple; however, working with distri
 
 ## User Interface
 
-This app is built using React. If you want to change the css you must run 'npx tailwindcss -i ./src/index.css -o ./src/output.css --watch' in the root folder of your project so that tailwind can update the output.css file.
+This app is built using React. If you want to change the css you must run `npx @tailwindcss/cli -i ./src/index.css -o ./src/output.css --watch` in the root folder of your project so that tailwind can update the output.css file.
 
 ## Devtools
 

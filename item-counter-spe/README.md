@@ -5,7 +5,7 @@ This app demonstrates how to create a simple tree data structure and build a Rea
 ## Setting up the Fluid Framework
 
 This app is designed to use SharePoint Embedded (SPE). The core application code is the same as samples that use Azure Fluid Relay (AFR); however,
-this sample uses odsp-client to connect to Fluid Framework as opposed to azure-client. The differences are primarilly isolated to the
+this sample uses odsp-client to connect to Fluid Framework as opposed to azure-client. The differences are primarily isolated to the
 infra folder, although the initialization flow for this app is different in that it includes auth while the AFR samples are anonymous.
 
 To use SPE you need to create an M365 developer account and configure SharePoint Embedded.
@@ -16,7 +16,7 @@ From there you can create a new M365 developer tenant (which includes creating a
 This sample app requires that you have a Microsoft Entra tenant, a Microsoft Entra client Id for the app, have created
 a File Storage Container Type, and that the tenant you plan to use has a File Storage Container with that File Storage
 Container Type ID.
-Once you have done that, create a `.env` file in the item-counter-spe folder with the following content:
+Once you have done that, create a `.env` file in this folder with the following content:
 
 ```plaintext
 SPE_CLIENT_ID='your client id'
@@ -29,7 +29,7 @@ Log in with the admin credentials for the tenant.
 
 ## Schema Definition
 
-The SharedTree schema is defined in the schema.ts source file. This schema is passed into the SharedTree when it is initialized in index.tsx. For more details, see the schema.ts comments.
+The SharedTree schema is defined in the `src/schema.ts` source file. This schema is passed into the SharedTree when it is initialized in `src/index.tsx`. For more details, see the `src/schema.ts` comments.
 
 ## Working with Data
 
@@ -37,7 +37,7 @@ Working with data in the SharedTree is very simple; however, working with distri
 
 ## User Interface
 
-This app is built using React. If you want to change the css you must run 'npx tailwindcss -i ./src/index.css -o ./src/output.css --watch' in the root folder of your project so that tailwind can update the output.css file.
+This app is built using React. If you want to change the css you must run `npx @tailwindcss/cli -i ./src/index.css -o ./src/output.css --watch` in the root folder of your project so that tailwind can update the `src/output.css` file.
 
 ## Devtools
 
