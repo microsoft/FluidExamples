@@ -15,7 +15,7 @@ import { v4 as uuid } from "uuid";
 // as list and map nodes.
 
 // Include a UUID to guarantee that this schema will be uniquely identifiable.
-// As this schema uses a recursive type, the beta SchemaFactoryRecursive is used instead of just SchemaFactory.
+// Note that this schema uses recursive types.
 const sf = new SchemaFactory("fc1db2e8-0a00-11ee-be56-0242ac120002");
 
 // Define the schema for the note object.
