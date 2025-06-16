@@ -33,7 +33,7 @@
 		"@fluidframework/telemetry-utils": "^2.42.0",
 		"@fluidframework/test-runtime-utils": "^2.42.0",
 		"@microsoft/microsoft-graph-client": "^3.0.7",
-		"axios": "^1.9.0",
+		"axios": "^1.10.0",
 		"fluid-framework": "^2.42.0",
 		"hashids": "^2.2.10",
 		"jsrsasign": "^11.1.0",
