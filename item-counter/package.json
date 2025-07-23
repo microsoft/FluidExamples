@@ -27,7 +27,7 @@
 		"@fluidframework/azure-client": "^2.50.0",
 		"@fluidframework/telemetry-utils": "^2.50.0",
 		"@fluidframework/test-runtime-utils": "^2.50.0",
-		"axios": "^1.10.0",
+		"axios": "^1.11.0",
 		"fluid-framework": "^2.50.0",
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
