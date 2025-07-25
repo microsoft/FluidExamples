@@ -89,10 +89,16 @@ export function NoteView(props: {
 		// Returns the cleanup function to be invoked when the component unmounts.
 		const unsubscribe = Tree.on(props.note, "nodeChanged", () => {
 			setNoteText(props.note.text);
-			setNoteVoteCount(props.note.votes.length);
 		});
 		return unsubscribe;
 	}, []);
+
+	useEffect(() => {
+		const unsubscribe = Tree.on(props.note.votes, "nodeChanged", () => {
+			setNoteVoteCount(props.note.votes.length);
+		});
+		return unsubscribe;
+	});
 
 	useEffect(() => {
 		testSelection(props.note, props.session, props.clientId, props.fluidMembers);
