@@ -98,7 +98,7 @@ export function NoteView(props: {
 			setNoteVoteCount(props.note.votes.length);
 		});
 		return unsubscribe;
-	});
+	}, []);
 
 	useEffect(() => {
 		testSelection(props.note, props.session, props.clientId, props.fluidMembers);
