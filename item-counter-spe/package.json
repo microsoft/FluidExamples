@@ -30,8 +30,8 @@
 		"fluid-framework": "^2.52.0",
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
-		"react": "^19.1.0",
-		"react-dom": "^19.1.0"
+		"react": "^19.1.1",
+		"react-dom": "^19.1.1"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.1",
@@ -41,8 +41,8 @@
 		"@microsoft/microsoft-graph-types": "^2.40.0",
 		"@tailwindcss/cli": "^4.1.11",
 		"@types/debug": "^4.1.7",
-		"@types/react": "^19.1.8",
-		"@types/react-dom": "^19.1.6",
+		"@types/react": "^19.1.10",
+		"@types/react-dom": "^19.1.7",
 		"@typescript-eslint/eslint-plugin": "^8.39.0",
 		"@typescript-eslint/parser": "^8.32.1",
 		"copy-webpack-plugin": "^13.0.0",
