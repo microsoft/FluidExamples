@@ -1,0 +1,4 @@
+# These owners are automatically requested as reviewers for any changes to package.json or package-lock.json files in the repository.
+# PRs that modify these files will request review from @microsoft/fluid-cr-devx.
+**/package.json @microsoft/fluid-cr-devx
+**/package-lock.json @microsoft/fluid-cr-devx
