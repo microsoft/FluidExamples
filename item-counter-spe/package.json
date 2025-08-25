@@ -41,7 +41,7 @@
 		"@microsoft/microsoft-graph-types": "^2.40.0",
 		"@tailwindcss/cli": "^4.1.11",
 		"@types/debug": "^4.1.7",
-		"@types/react": "^19.1.10",
+		"@types/react": "^19.1.11",
 		"@types/react-dom": "^19.1.7",
 		"@typescript-eslint/eslint-plugin": "^8.40.0",
 		"@typescript-eslint/parser": "^8.32.1",
