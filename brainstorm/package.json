@@ -72,7 +72,7 @@
 		"playwright": "^1.54.2",
 		"prettier": "^3.6.2",
 		"style-loader": "^4.0.0",
-		"tailwindcss": "^4.1.11",
+		"tailwindcss": "^4.1.12",
 		"ts-loader": "^9.5.2",
 		"typescript": "~5.9",
 		"webpack": "^5.100.2",
