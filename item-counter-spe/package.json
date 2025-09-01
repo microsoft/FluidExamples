@@ -43,7 +43,7 @@
 		"@types/debug": "^4.1.7",
 		"@types/react": "^19.1.11",
 		"@types/react-dom": "^19.1.7",
-		"@typescript-eslint/eslint-plugin": "^8.40.0",
+		"@typescript-eslint/eslint-plugin": "^8.41.0",
 		"@typescript-eslint/parser": "^8.32.1",
 		"copy-webpack-plugin": "^13.0.1",
 		"cross-env": "^7.0.3",
