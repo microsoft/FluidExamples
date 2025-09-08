@@ -53,7 +53,7 @@
 		"@fluidframework/devtools": "^2.60.0",
 		"@microsoft/microsoft-graph-types": "^2.40.0",
 		"@playwright/test": "^1.55.0",
-		"@tailwindcss/cli": "^4.1.12",
+		"@tailwindcss/cli": "^4.1.13",
 		"@types/debug": "^4.1.7",
 		"@types/jsrsasign": "^10.5.15",
 		"@types/react": "^19.1.12",
