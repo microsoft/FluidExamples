@@ -46,7 +46,7 @@
 		"@typescript-eslint/eslint-plugin": "^8.40.0",
 		"@typescript-eslint/parser": "^8.32.1",
 		"copy-webpack-plugin": "^13.0.1",
-		"cross-env": "^7.0.3",
+		"cross-env": "^10.0.0",
 		"css-loader": "^7.1.2",
 		"dotenv-webpack": "^8.1.1",
 		"eslint": "^9.34.0",
