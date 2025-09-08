@@ -43,7 +43,7 @@
 		"@fluidframework/build-common": "^2.0.3",
 		"@fluidframework/devtools": "^2.53.1",
 		"@playwright/test": "^1.55.0",
-		"@tailwindcss/cli": "^4.1.12",
+		"@tailwindcss/cli": "^4.1.13",
 		"@types/debug": "^4.1.7",
 		"@types/jsrsasign": "^10.5.15",
 		"@types/react": "^19.1.12",
