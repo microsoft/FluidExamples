@@ -24,24 +24,24 @@
 		"node": ">=20.0.0"
 	},
 	"dependencies": {
-		"@fluidframework/azure-client": "^2.60.0",
-		"@fluidframework/telemetry-utils": "^2.60.0",
-		"@fluidframework/test-runtime-utils": "^2.60.0",
+		"@fluidframework/azure-client": "^2.61.0",
+		"@fluidframework/telemetry-utils": "^2.61.0",
+		"@fluidframework/test-runtime-utils": "^2.61.0",
 		"axios": "^1.12.2",
-		"fluid-framework": "^2.60.0",
+		"fluid-framework": "^2.61.0",
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
 		"jsrsasign": "^11.1.0",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
-		"uuid": "^12.0.0"
+		"uuid": "^13.0.0"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.1",
 		"@eslint/js": "^9.36.0",
-		"@fluidframework/azure-local-service": "^2.60.0",
+		"@fluidframework/azure-local-service": "^2.61.0",
 		"@fluidframework/build-common": "^2.0.3",
-		"@fluidframework/devtools": "^2.60.0",
+		"@fluidframework/devtools": "^2.61.0",
 		"@playwright/test": "^1.55.0",
 		"@tailwindcss/cli": "^4.1.13",
 		"@types/debug": "^4.1.7",
@@ -65,7 +65,7 @@
 		"tailwindcss": "^4.1.12",
 		"ts-loader": "^9.5.4",
 		"typescript": "~5.9",
-		"webpack": "^5.100.1",
+		"webpack": "^5.101.3",
 		"webpack-cli": "^6.0.1",
 		"webpack-dev-server": "^5.2.2"
 	}
