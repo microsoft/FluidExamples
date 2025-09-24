@@ -10,15 +10,9 @@ parameters:
   - name: brainstorm
     type: string
     default: brainstorm
-  - name: canvas
-    type: string
-    default: canvas
   - name: item-counter
     type: string
     default: item-counter
-  - name: item-counter-spe
-    type: string
-    default: item-counter-spe
 
 schedules:
   - cron: "0 16 * * 1-5" # Runs daily builds at 9AM PST Mon-Fri
@@ -76,8 +70,8 @@ steps:
         displayName: Publish Test Results - ${{ parameter.Value }}
         inputs:
           testResultsFormat: "JUnit"
-          testResultsFiles: "junit-report.xml"
-          searchFolder: ${{ parameter.Value }}/test-results
+          testResultsFiles: "**/*junit-report.xml"
+          searchFolder: ${{ parameter.Value }}/nyc
           mergeTestResults: true
         # Note while this runs if anything prior fails, the prior test steps won't
         # run after first failure. Could be split into jobs to avoid interference.
