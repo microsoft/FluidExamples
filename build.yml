@@ -10,6 +10,9 @@ parameters:
   - name: brainstorm
     type: string
     default: brainstorm
+  - name: canvas
+    type: string
+    default: canvas
   - name: item-counter
     type: string
     default: item-counter
