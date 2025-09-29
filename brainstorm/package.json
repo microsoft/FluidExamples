@@ -52,7 +52,7 @@
 		"@fluidframework/build-common": "^2.0.3",
 		"@fluidframework/devtools": "^2.61.0",
 		"@microsoft/microsoft-graph-types": "^2.40.0",
-		"@playwright/test": "^1.55.0",
+		"@playwright/test": "^1.55.1",
 		"@tailwindcss/cli": "^4.1.13",
 		"@types/debug": "^4.1.7",
 		"@types/jsrsasign": "^10.5.15",
