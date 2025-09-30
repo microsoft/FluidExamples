@@ -66,7 +66,7 @@
 		"dotenv-webpack": "^8.1.1",
 		"eslint": "^9.36.0",
 		"eslint-plugin-react": "^7.37.5",
-		"globals": "^16.3.0",
+		"globals": "^16.4.0",
 		"html-webpack-plugin": "^5.6.4",
 		"mini-css-extract-plugin": "^2.9.4",
 		"playwright": "^1.54.2",
