@@ -1,11 +1,7 @@
-import {
-	StateFactory,
-	StatesWorkspace,
-	LatestRaw,
-	LatestRawEvents,
-} from "@fluidframework/presence/beta";
+import { StateFactory, StatesWorkspace, Latest, LatestEvents } from "@fluidframework/presence/beta";
 import { Listenable } from "fluid-framework";
-import { InkPresenceManager, EphemeralInkStroke, EphemeralPoint } from "./Interfaces/InkManager.js";
+import { InkPresenceManager } from "./Interfaces/InkManager.js";
+import { EphemeralInkStroke, EphemeralPoint, validateEphemeralInkStroke } from "./validators.js";
 
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 export function createInkPresenceManager(props: {
@@ -15,12 +11,18 @@ export function createInkPresenceManager(props: {
 	const { workspace, name } = props;
 
 	class InkPresenceManagerImpl implements InkPresenceManager {
-		state: LatestRaw<EphemeralInkStroke | null>;
+		state: Latest<EphemeralInkStroke | null>;
 		constructor(name: string, workspace: StatesWorkspace<{}>) {
-			workspace.add(name, StateFactory.latest<EphemeralInkStroke | null>({ local: null }));
+			workspace.add(
+				name,
+				StateFactory.latest<EphemeralInkStroke | null>({
+					local: null,
+					validator: validateEphemeralInkStroke,
+				})
+			);
 			this.state = workspace.states[name];
 		}
-		get events(): Listenable<LatestRawEvents<EphemeralInkStroke | null>> {
+		get events(): Listenable<LatestEvents<EphemeralInkStroke | null>> {
 			return this.state.events;
 		}
 		get attendees() {
@@ -30,8 +32,9 @@ export function createInkPresenceManager(props: {
 			this.state.local = stroke;
 		}
 		updateStroke(points: EphemeralPoint[]) {
-			if (this.state.local) {
-				this.state.local = { ...this.state.local, points };
+			const currentStroke = this.state.local;
+			if (currentStroke) {
+				this.state.local = { ...currentStroke, points };
 			}
 		}
 		clearStroke() {
@@ -40,8 +43,13 @@ export function createInkPresenceManager(props: {
 		getRemoteStrokes() {
 			const out: { stroke: EphemeralInkStroke; attendeeId: string }[] = [];
 			for (const cv of this.state.getRemotes()) {
-				if (cv.value) {
-					out.push({ stroke: cv.value, attendeeId: cv.attendee.attendeeId });
+				const strokeValue = cv.value();
+				if (strokeValue) {
+					// Cast to mutable type for compatibility
+					out.push({
+						stroke: strokeValue as EphemeralInkStroke,
+						attendeeId: cv.attendee.attendeeId,
+					});
 				}
 			}
 			return out;

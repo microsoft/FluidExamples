@@ -13,15 +13,15 @@
  */
 
 import { PresenceManager } from "./PresenceManager.js";
+import { DragAndRotatePackage } from "../validators.js";
 
 /**
  * DragManager interface for managing drag and drop functionality in the collaborative app.
  * Extends PresenceManager to provide real-time synchronization of drag operations.
  *
- * @template TDragPackage - The type of drag data package, defaults to DragPackage | null
+ * @template TDragPackage - The type of drag data package
  */
-export interface DragManager<TDragPackage extends DragPackage | null = DragPackage | null>
-	extends PresenceManager<TDragPackage> {
+export interface DragManager<TDragPackage> extends PresenceManager<TDragPackage> {
 	/**
 	 * Sets the drag target and position for the current user.
 	 * This notifies all connected clients that the current user is dragging an element.
@@ -47,16 +47,3 @@ export interface DragManager<TDragPackage extends DragPackage | null = DragPacka
 	 */
 	clearDragging(): void;
 }
-
-/**
- * DragPackage type definition.
- * Contains all necessary information to track a drag operation across clients.
- */
-export type DragPackage = {
-	/** Unique identifier of the element being dragged */
-	id: string;
-	/** Current X coordinate of the dragged element */
-	x: number;
-	/** Current Y coordinate of the dragged element */
-	y: number;
-};

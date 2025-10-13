@@ -21,13 +21,14 @@
 
 import {
 	StateFactory,
-	LatestRawEvents,
+	LatestEvents,
 	StatesWorkspace,
-	LatestRaw,
+	Latest,
 	AttendeeStatus,
 } from "@fluidframework/presence/beta";
-import { UsersManager, User, UserInfo } from "./Interfaces/UsersManager.js";
+import { UsersManager, User } from "./Interfaces/UsersManager.js";
 import { Listenable } from "fluid-framework";
+import { UserInfo, validateUserInfo } from "./validators.js";
 
 /**
  * Creates a new UsersManager instance with the given workspace configuration
@@ -52,18 +53,19 @@ export function createUsersManager(props: {
 	 */
 	class UsersManagerImpl implements UsersManager {
 		/** Fluid Framework state object for real-time synchronization */
-		state: LatestRaw<UserInfo>;
+		state: Latest<UserInfo>;
 
 		/**
 		 * Initializes the users manager with Fluid Framework state management.
-		 * Sets up the latest state factory and registers with the workspace.
+		 * Sets up the latest state factory with validation and registers with the workspace.
 		 *
 		 * @param name - Unique identifier for this users manager
 		 * @param workspace - Fluid workspace for state synchronization
 		 */
 		constructor(name: string, workspace: StatesWorkspace<{}>) {
 			// Register this users manager's state with the Fluid workspace
-			workspace.add(name, StateFactory.latest({ local: me }));
+			// Using validated Latest state to ensure data integrity
+			workspace.add(name, StateFactory.latest({ local: me, validator: validateUserInfo }));
 			this.state = workspace.states[name];
 		}
 
@@ -71,7 +73,7 @@ export function createUsersManager(props: {
 		 * Event emitter for user information changes.
 		 * Components can subscribe to these events to update their UI when user data changes.
 		 */
-		public get events(): Listenable<LatestRawEvents<UserInfo>> {
+		public get events(): Listenable<LatestEvents<UserInfo>> {
 			return this.state.events;
 		}
 
@@ -90,7 +92,10 @@ export function createUsersManager(props: {
 		 * @returns Read-only array of all users with their profile and client data
 		 */
 		getUsers(): readonly User[] {
-			return [...this.state.getRemotes()].map((c) => ({ ...c, client: c.attendee }));
+			return [...this.state.getRemotes()].map((c) => ({
+				value: c.value() as UserInfo,
+				client: c.attendee,
+			}));
 		}
 
 		/**
@@ -134,7 +139,10 @@ export function createUsersManager(props: {
 		 * @returns User object for the current user (myself)
 		 */
 		getMyself(): User {
-			return { value: this.state.local, client: this.state.presence.attendees.getMyself() };
+			return {
+				value: this.state.local,
+				client: this.state.presence.attendees.getMyself(),
+			};
 		}
 	}
 

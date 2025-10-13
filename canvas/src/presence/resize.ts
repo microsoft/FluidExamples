@@ -19,14 +19,10 @@
  * the current position and size of the element being resized.
  */
 
-import {
-	StateFactory,
-	StatesWorkspace,
-	LatestRaw,
-	LatestRawEvents,
-} from "@fluidframework/presence/beta";
+import { StateFactory, StatesWorkspace, Latest, LatestEvents } from "@fluidframework/presence/beta";
 import { Listenable } from "fluid-framework";
-import { ResizeManager, ResizePackage } from "./Interfaces/ResizeManager.js";
+import { ResizeManager } from "./Interfaces/ResizeManager.js";
+import { ResizePackage, validateResizePackage } from "./validators.js";
 
 /**
  * Creates a new ResizeManager instance with the given workspace configuration.
@@ -50,18 +46,25 @@ export function createResizeManager(props: {
 	 */
 	class ResizeManagerImpl implements ResizeManager<ResizePackage | null> {
 		/** Fluid Framework state object for real-time synchronization */
-		state: LatestRaw<ResizePackage | null>;
+		state: Latest<ResizePackage | null>;
 
 		/**
 		 * Initializes the resize manager with Fluid Framework state management.
-		 * Sets up the latest state factory and registers with the workspace.
+		 * Sets up the latest state factory with validation and registers with the workspace.
 		 *
 		 * @param name - Unique identifier for this resize manager
 		 * @param workspace - Fluid workspace for state synchronization
 		 */
 		constructor(name: string, workspace: StatesWorkspace<{}>) {
 			// Register this resize manager's state with the Fluid workspace
-			workspace.add(name, StateFactory.latest<ResizePackage | null>({ local: null }));
+			// Using validated Latest state to ensure data integrity
+			workspace.add(
+				name,
+				StateFactory.latest<ResizePackage | null>({
+					local: null,
+					validator: validateResizePackage,
+				})
+			);
 			this.state = workspace.states[name];
 		}
 
@@ -77,7 +80,7 @@ export function createResizeManager(props: {
 		 * Event emitter for resize state changes.
 		 * Components can subscribe to these events to update their UI when resize operations occur.
 		 */
-		public get events(): Listenable<LatestRawEvents<ResizePackage | null>> {
+		public get events(): Listenable<LatestEvents<ResizePackage | null>> {
 			return this.state.events;
 		}
 

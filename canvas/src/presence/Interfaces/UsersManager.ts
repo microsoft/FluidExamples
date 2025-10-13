@@ -16,6 +16,10 @@
 
 import { Attendee } from "@fluidframework/presence/beta";
 import { PresenceManager } from "./PresenceManager.js";
+import { UserInfo } from "../validators.js";
+
+// Re-export type for external consumers
+export type { UserInfo };
 
 /**
  * UsersManager interface for managing user presence and information in the collaborative app.
@@ -104,17 +108,4 @@ export type User<TUserInfo extends UserInfo = UserInfo> = {
 	value: TUserInfo;
 	/** The Fluid Framework client/attendee associated with this user */
 	client: Attendee;
-};
-
-/**
- * UserInfo type definition for basic user profile information.
- * This can be extended for additional user properties as needed.
- */
-export type UserInfo = {
-	/** Unique identifier for the user (typically from authentication provider) */
-	id: string;
-	/** Display name of the user */
-	name: string;
-	/** Optional profile picture base 64 encoded*/
-	image?: string;
 };

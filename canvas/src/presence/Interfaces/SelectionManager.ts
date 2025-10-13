@@ -1,4 +1,5 @@
 import { PresenceManager } from "./PresenceManager.js";
+import { Selection } from "../validators.js";
 
 /**
  * SelectionManager Interface
@@ -166,22 +167,3 @@ export interface SelectionManager<TSelection extends Selection = Selection>
 	 */
 	getRemoteSelected(): Map<TSelection, string[]>;
 }
-
-/**
- * Base Selection Type
- *
- * The minimum required structure for any selectable item. All selection objects
- * must have a unique 'id' property that identifies them across the application.
- *
- * Custom selection types can extend this to add additional properties:
- *
- * @example
- * type ShapeSelection = Selection & {
- *   type: 'circle' | 'rectangle' | 'line';
- *   layer: number;
- * }
- */
-export type Selection = {
-	/** Unique identifier for the selectable item */
-	id: string;
-};

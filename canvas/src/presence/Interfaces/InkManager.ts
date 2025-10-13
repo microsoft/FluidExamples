@@ -1,5 +1,6 @@
-import { LatestRaw, LatestRawEvents } from "@fluidframework/presence/beta";
+import { Latest, LatestEvents } from "@fluidframework/presence/beta";
 import { Listenable } from "fluid-framework";
+import { EphemeralInkStroke, EphemeralPoint } from "../validators.js";
 
 /**
  * Ephemeral ink presence model
@@ -47,32 +48,14 @@ import { Listenable } from "fluid-framework";
  * the best balance of performance and user experience reliability.
  */
 
-/** A single point in an ephemeral stroke (logical coordinates: pan+zoom invariant). */
-export interface EphemeralPoint {
-	x: number;
-	y: number;
-	t?: number;
-	p?: number;
-}
-
-/** Full ephemeral stroke payload broadcast through presence. */
-export interface EphemeralInkStroke {
-	id: string;
-	points: readonly EphemeralPoint[];
-	color: string;
-	width: number;
-	opacity: number;
-	startTime: number;
-}
-
 /**
  * High-level manager contract exposed by PresenceContext for ink.
  * Mirrors other presence managers (selection, drag, etc.) for consistency.
  */
 export interface InkPresenceManager {
-	state: LatestRaw<EphemeralInkStroke | null>;
-	events: Listenable<LatestRawEvents<EphemeralInkStroke | null>>;
-	attendees: LatestRaw<EphemeralInkStroke | null>["presence"]["attendees"];
+	state: Latest<EphemeralInkStroke | null>;
+	events: Listenable<LatestEvents<EphemeralInkStroke | null>>;
+	attendees: Latest<EphemeralInkStroke | null>["presence"]["attendees"];
 	/** Begin a new ephemeral stroke for the local user. */
 	setStroke(stroke: EphemeralInkStroke): void;
 	/** Replace the point list of the in‑progress local stroke (cumulative list). */
