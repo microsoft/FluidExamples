@@ -13,7 +13,6 @@
  */
 
 import { PresenceManager } from "./PresenceManager.js";
-import { DragAndRotatePackage } from "../validators.js";
 
 /**
  * DragManager interface for managing drag and drop functionality in the collaborative app.
