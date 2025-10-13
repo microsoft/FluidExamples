@@ -15,6 +15,10 @@
  */
 
 import { PresenceManager } from "./PresenceManager.js";
+import { ResizePackage } from "../validators.js";
+
+// Re-export type for external consumers
+export type { ResizePackage };
 
 /**
  * ResizeManager interface for managing resize functionality for shapes in the app.
@@ -51,18 +55,3 @@ export interface ResizeManager<TResizePackage extends ResizePackage | null = Res
 	 */
 	clearResizing(): void;
 }
-
-/**
- * ResizePackage type definition.
- * Contains all necessary information to track a resize operation across clients.
- */
-export type ResizePackage = {
-	/** Unique identifier of the element being resized */
-	id: string;
-	/** Current X coordinate of the element's position */
-	x: number;
-	/** Current Y coordinate of the element's position */
-	y: number;
-	/** Current size/scale of the element */
-	size: number;
-};

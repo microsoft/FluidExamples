@@ -13,20 +13,10 @@
  */
 
 import { PresenceManager } from "./PresenceManager.js";
+import { CursorState } from "../validators.js";
 
-/**
- * Cursor position and visibility data for a single user
- */
-export interface CursorState {
-	/** Canvas-relative X coordinate of the cursor */
-	x: number;
-	/** Canvas-relative Y coordinate of the cursor */
-	y: number;
-	/** Whether the cursor is currently visible (mouse is over canvas) */
-	visible: boolean;
-	/** Timestamp of the last cursor update for staleness detection */
-	timestamp: number;
-}
+// Re-export type for external consumers
+export type { CursorState };
 
 /**
  * CursorManager interface for managing collaborative cursor tracking.
