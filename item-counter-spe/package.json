@@ -39,7 +39,7 @@
 		"@fluidframework/build-common": "^2.0.3",
 		"@fluidframework/devtools": "^2.63.0",
 		"@microsoft/microsoft-graph-types": "^2.43.1",
-		"@tailwindcss/cli": "^4.1.13",
+		"@tailwindcss/cli": "^4.1.14",
 		"@types/debug": "^4.1.7",
 		"@types/react": "^19.2.0",
 		"@types/react-dom": "^19.2.0",
