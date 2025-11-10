@@ -40,7 +40,7 @@
 		"@fluidframework/core-interfaces": "^2.70.0",
 		"@fluidframework/devtools": "^2.71.0",
 		"@microsoft/microsoft-graph-types": "^2.43.1",
-		"@tailwindcss/cli": "^4.1.14",
+		"@tailwindcss/cli": "^4.1.17",
 		"@types/debug": "^4.1.7",
 		"@types/node": "^22.0.0",
 		"@types/react": "^19.2.2",
