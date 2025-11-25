@@ -46,7 +46,7 @@ extends:
     customBuildTags:
       - ES365AIMigrationTooling
     stages:
-      - stage: stage
+      - stage: Build
         jobs:
           - job: job
             steps:
