@@ -33,7 +33,9 @@ resources:
       name: 1ESPipelineTemplates/1ESPipelineTemplates
       ref: refs/tags/release
 extends:
-  template: v1/1ES.Official.PipelineTemplate.yml@1ESPipelineTemplates
+  # For non-production pipelines, we use "Unofficial" 1ES pipeline template
+  # The unofficial template skips some of the jobs that are irrelevant for the pipelines that do not have the potential to produce a production release candidate.(For example ARROW).
+  template: v1/1ES.Unofficial.PipelineTemplate.yml@1ESPipelineTemplates
   parameters:
     pool:
       name: Small-eastus2
@@ -46,7 +48,7 @@ extends:
     customBuildTags:
       - ES365AIMigrationTooling
     stages:
-      - stage: Build
+      - stage: Build-And-Test
         jobs:
           - job: job
             steps:
