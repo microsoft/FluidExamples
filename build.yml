@@ -14,7 +14,7 @@ parameters:
     type: string
     default: item-counter-spe
 schedules:
-  - cron: "0 16 * * 1-5"
+  - cron: "0 16 * * 1-5" # Runs daily builds at 9AM PST Mon-Fri
     displayName: Daily builds
     branches:
       include:
@@ -90,4 +90,6 @@ extends:
                       testResultsFiles: "junit-report.xml"
                       searchFolder: ${{ parameter.Value }}/test-results
                       mergeTestResults: true
+                    # Note while this runs if anything prior fails, the prior test steps won't
+                    # run after first failure. Could be split into jobs to avoid interference.
                     condition: succeededOrFailed()
