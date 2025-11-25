@@ -34,7 +34,7 @@ resources:
       ref: refs/tags/release
 extends:
   # For non-production pipelines, we use "Unofficial" 1ES pipeline template
-  # The unofficial template skips some of the jobs that are irrelevant for the pipelines that do not have the potential to produce a production release candidate.(For example ARROW).
+  # The unofficial template skips some of the jobs that are irrelevant for the pipelines that do not have the potential to produce a production release candidate. (For example ARROW).
   template: v1/1ES.Unofficial.PipelineTemplate.yml@1ESPipelineTemplates
   parameters:
     pool:
