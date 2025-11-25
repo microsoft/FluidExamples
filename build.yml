@@ -3,9 +3,6 @@
 
 # FluidExamples build for CI and PR
 
-pool:
-  vmImage: ubuntu-latest
-
 parameters:
   - name: brainstorm
     type: string
@@ -16,7 +13,6 @@ parameters:
   - name: item-counter-spe
     type: string
     default: item-counter-spe
-
 schedules:
   - cron: "0 16 * * 1-5" # Runs daily builds at 9AM PST Mon-Fri
     displayName: Daily builds
@@ -24,58 +20,80 @@ schedules:
       include:
         - main
     always: true
-
 trigger:
   - main
-
 pr:
   - main
-
 variables:
   skipComponentGovernanceDetection: true
+resources:
+  repositories:
+    - repository: 1ESPipelineTemplates
+      type: git
+      name: 1ESPipelineTemplates/1ESPipelineTemplates
+      ref: refs/tags/release
+extends:
+  # For non-production pipelines, we use "Unofficial" 1ES pipeline template
+  # The unofficial template skips some of the jobs that are irrelevant for the pipelines that do not have the potential to produce a production release candidate. (For example ARROW).
+  template: v1/1ES.Unofficial.PipelineTemplate.yml@1ESPipelineTemplates
+  parameters:
+    pool:
+      name: Small-eastus2
+      os: linux
+    sdl:
+      sourceAnalysisPool:
+        name: Azure-Pipelines-1ESPT-ExDShared
+        image: windows-2022
+        os: windows
+    customBuildTags:
+      - ES365AIMigrationTooling
+    stages:
+      - stage: build
+        displayName: Build and Test Stage
+        jobs:
+          - job: build
+            displayName: Build and Test
+            steps:
+              - task: ComponentGovernanceComponentDetection@0
+                inputs:
+                  scanType: "Register"
+                  verbosity: "Verbose"
+                  alertWarningLevel: "High"
+              - task: UseNode@1
+                displayName: Use Node 20.x
+                inputs:
+                  version: 20.x
 
-steps:
-  - task: ComponentGovernanceComponentDetection@0
-    inputs:
-      scanType: "Register"
-      verbosity: "Verbose"
-      alertWarningLevel: "High"
-
-  - task: UseNode@1
-    displayName: Use Node 20.x
-    inputs:
-      version: 20.x
-
-  # Install, build, lint, and test each package
-  - ${{ each parameter in parameters }}:
-      - task: Npm@1
-        displayName: Install - ${{ parameter.Value }}
-        inputs:
-          command: "custom"
-          workingDir: "${{ parameter.Value }}"
-          customCommand: "ci"
-      - task: CmdLine@2
-        displayName: Build - ${{ parameter.Value }}
-        inputs:
-          script: "npm run build"
-          workingDirectory: ${{ parameter.Value }}
-      - task: CmdLine@2
-        displayName: Lint - ${{ parameter.Value }}
-        inputs:
-          script: "npm run lint"
-          workingDirectory: ${{ parameter.Value }}
-      - task: CmdLine@2
-        displayName: Test - ${{ parameter.Value }}
-        inputs:
-          script: "npm run ci:test"
-          workingDirectory: ${{ parameter.Value }}
-      - task: PublishTestResults@2
-        displayName: Publish Test Results - ${{ parameter.Value }}
-        inputs:
-          testResultsFormat: "JUnit"
-          testResultsFiles: "junit-report.xml"
-          searchFolder: ${{ parameter.Value }}/test-results
-          mergeTestResults: true
-        # Note while this runs if anything prior fails, the prior test steps won't
-        # run after first failure. Could be split into jobs to avoid interference.
-        condition: succeededOrFailed()
+              # Install, build, lint, and test each package
+              - ${{ each parameter in parameters }}:
+                  - task: Npm@1
+                    displayName: Install - ${{ parameter.Value }}
+                    inputs:
+                      command: "custom"
+                      workingDir: "${{ parameter.Value }}"
+                      customCommand: "ci"
+                  - task: CmdLine@2
+                    displayName: Build - ${{ parameter.Value }}
+                    inputs:
+                      script: "npm run build"
+                      workingDirectory: ${{ parameter.Value }}
+                  - task: CmdLine@2
+                    displayName: Lint - ${{ parameter.Value }}
+                    inputs:
+                      script: "npm run lint"
+                      workingDirectory: ${{ parameter.Value }}
+                  - task: CmdLine@2
+                    displayName: Test - ${{ parameter.Value }}
+                    inputs:
+                      script: "npm run ci:test"
+                      workingDirectory: ${{ parameter.Value }}
+                  - task: PublishTestResults@2
+                    displayName: Publish Test Results - ${{ parameter.Value }}
+                    inputs:
+                      testResultsFormat: "JUnit"
+                      testResultsFiles: "junit-report.xml"
+                      searchFolder: ${{ parameter.Value }}/test-results
+                      mergeTestResults: true
+                    # Note while this runs if anything prior fails, the prior test steps won't
+                    # run after first failure. Could be split into jobs to avoid interference.
+                    condition: succeededOrFailed()
