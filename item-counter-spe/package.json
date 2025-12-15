@@ -30,8 +30,8 @@
 		"fluid-framework": "^2.73.0",
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
-		"react": "^19.2.1",
-		"react-dom": "^19.2.1"
+		"react": "^19.2.3",
+		"react-dom": "^19.2.3"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.3",
