@@ -43,7 +43,7 @@
 		"@tailwindcss/cli": "^4.1.18",
 		"@types/debug": "^4.1.7",
 		"@types/node": "^22.0.0",
-		"@types/react": "^19.2.8",
+		"@types/react": "^19.2.9",
 		"@types/react-dom": "^19.2.3",
 		"@typescript-eslint/eslint-plugin": "^8.53.1",
 		"@typescript-eslint/parser": "^8.32.1",
