@@ -48,7 +48,7 @@
 		"@types/jsrsasign": "^10.5.15",
 		"@types/react": "^19.2.8",
 		"@types/react-dom": "^19.2.3",
-		"@typescript-eslint/eslint-plugin": "^8.53.0",
+		"@typescript-eslint/eslint-plugin": "^8.53.1",
 		"@typescript-eslint/parser": "^8.32.1",
 		"copy-webpack-plugin": "^13.0.1",
 		"cross-env": "^10.1.0",
