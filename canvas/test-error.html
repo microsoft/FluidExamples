@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Error Handling Test</title>
+	</head>
+	<body>
+		<div id="content">
+			<h1>Error Handling Test</h1>
+			<p>
+				This test will simulate a loading error to verify our error handling implementation.
+			</p>
+			<button onclick="testErrorHandling()">Test Error Handling</button>
+			<div id="error-display"></div>
+		</div>
+
+		<script type="module">
+			import { showErrorMessage } from "./src/start/error_ux.tsx";
+
+			// Make showErrorMessage available globally for testing
+			window.showErrorMessage = showErrorMessage;
+
+			window.testErrorHandling = function () {
+				try {
+					// Simulate an error that would occur during loading
+					const error = new Error(
+						"Test loading failure: Unable to connect to Fluid service"
+					);
+					error.stack =
+						"Error: Test loading failure\n    at testErrorHandling (test-error.html:25:31)\n    at HTMLButtonElement.onclick (test-error.html:14:44)";
+
+					showErrorMessage(
+						"Application Loading Failed",
+						error,
+						"This is a test error to verify our error handling system is working correctly.",
+						[
+							"• Check your internet connection",
+							"• Verify the Fluid service is running",
+							"• Try refreshing the page",
+							"• Contact support if the problem persists",
+						]
+					);
+				} catch (e) {
+					console.error("Error in test:", e);
+					document.getElementById("error-display").innerHTML =
+						`<div style="color: red; border: 1px solid red; padding: 10px; margin: 10px 0;">
+                        Failed to test error handling: ${e.message}
+                    </div>`;
+				}
+			};
+		</script>
+	</body>
+</html>

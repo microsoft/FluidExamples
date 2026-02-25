@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content"
+		/>
+		<title>Fluid Framework Demo</title>
+		<style>
+			/* iOS touch optimizations */
+			* {
+				-webkit-tap-highlight-color: transparent;
+			}
+
+			/* iOS Safari specific fixes */
+			@supports (-webkit-touch-callout: none) {
+				body {
+					-webkit-user-select: none;
+					user-select: none;
+				}
+
+				/* Allow text selection in specific areas */
+				input,
+				textarea,
+				[contenteditable] {
+					-webkit-user-select: auto;
+					user-select: auto;
+				}
+			}
+
+			/* Keep only essential iOS toolbar fixes */
+			.fui-Toolbar button,
+			[role="button"] {
+				touch-action: manipulation !important;
+				-webkit-touch-callout: none !important;
+				pointer-events: auto !important;
+			}
+
+			/* Essential handle interaction for iOS */
+			[data-resize-handle],
+			[data-rotate-handle] {
+				touch-action: manipulation !important;
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+				user-select: none;
+				pointer-events: auto !important;
+			}
+
+			/* iOS-specific fixes that don't affect PC */
+			@supports (-webkit-touch-callout: none) {
+				/* Constrain items below toolbar only on iOS */
+				[data-item-id] {
+					z-index: 50 !important;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="module" src="/src/index.tsx"></script>
+	</body>
+</html>
