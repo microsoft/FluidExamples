@@ -1,10 +1,12 @@
-import { PublicClientApplication, InteractionType, AccountInfo } from "@azure/msal-browser";
+import type { PublicClientApplication, AccountInfo } from "@azure/msal-browser";
+import { InteractionType } from "@azure/msal-browser";
 import { Client } from "@microsoft/microsoft-graph-client";
+import type {
+	AuthCodeMSALBrowserAuthenticationProviderOptions} from "@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser/index.js";
 import {
-	AuthCodeMSALBrowserAuthenticationProvider,
-	AuthCodeMSALBrowserAuthenticationProviderOptions,
+	AuthCodeMSALBrowserAuthenticationProvider
 } from "@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser/index.js";
-import { Site } from "@microsoft/microsoft-graph-types";
+import type { Site } from "@microsoft/microsoft-graph-types";
 
 export interface FileStorageContainer {
 	containerTypeId: string;
@@ -56,19 +58,19 @@ export class GraphHelper {
 		try {
 			const response = await this.graphClient
 				.api("/storage/fileStorage/containers")
-				.filter("containerTypeId eq " + containerTypeId)
+				.filter(`containerTypeId eq ${ containerTypeId}`)
 				.version("beta")
 				.get();
 
 			const fileStorageContainers: FileStorageContainer[] = response.value;
 
-			if (fileStorageContainers.length == 0) {
+			if (fileStorageContainers.length === 0) {
 				throw new Error("TEST: no fileStorageContainers");
 			}
 
 			return fileStorageContainers[0].id;
 		} catch (error) {
-			console.error("Error while fetching file storage container ID: ", error);
+			console.error("Error while fetching file storage container ID:", error);
 			throw error; // re-throw the error if you want it to propagate
 		}
 	}
@@ -97,7 +99,7 @@ export class GraphHelper {
 			.api(`/drives/${driveId}/items/${id}/createLink`)
 			.post(permission);
 
-		console.log("createSharingLink response: ", response.link);
+		console.log("createSharingLink response:", response.link);
 
 		return response.shareId as string;
 	}
