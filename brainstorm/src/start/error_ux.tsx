@@ -1,11 +1,10 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
 
 export function showErrorMessage(message?: string, ...optionalParams: string[]) {
 	// create the root element for React
 	const error = document.createElement("div");
 	error.id = "app";
-	document.body.appendChild(error);
+	document.body.append(error);
 	const root = createRoot(error);
 
 	// Render the error message
