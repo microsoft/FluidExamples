@@ -9,6 +9,7 @@ import type {
 	AzureLocalConnectionConfig,
 	ITelemetryBaseLogger,
 } from "@fluidframework/azure-client";
+
 import {
 	AzureFunctionTokenProvider,
 	azureUser,
@@ -23,12 +24,12 @@ if (!useAzure) {
 
 const remoteConnectionConfig: AzureRemoteConnectionConfig = {
 	type: "remote",
-	tenantId: process.env.AZURE_TENANT_ID!,
+	tenantId: process.env.AZURE_TENANT_ID ?? "",
 	tokenProvider: new AzureFunctionTokenProvider(
-		process.env.AZURE_FUNCTION_TOKEN_PROVIDER_URL!,
+		process.env.AZURE_FUNCTION_TOKEN_PROVIDER_URL ?? "",
 		azureUser,
 	),
-	endpoint: process.env.AZURE_ORDERER!,
+	endpoint: process.env.AZURE_ORDERER ?? "",
 };
 
 const localConnectionConfig: AzureLocalConnectionConfig = {

@@ -3,15 +3,21 @@
  * Licensed under the MIT License.
  */
 
-import React, { JSX, useEffect, useState } from "react";
-import { Group, Items, Note } from "../schema/app_schema.js";
-import { moveItem } from "../utils/app_helpers.js";
-import { ConnectableElement, useDrag, useDrop } from "react-dnd";
-import { DeleteButton } from "./buttonux.js";
-import { dragType } from "../utils/utils.js";
-import { Session } from "../schema/session_schema.js";
-import { ItemsView } from "./canvasux.js";
 import { Tree } from "fluid-framework";
+import type { JSX} from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
+import type { ConnectableElement} from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
+
+import { Group, Items, Note } from "../schema/app_schema.js";
+import type { Session } from "../schema/session_schema.js";
+import { moveItem } from "../utils/app_helpers.js";
+import { dragType } from "../utils/utils.js";
+
+import { DeleteButton } from "./buttonux.js";
+import { ItemsView } from "./canvasux.js";
+
 
 export function GroupView(props: {
 	group: Group;
@@ -104,14 +110,14 @@ export function GroupView(props: {
 			onClick={(e) => handleClick(e)}
 			ref={attachRef}
 			className={
-				"transition-all border-l-4 border-dashed " +
-				(isOver && canDrop ? "border-gray-500" : "border-transparent")
+				`transition-all border-l-4 border-dashed ${ 
+				isOver && canDrop ? "border-gray-500" : "border-transparent"}`
 			}
 		>
 			<div
 				className={
-					"p-2 bg-gray-200 min-h-64 transition-all " +
-					(isOver && canDrop ? "translate-x-3" : "")
+					`p-2 bg-gray-200 min-h-64 transition-all ${ 
+					isOver && canDrop ? "translate-x-3" : ""}`
 				}
 				aria-label="Note Group"
 			>

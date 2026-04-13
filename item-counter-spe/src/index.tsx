@@ -1,17 +1,17 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import { loadFluidData, containerSchema } from "./infra/fluid.js";
-import { getClientProps } from "./infra/clientProps.js";
-import { treeConfiguration } from "./schema.js";
-import "./output.css";
-import { ReactApp } from "./react_app.js";
-import { SampleOdspTokenProvider } from "./infra/tokenProvider.js";
-import { GraphHelper } from "./infra/graphHelper.js";
-import { authHelper } from "./infra/authHelper.js";
+import type { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 import type { ITelemetryBaseLogger } from "@fluidframework/core-interfaces";
 import { OdspClient } from "@fluidframework/odsp-client/beta";
-import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 import { AttachState } from "fluid-framework";
+import { createRoot } from "react-dom/client";
+
+import { authHelper } from "./infra/authHelper.js";
+import { getClientProps } from "./infra/clientProps.js";
+import { loadFluidData, containerSchema } from "./infra/fluid.js";
+import { GraphHelper } from "./infra/graphHelper.js";
+import { SampleOdspTokenProvider } from "./infra/tokenProvider.js";
+import "./output.css";
+import { ReactApp } from "./react_app.js";
+import { treeConfiguration } from "./schema.js";
 
 async function start() {
 	const msalInstance = await authHelper();
@@ -21,15 +21,15 @@ async function start() {
 
 	// If the tokenResponse is not null, then the user is signed in
 	// and the tokenResponse is the result of the redirect.
-	if (tokenResponse !== null) {
-		await signedInStart(msalInstance, tokenResponse.account);
-	} else {
+	if (tokenResponse === null) {
 		const currentAccounts = msalInstance.getAllAccounts();
 		if (currentAccounts.length === 0) {
 			// no accounts signed-in, attempt to sign a user in
-			msalInstance.loginRedirect({
-				scopes: ["FileStorageContainer.Selected", "Files.ReadWrite"],
-			});
+			msalInstance
+				.loginRedirect({
+					scopes: ["FileStorageContainer.Selected", "Files.ReadWrite"],
+				})
+				.catch((error: unknown) => console.error(error));
 		} else if (currentAccounts.length > 1 || currentAccounts.length === 1) {
 			// The user is singed in.
 			// Treat more than one account signed in and a single account the same as
@@ -38,6 +38,8 @@ async function start() {
 			const account = msalInstance.getAllAccounts()[0];
 			await signedInStart(msalInstance, account);
 		}
+	} else {
+		await signedInStart(msalInstance, tokenResponse.account);
 	}
 }
 
@@ -45,7 +47,7 @@ function showErrorMessage(message?: string, ...optionalParams: string[]) {
 	// create the root element for React
 	const error = document.createElement("div");
 	error.id = "app";
-	document.body.appendChild(error);
+	document.body.append(error);
 	const root = createRoot(error);
 
 	// Render the error message
@@ -72,7 +74,7 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	// and the Fluid container id. If there is no hash, then the app will create a new Fluid container
 	// in a later step.
 	const getContainerInfo = async () => {
-		const shareId = location.hash.substring(1);
+		const shareId = location.hash.slice(1);
 		if (shareId.length > 0) {
 			try {
 				return await graphHelper.getSharedItem(shareId);
@@ -114,7 +116,7 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	}
 
 	// If the file storage container id is empty, then the app will fail here.
-	if (fileStorageContainerId.length == 0) {
+	if (fileStorageContainerId.length === 0) {
 		return;
 	}
 
@@ -141,7 +143,7 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 	// Create the root element for React
 	const app = document.createElement("div");
 	app.id = "app";
-	document.body.appendChild(app);
+	document.body.append(app);
 	const root = createRoot(app);
 
 	// Initialize Fluid Container - this will either make a new container or load an existing one
@@ -183,7 +185,7 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 		);
 
 		// Set the URL hash to the sharing id.
-		history.replaceState(undefined, "", "#" + shareId);
+		history.replaceState(undefined, "", `#${ shareId}`);
 	}
 }
 
