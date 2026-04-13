@@ -3,9 +3,12 @@
  * Licensed under the MIT License.
  */
 
-import React, { JSX, ReactNode, useEffect, useState } from "react";
-import { TreeView, Tree } from "fluid-framework";
-import { StringArray } from "./schema.js";
+import type { TreeView} from "fluid-framework";
+import { Tree } from "fluid-framework";
+import type { JSX, ReactNode} from "react";
+import { useEffect, useState } from "react";
+
+import type { StringArray } from "./schema.js";
 
 export function ReactApp(props: { data: TreeView<typeof StringArray> }): JSX.Element {
 	return (
