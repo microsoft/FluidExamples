@@ -3,19 +3,24 @@
  * Licensed under the MIT License.
  */
 
-import React, { JSX, useEffect, useState } from "react";
-import { Note, Group, Items } from "../schema/app_schema.js";
-import { Session } from "../schema/session_schema.js";
-import {
-	ConnectionState,
+import type {
 	IFluidContainer,
 	IMember,
 	IServiceAudience,
-	Tree,
-	TreeView,
+	TreeView} from "fluid-framework";
+import {
+	ConnectionState,
+	Tree
 } from "fluid-framework";
-import { GroupView } from "./groupux.js";
-import { AddNoteButton, NoteView, RootNoteWrapper } from "./noteux.js";
+import type { JSX} from "react";
+import { useEffect, useState } from "react";
+
+import type { Items } from "../schema/app_schema.js";
+import { Note, Group } from "../schema/app_schema.js";
+import type { Session } from "../schema/session_schema.js";
+import type { undoRedo } from "../utils/undo.js";
+import { undefinedUserId } from "../utils/utils.js";
+
 import {
 	Floater,
 	NewGroupButton,
@@ -25,8 +30,8 @@ import {
 	UndoButton,
 	RedoButton,
 } from "./buttonux.js";
-import { undefinedUserId } from "../utils/utils.js";
-import { undoRedo } from "../utils/undo.js";
+import { GroupView } from "./groupux.js";
+import { AddNoteButton, NoteView, RootNoteWrapper } from "./noteux.js";
 
 export function Canvas(props: {
 	items: TreeView<typeof Items>;
@@ -56,14 +61,28 @@ export function Canvas(props: {
 
 	useEffect(() => {
 		const updateConnectionState = () => {
-			if (props.container.connectionState === ConnectionState.Connected) {
+			switch (props.container.connectionState) {
+			case ConnectionState.Connected: {
 				props.setConnectionState("connected");
-			} else if (props.container.connectionState === ConnectionState.Disconnected) {
+			
+			break;
+			}
+			case ConnectionState.Disconnected: {
 				props.setConnectionState("disconnected");
-			} else if (props.container.connectionState === ConnectionState.EstablishingConnection) {
+			
+			break;
+			}
+			case ConnectionState.EstablishingConnection: {
 				props.setConnectionState("connecting");
-			} else if (props.container.connectionState === ConnectionState.CatchingUp) {
+			
+			break;
+			}
+			case ConnectionState.CatchingUp: {
 				props.setConnectionState("catching up");
+			
+			break;
+			}
+			// No default
 			}
 		};
 		updateConnectionState();
@@ -76,17 +95,17 @@ export function Canvas(props: {
 	}, []);
 
 	const updateMembers = () => {
-		if (props.audience.getMyself() == undefined) return;
-		if (props.audience.getMyself()?.id == undefined) return;
-		if (props.audience.getMembers() == undefined) return;
+		if (props.audience.getMyself() === undefined) return;
+		if (props.audience.getMyself()?.id === undefined) return;
+		if (props.audience.getMembers() === undefined) return;
 		if (props.container.connectionState !== ConnectionState.Connected) return;
-		if (props.currentUser == undefinedUserId) {
+		if (props.currentUser === undefinedUserId) {
 			const user = props.audience.getMyself()?.id;
 			if (typeof user === "string") {
 				props.setCurrentUser(user);
 			}
 		}
-		props.setFluidMembers(Array.from(props.audience.getMembers().keys()));
+		props.setFluidMembers([...props.audience.getMembers().keys()]);
 	};
 
 	useEffect(() => {

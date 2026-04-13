@@ -1,16 +1,17 @@
 import { AzureClient } from "@fluidframework/azure-client";
+import { AttachState } from "fluid-framework";
+
 import { loadApp } from "../app_load.js";
 import { getClientProps } from "../infra/azure/azureClientProps.js";
-import { AttachState } from "fluid-framework";
 
 export async function anonymousAzureStart() {
 	// Get the root container id from the URL
 	// If there is no container id, then the app will make
 	// a new container.
-	let containerId = location.hash.substring(1);
+	let containerId = location.hash.slice(1);
 
 	// Initialize Devtools logger if in development mode
-	let telemetryLogger = undefined;
+	let telemetryLogger;
 	if (process.env.NODE_ENV === "development") {
 		const { createDevtoolsLogger } = await import("@fluidframework/devtools/beta");
 		telemetryLogger = createDevtoolsLogger();
@@ -29,6 +30,6 @@ export async function anonymousAzureStart() {
 		containerId = await container.attach();
 
 		// The newly attached container is given a unique ID that can be used to access the container in another session
-		history.replaceState(undefined, "", "#" + containerId);
+		history.replaceState(undefined, "", `#${ containerId}`);
 	}
 }
