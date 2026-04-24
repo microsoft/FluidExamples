@@ -17,7 +17,7 @@
 		"webpack": "cross-env FLUID_CLIENT='azure' webpack"
 	},
 	"engines": {
-		"node": ">=20.0.0"
+		"node": ">=22"
 	},
 	"dependencies": {
 		"@azure/identity": "^4.13.0",
@@ -42,7 +42,7 @@
 		"@microsoft/microsoft-graph-types": "^2.43.1",
 		"@tailwindcss/cli": "^4.2.0",
 		"@types/debug": "^4.1.7",
-		"@types/node": "^22.0.0",
+		"@types/node": "^22.19.17",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
 		"@typescript-eslint/eslint-plugin": "^8.54.0",
