@@ -22,7 +22,7 @@
 		"webpack": "cross-env webpack"
 	},
 	"engines": {
-		"node": ">=20.0.0"
+		"node": ">=22"
 	},
 	"dependencies": {
 		"@azure/identity": "^4.13.0",
