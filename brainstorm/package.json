@@ -43,7 +43,7 @@
 		"react-dom": "^19.2.4",
 		"react-transition-state": "^2.3.2",
 		"unique-names-generator": "^4.7.1",
-		"uuid": "^13.0.0"
+		"uuid": "^14.0.0"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.3",
