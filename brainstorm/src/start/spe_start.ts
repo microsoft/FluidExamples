@@ -1,31 +1,31 @@
-import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
-import { authHelper } from "../infra/spe/authHelper.js";
-import { showErrorMessage } from "./error_ux.js";
+import type { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
 import { OdspClient } from "@fluidframework/odsp-client/beta";
+import { AttachState } from "fluid-framework";
+
+import { loadApp } from "../app_load.js";
+import { authHelper } from "../infra/spe/authHelper.js";
 import { GraphHelper } from "../infra/spe/graphHelper.js";
 import { getClientProps } from "../infra/spe/speClientProps.js";
 import { SampleOdspTokenProvider } from "../infra/spe/speTokenProvider.js";
-import { loadApp } from "../app_load.js";
-import { AttachState } from "fluid-framework";
+
+import { showErrorMessage } from "./error_ux.js";
+
 
 export async function speStart() {
 	const msalInstance = await authHelper();
 
 	// Handle the login redirect flows
 	const tokenResponse = await msalInstance.handleRedirectPromise().catch((error: Error) => {
-		console.log("Error in handleRedirectPromise: " + error.message);
+		console.log(`Error in handleRedirectPromise: ${ error.message}`);
 	});
 
 	// If the tokenResponse is not null, then the user is signed in
 	// and the tokenResponse is the result of the redirect.
-	if (tokenResponse !== null) {
-		const account = msalInstance.getAllAccounts()[0];
-		signedInSpeStart(msalInstance, account);
-	} else {
+	if (tokenResponse === null) {
 		const currentAccounts = msalInstance.getAllAccounts();
 		if (currentAccounts.length === 0) {
 			// no accounts signed-in, attempt to sign a user in
-			msalInstance.loginRedirect({
+			await msalInstance.loginRedirect({
 				scopes: ["FileStorageContainer.Selected", "Files.ReadWrite"],
 			});
 		} else if (currentAccounts.length > 1 || currentAccounts.length === 1) {
@@ -34,8 +34,11 @@ export async function speStart() {
 			// this is just a sample. But a real app would need to handle the multiple accounts case.
 			// For now, just use the first account.
 			const account = msalInstance.getAllAccounts()[0];
-			signedInSpeStart(msalInstance, account);
+			await signedInSpeStart(msalInstance, account);
 		}
+	} else {
+		const account = msalInstance.getAllAccounts()[0];
+		await signedInSpeStart(msalInstance, account);
 	}
 }
 
@@ -54,7 +57,7 @@ async function signedInSpeStart(msalInstance: PublicClientApplication, account: 
 	// and the Fluid container id. If there is no hash, then the app will create a new Fluid container
 	// in a later step.
 	const getContainerInfo = async () => {
-		const shareId = location.hash.substring(1);
+		const shareId = location.hash.slice(1);
 		if (shareId.length > 0) {
 			try {
 				return await graphHelper.getSharedItem(shareId);
@@ -101,7 +104,7 @@ async function signedInSpeStart(msalInstance: PublicClientApplication, account: 
 	}
 
 	// Initialize Devtools logger if in development mode
-	let telemetryLogger = undefined;
+	let telemetryLogger;
 	if (process.env.NODE_ENV === "development") {
 		const { createDevtoolsLogger } = await import("@fluidframework/devtools/beta");
 		telemetryLogger = createDevtoolsLogger();
@@ -141,6 +144,6 @@ async function signedInSpeStart(msalInstance: PublicClientApplication, account: 
 		);
 
 		// Set the URL hash to the sharing id.
-		history.replaceState(undefined, "", "#" + shareId);
+		history.replaceState(undefined, "", `#${ shareId}`);
 	}
 }
