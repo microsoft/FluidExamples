@@ -1,5 +1,5 @@
 import type { ITelemetryBaseLogger } from "@fluidframework/core-interfaces";
-import { OdspClient, OdspContainerServices } from "@fluidframework/odsp-client/beta";
+import type { OdspClient, OdspContainerServices } from "@fluidframework/odsp-client/beta";
 import { type ContainerSchema, type IFluidContainer, SharedTree } from "fluid-framework";
 
 /**
