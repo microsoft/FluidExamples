@@ -7,7 +7,7 @@
 		"sourceMap": true,
 		// Set your preferences here for TypeScript
 		"strict": true,
-		"jsx": "react",
+		"jsx": "react-jsx",
 		"moduleResolution": "Node16",
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true

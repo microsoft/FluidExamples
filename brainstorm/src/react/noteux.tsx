@@ -3,16 +3,22 @@
  * Licensed under the MIT License.
  */
 
-import React, { JSX, RefObject, useEffect, useRef, useState } from "react";
-import { Note, Group, Items } from "../schema/app_schema.js";
-import { moveItem } from "../utils/app_helpers.js";
-import { dragType, getRotation, selectAction } from "../utils/utils.js";
-import { testRemoteNoteSelection, updateRemoteNoteSelection } from "../utils/session_helpers.js";
-import { ConnectableElement, useDrag, useDrop } from "react-dnd";
-import { useTransition } from "react-transition-state";
 import { Tree } from "fluid-framework";
+import type { JSX, RefObject} from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
+import type { ConnectableElement} from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
+import { useTransition } from "react-transition-state";
+
+import { Note, Group, Items } from "../schema/app_schema.js";
+import type { Session } from "../schema/session_schema.js";
+import { moveItem } from "../utils/app_helpers.js";
+import { testRemoteNoteSelection, updateRemoteNoteSelection } from "../utils/session_helpers.js";
+import { dragType, getRotation, selectAction } from "../utils/utils.js";
+
 import { IconButton, MiniThumb, DeleteButton } from "./buttonux.js";
-import { Session } from "../schema/session_schema.js";
+
 
 export function RootNoteWrapper(props: {
 	note: Note;
@@ -194,17 +200,17 @@ export function NoteView(props: {
 				<div
 					style={{ opacity: isDragging ? 0.5 : 1 }}
 					className={
-						"relative transition-all flex flex-col " +
-						bgColor +
-						" h-48 w-48 shadow-md hover:shadow-lg hover:rotate-0 p-2 " +
-						rotation +
-						" " +
-						(isOver && canDrop ? "translate-x-3" : "")
+						`relative transition-all flex flex-col ${ 
+						bgColor 
+						} h-48 w-48 shadow-md hover:shadow-lg hover:rotate-0 p-2 ${ 
+						rotation 
+						} ${ 
+						isOver && canDrop ? "translate-x-3" : ""}`
 					}
 					aria-label="Note"
 				>
 					<NoteToolbar
-						voted={props.note.votes.indexOf(props.clientId) > -1}
+						voted={props.note.votes.includes(props.clientId)}
 						toggleVote={() => props.note.toggleVote(props.clientId)}
 						voteCount={noteVoteCount}
 						deleteNote={props.note.delete}
@@ -222,13 +228,9 @@ export function NoteView(props: {
 }
 
 function NoteSelection(props: { show: boolean }): JSX.Element {
-	if (props.show) {
-		return (
+	return props.show ? (
 			<div className="absolute -top-2 -left-2 h-52 w-52 rounded border-dashed border-indigo-800 border-4" />
-		);
-	} else {
-		return <></>;
-	}
+		) : <></>;
 }
 
 function NoteTextArea(props: {
@@ -316,18 +318,18 @@ export function AddNoteButton(props: { target: Items; clientId: string }): JSX.E
 			<div
 				className={
 					isActive
-						? hoverEffectStyle + "border-gray-500"
-						: hoverEffectStyle + "border-transparent"
+						? `${hoverEffectStyle }border-gray-500`
+						: `${hoverEffectStyle }border-transparent`
 				}
 			></div>
 			<div
 				ref={drop as unknown as RefObject<HTMLDivElement>}
 				className={
-					"transition-all text-2xl place-content-center font-bold flex flex-col text-center cursor-pointer bg-transparent border-white border-dashed border-8 " +
-					size +
-					" p-4 hover:border-black" +
-					" " +
-					(isActive ? "translate-x-3" : "")
+					`transition-all text-2xl place-content-center font-bold flex flex-col text-center cursor-pointer bg-transparent border-white border-dashed border-8 ${ 
+					size 
+					} p-4 hover:border-black` +
+					` ${ 
+					isActive ? "translate-x-3" : ""}`
 				}
 				onClick={(e) => handleClick(e)}
 			>
@@ -343,19 +345,11 @@ function LikeButton(props: {
 	voteCount: number;
 }): JSX.Element {
 	const setColor = () => {
-		if (props.voted) {
-			return "text-white";
-		} else {
-			return undefined;
-		}
+		return props.voted ? "text-white" : undefined;
 	};
 
 	const setBackground = () => {
-		if (props.voted) {
-			return "bg-green-600";
-		} else {
-			return undefined;
-		}
+		return props.voted ? "bg-green-600" : undefined;
 	};
 
 	return (

@@ -3,9 +3,6 @@
  * Licensed under the MIT License.
  */
 
-import React, { JSX } from "react";
-import { Items, Note } from "../schema/app_schema.js";
-import { moveItem, findNote } from "../utils/app_helpers.js";
 import {
 	ThumbLikeFilled,
 	DismissFilled,
@@ -15,9 +12,16 @@ import {
 	ArrowUndoFilled,
 	ArrowRedoFilled,
 } from "@fluentui/react-icons";
-import { Session } from "../schema/session_schema.js";
-import { getSelectedNotes } from "../utils/session_helpers.js";
 import { Tree } from "fluid-framework";
+import type { JSX } from "react";
+import type React from "react";
+
+import type { Items} from "../schema/app_schema.js";
+import { Note } from "../schema/app_schema.js";
+import type { Session } from "../schema/session_schema.js";
+import { moveItem, findNote } from "../utils/app_helpers.js";
+import { getSelectedNotes } from "../utils/session_helpers.js";
+
 
 export function NewGroupButton(props: {
 	items: Items;
@@ -159,10 +163,10 @@ export function IconButton(props: {
 	return (
 		<button
 			className={
-				props.color +
-				" " +
-				props.background +
-				" hover:bg-gray-600 hover:text-white font-bold px-2 py-1 rounded inline-flex items-center h-6 grow"
+				`${props.color 
+				} ${ 
+				props.background 
+				} hover:bg-gray-600 hover:text-white font-bold px-2 py-1 rounded inline-flex items-center h-6 grow`
 			}
 			onClick={(e) => handleClick(e)}
 		>
@@ -178,11 +182,7 @@ IconButton.defaultProps = {
 };
 
 function IconButtonText(props: { children: React.ReactNode }): JSX.Element {
-	if (props.children == undefined) {
-		return <span></span>;
-	} else {
-		return <span className="text-sm pl-2 leading-none">{props.children}</span>;
-	}
+	return props.children === undefined ? <span></span> : <span className="text-sm pl-2 leading-none">{props.children}</span>;
 }
 
 function MiniX(): JSX.Element {

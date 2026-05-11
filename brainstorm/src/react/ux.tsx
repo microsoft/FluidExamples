@@ -3,14 +3,17 @@
  * Licensed under the MIT License.
  */
 
-import React, { JSX, useEffect, useState } from "react";
-import { Items } from "../schema/app_schema.js";
-import { Session } from "../schema/session_schema.js";
+import type { IFluidContainer, IMember, IServiceAudience, TreeView } from "fluid-framework";
+import type { JSX} from "react";
+import { useEffect, useState } from "react";
+
 import "../output.css";
-import { IFluidContainer, IMember, IServiceAudience, TreeView } from "fluid-framework";
+import type { Items } from "../schema/app_schema.js";
+import type { Session } from "../schema/session_schema.js";
+import type { undoRedo } from "../utils/undo.js";
 import { undefinedUserId } from "../utils/utils.js";
+
 import { Canvas } from "./canvasux.js";
-import { undoRedo } from "../utils/undo.js";
 
 export function ReactApp(props: {
 	items: TreeView<typeof Items>;

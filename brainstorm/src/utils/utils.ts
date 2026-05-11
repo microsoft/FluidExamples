@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { Note } from "../schema/app_schema.js";
+import type { Note } from "../schema/app_schema.js";
 
 export const undefinedUserId = "[UNDEFINED]";
 
@@ -25,7 +25,7 @@ export function getRotation(note: Note) {
 function hashCode(str: string): number {
 	let h = 0;
 	for (let i = 0; i < str.length; i++) {
-		h = 31 * h + str.charCodeAt(i);
+		h = 31 * h + (str.codePointAt(i) ?? 0);
 	}
 	return h;
 }

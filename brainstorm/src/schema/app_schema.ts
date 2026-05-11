@@ -3,11 +3,12 @@
  * Licensed under the MIT License.
  */
 
+import type {
+	ValidateRecursiveSchema} from "fluid-framework";
 import {
 	TreeViewConfiguration,
 	SchemaFactory,
-	Tree,
-	ValidateRecursiveSchema,
+	Tree
 } from "fluid-framework";
 import { v4 as uuid } from "uuid";
 
@@ -42,12 +43,12 @@ export class Note extends sf.object(
 ) {
 	// Update the note text and also update the timestamp in the note
 	public readonly updateText = (text: string) => {
-		this.lastChanged = new Date().getTime();
+		this.lastChanged = Date.now();
 		this.text = text;
 	};
 
 	public readonly toggleVote = (user: string) => {
-		this.lastChanged = new Date().getTime();
+		this.lastChanged = Date.now();
 		const index = this.votes.indexOf(user);
 		if (index > -1) {
 			this.votes.removeAt(index);
@@ -73,7 +74,7 @@ export class Note extends sf.object(
 // Schema for a list of Notes and Groups.
 export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
 	public readonly addNode = (author: string) => {
-		const timeStamp = new Date().getTime();
+		const timeStamp = Date.now();
 
 		// Define the note to add to the SharedTree - this must conform to
 		// the schema definition of a note
@@ -109,7 +110,7 @@ export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
 	// Due to limitations of TypeScript, recursive schema may not produce type errors when declared incorrectly.
 	// Using ValidateRecursiveSchema helps ensure that mistakes made in the definition of a recursive schema (like `Items`)
 	// will introduce a compile error.
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	type _check = ValidateRecursiveSchema<typeof Items>;
 }
 
@@ -131,7 +132,7 @@ export class Group extends sf.objectRecursive("Group", {
 			// Run the deletion as a transaction to ensure that the tree is in a consistent state
 			Tree.runTransaction(parent, () => {
 				// Move the children of the group to the parent
-				if (this.items.length !== 0) {
+				if (this.items.length > 0) {
 					const index = parent.indexOf(this);
 					parent.moveRangeToIndex(index, 0, this.items.length, this.items);
 				}
@@ -145,7 +146,7 @@ export class Group extends sf.objectRecursive("Group", {
 }
 
 {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	 
 	type _check = ValidateRecursiveSchema<typeof Group>;
 }
 

@@ -4,7 +4,9 @@
  */
 
 import { Tree, TreeStatus } from "fluid-framework";
-import { Note, Group, Items } from "../schema/app_schema.js";
+
+import type { Group} from "../schema/app_schema.js";
+import { Note, Items } from "../schema/app_schema.js";
 
 // Move a note from one position in a sequence to another position in the same sequence or
 // in a different sequence. The index being passed here is the desired index after the move.
@@ -14,8 +16,8 @@ export function moveItem(item: Note | Group, destinationIndex: number, destinati
 	// is asynchronous - the state may have changed during the drag but this function
 	// is operating based on the state at the moment the drag began
 	if (
-		Tree.status(destination) != TreeStatus.InDocument ||
-		Tree.status(item) != TreeStatus.InDocument
+		Tree.status(destination) !== TreeStatus.InDocument ||
+		Tree.status(item) !== TreeStatus.InDocument
 	)
 		return;
 
@@ -25,7 +27,7 @@ export function moveItem(item: Note | Group, destinationIndex: number, destinati
 
 	const index = source.indexOf(item);
 
-	if (destinationIndex == Infinity) {
+	if (destinationIndex === Infinity) {
 		destination.moveToEnd(index, source);
 	} else {
 		// test that the destination index is valid

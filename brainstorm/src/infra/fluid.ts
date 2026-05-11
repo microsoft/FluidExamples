@@ -3,10 +3,10 @@
  * Licensed under the MIT License.
  */
 
+import type { AzureClient, AzureContainerServices } from "@fluidframework/azure-client";
 import type { ITelemetryBaseLogger } from "@fluidframework/core-interfaces";
-import { AzureClient, AzureContainerServices } from "@fluidframework/azure-client";
-import { ContainerSchema, IFluidContainer } from "fluid-framework";
-import { OdspClient, OdspContainerServices } from "@fluidframework/odsp-client/beta";
+import type { OdspClient, OdspContainerServices } from "@fluidframework/odsp-client/beta";
+import type { ContainerSchema, IFluidContainer } from "fluid-framework";
 
 /**
  * This function will create a container if no container ID is passed.
