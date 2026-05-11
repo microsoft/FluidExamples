@@ -1,9 +1,10 @@
-import {
+import type {
 	AuthenticationResult,
-	InteractionRequiredAuthError,
-	PublicClientApplication,
+	PublicClientApplication} from "@azure/msal-browser";
+import {
+	InteractionRequiredAuthError
 } from "@azure/msal-browser";
-import { IOdspTokenProvider, TokenResponse } from "@fluidframework/odsp-client/beta";
+import type { IOdspTokenProvider, TokenResponse } from "@fluidframework/odsp-client/beta";
 
 // Sample implementation of the IOdspTokenProvider interface
 // This class is used to provide the token for the Fluid container and
@@ -48,7 +49,7 @@ export class SampleOdspTokenProvider implements IOdspTokenProvider {
 					scopes: scope,
 				});
 			} else {
-				throw new Error(`MSAL error: ${error}`);
+				throw new TypeError(`MSAL error: ${error}`);
 			}
 		}
 		return response.accessToken;
