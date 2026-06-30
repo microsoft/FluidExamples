@@ -2,7 +2,9 @@
 	"compilerOptions": {
 		// DO NOT EDIT
 		"outDir": "./dist",
+		"rootDir": "./src",
 		"target": "es6",
+		"lib": ["ES2020", "DOM"],
 		"module": "Node16",
 		"sourceMap": true,
 		// Set your preferences here for TypeScript
@@ -11,5 +13,7 @@
 		"moduleResolution": "Node16",
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
+		"types": ["node"],
+		"noUncheckedSideEffectImports": false
 	},
 }
