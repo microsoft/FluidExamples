@@ -40,6 +40,7 @@ export async function loadFluidData<T extends ContainerSchema>(
 	services: AzureContainerServices;
 	container: IFluidContainer<T>;
 }> {
+	const minVersionForCollab = "2.0.0" as const;
 	const { client, telemetryLogger } = await initializeClient();
 
 	let container: IFluidContainer<T>;
@@ -49,11 +50,18 @@ export async function loadFluidData<T extends ContainerSchema>(
 	if (containerId.length === 0) {
 		// The client will create a new detached container using the schema
 		// A detached container will enable the app to modify the container before attaching it to the client
-		({ container, services } = await client.createContainer(containerSchema, "2"));
+		({ container, services } = await client.createContainer(
+			containerSchema,
+			minVersionForCollab,
+		));
 	} else {
 		// Use the unique container ID to fetch the container created earlier. It will already be connected to the
 		// collaboration session.
-		({ container, services } = await client.getContainer(containerId, containerSchema, "2"));
+		({ container, services } = await client.getContainer(
+			containerId,
+			containerSchema,
+			minVersionForCollab,
+		));
 	}
 
 	// Initialize Devtools
