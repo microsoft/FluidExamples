@@ -30,8 +30,8 @@
 		"fluid-framework": "^2.110.0",
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
-		"react": "^19.2.5",
-		"react-dom": "^19.2.5"
+		"react": "^19.2.7",
+		"react-dom": "^19.2.7"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3.3.3",
@@ -43,7 +43,7 @@
 		"@tailwindcss/cli": "^4.2.0",
 		"@types/debug": "^4.1.7",
 		"@types/node": "^22.19.17",
-		"@types/react": "^19.2.14",
+		"@types/react": "^19.2.17",
 		"@types/react-dom": "^19.2.3",
 		"@typescript-eslint/eslint-plugin": "^8.62.1",
 		"@typescript-eslint/parser": "^8.62.1",
