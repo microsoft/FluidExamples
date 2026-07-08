@@ -54,7 +54,7 @@
 		"@microsoft/microsoft-graph-types": "^2.43.1",
 		"@playwright/test": "^1.57.0",
 		"@tailwindcss/cli": "^4.2.0",
-		"@types/debug": "^4.1.7",
+		"@types/debug": "^4.1.13",
 		"@types/jsrsasign": "^10.5.15",
 		"@types/node": "^22.20.0",
 		"@types/react": "^19.2.17",
