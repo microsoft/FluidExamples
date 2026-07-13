@@ -3,12 +3,12 @@
  * Licensed under the MIT License.
  */
 
-import { AzureMember, ITokenProvider, ITokenResponse, IUser } from "@fluidframework/azure-client";
+import type { AzureMember, ITokenProvider, ITokenResponse, IUser } from "@fluidframework/azure-client";
 import { ScopeType } from "@fluidframework/protocol-definitions";
 import axios from "axios";
 import { KJUR as jsrsasign } from "jsrsasign";
-import { v4 as uuid } from "uuid";
 import { uniqueNamesGenerator, names } from "unique-names-generator";
+import { v4 as uuid } from "uuid";
 
 /**
  * Insecure user definition.
@@ -154,7 +154,7 @@ export function generateToken(
 	lifetime: number = 60 * 60,
 	ver = "1.0",
 ): string {
-	let userClaim = user ? user : generateUser();
+	let userClaim = user ?? generateUser();
 	if (userClaim.id === "" || userClaim.id === undefined) {
 		userClaim = generateUser();
 	}

@@ -1,5 +1,5 @@
 import type { ITelemetryBaseLogger } from "@fluidframework/core-interfaces";
-import { IOdspTokenProvider, OdspClientProps } from "@fluidframework/odsp-client/beta";
+import type { IOdspTokenProvider, OdspClientProps } from "@fluidframework/odsp-client/beta";
 
 // Create the client props for the Fluid client
 export const getClientProps = (
@@ -9,9 +9,9 @@ export const getClientProps = (
 	logger?: ITelemetryBaseLogger,
 ): OdspClientProps => {
 	const connectionConfig = {
-		tokenProvider: tokenProvider,
-		siteUrl: siteUrl,
-		driveId: driveId,
+		tokenProvider,
+		siteUrl,
+		driveId,
 		filePath: "",
 	};
 

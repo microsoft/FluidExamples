@@ -1,10 +1,11 @@
-import {
-	CommitKind,
+import type {
 	CommitMetadata,
 	Listenable,
 	Revertible,
 	RevertibleFactory,
-	TreeViewEvents,
+	TreeViewEvents} from "fluid-framework";
+import {
+	CommitKind
 } from "fluid-framework";
 
 /**
@@ -72,4 +73,4 @@ export function createUndoRedoStacks(events: Listenable<TreeViewEvents>): undoRe
 	return { undo, redo, dispose };
 }
 
-export type undoRedo = { undo: () => void; redo: () => void; dispose: () => void };
+export interface undoRedo { undo: () => void; redo: () => void; dispose: () => void }
