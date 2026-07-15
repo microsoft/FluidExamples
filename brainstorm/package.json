@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@azure/identity": "^4.13.0",
 		"@azure/msal-browser": "^5.9.0",
-		"@fluentui/react-icons": "^2.0.319",
+		"@fluentui/react-icons": "^2.0.333",
 		"@fluidframework/azure-client": "^2.111.0",
 		"@fluidframework/odsp-client": "^2.111.0",
 		"@fluidframework/telemetry-utils": "^2.111.0",
