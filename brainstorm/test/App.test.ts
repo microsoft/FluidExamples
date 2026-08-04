@@ -8,6 +8,7 @@ import { test, expect } from "@playwright/test";
 test.describe("brainstorm", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/", { waitUntil: "domcontentloaded" });
+		await expect(page.getByText(/\| connected \| users: 1/)).toBeVisible();
 	});
 
 	test("Load the container (smoke test)", async ({ page }) => {
@@ -22,26 +23,26 @@ test.describe("brainstorm", () => {
 
 	test("Add group", async ({ page }) => {
 		let groups = await page.getByLabel("Note Group");
-		expect(groups).toHaveCount(0);
+		await expect(groups).toHaveCount(0);
 
 		// Click the "Add Group" button
 		await page.getByText("Add Group").click();
 
 		// Verify that a group was added.
 		groups = await page.getByLabel("Note Group");
-		expect(groups).toHaveCount(1);
+		await expect(groups).toHaveCount(1);
 	});
 
 	test("Add note", async ({ page }) => {
 		let notes = await page.getByLabel("Note");
-		expect(notes).toHaveCount(0);
+		await expect(notes).toHaveCount(0);
 
 		// Click the "Add Note" button
 		await page.getByText("Add Note").click();
 
 		// Verify that a note was added.
 		notes = await page.getByLabel("Note");
-		expect(notes).toHaveCount(1);
+		await expect(notes).toHaveCount(1);
 	});
 
 	test("Delete note", async ({ page }) => {
@@ -52,12 +53,12 @@ test.describe("brainstorm", () => {
 		await page.getByLabel("Note").click(); // Will time out if no note exists on the canvas.
 
 		let notes = await page.getByLabel("Note");
-		expect(notes).toHaveCount(1);
+		await expect(notes).toHaveCount(1);
 
 		// Click the "Delete" button.
 		await page.getByText("Delete Note").click();
 
 		notes = await page.getByLabel("Note");
-		expect(notes).toHaveCount(0);
+		await expect(notes).toHaveCount(0);
 	});
 });
