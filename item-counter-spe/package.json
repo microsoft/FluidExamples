@@ -34,6 +34,7 @@
 		"react-dom": "^19.2.7"
 	},
 	"devDependencies": {
+		"@eslint-react/eslint-plugin": "^5.18.2",
 		"@eslint/eslintrc": "^3.3.6",
 		"@eslint/js": "^10.0.1",
 		"@fluidframework/build-common": "^2.0.3",
@@ -52,7 +53,6 @@
 		"css-loader": "^7.1.4",
 		"dotenv-webpack": "^8.1.1",
 		"eslint": "^10.8.0",
-		"eslint-plugin-react": "^7.37.5",
 		"globals": "^17.8.0",
 		"html-webpack-plugin": "^5.6.6",
 		"mini-css-extract-plugin": "^2.10.2",
