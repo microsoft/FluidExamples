@@ -21,7 +21,7 @@
 		"webpack": "cross-env FLUID_CLIENT='azure' webpack"
 	},
 	"engines": {
-		"node": ">=22"
+		"node": ">=22.22.2"
 	},
 	"dependencies": {
 		"@fluidframework/azure-client": "^2.113.1",
@@ -37,12 +37,10 @@
 		"uuid": "^14.0.0"
 	},
 	"devDependencies": {
-		"@eslint-react/eslint-plugin": "^5.18.2",
-		"@eslint/eslintrc": "^3.3.6",
-		"@eslint/js": "^10.0.1",
 		"@fluidframework/azure-local-service": "^2.113.1",
 		"@fluidframework/build-common": "^2.0.3",
 		"@fluidframework/devtools": "^2.113.1",
+		"@fluidframework/eslint-config-fluid": "^13.0.0",
 		"@playwright/test": "^1.57.0",
 		"@tailwindcss/cli": "^4.2.0",
 		"@types/debug": "^4.1.13",
@@ -50,14 +48,11 @@
 		"@types/react": "^19.2.17",
 		"@types/react-dom": "^19.2.3",
 		"@types/node": "^22.20.0",
-		"@typescript-eslint/eslint-plugin": "^8.65.0",
-		"@typescript-eslint/parser": "^8.62.1",
 		"copy-webpack-plugin": "^14.0.0",
 		"cross-env": "^10.1.0",
 		"css-loader": "^7.1.4",
 		"dotenv-webpack": "^8.1.1",
-		"eslint": "^10.8.0",
-		"globals": "^17.7.0",
+		"eslint": "~9.39.5",
 		"html-webpack-plugin": "^5.6.6",
 		"mini-css-extract-plugin": "^2.10.2",
 		"playwright": "^1.62.1",
@@ -65,7 +60,7 @@
 		"style-loader": "^4.0.0",
 		"tailwindcss": "^4.2.0",
 		"ts-loader": "^9.5.4",
-		"typescript": "~6.0",
+		"typescript": "~5.9.3",
 		"webpack": "^5.108.4",
 		"webpack-cli": "^6.0.1",
 		"webpack-dev-server": "^5.2.5"

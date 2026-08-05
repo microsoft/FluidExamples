@@ -3,9 +3,9 @@
  * Licensed under the MIT License.
  */
 
-import type { TreeView} from "fluid-framework";
+import type { TreeView } from "fluid-framework";
 import { Tree } from "fluid-framework";
-import type { JSX, ReactNode} from "react";
+import type { JSX, ReactNode } from "react";
 import { useEffect, useState } from "react";
 
 import type { StringArray } from "./schema.js";

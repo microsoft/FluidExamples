@@ -37,7 +37,7 @@ export function NoteView(props: {
 	clientId: string;
 	session: Session;
 	fluidMembers: string[];
-}): JSX.Element {
+}): JSX.Element | null {
 	const mounted = useRef(false);
 
 	const [{ status }, toggle] = useTransition({
@@ -54,7 +54,7 @@ export function NoteView(props: {
 
 	const parent = Tree.parent(props.note);
 	if (parent === undefined || !Tree.is(parent, Items)) {
-		return <></>;
+		return null;
 	}
 
 	const testSelection = (
@@ -223,12 +223,10 @@ export function NoteView(props: {
 	);
 }
 
-function NoteSelection(props: { show: boolean }): JSX.Element {
+function NoteSelection(props: { show: boolean }): JSX.Element | null {
 	return props.show ? (
 		<div className="absolute -top-2 -left-2 h-52 w-52 rounded border-dashed border-indigo-800 border-4" />
-	) : (
-		<></>
-	);
+	) : null;
 }
 
 function NoteTextArea(props: {

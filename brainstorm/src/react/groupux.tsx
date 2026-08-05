@@ -23,7 +23,7 @@ export function GroupView(props: {
 	clientId: string;
 	session: Session;
 	fluidMembers: string[];
-}): JSX.Element {
+}): JSX.Element | null {
 	// copy the array of items from the group
 	// to force a re-render when the array changes
 	const [itemsArray, setItemsArray] = useState<(Note | Group)[]>(
@@ -54,7 +54,7 @@ export function GroupView(props: {
 
 	const parent = Tree.parent(props.group);
 	if (!Tree.is(parent, Items)) {
-		return <></>;
+		return null;
 	}
 
 	const [, drag] = useDrag(() => ({

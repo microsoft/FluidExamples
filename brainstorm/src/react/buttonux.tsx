@@ -147,7 +147,13 @@ export function DeleteButton(props: {
 	);
 }
 
-export function IconButton(props: {
+export function IconButton({
+	handleClick: onClick,
+	children,
+	icon,
+	color = "text-gray-600",
+	background = "bg-transparent",
+}: {
 	handleClick: (value: React.MouseEvent) => void;
 	children?: React.ReactNode;
 	icon: JSX.Element;
@@ -156,26 +162,19 @@ export function IconButton(props: {
 }): JSX.Element {
 	const handleClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		props.handleClick(e);
+		onClick(e);
 	};
 
 	return (
 		<button
-			className={`${props.color} ${
-				props.background
-			} hover:bg-gray-600 hover:text-white font-bold px-2 py-1 rounded inline-flex items-center h-6 grow`}
+			className={`${color} ${background} hover:bg-gray-600 hover:text-white font-bold px-2 py-1 rounded inline-flex items-center h-6 grow`}
 			onClick={(e) => handleClick(e)}
 		>
-			{props.icon}
-			<IconButtonText>{props.children}</IconButtonText>
+			{icon}
+			<IconButtonText>{children}</IconButtonText>
 		</button>
 	);
 }
-
-IconButton.defaultProps = {
-	color: "text-gray-600",
-	background: "bg-transparent",
-};
 
 function IconButtonText(props: { children: React.ReactNode }): JSX.Element {
 	return props.children === undefined ? (

@@ -3,7 +3,12 @@
  * Licensed under the MIT License.
  */
 
-import type { AzureMember, ITokenProvider, ITokenResponse, IUser } from "@fluidframework/azure-client";
+import type {
+	AzureMember,
+	ITokenProvider,
+	ITokenResponse,
+	IUser,
+} from "@fluidframework/azure-client";
 import { ScopeType } from "@fluidframework/protocol-definitions";
 import axios from "axios";
 import { KJUR as jsrsasign } from "jsrsasign";

@@ -105,7 +105,6 @@ export class Items extends sf.arrayRecursive("Items", [() => Group, Note]) {
 	// Due to limitations of TypeScript, recursive schema may not produce type errors when declared incorrectly.
 	// Using ValidateRecursiveSchema helps ensure that mistakes made in the definition of a recursive schema (like `Items`)
 	// will introduce a compile error.
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type _check = ValidateRecursiveSchema<typeof Items>;
 }
 
@@ -141,7 +140,6 @@ export class Group extends sf.objectRecursive("Group", {
 }
 
 {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type _check = ValidateRecursiveSchema<typeof Group>;
 }
 
