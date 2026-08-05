@@ -5,7 +5,7 @@
 
 import type { AzureContainerServices, ITelemetryBaseLogger } from "@fluidframework/azure-client";
 import { AzureClient } from "@fluidframework/azure-client";
-import type { ContainerSchema, IFluidContainer} from "fluid-framework";
+import type { ContainerSchema, IFluidContainer } from "fluid-framework";
 import { SharedTree } from "fluid-framework";
 
 import { getClientProps } from "./clientProps.js";

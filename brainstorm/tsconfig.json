@@ -13,6 +13,8 @@
 		"esModuleInterop": true,
 		"types": ["node"],
 		"lib": ["ES2016", "DOM", "DOM.Iterable"],
-		"allowArbitraryExtensions": true
-	}
+		"allowArbitraryExtensions": true,
+		"skipLibCheck": true,
+	},
+	"include": ["src"],
 }

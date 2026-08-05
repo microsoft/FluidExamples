@@ -1,9 +1,5 @@
-import type {
-	AuthenticationResult,
-	PublicClientApplication} from "@azure/msal-browser";
-import {
-	InteractionRequiredAuthError
-} from "@azure/msal-browser";
+import type { AuthenticationResult, PublicClientApplication } from "@azure/msal-browser";
+import { InteractionRequiredAuthError } from "@azure/msal-browser";
 import type { IOdspTokenProvider, TokenResponse } from "@fluidframework/odsp-client/beta";
 
 // Sample implementation of the IOdspTokenProvider interface

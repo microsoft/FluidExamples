@@ -185,7 +185,7 @@ async function signedInStart(msalInstance: PublicClientApplication, account: Acc
 		);
 
 		// Set the URL hash to the sharing id.
-		history.replaceState(undefined, "", `#${ shareId}`);
+		history.replaceState(undefined, "", `#${shareId}`);
 	}
 }
 

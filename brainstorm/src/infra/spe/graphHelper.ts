@@ -31,7 +31,7 @@ export class GraphHelper {
 		};
 
 		const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any -- The Graph SDK accepts an untyped MSAL client.
 			this.intializedPublicClientApplication as any,
 			options,
 		);

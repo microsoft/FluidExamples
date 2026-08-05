@@ -1,11 +1,8 @@
 import type { PublicClientApplication, AccountInfo } from "@azure/msal-browser";
 import { InteractionType } from "@azure/msal-browser";
 import { Client } from "@microsoft/microsoft-graph-client";
-import type {
-	AuthCodeMSALBrowserAuthenticationProviderOptions} from "@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser/index.js";
-import {
-	AuthCodeMSALBrowserAuthenticationProvider
-} from "@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser/index.js";
+import type { AuthCodeMSALBrowserAuthenticationProviderOptions } from "@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser/index.js";
+import { AuthCodeMSALBrowserAuthenticationProvider } from "@microsoft/microsoft-graph-client/authProviders/authCodeMsalBrowser/index.js";
 import type { Site } from "@microsoft/microsoft-graph-types";
 
 export interface FileStorageContainer {
@@ -34,7 +31,7 @@ export class GraphHelper {
 		};
 
 		const authProvider = new AuthCodeMSALBrowserAuthenticationProvider(
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any -- The Graph SDK accepts an untyped MSAL client.
 			this.intializedPublicClientApplication as any,
 			options,
 		);
@@ -58,7 +55,7 @@ export class GraphHelper {
 		try {
 			const response = await this.graphClient
 				.api("/storage/fileStorage/containers")
-				.filter(`containerTypeId eq ${ containerTypeId}`)
+				.filter(`containerTypeId eq ${containerTypeId}`)
 				.version("beta")
 				.get();
 
