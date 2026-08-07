@@ -26,6 +26,11 @@ pr:
   - main
 variables:
   skipComponentGovernanceDetection: true
+  # Azure Artifacts feed used for every "npm ci" install below, instead of the public npm registry.
+  publicPackagesRegistryUrl: https://pkgs.dev.azure.com/fluidframework/public/_packaging/publicPackages/npm/registry/
+  # Temporary, authenticated .npmrc used by every "npm ci" install below so all package installs
+  # resolve through the Azure Artifacts feed instead of the public npm registry.
+  userNpmrcPath: $(Agent.TempDirectory)/example-packages.npmrc
 resources:
   repositories:
     - repository: 1ESPipelineTemplates
@@ -64,14 +69,40 @@ extends:
                 inputs:
                   version: 22.x
 
+              - task: Bash@3
+                displayName: Create .npmrc for Azure Artifacts feed
+                env:
+                  NPM_CONFIG_USERCONFIG: $(userNpmrcPath)
+                  PUBLIC_PACKAGES_REGISTRY_URL: $(publicPackagesRegistryUrl)
+                inputs:
+                  targetType: "inline"
+                  script: |
+                    set -eu -o pipefail
+                    # Overwrite (not append) so reruns on a reused agent don't duplicate entries.
+                    echo "registry=$PUBLIC_PACKAGES_REGISTRY_URL" > "$NPM_CONFIG_USERCONFIG"
+                    echo "always-auth=true" >> "$NPM_CONFIG_USERCONFIG"
+
+              - task: npmAuthenticate@0
+                displayName: Authenticate to Azure Artifacts feed
+                inputs:
+                  workingFile: $(userNpmrcPath)
+
               # Install, build, lint, and test each package
               - ${{ each parameter in parameters }}:
-                  - task: Npm@1
+                  # Npm@1 always overwrites the working directory's .npmrc with its own, so it
+                  # cannot be pointed at the authenticated userNpmrcPath above for a "custom ci"
+                  # command. Use Bash with an explicit --userconfig instead, so the install
+                  # resolves through the authenticated Azure Artifacts feed.
+                  - task: Bash@3
                     displayName: Install - ${{ parameter.Value }}
+                    env:
+                      NPM_CONFIG_USERCONFIG: $(userNpmrcPath)
                     inputs:
-                      command: "custom"
-                      workingDir: "${{ parameter.Value }}"
-                      customCommand: "ci"
+                      targetType: "inline"
+                      workingDirectory: ${{ parameter.Value }}
+                      script: |
+                        set -eu -o pipefail
+                        npm ci --userconfig "$NPM_CONFIG_USERCONFIG"
                   - task: CmdLine@2
                     displayName: Build - ${{ parameter.Value }}
                     inputs:
