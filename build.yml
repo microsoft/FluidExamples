@@ -25,12 +25,13 @@ trigger:
 pr:
   - main
 variables:
-  skipComponentGovernanceDetection: true
-  # Azure Artifacts feed used for every "npm ci" install below, instead of the public npm registry.
-  publicPackagesRegistryUrl: https://pkgs.dev.azure.com/fluidframework/public/_packaging/publicPackages/npm/registry/
+  - group: ado-feeds
+  - name: skipComponentGovernanceDetection
+    value: true
   # Temporary, authenticated .npmrc used by every "npm ci" install below so all package installs
-  # resolve through the Azure Artifacts feed instead of the public npm registry.
-  userNpmrcPath: $(Agent.TempDirectory)/example-packages.npmrc
+  # resolve through the approved Azure Artifacts feed instead of the public npm registry.
+  - name: userNpmrcPath
+    value: $(Agent.TempDirectory)/example-packages.npmrc
 resources:
   repositories:
     - repository: 1ESPipelineTemplates
@@ -73,13 +74,14 @@ extends:
                 displayName: Create .npmrc for Azure Artifacts feed
                 env:
                   NPM_CONFIG_USERCONFIG: $(userNpmrcPath)
-                  PUBLIC_PACKAGES_REGISTRY_URL: $(publicPackagesRegistryUrl)
+                  NPM_REGISTRY: $(ado-feeds-primary-registry)
                 inputs:
                   targetType: "inline"
                   script: |
                     set -eu -o pipefail
                     # Overwrite (not append) so reruns on a reused agent don't duplicate entries.
-                    echo "registry=$PUBLIC_PACKAGES_REGISTRY_URL" > "$NPM_CONFIG_USERCONFIG"
+                    echo "registry=$NPM_REGISTRY" > "$NPM_CONFIG_USERCONFIG"
+                    echo "replace-registry-host=always" >> "$NPM_CONFIG_USERCONFIG"
                     echo "always-auth=true" >> "$NPM_CONFIG_USERCONFIG"
 
               - task: npmAuthenticate@0
