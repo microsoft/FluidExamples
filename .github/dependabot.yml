@@ -10,6 +10,8 @@ updates:
       - "/item-counter-spe"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-name: "@fluidframework*"
       - dependency-name: "fluid-framework"
