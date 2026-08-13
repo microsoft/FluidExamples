@@ -32,6 +32,8 @@ updates:
       - "/item-counter-spe"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
     groups:
       # To reduce noise, we bundle related dependencies into a single PR
       eslint:
