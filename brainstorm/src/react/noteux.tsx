@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { Tree } from "fluid-framework";
+import { Tree, TreeStatus } from "fluid-framework";
 import type { JSX, RefObject } from "react";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -51,11 +51,6 @@ export function NoteView(props: {
 	const [invalSelection, setInvalSelection] = useState(0);
 	const [noteText, setNoteText] = useState(props.note.text);
 	const [noteVoteCount, setNoteVoteCount] = useState(props.note.votes.length);
-
-	const parent = Tree.parent(props.note);
-	if (parent === undefined || !Tree.is(parent, Items)) {
-		return null;
-	}
 
 	const testSelection = (
 		note: Note,
@@ -126,8 +121,6 @@ export function NoteView(props: {
 		}
 	}, [selected]);
 
-	toggle(false);
-
 	useEffect(() => {
 		toggle(true);
 	}, [Tree.parent(props.note)]);
@@ -141,6 +134,7 @@ export function NoteView(props: {
 	const [{ isDragging }, drag] = useDrag(() => ({
 		type: dragType.NOTE,
 		item: props.note,
+		canDrag: () => Tree.status(props.note) === TreeStatus.InDocument,
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
 		}),
@@ -153,17 +147,31 @@ export function NoteView(props: {
 			canDrop: !!monitor.canDrop(),
 		}),
 		canDrop: (item) => {
+			const parent = Tree.parent(props.note);
+			if (!Tree.is(parent, Items) || Tree.status(parent) !== TreeStatus.InDocument) {
+				return false;
+			}
 			if (Tree.is(item, Note)) return true;
 			if (Tree.is(item, Group) && !Tree.contains(item, parent)) return true;
 			return false;
 		},
 		drop: (item) => {
+			const parent = Tree.parent(props.note);
+			if (!Tree.is(parent, Items) || Tree.status(parent) !== TreeStatus.InDocument) {
+				return;
+			}
 			if (Tree.is(item, Group) || Tree.is(item, Note)) {
 				moveItem(item, parent.indexOf(props.note), parent);
 			}
 			return;
 		},
 	}));
+
+	if (!Tree.is(Tree.parent(props.note), Items)) {
+		return null;
+	}
+
+	toggle(false);
 
 	const attachRef = (el: ConnectableElement) => {
 		drag(el);

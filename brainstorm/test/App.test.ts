@@ -46,6 +46,9 @@ test.describe("brainstorm", () => {
 	});
 
 	test("Delete note", async ({ page }) => {
+		const errors: Error[] = [];
+		page.on("pageerror", (error) => errors.push(error));
+
 		// Click the "Add Note" button
 		await page.getByText("Add Note").click();
 
@@ -60,5 +63,36 @@ test.describe("brainstorm", () => {
 
 		notes = await page.getByLabel("Note");
 		await expect(notes).toHaveCount(0);
+		expect(errors).toEqual([]);
+	});
+
+	test("Delete and restore a group while preserving its note", async ({ page }) => {
+		const errors: Error[] = [];
+		page.on("pageerror", (error) => errors.push(error));
+
+		await page.getByText("Add Note", { exact: true }).click();
+		const notes = page.getByLabel("Note", { exact: true });
+		await notes.getByRole("textbox").click();
+		await notes.getByRole("textbox").fill("Keep this note");
+		await page.getByText("Add Group", { exact: true }).click();
+
+		const groups = page.getByLabel("Note Group", { exact: true });
+		await expect(groups).toHaveCount(1);
+		await expect(groups.getByLabel("Note", { exact: true })).toHaveCount(1);
+
+		await groups.getByRole("button").first().click();
+		await expect(groups).toHaveCount(0);
+		await expect(notes).toHaveCount(1);
+		await expect(notes.getByRole("textbox")).toHaveValue("Keep this note");
+
+		await page.getByText("Undo", { exact: true }).click();
+		await expect(groups).toHaveCount(1);
+		await expect(groups.getByLabel("Note", { exact: true })).toHaveCount(1);
+
+		await page.getByText("Redo", { exact: true }).click();
+		await expect(groups).toHaveCount(0);
+		await expect(notes).toHaveCount(1);
+		await expect(notes.getByRole("textbox")).toHaveValue("Keep this note");
+		expect(errors).toEqual([]);
 	});
 });
