@@ -32,8 +32,8 @@
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
 		"jsrsasign": "^11.1.1",
-		"react": "^19.2.7",
-		"react-dom": "^19.2.7",
+		"react": "^19.3.0",
+		"react-dom": "^19.3.0",
 		"uuid": "^14.0.0"
 	},
 	"devDependencies": {
@@ -45,8 +45,8 @@
 		"@tailwindcss/cli": "^4.2.0",
 		"@types/debug": "^4.1.13",
 		"@types/jsrsasign": "^10.5.15",
-		"@types/react": "^19.2.17",
-		"@types/react-dom": "^19.2.3",
+		"@types/react": "^19.3.0",
+		"@types/react-dom": "^19.3.0",
 		"@types/node": "^22.20.0",
 		"@typescript-eslint/parser": "~8.58.0",
 		"copy-webpack-plugin": "^14.0.0",
