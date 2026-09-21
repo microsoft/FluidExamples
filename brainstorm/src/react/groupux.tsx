@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { Tree } from "fluid-framework";
+import { Tree, TreeStatus } from "fluid-framework";
 import type { JSX } from "react";
 import type React from "react";
 import { useEffect, useState } from "react";
@@ -52,14 +52,10 @@ export function GroupView(props: {
 		return unsubscribe;
 	}, []);
 
-	const parent = Tree.parent(props.group);
-	if (!Tree.is(parent, Items)) {
-		return null;
-	}
-
 	const [, drag] = useDrag(() => ({
 		type: dragType.GROUP,
 		item: props.group,
+		canDrag: () => Tree.status(props.group) === TreeStatus.InDocument,
 		collect: (monitor) => ({
 			isDragging: monitor.isDragging(),
 		}),
@@ -72,11 +68,19 @@ export function GroupView(props: {
 			canDrop: !!monitor.canDrop(),
 		}),
 		canDrop: (item) => {
+			const parent = Tree.parent(props.group);
+			if (!Tree.is(parent, Items) || Tree.status(parent) !== TreeStatus.InDocument) {
+				return false;
+			}
 			if (Tree.is(item, Note)) return true;
 			if (Tree.is(item, Group) && !Tree.contains(item, parent)) return true;
 			return false;
 		},
 		drop: (item, monitor) => {
+			const parent = Tree.parent(props.group);
+			if (!Tree.is(parent, Items) || Tree.status(parent) !== TreeStatus.InDocument) {
+				return;
+			}
 			const didDrop = monitor.didDrop();
 			if (didDrop) {
 				return;
@@ -94,6 +98,10 @@ export function GroupView(props: {
 			return;
 		},
 	}));
+
+	if (!Tree.is(Tree.parent(props.group), Items)) {
+		return null;
+	}
 
 	function attachRef(el: ConnectableElement) {
 		drag(el);
