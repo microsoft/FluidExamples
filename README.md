@@ -6,15 +6,25 @@ The Fluid Framework repository lives at [Github.com/Microsoft/FluidFramework](ht
 
 Each example in this repository is a standalone application that defines a Fluid Container and loads it into a webpage.
 
+| Example | Focus |
+| --- | --- |
+| [Canvas](canvas/README.md) | Collaborative shapes, notes, tables, ink, comments, voting, undo/redo, and Presence. |
+| [Brainstorm](brainstorm/README.md) | Recursive SharedTree schemas for notes and groups. |
+| [Item counter](item-counter/README.md) | A minimal SharedTree application using Azure Fluid Relay. |
+| [SharePoint counter](item-counter-spe/README.md) | SharedTree with SharePoint Embedded and Entra authentication. |
+
 ## Getting Started
 
-To get started, clone the repository and navigate to one of the example folders.
-From the example root, you can install and start the example.
+Use Node.js 22.22.2 or newer. The examples use Fluid Framework 3.5.
+Clone the repository and navigate to an example folder; each example has its own dependencies and lockfile.
 
-1. Run `npm install` from the example root
-2. Run `npm run start` to start both the client and server
+1. Run `npm ci` from the example root.
+2. For local Azure Fluid Relay examples, run `npm run start:server`.
+3. In a second terminal in the same folder, run `npm run dev:local`.
 
-> For more details see the individual example README.md.
+Open http://localhost:8080 and share the document URL with another browser window.
+Cloud services require additional configuration; see the individual READMEs.
+Canvas's modernized table schema uses new documents, not documents from the old experimental Canvas branch.
 
 ## Contributing
 

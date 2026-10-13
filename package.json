@@ -20,7 +20,7 @@
     "syncpack": "^15.3.3"
   },
   "scripts": {
-    "fix-mismatches": "syncpack fix-mismatches --source */package.json",
-    "test-versions": "syncpack list-mismatches --source */package.json"
+    "fix-mismatches": "syncpack fix --source */package.json",
+    "test-versions": "syncpack lint --source */package.json --dependency-types prod,dev"
   }
 }

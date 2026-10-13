@@ -2,7 +2,8 @@
 	"compilerOptions": {
 		// DO NOT EDIT
 		"outDir": "./dist",
-		"target": "es6",
+		"rootDir": "./src",
+		"target": "ES2022",
 		"module": "Node16",
 		"sourceMap": true,
 		// Set your preferences here for TypeScript
@@ -12,7 +13,7 @@
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
 		"types": ["node"],
-		"lib": ["ES2016", "DOM", "DOM.Iterable"],
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"allowArbitraryExtensions": true,
 		"skipLibCheck": true,
 	},

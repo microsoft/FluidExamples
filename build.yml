@@ -4,6 +4,9 @@
 # FluidExamples build for CI and PR
 
 parameters:
+  - name: canvas
+    type: string
+    default: canvas
   - name: brainstorm
     type: string
     default: brainstorm

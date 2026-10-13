@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"types": ["node", "vite/client"],
+		"noEmit": true,
+		"strict": true,
+		"jsx": "react-jsx",
+		"moduleResolution": "Bundler",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true
+	},
+	"include": ["src/**/*", "test/**/*.ts", "playwright.config.ts", "vite.config.mts"],
+	"exclude": ["node_modules"]
+}

@@ -353,3 +353,4 @@ MigrationBackup/
 nyc
 playwright-report
 test-results
+*.tsbuildinfo

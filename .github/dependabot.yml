@@ -5,6 +5,7 @@ updates:
     # Look for `package.json` and `package-lock.json` files in these directories
     directories:
       - "/"
+      - "/canvas"
       - "/brainstorm"
       - "/item-counter"
       - "/item-counter-spe"
@@ -29,6 +30,7 @@ updates:
   - package-ecosystem: "npm"
     directories:
       - "/"
+      - "/canvas"
       - "/brainstorm"
       - "/item-counter"
       - "/item-counter-spe"

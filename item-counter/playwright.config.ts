@@ -50,12 +50,14 @@ export default defineConfig({
 		{
 			command: "npm run start:server",
 			url: backEndUrl,
+			timeout: 120000,
 			reuseExistingServer: !process.env,
 		},
 		// Run front-end dev server
 		{
 			command: "npm run start",
 			url: frontEndUrl,
+			timeout: 120000,
 			reuseExistingServer: !process.env.CI,
 		},
 	],

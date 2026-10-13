@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@layer base {
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentColor);
+	}
+}
+
+@keyframes slideInFromLeft {
+	from {
+		opacity: 0;
+		transform: translateX(-12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+.toolbar-slide-in {
+	animation: slideInFromLeft 0.25s ease-out forwards;
+}
+
+.toolbar-slide-in-delayed {
+	animation: slideInFromLeft 0.25s ease-out 0.1s forwards;
+	opacity: 0;
+}
+
+.fui-Toolbar,
+.fui-SwatchPicker {
+	overflow-y: hidden !important;
+}
