@@ -1,0 +1,49 @@
+/* iOS Safari fixes - only webkit-specific properties that Tailwind can't handle */
+
+@supports (-webkit-touch-callout: none) {
+	/* Remove tap highlight for cleaner SVG interaction on iOS */
+	svg rect,
+	svg circle,
+	svg path {
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	/* Fix z-index stacking for SVG foreignObject elements on iOS Safari */
+	/* These elements don't use Tailwind classes, so CSS targeting is appropriate */
+	foreignObject {
+		z-index: -1;
+		position: relative;
+	}
+
+	foreignObject > div[style*="zIndex"] {
+		z-index: -1;
+		position: relative;
+	}
+
+	/* Canvas/SVG layer positioning - these elements don't use Tailwind */
+	[data-layer="selection-overlays"],
+	[data-layer="presence-overlays"],
+	[data-layer="comment-overlays"] {
+		pointer-events: auto;
+		touch-action: none;
+		z-index: 100;
+		position: relative;
+	}
+
+	[data-layer="ink"] {
+		z-index: -100;
+		position: relative;
+	}
+
+	/* Dot grid pattern positioning */
+	rect[fill*="dot-grid-pattern"] {
+		z-index: -200;
+		position: relative;
+	}
+
+	/* iOS Safari SVG coordinate system fixes */
+	.canvas-svg {
+		-webkit-transform: translateZ(0);
+		transform: translateZ(0);
+	}
+}
