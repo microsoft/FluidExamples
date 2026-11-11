@@ -30,8 +30,8 @@
 		"fluid-framework": "^3.7.0",
 		"guid-typescript": "^1.0.9",
 		"hashids": "^2.2.10",
-		"react": "^19.3.0",
-		"react-dom": "^19.3.0"
+		"react": "^19.3.1",
+		"react-dom": "^19.3.1"
 	},
 	"devDependencies": {
 		"@fluidframework/build-common": "^2.0.3",
